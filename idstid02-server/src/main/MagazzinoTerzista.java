@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,9 @@ public class MagazzinoTerzista {
 	
 	private List<Materiale> magazzinoTerzista = new ArrayList();
 	
+	public MagazzinoTerzista() {
+		
+	}
 	 // This method is called if HTML is request
 	  @GET
 	  @Produces(MediaType.TEXT_HTML)
