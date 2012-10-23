@@ -9,6 +9,13 @@ public class Materiale {
 	private String codice;
 	private Um um;
 	
+	public Materiale() {
+		this.id = -1;
+		this.codice = "0";
+		this.descrizione = "";
+		this.quantita = 0;
+	}
+	
 	public Materiale(int id, String codice, String descrizione) {
 		this.id = id;
 		this.codice = codice;
