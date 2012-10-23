@@ -9,33 +9,27 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 import utils.DB;
 
-import com.sun.research.ws.wadl.Request;
-
 import main.Materiale;
 
-@Path("/magazzinot")
-public class MagazzinoTResource {
+@Path("/magazzinoterzista")
+public class MagazzinoTerzistaResource {
 	
-	public MagazzinoTResource() {
+	public MagazzinoTerzistaResource() {
 		
 	}
-	 // This method is called if HTML is request
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Materiale> getMagazzino() {
-		Connection c;
 		ResultSet result = null;
 		try {
-			c =  DB.instance.getConnection();
-			Statement s = c.createStatement();
+			Statement s = DB.instance.createStatement();
 			result = s.executeQuery(
-					"SELECT * FROM ProgIngSw.Materiale;");
+					"SELECT * FROM Materiale;");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -45,7 +39,7 @@ public class MagazzinoTResource {
 		try {
 			while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
-												result.getString(3), result.getDouble(4));
+											result.getString(3), result.getDouble(4));
 				lista.add(m);
 			}
 		} catch (SQLException e) {

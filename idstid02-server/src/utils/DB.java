@@ -1,8 +1,8 @@
 package utils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -12,25 +12,25 @@ import javax.sql.DataSource;
 public enum DB {
 	instance;
 	
-	private Connection aConn;
+	private Connection conn;
 	
 	private DB() {
 		try {
-//			String url = "jdbc:mysql://127.0.0.1:3306/ProgIngSw";
-//			Class.forName ("com.mysql.jdbc.Driver").newInstance();
-//	        aConn = DriverManager.getConnection (url, "root", "root");
-			
 			Context ctx = new InitialContext();
 			DataSource ds = (DataSource) ctx.lookup("jdbc/ProgIngSw");
-			aConn = ds.getConnection();
+			conn = ds.getConnection();
 
 		} catch (Exception e) {
-			aConn = null;
+			conn = null;
 			e.printStackTrace();
 		}
 	}
 	
 	public Connection getConnection() {
-		return aConn;
+		return conn;
+	}
+	
+	public Statement createStatement() throws SQLException {
+		return conn.createStatement();
 	}
 }
