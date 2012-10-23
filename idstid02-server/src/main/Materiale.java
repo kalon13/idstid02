@@ -3,19 +3,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Materiale {
+	private int id;
 	private String descrizione;
 	private double quantita;
-	private int codice;
+	private String codice;
 	private Um um;
 	
-	private Materiale(String descrizione) {
-		this.codice = 0;
-		this.descrizione = descrizione;
-		this.quantita = 0;
-		this.um = Um.UNIT;
-	}
-	
-	private Materiale(int codice, String descrizione) {
+	public Materiale(int id, String codice, String descrizione) {
+		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
 		this.quantita = 0;
@@ -23,20 +18,30 @@ public class Materiale {
 		
 	}
 
-	private Materiale(int codice, String descrizione, double quantita) {
+	public Materiale(int id, String codice, String descrizione, double quantita) {
+		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
 		this.quantita = quantita;
 		this.um = Um.UNIT;
 	}
 	
-	private Materiale(int codice, String descrizione, double quantita, Um um) {
+	public Materiale(int id, String codice, String descrizione, double quantita, Um um) {
+		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
 		this.quantita = quantita;
 		this.um = um;
 	}
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getDescrizione() {
 		return descrizione;
 	}
@@ -53,11 +58,11 @@ public class Materiale {
 		this.quantita = quantita;
 	}
 
-	public int getCodice() {
+	public String getCodice() {
 		return codice;
 	}
 
-	public void setCodice(int codice) {
+	public void setCodice(String codice) {
 		this.codice = codice;
 	}
 
