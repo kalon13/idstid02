@@ -22,7 +22,6 @@ public class Materiale {
 		this.descrizione = descrizione;
 		this.quantita = 0;
 		this.um = Um.UNIT;
-		
 	}
 
 	public Materiale(int id, String codice, String descrizione, double quantita) {
