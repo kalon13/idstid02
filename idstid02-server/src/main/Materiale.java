@@ -1,11 +1,12 @@
 package main;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Materiale {
 	private int id;
 	private String descrizione;
-	private double quantita;
+	private double costoUnitario;
 	private String codice;
 	private Um um;
 	
@@ -13,31 +14,31 @@ public class Materiale {
 		this.id = -1;
 		this.codice = "0";
 		this.descrizione = "";
-		this.quantita = 0;
+		this.costoUnitario = 0;
 	}
 	
 	public Materiale(int id, String codice, String descrizione) {
 		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
-		this.quantita = 0;
+		this.costoUnitario = 0;
 		this.um = Um.UNIT;
 		
 	}
 
-	public Materiale(int id, String codice, String descrizione, double quantita) {
+	public Materiale(int id, String codice, String descrizione, double costoUnitario) {
 		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
-		this.quantita = quantita;
+		this.costoUnitario = costoUnitario;
 		this.um = Um.UNIT;
 	}
 	
-	public Materiale(int id, String codice, String descrizione, double quantita, Um um) {
+	public Materiale(int id, String codice, String descrizione, double costoUnitario, Um um) {
 		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
-		this.quantita = quantita;
+		this.costoUnitario = costoUnitario;
 		this.um = um;
 	}
 	
@@ -57,12 +58,12 @@ public class Materiale {
 		this.descrizione = descrizione;
 	}
 
-	public double getQuantita() {
-		return quantita;
+	public double getCostoUnitario() {
+		return costoUnitario;
 	}
 
-	public void setQuantita(double quantita) {
-		this.quantita = quantita;
+	public void setCostoUnitario(double costoUnitario) {
+		this.costoUnitario = costoUnitario;
 	}
 
 	public String getCodice() {
@@ -83,6 +84,6 @@ public class Materiale {
 	
 	@Override
 	public String toString(){
-		return descrizione;
+		return id + " " + codice + " " + descrizione + " " + costoUnitario + um.toString();
 	}
 }
