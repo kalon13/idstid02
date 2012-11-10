@@ -29,7 +29,7 @@ public class ResourceClass {
 		  client = Client.create(config);
 	      service = client.resource(getBaseURI());
 	  	}
-		//per visualizzare un det dato passare nella path/id del dato stesso
+		//per visualizzare tutti i dati 
 		public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException { 
 			   ParameterizedType genericType = new ParameterizedType() { 
 	               @Override 
@@ -51,7 +51,13 @@ public class ResourceClass {
 	           GenericType<List<T>> type = new GenericType<List< T >>(genericType) {}; 
 	           return service.path(path).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(type);
 	     } 
-		
+		//per visualizzare un det dato passare nella path/id del dato stesso
+		public static <T> T getResource(final Class<T> clazz, String path) { 
+			   if (service == null && client == null ) Config();
+			   T t = service.path(path).accept(MediaType.APPLICATION_JSON).get(clazz);
+			   return t;
+	     } 
+	
 		//TODO: Aggiunge un nuova risorsa		
 		public static <T> String addResources(String path, T classObj) throws UniformInterfaceException { 
 			if (service == null && client == null ) Config();

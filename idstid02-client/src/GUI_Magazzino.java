@@ -40,8 +40,7 @@ public class GUI_Magazzino {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					 String path = "magazzinoterzista";
-					 List<Materiale> lista = ResourceClass.getResources(Materiale.class, path);
+					 List<Materiale> lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
 					 Iterator<Materiale> it=lista.iterator();
 				     int cntDt = lista.size();
 				     int cntTit = _titles.length;
