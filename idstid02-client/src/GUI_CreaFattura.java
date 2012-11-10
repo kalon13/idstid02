@@ -13,18 +13,18 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class GUI_CreaFattura {
 
-	private JFrame frmCreazioneFattura;
+	JFrame frmCreazioneFattura;
 	private JTextField textField;
 	private JTable table;
 	private JTable table_1;
 
 	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -37,6 +37,9 @@ public class GUI_CreaFattura {
 			}
 		});
 	}
+	 * Launch the application.
+	 */
+	
 
 	/**
 	 * Create the application.
@@ -95,6 +98,12 @@ public class GUI_CreaFattura {
 		panel.add(table_1);
 		
 		JButton btnEsci = new JButton("Esci");
+		btnEsci.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frmCreazioneFattura.setVisible(false);
+			}
+		});
 		btnEsci.setBounds(347, 232, 95, 23);
 		frmCreazioneFattura.getContentPane().add(btnEsci);
 		

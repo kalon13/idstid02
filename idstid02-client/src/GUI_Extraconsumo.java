@@ -2,27 +2,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import javax.swing.SwingConstants;
 import javax.swing.JTextField;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import net.miginfocom.swing.MigLayout;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.awt.Component;
-import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
-import javax.swing.UIManager;
 
 
 
@@ -31,7 +14,7 @@ public class GUI_Extraconsumo {
 
 	private JFrame frmExtraconsumo;
 	private JTextField textField;
-
+	private JTable table_1;
 	/**
 	 * Launch the application.
 	 */
@@ -92,7 +75,7 @@ public class GUI_Extraconsumo {
 		frmExtraconsumo.getContentPane().add(btnEsci);
 		
 		
-		//table_1 = new JTable();
+		table_1 = new JTable();
 		//*****************
 //		DefaultTableModel model;
 //		String data[][] = {{" "," "," "}};
@@ -112,7 +95,7 @@ public class GUI_Extraconsumo {
 		
 		int rows = 3;
 		int cols = 2;
-		JTable table_1 = new JTable(rows, cols);
+		
 		JTableHeader header = table_1.getTableHeader();
 		
 		table_1.setBounds(7, 56, 297, 139);
