@@ -2,62 +2,44 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.JScrollPane;
+
+import classResources.Materiale;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowEvent;
 
 
 public class GUI_Magazzino {
 
 	JFrame frame;
 	private JTextField textField;
-	private static String[] _titles = {"Descrizione", "Codice", "Costo Unitario"};
+	private static String[] _titles = {"Codice", "Descrizione", "Costo Unitario"};
 	private static Object[][] _data;
 	private static Object[] _id;
 	private JTable table;
 	
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					 List<Materiale> lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
-					 Iterator<Materiale> it=lista.iterator();
-				     int cntDt = lista.size();
-				     int cntTit = _titles.length;
-				     _data = new String[cntDt][cntTit];
-				     _id = new Object[cntDt];
-				    int k = 0;
-				    while(it.hasNext())
-			        {//[riga][colonna]
-			          Materiale mtCl = (Materiale)it.next();
-			          if(k<cntDt){
-			           _data[k][0] = mtCl.getDescrizione();
-			           _data[k][1] = String.valueOf(mtCl.getCodice());
-			           _data[k][2] = String.valueOf(mtCl.getCostoUnitario());
-			           _id[k]= mtCl.getId();
-			           k++;
-			          }
-			        }
+			try {
+					
 				  	GUI_Magazzino window = new GUI_Magazzino();
 					window.frame.setVisible(true);
 					
@@ -66,12 +48,33 @@ public class GUI_Magazzino {
 				}
 			}
 		});
-	}
+	}*/
 
+	private static void loadTableDt(){
+		 List<Materiale> lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
+		 Iterator<Materiale> it=lista.iterator();
+	     int cntDt = lista.size();
+	     int cntTit = _titles.length;
+	     _data = new String[cntDt][cntTit];
+	     _id = new Object[cntDt];
+	    int k = 0;
+	    while(it.hasNext())
+        {//[riga][colonna]
+          Materiale mtCl = (Materiale)it.next();
+          if(k<cntDt){
+           _data[k][1] = mtCl.getDescrizione();
+           _data[k][0] = String.valueOf(mtCl.getCodice());
+           _data[k][2] = String.valueOf(mtCl.getCostoUnitario());
+           _id[k]= mtCl.getId();
+           k++;
+          }
+        }
+	}
 	/**
 	 * Create the application.
 	 */
 	public GUI_Magazzino() {
+		loadTableDt();
 		initialize();
 	}
 
@@ -80,11 +83,23 @@ public class GUI_Magazzino {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent e) {
+				loadTableDt();
+				DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
+				table.setModel(dfm);
+			}
+			public void windowLostFocus(WindowEvent e) {
+			}
+		});
 		frame.setResizable(false);
 		frame.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				table.revalidate();
+				System.out.println("ciao");
+				loadTableDt();
+				DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
+				table.setModel(dfm);
 			}
 		});
 		frame.setBounds(100, 100, 450, 325);
@@ -131,11 +146,11 @@ public class GUI_Magazzino {
 			    if (table.getSelectedRow() > 0) {
 					int cntRow = table.getSelectedRow();
 					int cntColumn =_titles.length;
-					String desc = (String) table.getValueAt(cntRow, 0);
-					String cod = (String) table.getValueAt(cntRow, 1);
+					String cod = (String) table.getValueAt(cntRow, 0);
+					String  desc= (String) table.getValueAt(cntRow, 1);
 					String qnt = (String) table.getValueAt(cntRow, 2);
 					int id = (Integer) _id[cntRow];
-					GUI_UpdMagazzino window = new GUI_UpdMagazzino(id,desc,cod,qnt);
+					GUI_UpdMagazzino window = new GUI_UpdMagazzino(id,cod,desc,qnt);
 					window.frameUpdMat.setVisible(true);
 				}
 				else{

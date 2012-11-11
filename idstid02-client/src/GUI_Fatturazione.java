@@ -21,13 +21,17 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import classResources.Fattura;
+import classResources.Fattura_Lavorazione;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 
 public class GUI_Fatturazione {
 
-	private JFrame frmElenco;
+	JFrame frmElenco;
 	private JTable table;
 	private JTable table_1;
 	private JTextField textNum;
@@ -40,25 +44,11 @@ public class GUI_Fatturazione {
 	
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					List<Fattura> lista = ResourceClass.getResources(Fattura.class, Global._URLFatt);
-					 Iterator<Fattura> it=lista.iterator();
-					 _data = new String[lista.size()];
-					 _id = new int[lista.size()];
-				     int k = 0;
-				    while(it.hasNext())
-			        {//[riga][colonna]
-				      Fattura fattCl = (Fattura)it.next();
-			          String nmFatt = String.valueOf(fattCl.getNumFattura());
-			          String[] dtFatt = fattCl.getDataEmissione().replace("-", "/").split(" ");
-			          _data[k] = nmFatt+"-"+dtFatt[0];
-			          _id[k]= fattCl.getId();
-			           k++;
-			          }
 			        GUI_Fatturazione window = new GUI_Fatturazione();
 					window.frmElenco.setVisible(true);
 				} catch (Exception e) {
@@ -67,11 +57,28 @@ public class GUI_Fatturazione {
 			}
 		});
 	}
-
+	*/
+	private static void loadTableDt(){
+		List<Fattura> lista = ResourceClass.getResources(Fattura.class, Global._URLFatt);
+		 Iterator<Fattura> it=lista.iterator();
+		 _data = new String[lista.size()];
+		 _id = new int[lista.size()];
+	     int k = 0;
+	    while(it.hasNext())
+       {//[riga][colonna]
+	      Fattura fattCl = (Fattura)it.next();
+         String nmFatt = String.valueOf(fattCl.getNumFattura());
+         String[] dtFatt = fattCl.getDataEmissione().replace("-", "/").split(" ");
+         _data[k] = nmFatt+"-"+dtFatt[0];
+         _id[k]= fattCl.getId();
+          k++;
+         }
+	}
 	/**
 	 * Create the application.
 	 */
 	public GUI_Fatturazione() {
+		loadTableDt();
 		initialize();
 	}
 

@@ -7,6 +7,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 
+import classResources.Materiale;
+
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
@@ -75,6 +77,7 @@ public class ResourceClass {
 			if (service == null && client == null ) Config();
 			String className = clazz.getName();
 			MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
+			System.out.print(className);
 			formData = multValue(className, classObj);
 			service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(clazz, formData);
 		} 
@@ -87,14 +90,13 @@ public class ResourceClass {
 		
 		private static <T> MultivaluedMap<String, String> multValue(String className, T classObj){
 		 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-		  if (className == "Materiale"){
+		  if (className == "classResources.Materiale"){
 				Materiale m = (Materiale) classObj;
-				String cod = m.getCodice();
 				String des = m.getDescrizione();
 				String costUn =  String.valueOf(m.getCostoUnitario());
 				formData.add("descrizione", des);
-				formData.add("codiceArticolo", cod);
 				formData.add("costoUnitario", costUn) ;
+				System.out.print(des+costUn);
 			}
 			return formData;
 	   }
