@@ -15,88 +15,62 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
 import utils.DB;
+import main.Bolla;
 
-import main.Fattura;
-import main.Fattura_Lavorazione;
-
-@Path("/fatturazione")
-public class FatturazioneResource {
+@Path("/bolla")
+public class BollaResource {
 	
-	public FatturazioneResource() {} // E' necessario anche se vuoto
+	public BollaResource() {} // E' necessario anche se vuoto
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Fattura> getListaFattura() {
+	public List<Bolla> getListaBolla() {
 		Statement statement = null;
 		ResultSet result = null;
-		List<Fattura> listaFattura = new ArrayList<Fattura>();
+		List<Bolla> listaBolla = new ArrayList<Bolla>();
 		
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.fattura;"
+						"SELECT * FROM ProgIngSw.Bolla;"
 					);
 			
 			while(result.next()) {
-				Fattura f = new Fattura(result.getInt(1), result.getInt(2),
-											result.getString(3), result.getDouble(4));
-				listaFattura.add(f);
+				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+											result.getString(4));
+				listaBolla.add(m);
 			}
 			statement.close();
 			
-			return listaFattura;
+			return listaBolla;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	//1^ tabella 
+	
 	@GET
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Fattura getFattura(@PathParam("id") int id) {
+	public Bolla getBolla(@PathParam("id") int id) {
 		Statement statement = null;
-		Statement statement1 = null;
 		ResultSet result = null;
-		ResultSet result1 = null;
-		Fattura f = null;
-		Fattura_Lavorazione fattLavorazione = null;
-		List<Fattura_Lavorazione> lsFattLav = new ArrayList<Fattura_Lavorazione>();
-		
+		Bolla bolla = null;
 		
 		try {
 			statement = DB.instance.createStatement();
-			statement1 = DB.instance.createStatement();
-			//fattura
 			result = statement.executeQuery(
-					"select * from progingsw.fattura where id='" + id + "';");
-		
-			//Bolla Fattura
-			result1 = statement1.executeQuery(
-						"select fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id from progingsw.lavorazione JOIN " +
-						"(progingsw.lavorazioneterzista JOIN(progingsw.fatturabolla join" +
-						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
-						" = bolla.Terzista_id) ON lavorazione.id = bolla.Lavorazione_id where " +
-						"bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
-						"and fatturabolla.Fattura_id='" + id + "';"
+						"SELECT * FROM ProgIngSw.bolla WHERE id='" + id + "';"
 					);
 			
-			while(result1.next()) {
-				//int id, int numFattura, String dataEmissione, double importo
-				fattLavorazione = new Fattura_Lavorazione(result1.getInt(1), result1.getString(2), 
-						result1.getDouble(3),result1.getInt(4),result1.getInt(5));
-				lsFattLav.add(fattLavorazione);
-			}
 			while(result.next()) {
-				 f = new Fattura(result.getInt(1), result.getInt(2),
-						result.getString(3), result.getDouble(4), lsFattLav);
-			
-		    }
+				bolla = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+						result.getString(4));
+			}
 			statement.close();
-			statement1.close();
 			
-			return f;
+			return bolla;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -108,7 +82,7 @@ public class FatturazioneResource {
 	@Path ("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateFattura( @PathParam("id") int id,
+	public String updateBolla( @PathParam("id") int id,
 								@DefaultValue("") @FormParam("descrizione") String descrizione,
 								@DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
 		
@@ -118,7 +92,7 @@ public class FatturazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.fattura SET descrizione = '" + descrizione +"'," +
+					"UPDATE ProgIngSw.Bolla SET descrizione = '" + descrizione +"'," +
 					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
 					);
 			statement.close();
@@ -133,24 +107,18 @@ public class FatturazioneResource {
 	@DELETE
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteFattura( @PathParam("id") int id) {
+	public String deleteBolla( @PathParam("id") int id) {
 		
 		Statement statement = null;
-		Statement statement2 = null;
 		int ok = -1;
 		
 		try {
 			statement = DB.instance.createStatement();
-			statement2 = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"DELETE FROM ProgIngSw.fattura WHERE id='" + id + "';"
-					);
-			ok = statement2.executeUpdate(
-					"DELETE FROM ProgIngSw.fatturabolla WHERE Fattura_id='" + id + "';"
+					"DELETE FROM ProgIngSw.Bolla WHERE id='" + id + "';"
 					);
 			statement.close();
-			statement2.close();
-			
+
 			return String.valueOf(ok);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -161,7 +129,7 @@ public class FatturazioneResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String insertFattura(  @FormParam("descrizione") String descrizione,
+	public String insertBolla(  @FormParam("descrizione") String descrizione,
 									@FormParam("costoUnitario") double costoUnitario) {
 		
 		Statement statement = null;
@@ -172,7 +140,7 @@ public class FatturazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.fattura(descrizione, costoUnitario) " +
+					"INSERT INTO ProgIngSw.Bolla(descrizione, costoUnitario) " +
 					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			

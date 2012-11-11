@@ -4,33 +4,31 @@
  */
 package main;
 
-import java.io.Serializable;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Katy
-*/
 
 @XmlRootElement
 public class Utente {
-    private Integer id;
+    private int id;
     private String user;
     private String psw;
-    private Short tipo;
+    private int tipo;
 
     public Utente() {
     }
 
-    public Utente(Integer id) {
+    public Utente(int id, String user, String psw, int tipo) {
         this.id = id;
+        this.user = user;
+        this.psw = psw;
+        this.tipo = tipo;
     }
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,7 +48,7 @@ public class Utente {
         this.psw = psw;
     }
 
-    public Short getTipo() {
+    public int getTipo() {
         return tipo;
     }
 

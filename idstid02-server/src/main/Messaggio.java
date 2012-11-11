@@ -1,5 +1,7 @@
 package main;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Messaggio {
 	private int id;
 	private String data;
