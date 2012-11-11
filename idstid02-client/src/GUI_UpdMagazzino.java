@@ -5,6 +5,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
+import classResources.Materiale;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.ComponentOrientation;
@@ -60,6 +63,7 @@ public class GUI_UpdMagazzino {
 		frameUpdMat.getContentPane().setLayout(null);
 		
 		textCod = new JTextField();
+		textCod.setEditable(false);
 		textCod.setText(cod);
 		textCod.setBounds(139, 25, 86, 20);
 		frameUpdMat.getContentPane().add(textCod);
@@ -81,9 +85,8 @@ public class GUI_UpdMagazzino {
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String path = "magazzinoterzista";
 				Materiale m = new Materiale(id, textCod.getText(), textDesc.getText(), Double.parseDouble(textQnt.getText()));
-				ResourceClass.updResources(Materiale.class, path, String.valueOf(id), m);
+				ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(id), m);
 				frameUpdMat.setVisible(false);
 			}
 		});

@@ -15,7 +15,9 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
+import java.util.Iterator;
+import java.util.List;
+import classResources.*;
 
 public class GUI_CreaFattura {
 
@@ -23,7 +25,8 @@ public class GUI_CreaFattura {
 	private JTextField textField;
 	private JTable table;
 	private JTable table_1;
-
+	private String[] _data;
+	private int[] _id;
 	/**
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -111,13 +114,28 @@ public class GUI_CreaFattura {
 		btnCrea.setBounds(347, 87, 95, 23);
 		frmCreazioneFattura.getContentPane().add(btnCrea);
 		
-		JList list = new JList();
-		list.setBounds(10, 36, 127, 87);
-		frmCreazioneFattura.getContentPane().add(list);
+		List<Bolla> lista = ResourceClass.getResources(Bolla.class, Global._URLBolla);
+		 Iterator<Bolla> it=lista.iterator();
+		 _data = new String[lista.size()];
+		 _id = new int[lista.size()];
+	     int k = 0;
+	    while(it.hasNext())
+	    {//[riga][colonna]
+	      Bolla bolla = it.next();
+         String cdBolla = bolla.getCodice();
+         String[] dtBolla = bolla.getData().replace("-", "/").split(" ");
+         _data[k] = cdBolla+"-"+dtBolla[0];
+         _id[k]= bolla.getId();
+          k++;
+         }
+	    
+		JList listBolle = new JList(_data);
+		listBolle.setBounds(10, 36, 127, 87);
+		frmCreazioneFattura.getContentPane().add(listBolle);
 		
-		JList list_1 = new JList();
-		list_1.setBounds(200, 36, 127, 87);
-		frmCreazioneFattura.getContentPane().add(list_1);
+		JList listFatt = new JList();
+		listFatt.setBounds(200, 36, 127, 87);
+		frmCreazioneFattura.getContentPane().add(listFatt);
 		
 		textField = new JTextField();
 		textField.setEditable(false);
