@@ -1,5 +1,7 @@
 package main;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Terzista {
 	private int id;
 	private String fax;
