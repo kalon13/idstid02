@@ -17,6 +17,9 @@ public class GestioneDati {
 
 	public JFrame frmGestioneDati;
 
+	DatiTerzista windowDati = new DatiTerzista();
+	static GestioneDati windowGestione = new GestioneDati();
+	
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
@@ -90,13 +93,9 @@ public class GestioneDati {
 		
 		JButton btnVisualizza = new JButton("Visualizza");
 		btnVisualizza.addActionListener(new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
-
-//				GestioneDati window = new GestioneDati();
-//				window.frmDatiTerzista.setVisible(true);
-//				window.frmGestioneDati.setVisible(false);
-			
+				windowDati.frmDatiTerzista.setVisible(true);
+				windowGestione.frmGestioneDati.dispose();
 			}
 			
 		});
