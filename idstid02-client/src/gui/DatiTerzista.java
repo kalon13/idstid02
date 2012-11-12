@@ -22,10 +22,13 @@ import javax.swing.JSeparator;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Dimension;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DatiTerzista {
 
 	public JFrame frmDatiTerzista;
+	
 	private JTextField indirizzo;
 	private JTextField citta;
 	private JTextField prov;
@@ -38,13 +41,14 @@ public class DatiTerzista {
 	private JLabel lblTelefono;
 	private JTable table;
 
+	DatiTerzista windowDati = new DatiTerzista();
+	GestioneDati windowGestione = new GestioneDati();
 
 //	public static void main(String[] args) {
 //		EventQueue.invokeLater(new Runnable() {
 //			public void run() {
 //				try {
-//					DatiTerzista window = new DatiTerzista();
-//					window.frmDatiTerzista.setVisible(true);
+//					
 //				} catch (Exception e) {
 //					e.printStackTrace();
 //				}
@@ -168,6 +172,12 @@ public class DatiTerzista {
 		table.setAutoCreateColumnsFromModel(false);
 		
 		JButton btnIndietro = new JButton("Indietro");
+		btnIndietro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				windowDati.frmDatiTerzista.dispose();
+				windowGestione.frmGestioneDati.setVisible(true);
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(frmDatiTerzista.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
