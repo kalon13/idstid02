@@ -22,44 +22,25 @@ public class GUI_UpdMagazzino {
 	private String cod;
 	private String desc;
 	private String qnt;
-	private int id;
-	/**
+	private int idMatTer;
+	//TODO terzista che si è loggato
+	private int id_terzista = 1;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI_UpdMagazzino window = new GUI_UpdMagazzino();
-					window.frameUpdMat.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	 * Launch the application.
-	 */
-	
-	/**
-	 * Create the application.
-	 */
-	public GUI_UpdMagazzino(int id, String cod, String desc, String qnt) {
+	public GUI_UpdMagazzino(int idMatTer, String cod, String desc, String qnt) {
 		this.cod = cod;
 		this.desc = desc;
 		this.qnt = qnt;
-		this.id = id;
+		this.idMatTer = idMatTer;
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frameUpdMat = new JFrame();
+		frameUpdMat.setTitle("Aggiorna materiale");
 		frameUpdMat.getContentPane().setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		frameUpdMat.setResizable(false);
 		frameUpdMat.setBounds(100, 100, 286, 216);
-		frameUpdMat.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frameUpdMat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frameUpdMat.getContentPane().setLayout(null);
 		
 		textCod = new JTextField();
@@ -70,6 +51,7 @@ public class GUI_UpdMagazzino {
 		textCod.setColumns(10);
 		
 		textDesc = new JTextField();
+		textDesc.setEditable(false);
 		textDesc.setText(desc);
 		textDesc.setBounds(139, 56, 86, 20);
 		frameUpdMat.getContentPane().add(textDesc);
@@ -85,9 +67,9 @@ public class GUI_UpdMagazzino {
 		btnSave.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Materiale m = new Materiale(id, textCod.getText(), textDesc.getText(), Double.parseDouble(textQnt.getText()));
-				ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(id), m);
-				frameUpdMat.setVisible(false);
+				Materiale m = new Materiale(idMatTer, Double.parseDouble(textQnt.getText()));
+				ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMatTer), m);
+				frameUpdMat.dispose();
 			}
 		});
 		btnSave.setBounds(45, 133, 89, 23);
@@ -97,7 +79,7 @@ public class GUI_UpdMagazzino {
 		btnAnnulla.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frameUpdMat.setVisible(false);
+				frameUpdMat.dispose();
 			}
 		});
 		btnAnnulla.setBounds(144, 133, 89, 23);

@@ -23,7 +23,8 @@ public class GUI_Autenticazione {
 	private JFrame frmAutenticazione;
 	private JTextField textUser;
 	private JTextField textPsw;
-
+	static GUI_Autenticazione windowAutenticazione;
+	static GUI_Home windowHome;
 	/**
 	 * Launch the application.
 	 */
@@ -31,8 +32,8 @@ public class GUI_Autenticazione {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					GUI_Autenticazione window = new GUI_Autenticazione();
-					window.frmAutenticazione.setVisible(true);
+					windowAutenticazione = new GUI_Autenticazione();
+					windowAutenticazione.frmAutenticazione.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -98,9 +99,9 @@ public class GUI_Autenticazione {
 		          flgLog = true; break;}		        
 		        }
 			    if(flgLog == true){
-			    	GUI_Home window = new GUI_Home(usr);
-			    	window.frmHome.setVisible(true);
-			    	frmAutenticazione.setVisible(false);			    	
+			    	windowHome = new GUI_Home(usr);
+			    	windowHome.frmHome.setVisible(true);
+			    	windowAutenticazione.frmAutenticazione.dispose();			    	
 			    	}
 			    else
 			    	JOptionPane.showMessageDialog(null, "Username o password non corrette!", "Attenzione", 0);
