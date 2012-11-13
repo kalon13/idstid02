@@ -29,16 +29,17 @@ public class MagazzinoTerzistaResource {
 		Statement statement = null;
 		ResultSet result = null;
 		List<Materiale> listaMateriali = new ArrayList<Materiale>();
-		
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Materiale;"
-					);
-			
+						"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id, " +
+						"materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+						" materiale.id = Materiale_id ;");
+			//int id, String codice, String descrizione, double costoUnitario, int id_terzista
 			while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
-											result.getString(3), result.getDouble(4));
+											result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
 				listaMateriali.add(m);
 			}
 			statement.close();
@@ -52,22 +53,83 @@ public class MagazzinoTerzistaResource {
 	}
 	
 	@GET
+	@Path ("/search/{txtSearch}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Materiale getMateriale1(@PathParam("txtSearch") String txtSearch) {
+		Statement statement = null;
+		ResultSet result = null;
+		Materiale materiale = null;
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
+					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materiale.id = Materiale_id WHERE materiale.descrizione LIKE '%" + txtSearch + "%';");
+			if(result != null){
+			 while(result.next()) {
+				materiale = new Materiale(result.getInt(1), result.getString(2),
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+			  }
+			}
+			else return null;
+			statement.close();
+			
+			return materiale;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@GET
+	@Path ("/materiale/{idMateriale}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Materiale getMateriale1(@PathParam("idMateriale") int idMateriale) {
+		Statement statement = null;
+		ResultSet result = null;
+		Materiale materiale = null;
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
+					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materiale.id = Materiale_id WHERE materiale.id='" + idMateriale + "';");
+			if(result != null){
+			 while(result.next()) {
+				materiale = new Materiale(result.getInt(1), result.getString(2),
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+			  }
+			}
+			else return null;
+			statement.close();
+			
+			return materiale;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	@GET
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Materiale getMateriale(@PathParam("id") int id) {
 		Statement statement = null;
 		ResultSet result = null;
 		Materiale materiale = null;
-		
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Materiale WHERE id='" + id + "';"
-					);
+					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
+					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materiale.id = Materiale_id WHERE materialeTerzista.id='" + id + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
-											result.getString(3), result.getDouble(4));
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
 			}
 			statement.close();
 			
@@ -79,23 +141,24 @@ public class MagazzinoTerzistaResource {
 		}
 	}
 	
+
 	@POST
 	@Path ("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updateMateriale( @PathParam("id") int id,
-								@DefaultValue("") @FormParam("descrizione") String descrizione,
-								@DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
+								@DefaultValue("0") @FormParam("quantita") double quantita) {
 		
 		Statement statement = null;
 		int ok = -1;
-		
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.Materiale SET descrizione = '" + descrizione +"'," +
-					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
+					"UPDATE ProgIngSw.materialeterzista SET " +
+					"quantita = " + quantita + " WHERE id='" + id + "';"
 					);
+			System.out.println(id+quantita);
 			statement.close();
 
 			return String.valueOf(ok);
@@ -104,7 +167,7 @@ public class MagazzinoTerzistaResource {
 			return "-1";
 		}
 	}
-	
+	//NN USATI ************************************************************************************
 	@DELETE
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -131,8 +194,9 @@ public class MagazzinoTerzistaResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String insertMateriale(  @FormParam("descrizione") String descrizione,
-									@FormParam("costoUnitario") double costoUnitario) {
-		
+									@FormParam("costoUnitario") double costoUnitario,
+									@FormParam("quantita") double quantita) {
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";		
 		Statement statement = null;
 		ResultSet result = null;
 		int ok = -1;
