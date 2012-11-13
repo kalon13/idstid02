@@ -1,4 +1,6 @@
 package main;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
@@ -7,17 +9,31 @@ public class DDT {
 	private int numDoc;
 	private String dataRicezione;
 	private String dataInvio;
+	private int idTerzista;
 	private boolean flussoAzienda;
+	private List<Materiale> ddtMateriale;
 	
-	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,
+	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
 			boolean flussoAzienda) {
 		this.id = id;
 		this.numDoc = numDoc;
 		this.dataRicezione = dataRicezione;
 		this.dataInvio = dataInvio;
+		this.idTerzista = idTerzista;
 		this.flussoAzienda = flussoAzienda;
+		this.setDdtMateriale(ddtMateriale);
 	}
-	
+
+	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
+			boolean flussoAzienda, List<Materiale> ddtMateriale) {
+		this.id = id;
+		this.numDoc = numDoc;
+		this.dataRicezione = dataRicezione;
+		this.dataInvio = dataInvio;
+		this.idTerzista = idTerzista;
+		this.flussoAzienda = flussoAzienda;
+		this.setDdtMateriale(ddtMateriale);
+	}
 	public DDT() {
 		this.id = -1;
 		this.numDoc = 0;
@@ -64,5 +80,21 @@ public class DDT {
 
 	public void setFlussoAzienda(boolean flussoAzienda) {
 		this.flussoAzienda = flussoAzienda;
+	}
+
+	public int getIdTerzista() {
+		return idTerzista;
+	}
+
+	public void setIdTerzista(int idTerzista) {
+		this.idTerzista = idTerzista;
+	}
+
+	public List<Materiale> getDdtMateriale() {
+		return ddtMateriale;
+	}
+
+	public void setDdtMateriale(List<Materiale> ddtMateriale) {
+		this.ddtMateriale = ddtMateriale;
 	}
 }
