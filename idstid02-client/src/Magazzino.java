@@ -5,6 +5,8 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.ws.rs.core.MediaType;
 
+import classResources.Materiale;
+
 import com.sun.jersey.api.client.GenericType;
 
 import java.awt.BorderLayout;
@@ -41,10 +43,10 @@ public class Magazzino {
 					String path = "magazzinoterzista";
 					//update
 					String id = "4";
-					Materiale m = new Materiale(2, "1000", "desTest", 2.3);
+					Materiale m = new Materiale(2, "1000", "desTest");
 					ResourceClass.updResources(Materiale.class, path, "2", m);
 					//insert
-					Materiale m1 = new Materiale(0, "1001", "desTest", 2.3);
+					Materiale m1 = new Materiale(0, "1001", "desTest");
 					id = ResourceClass.addResources(path, m1);
 					m1.setId(Integer.parseInt(id));
 					//delete

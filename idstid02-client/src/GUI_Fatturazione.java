@@ -37,28 +37,13 @@ public class GUI_Fatturazione {
 	private JTextField textNum;
 	private JTextField textDt;
 	private JTextField textImpToT;
+	private static GUI_RegistraDDT windowRegDDT;
 	private static String[] _data;
 	private static int[] _id;
 	private static String[][] _dataLav;
 	private static Object[] _titlesLav={"Lavorazione", "Prezzo"};
 	
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-			        GUI_Fatturazione window = new GUI_Fatturazione();
-					window.frmElenco.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
-	private static void loadTableDt(){
+	private void loadTableDt(){
 		List<Fattura> lista = ResourceClass.getResources(Fattura.class, Global._URLFatt);
 		 Iterator<Fattura> it=lista.iterator();
 		 _data = new String[lista.size()];
@@ -87,9 +72,9 @@ public class GUI_Fatturazione {
 	 */
 	private void initialize() {
 		frmElenco = new JFrame();
-		frmElenco.setTitle("Elenco");
+		frmElenco.setTitle("Gestione Fatturazione");
 		frmElenco.setBounds(100, 100, 450, 314);
-		frmElenco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmElenco.getContentPane().setLayout(null);
 		
 		JLabel lblFatture = new JLabel("Fatture:");
@@ -206,7 +191,7 @@ public class GUI_Fatturazione {
 		btnEsci.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frmElenco.setVisible(false);
+				frmElenco.dispose();
 			}
 		});
 		btnEsci.setBounds(343, 246, 89, 23);
