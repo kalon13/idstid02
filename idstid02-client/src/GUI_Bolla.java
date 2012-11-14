@@ -8,18 +8,20 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JList;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class GUI_Bolla {
 
-	private JFrame frmBolleDiLavorazione;
+	JFrame frmBolleDiLavorazione;
 	private JTextField textField;
 	private JTable table;
 	private JTable table_1;
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -103,6 +105,12 @@ public class GUI_Bolla {
 		panel.add(btnAggiornaStato);
 		
 		JButton btnEsci = new JButton("Esci");
+		btnEsci.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frmBolleDiLavorazione.dispose();
+			}
+		});
 		btnEsci.setBounds(451, 276, 89, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnEsci);
 		

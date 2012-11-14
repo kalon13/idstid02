@@ -36,9 +36,6 @@ public class Materiale {
 		this.id = id;
 		this.codice = codice;
 		this.descrizione = descrizione;
-		this.costoUnitario = 0;
-		this.um = Um.UNIT;
-		
 	}
 
 	public Materiale(int id, String codice, String descrizione, double costoUnitario, double quantita, int id_terzista, int id_matTerz) {
