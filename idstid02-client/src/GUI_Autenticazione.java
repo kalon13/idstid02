@@ -55,7 +55,7 @@ public class GUI_Autenticazione {
 		frmAutenticazione = new JFrame();
 		frmAutenticazione.setResizable(false);
 		frmAutenticazione.setTitle("Autenticazione");
-		frmAutenticazione.setBounds(100, 100, 280, 165);
+		frmAutenticazione.setBounds(100, 100, 280, 161);
 		frmAutenticazione.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAutenticazione.getContentPane().setLayout(null);
 		

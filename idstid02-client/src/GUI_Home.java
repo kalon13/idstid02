@@ -22,7 +22,7 @@ public class GUI_Home {
 		frmHome.setResizable(false);
 		frmHome.setTitle("Home");
 		frmHome.setBounds(100, 100, 405, 168);
-		frmHome.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmHome.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();

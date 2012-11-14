@@ -101,7 +101,7 @@ public class GUI_RegistraDDT {
 		frmRegistraDdt = new JFrame();
 		frmRegistraDdt.setResizable(false);
 		frmRegistraDdt.setTitle("Registra DDT");
-		frmRegistraDdt.setBounds(100, 100, 424, 305);
+		frmRegistraDdt.setBounds(100, 100, 417, 301);
 		frmRegistraDdt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmRegistraDdt.getContentPane().setLayout(null);
 		
