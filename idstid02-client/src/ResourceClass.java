@@ -32,7 +32,7 @@ public class ResourceClass {
 		  client = Client.create(config);
 	      service = client.resource(getBaseURI());
 	  	}
-		//per visualizzare tutti i dati 
+		//per visualizzare tutti i dati della select
 		public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException { 
 			   ParameterizedType genericType = new ParameterizedType() { 
 	               @Override 

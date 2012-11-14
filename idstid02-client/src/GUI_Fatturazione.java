@@ -73,7 +73,7 @@ public class GUI_Fatturazione {
 	private void initialize() {
 		frmElenco = new JFrame();
 		frmElenco.setTitle("Gestione Fatturazione");
-		frmElenco.setBounds(100, 100, 450, 314);
+		frmElenco.setBounds(100, 100, 450, 311);
 		frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmElenco.getContentPane().setLayout(null);
 		

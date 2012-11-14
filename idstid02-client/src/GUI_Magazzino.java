@@ -80,7 +80,7 @@ public class GUI_Magazzino {
 			}
 		});
 		frmGestioneMagazzino.setResizable(false);
-		frmGestioneMagazzino.setBounds(100, 100, 450, 325);
+		frmGestioneMagazzino.setBounds(100, 100, 444, 325);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
