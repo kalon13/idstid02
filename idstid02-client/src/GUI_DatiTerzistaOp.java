@@ -25,7 +25,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class DatiTerzista {
+public class GUI_DatiTerzistaOp {
 
 	public JFrame frmDatiTerzista;
 	
@@ -40,26 +40,12 @@ public class DatiTerzista {
 	private JTextField nome;
 	private JLabel lblTelefono;
 	private JTable table;
-
-	DatiTerzista windowDati = new DatiTerzista();
-	GestioneDati windowGestione = new GestioneDati();
-
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	
 
 	/**
 	 * Create the application.
 	 */
-	public DatiTerzista() {
+	public GUI_DatiTerzistaOp() {
 		initialize();
 	}
 
@@ -174,8 +160,8 @@ public class DatiTerzista {
 		JButton btnIndietro = new JButton("Indietro");
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowDati.frmDatiTerzista.dispose();
-				windowGestione.frmGestioneDati.setVisible(true);
+				frmDatiTerzista.setVisible(false);
+				GUI_GestioneDati.windowGestione.frmGestioneDati.setVisible(true);
 			}
 		});
 		GroupLayout groupLayout = new GroupLayout(frmDatiTerzista.getContentPane());

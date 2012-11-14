@@ -23,24 +23,24 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class Main {
 
+	static GestioneDati windowGestione = new GestioneDati();
+	
 	public static void main(String[] args) {
 		
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					DatiTerzista windowDati = new DatiTerzista();
-//					GestioneDati windowGestione = new GestioneDati();
-//					windowDati.frmDatiTerzista.setVisible(true);
-//					windowGestione.frmGestioneDati.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					avvia();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 		
-		DatiTerzista windowDati = new DatiTerzista();
-		GestioneDati windowGestione = new GestioneDati();
-		windowDati.frmDatiTerzista.setVisible(true);
+	}
+	
+	public static void avvia(){
+		
 		windowGestione.frmGestioneDati.setVisible(true);
 		
 		ClientConfig config = new DefaultClientConfig();
@@ -87,7 +87,7 @@ public class Main {
 	    lista = service.path("magazzinoterzista")
 	    		.accept(MediaType.APPLICATION_JSON).get(new GenericType<List<Materiale>>(){});
 	    System.out.println(lista);
-	    
+		
 	}
 	
 	private static URI getBaseURI() {
