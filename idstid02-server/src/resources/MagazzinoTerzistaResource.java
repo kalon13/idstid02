@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -167,7 +168,7 @@ public class MagazzinoTerzistaResource {
 			return "-1";
 		}
 	}
-	//NN USATI ************************************************************************************
+
 	@DELETE
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -179,7 +180,7 @@ public class MagazzinoTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"DELETE FROM ProgIngSw.Materiale WHERE id='" + id + "';"
+					"DELETE FROM ProgIngSw.materialeterzista WHERE id='" + id + "';"
 					);
 			statement.close();
 
@@ -190,42 +191,39 @@ public class MagazzinoTerzistaResource {
 		}
 	}
 	
-	@PUT
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String insertMateriale(  @FormParam("descrizione") String descrizione,
-									@FormParam("costoUnitario") double costoUnitario,
-									@FormParam("quantita") double quantita) {
-		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";		
-		Statement statement = null;
-		ResultSet result = null;
-		int ok = -1;
-		int id = -1;
-		
-		try {
-			statement = DB.instance.createStatement();
-			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.Materiale(descrizione, costoUnitario) " +
-					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
-					Statement.RETURN_GENERATED_KEYS);
+	//registro il DDT inserendo i nuovi materiali in materiali dei terzisti	
+		@PUT
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Produces(MediaType.APPLICATION_JSON)
+		public String insertMateriale(  @FormParam("Terzista_id") int Terzista_id,
+								  @FormParam("Materiale_id") int Materiale_id,
+								  @FormParam("quantita") double quantita) {
 			
-			if(ok == 1) { // Inserimento ok
-				result = statement.getGeneratedKeys();
-		        if (result.next()){
-		        	id = result.getInt(1);
-		        }
-		        result.close();
+			Statement statement = null;
+			ResultSet result = null;
+			int ok = -1;
+			int id = -1;
+			try {
+				statement = DB.instance.createStatement();
+				ok = statement.executeUpdate(
+						"INSERT INTO ProgIngSw.materialeterzista (quantita, Terzista_id, Materiale_id) " +
+						"VALUES('" + quantita + "', '" + Terzista_id + "', '" + Materiale_id + "');", 
+						Statement.RETURN_GENERATED_KEYS);
+				
+				if(ok == 1) { // Inserimento ok
+					result = statement.getGeneratedKeys();
+			        if (result.next()){
+			        	id = result.getInt(1);
+			        }
+			        result.close();
+				}
+				statement.close();
+				return String.valueOf(id);
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return "-1";
 			}
-			statement.close();
-
-			return String.valueOf(id);
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "-1";
-		}
-		
-		
 	}
 	
 }
