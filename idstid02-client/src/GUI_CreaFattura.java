@@ -27,23 +27,7 @@ public class GUI_CreaFattura {
 	private JTable table_1;
 	private String[] _data;
 	private int[] _id;
-	/**
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					GUI_CreaFattura window = new GUI_CreaFattura();
-					window.frmCreazioneFattura.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	 * Launch the application.
-	 */
 	
-
 	/**
 	 * Create the application.
 	 */
@@ -56,9 +40,10 @@ public class GUI_CreaFattura {
 	 */
 	private void initialize() {
 		frmCreazioneFattura = new JFrame();
+		frmCreazioneFattura.setResizable(false);
 		frmCreazioneFattura.setTitle("Creazione Fattura");
-		frmCreazioneFattura.setBounds(100, 100, 458, 300);
-		frmCreazioneFattura.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCreazioneFattura.setBounds(100, 100, 471, 298);
+		frmCreazioneFattura.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCreazioneFattura.getContentPane().setLayout(null);
 		
 		JLabel lblBolle = new JLabel("Bolle:");
@@ -104,7 +89,7 @@ public class GUI_CreaFattura {
 		btnEsci.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frmCreazioneFattura.setVisible(false);
+				frmCreazioneFattura.dispose();
 			}
 		});
 		btnEsci.setBounds(347, 232, 95, 23);
@@ -144,10 +129,7 @@ public class GUI_CreaFattura {
 		textField.setColumns(10);
 		
 		JButton button = new JButton(">");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
+		
 		button.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		button.setBounds(147, 36, 40, 40);
 		frmCreazioneFattura.getContentPane().add(button);
