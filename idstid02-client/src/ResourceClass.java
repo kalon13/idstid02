@@ -10,6 +10,7 @@ import javax.ws.rs.core.UriBuilder;
 import classResources.Materiale;
 
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
@@ -50,7 +51,7 @@ public class ResourceClass {
 	               } 
 	           };
 	           if (service == null && client == null ) Config();
-	           GenericType<List<T>> type = new GenericType<List< T >>(genericType) {}; 
+	           GenericType<List<T>> type = new GenericType<List< T >>(genericType) {};
 	           return service.path(path).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(type);
 	     } 
 		//per visualizzare un det dato passare nella path/id del dato stesso
@@ -65,7 +66,7 @@ public class ResourceClass {
 			if (service == null && client == null ) Config();
 			String className = classObj.getClass().getName(); 
 			MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-			formData = multValue(className, classObj);
+			formData = multValueIns(className, classObj, path);
 		    String id = service.path(path)
 		    		.accept(MediaType.APPLICATION_JSON)
 		    		.type(MediaType.APPLICATION_FORM_URLENCODED).put(String.class, formData);
@@ -77,8 +78,8 @@ public class ResourceClass {
 			if (service == null && client == null ) Config();
 			String className = clazz.getName();
 			MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-			System.out.print(className);
-			formData = multValue(className, classObj);
+			formData = multValueUpd(className, classObj, path);
+			System.out.print(id);
 			service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(clazz, formData);
 		} 
 		
@@ -88,18 +89,42 @@ public class ResourceClass {
 		    service.path(path).path(id).accept(MediaType.APPLICATION_JSON).delete(String.class);
 		} 
 		
-		private static <T> MultivaluedMap<String, String> multValue(String className, T classObj){
+		private static <T> MultivaluedMap<String, String> multValueUpd(String className, T classObj, String path){
 		 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-		  if (className == "classResources.Materiale"){
+		  if (className == "classResources.Materiale" && path.equals(Global._URLMag)){
 				Materiale m = (Materiale) classObj;
-				String des = m.getDescrizione();
-				String costUn =  String.valueOf(m.getCostoUnitario());
-				formData.add("descrizione", des);
-				formData.add("costoUnitario", costUn) ;
-				System.out.print(des+costUn);
+				String quantita =  String.valueOf(m.getQuantita());
+				formData.add("quantita", quantita) ;
+				System.out.print(quantita);
+			}
+		  else if (className == "classResources.Materiale"  && path.equals(Global._URLddt)){
+				Materiale m = (Materiale) classObj;
+				String quantita =  String.valueOf(m.getQuantita());
+				formData.add("quantita", quantita);
 			}
 			return formData;
 	   }
+	   private static <T> MultivaluedMap<String, String> multValueIns(String className, T classObj, String path){
+			 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
+			 if (className == "classResources.Materiale" && path.equals(Global._URLMag)){
+					Materiale m = (Materiale) classObj;
+					String des = m.getDescrizione();
+					String costUn =  String.valueOf(m.getCostoUnitario());
+					formData.add("descrizione", des);
+					formData.add("costoUnitario", costUn) ;
+					System.out.print(des+costUn);
+				}
+			  else if (className == "classResources.Materiale"  && path.equals(Global._URLddt)){
+					Materiale m = (Materiale) classObj;
+					String id = String.valueOf(m.getId());
+					String id_terzista =  String.valueOf(m.getId_terzista());
+					String quantita =  String.valueOf(m.getQuantita());
+					formData.add("Materiale_id", (id));
+					formData.add("Terzista_id", id_terzista);
+					formData.add("quantita", quantita);
+				}
+				return formData;
+		   }
 		
 	public static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/idstid02-server").build();
