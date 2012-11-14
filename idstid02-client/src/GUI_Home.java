@@ -11,6 +11,7 @@ public class GUI_Home {
 	private String user;
 	static GUI_Magazzino windowMagazzino;
 	static GUI_Fatturazione windowFatturazione;
+	static GUI_Bolla windowBolla;
 
 	public GUI_Home(String user) {
 		this.user = user;
@@ -46,6 +47,14 @@ public class GUI_Home {
 		panel.add(btnGestioneMagazzino);
 		
 		JButton btnGestioneBolleDi = new JButton("Gestione Bolle di lavorazione");
+		btnGestioneBolleDi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				windowBolla = new GUI_Bolla();
+				windowBolla.frmBolleDiLavorazione.setVisible(true);
+
+			}
+		});
 		btnGestioneBolleDi.setBounds(0, 34, 169, 25);
 		panel.add(btnGestioneBolleDi);
 		

@@ -37,7 +37,10 @@ public class GUI_Magazzino {
 		if(flgSearch==false)
 		 lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
 		else
+		{ if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
 			lista = ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText());
+		    else lista=null;	
+		}
 		 Iterator<Materiale> it=lista.iterator();
 	     int cntDt = lista.size();
 	     int cntTit = _titles.length;
