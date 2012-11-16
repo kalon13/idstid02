@@ -34,13 +34,14 @@ public class GUI_Magazzino {
 	
 	private void loadTableDt(Boolean flgSearch){
 		 List<Materiale> lista = null;
-		if(flgSearch==false)
+		if(flgSearch==false || textSearch.getText().equals(""))
 		 lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
 		else
-		{ if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
+		{	if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
 			lista = ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText());
-		    else lista=null;	
+		    else lista=null;
 		}
+		if(lista!=null){
 		 Iterator<Materiale> it=lista.iterator();
 	     int cntDt = lista.size();
 	     int cntTit = _titles.length;
@@ -55,7 +56,7 @@ public class GUI_Magazzino {
            _data[k][0] = String.valueOf(mtCl.getCodice());
            _data[k][2] = String.valueOf(mtCl.getQuantita());
            _id[k]= mtCl.getId_matTerz();
-           k++;
+           k++;}
           }
         }
 	}

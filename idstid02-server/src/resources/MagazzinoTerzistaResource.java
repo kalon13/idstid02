@@ -56,10 +56,10 @@ public class MagazzinoTerzistaResource {
 	@GET
 	@Path ("/search/{txtSearch}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Materiale getMateriale1(@PathParam("txtSearch") String txtSearch) {
+	public List<Materiale> getMateriale1(@PathParam("txtSearch") String txtSearch) {
 		Statement statement = null;
 		ResultSet result = null;
-		Materiale materiale = null;
+		List<Materiale> listaMateriali = new ArrayList<Materiale>();
 		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
@@ -67,16 +67,13 @@ public class MagazzinoTerzistaResource {
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
 					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
 					" materiale.id = Materiale_id WHERE materiale.descrizione LIKE '%" + txtSearch + "%';");
-			if(result != null){
 			 while(result.next()) {
-				materiale = new Materiale(result.getInt(1), result.getString(2),
+				Materiale m = new Materiale(result.getInt(1), result.getString(2),
 						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+				listaMateriali.add(m);
 			  }
-			}
-			else return null;
 			statement.close();
-			
-			return materiale;
+			return listaMateriali;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,6 +124,37 @@ public class MagazzinoTerzistaResource {
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
 					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
 					" materiale.id = Materiale_id WHERE materialeTerzista.id='" + id + "';");
+			
+			while(result.next()) {
+				materiale = new Materiale(result.getInt(1), result.getString(2),
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+			}
+			statement.close();
+			
+			return materiale;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path ("{idMat}/{terzista}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Materiale getMaterialeTerzista(@PathParam("idMat") int idMat,
+										  @PathParam("terzista") int terzista) {
+		Statement statement = null;
+		ResultSet result = null;
+		Materiale materiale = null;
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
+					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materiale.id = Materiale_id WHERE materialeTerzista.materiale_id='" + idMat + "' " +
+							"and materialeTerzista.terzista_id='" + terzista + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),

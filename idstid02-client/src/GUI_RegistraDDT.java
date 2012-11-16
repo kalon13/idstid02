@@ -70,7 +70,6 @@ public class GUI_RegistraDDT {
 		      String[] dtRicezione=ddt.getDataRicezione().replace("-", "/").split(" ");
 	          _dataLsDDT[t] = ddt.getNumDoc()+" - data invio: "+dtInvio[0]+" - data ricezione: "+dtRicezione[0];
 	          _idLsDDT[t] = ddt.getId();
-	          System.out.println(_dataLsDDT[t]);
 	          t++;
 	     }
 	 }
@@ -149,20 +148,20 @@ public class GUI_RegistraDDT {
 			    {
 			     Materiale mtDDT = it.next();
 			     int idMat = mtDDT.getId();mtDDT.setId_terzista(1);
-			     Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMagMat+idMat);
+			     Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+
+			    		 "/"+mtDDT.getId_terzista());			    	
 			     if(mat != null)
 			     {  //update
 			    	double qnt = mat.getQuantita() + mtDDT.getQuantita();  
 			    	mat.setQuantita(qnt);
-			    	ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMat), mat);
-			    	System.out.println("vciao"+mat.getQuantita());
+					ResourceClass.updResources(Materiale.class, Global._URLMag, 
+			    			String.valueOf(mat.getId_matTerz()), mat);
 				 }
 					else{
 					//TODO Insert terzista! int id, double quantita, int id_terzista
 					Materiale m1 = new Materiale(mtDDT.getId(),mtDDT.getQuantita(), mtDDT.getId_terzista());
 					String id = ResourceClass.addResources("/magazzinoterzista", m1);
 					m1.setId(Integer.parseInt(id));
-					System.out.println("ao"+m1.getQuantita());
 				}
 		      }
 			}
