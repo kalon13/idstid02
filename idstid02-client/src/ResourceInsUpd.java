@@ -1,7 +1,5 @@
 import javax.ws.rs.core.MultivaluedMap;
-
 import classResources.Materiale;
-
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 
@@ -13,6 +11,9 @@ public class ResourceInsUpd {
 				Materiale m = (Materiale) classObj;
 				String quantita =  String.valueOf(m.getQuantita());
 				formData.add("quantita", quantita) ;
+			}
+		  else if (className == "classResources.DDT"){
+				formData.add("registrato", "1") ;
 			}
 		 return formData;
 	   }
