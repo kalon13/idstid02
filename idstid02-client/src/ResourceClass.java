@@ -111,7 +111,9 @@ public class ResourceClass extends ResourceInsUpd {
 			String className = clazz.getName();
 			MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
 			formData = multValueUpd(className, classObj, path);
+			System.out.println(formData);
 			service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(clazz, formData);
+			System.out.println(id+formData);
 		} 
 		
 		// Elimino una risorsa		

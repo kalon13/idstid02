@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+
+import classResources.DDT;
 import classResources.Materiale;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -118,8 +120,12 @@ public class GUI_Magazzino {
 		btnRegDDT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				if(lsDDT.size() != 0){
 				windowRegDDT = new GUI_RegistraDDT();
 				windowRegDDT.frmRegistraDdt.setVisible(true);
+				}
+				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");	
 			}
 		});
 		btnRegDDT.setBounds(296, 217, 123, 23);

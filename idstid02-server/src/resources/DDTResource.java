@@ -36,13 +36,13 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.ddt;"
+						"SELECT * FROM ProgIngSw.ddt where registrato <> 1 and flussoAzienda = 1;"
 					);
 			
 			while(result.next()) {
 				//int id, int numDoc, String dataRicezione, String dataInvio,boolean flussoAzienda
 				DDT ddt = new DDT(result.getInt(1), result.getInt(2), result.getString(3),
-											result.getString(4),result.getInt(5), result.getBoolean(6));
+											result.getString(4),result.getInt(5), result.getBoolean(6), result.getBoolean(7));
 				listaDDT.add(ddt);
 			}
 			statement.close();
@@ -105,11 +105,11 @@ public class DDTResource {
 	}
 	//registro il DDT aggiornando le qnt dei materiali dei terzisti
 	@POST
-	@Path ("{id}")
+	@Path ("{idDDT}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String updateDDT( @PathParam("id") int id,
-								@DefaultValue("0") @FormParam("quantita") double quantita) {
+	public String updateDDT( @PathParam("idDDT") int idDDT,
+								@DefaultValue("0") @FormParam("registrato") String registrato) {
 		
 		Statement statement = null;
 		int ok = -1;
@@ -117,10 +117,9 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.materialeterzista SET quantita = '" + quantita +"' WHERE id='" + id + "';"
+					"UPDATE ProgIngSw.ddt SET registrato = '" + registrato + "' WHERE id='" + idDDT + "';"
 					);
 			statement.close();
-
 			return String.valueOf(ok);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,64 +127,64 @@ public class DDTResource {
 		}
 	}
 	
-	@DELETE
-	@Path ("{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String deleteDDT( @PathParam("id") int id) {
-		
-		Statement statement = null;
-		int ok = -1;
-		
-		try {
-			statement = DB.instance.createStatement();
-			ok = statement.executeUpdate(
-					"DELETE FROM ProgIngSw.ddt WHERE id='" + id + "';"
-					);
-			statement.close();
-
-			return String.valueOf(ok);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "-1";
-		}
-	}
+//	@DELETE
+//	@Path ("{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public String deleteDDT( @PathParam("id") int id) {
+//		
+//		Statement statement = null;
+//		int ok = -1;
+//		
+//		try {
+//			statement = DB.instance.createStatement();
+//			ok = statement.executeUpdate(
+//					"DELETE FROM ProgIngSw.ddt WHERE id='" + id + "';"
+//					);
+//			statement.close();
+//
+//			return String.valueOf(ok);
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return "-1";
+//		}
+//	}
 	//registro il DDT inserendo i nuovi materiali in materiali dei terzisti	
-	@PUT
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@Produces(MediaType.APPLICATION_JSON)
-	public String insertDDT(  @FormParam("Terzista_id") int Terzista_id,
-							  @FormParam("Materiale_id") int Materiale_id,
-							  @FormParam("quantita") double quantita) {
-		
-		Statement statement = null;
-		ResultSet result = null;
-		int ok = -1;
-		int id = -1;
-		
-		try {
-			statement = DB.instance.createStatement();
-			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.materialeterzista(quantita, Terzista_id, Materiale_id) " +
-					"VALUES('" + quantita + "', '" + Terzista_id + "', '" + Materiale_id + "');", 
-					Statement.RETURN_GENERATED_KEYS);
-			
-			if(ok == 1) { // Inserimento ok
-				result = statement.getGeneratedKeys();
-		        if (result.next()){
-		        	id = result.getInt(1);
-		        }
-		        result.close();
-			}
-			statement.close();
-
-			return String.valueOf(id);
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return "-1";
-		}
-		
-		
-	}
+//	@PUT
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public String insertDDT(  @FormParam("Terzista_id") int Terzista_id,
+//							  @FormParam("Materiale_id") int Materiale_id,
+//							  @FormParam("quantita") double quantita) {
+//		
+//		Statement statement = null;
+//		ResultSet result = null;
+//		int ok = -1;
+//		int id = -1;
+//		
+//		try {
+//			statement = DB.instance.createStatement();
+//			ok = statement.executeUpdate(
+//					"INSERT INTO ProgIngSw.materialeterzista(quantita, Terzista_id, Materiale_id) " +
+//					"VALUES('" + quantita + "', '" + Terzista_id + "', '" + Materiale_id + "');", 
+//					Statement.RETURN_GENERATED_KEYS);
+//			
+//			if(ok == 1) { // Inserimento ok
+//				result = statement.getGeneratedKeys();
+//		        if (result.next()){
+//		        	id = result.getInt(1);
+//		        }
+//		        result.close();
+//			}
+//			statement.close();
+//
+//			return String.valueOf(id);
+//		
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return "-1";
+//		}
+//		
+//		
+//	}
 	
 }
