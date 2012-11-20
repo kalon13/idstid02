@@ -7,6 +7,7 @@ public class Messaggio {
 	private String data;
 	private String testo;
 	private boolean letto;
+	private String bolla_Id; //aggiunto
 	//TODO: aggiungere utente_Id
 	//TODO: aggiungere bolla_Id
 	
@@ -16,7 +17,23 @@ public class Messaggio {
 		this.testo = testo;
 		this.letto = letto;
 	}
-	
+
+	//aggiunto
+	public Messaggio(int id, String data, String testo, boolean letto, String bolla_Id) {
+		this.id = id;
+		this.data = data;
+		this.testo = testo;
+		this.letto = letto;
+	}
+	//aggiunto
+	public String getBolla_Id() {
+		return bolla_Id;
+	}
+	//aggiunto
+	public void setBolla_Id(String bolla_Id) {
+		this.bolla_Id = bolla_Id;
+	}
+
 	public Messaggio() {
 		this.id = -1;
 		this.data = "";
