@@ -1,10 +1,14 @@
 package classResources;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Messaggio {
 	private int id;
 	private String data;
 	private String testo;
 	private boolean letto;
+	private String bolla_Id; //aggiunto
 	//TODO: aggiungere utente_Id
 	//TODO: aggiungere bolla_Id
 	
@@ -13,6 +17,22 @@ public class Messaggio {
 		this.data = data;
 		this.testo = testo;
 		this.letto = letto;
+	}
+	
+	//aggiunto
+	public Messaggio(int id, String data, String testo, boolean letto, String bolla_Id) {
+		this.id = id;
+		this.data = data;
+		this.testo = testo;
+		this.letto = letto;
+	}
+	//aggiunto
+	public String getBolla_Id() {
+		return bolla_Id;
+	}
+	//aggiunto
+	public void setBolla_Id(String bolla_Id) {
+		this.bolla_Id = bolla_Id;
 	}
 	
 	public Messaggio() {

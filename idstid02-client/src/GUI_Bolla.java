@@ -10,7 +10,18 @@ import javax.swing.JTable;
 import javax.swing.JList;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.Iterator;
+import java.util.List;
+import classResources.Bolla;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
 
 public class GUI_Bolla {
 
@@ -18,10 +29,31 @@ public class GUI_Bolla {
 	private JTextField textField;
 	private JTable table;
 	private JTable table_1;
+	
+	GUI_Messaggio messaggio;
+	List<Bolla> lista = null;
+	private static String[] _data;
+	private static int[] _id;
+	
+	private void loadTableDt(){
+		//Load lista
+		lista = ResourceClass.getResources(Bolla.class, Global._URLBolla);
+		Iterator<Bolla> it = lista.iterator();
 
-	/**
-	 * Launch the application.
-	 
+		_data = new String[lista.size()];
+		_id = new int[lista.size()];
+		int k = 0;
+		while(it.hasNext())
+			{
+				Bolla messCl = (Bolla)it.next();
+				String nmMess = String.valueOf(messCl.getId());
+				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
+				_data[k] = nmMess + "-" + dtMess[0]; //numBolla + dataBolla
+				_id[k]= messCl.getId();
+				k++;
+			}
+	}
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,18 +66,16 @@ public class GUI_Bolla {
 			}
 		});
 	}
-
-	/**
-	 * Create the application.
-	 */
+	
 	public GUI_Bolla() {
+		loadTableDt();
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() {	
 		frmBolleDiLavorazione = new JFrame();
 		frmBolleDiLavorazione.setResizable(false);
 		frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
@@ -66,7 +96,22 @@ public class GUI_Bolla {
 		lblNewLabel.setBounds(10, 11, 87, 14);
 		panel.add(lblNewLabel);
 		
+		//**textField**
+		//Quando cambia il contenuto del textField (quindi il numero di bolla)
 		textField = new JTextField();
+		textField.getDocument().addDocumentListener(new DocumentListener() {
+			     public void removeUpdate(DocumentEvent e) {
+			        // TODO add code!
+			     }
+			     public void insertUpdate(DocumentEvent e) {
+			        // TODO add code!
+						String numeroBolla = textField.getText();
+			     }
+			     public void changedUpdate(DocumentEvent e) {
+			        // TODO add code!
+			     }
+			  });
+			
 		textField.setEditable(false);
 		textField.setBounds(107, 8, 44, 20);
 		panel.add(textField);
@@ -75,10 +120,6 @@ public class GUI_Bolla {
 		JLabel lblMaterialiDaProdurre = new JLabel("Materiali da produrre:");
 		lblMaterialiDaProdurre.setBounds(10, 28, 141, 14);
 		panel.add(lblMaterialiDaProdurre);
-		
-		JButton btnVisualizzaNote = new JButton("Visualizza Note");
-		btnVisualizzaNote.setBounds(216, 7, 147, 23);
-		panel.add(btnVisualizzaNote);
 		
 		table = new JTable();
 		table.setBounds(10, 46, 353, 71);
@@ -104,6 +145,7 @@ public class GUI_Bolla {
 		btnAggiornaStato.setBounds(251, 224, 112, 23);
 		panel.add(btnAggiornaStato);
 		
+		//**btnEsci**
 		JButton btnEsci = new JButton("Esci");
 		btnEsci.addMouseListener(new MouseAdapter() {
 			@Override
@@ -114,7 +156,30 @@ public class GUI_Bolla {
 		btnEsci.setBounds(451, 276, 89, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnEsci);
 		
-		JList list = new JList();
+		final JList list = new JList(_data); //aggiunge alla Jlist numero + data delle bolle
+		list.addListSelectionListener(new ListSelectionListener() {
+			//Se seleziono un valore dalla lista delle bolle, il num di bolla va nel textField
+			public void valueChanged(ListSelectionEvent e) {
+				int indice = list.getSelectedIndex();
+				Bolla b = lista.get(indice);
+				String testo = b.getCodice();
+				textField.setText(testo);
+			}
+		});
+		
+		//**btnVisualizzaNote**
+		JButton btnVisualizzaNote = new JButton("Visualizza Note");
+		//Quando clicco Visualizza Bolle richiama la GUI Messaggio passandogli il num di bolla
+		btnVisualizzaNote.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String numeroBolla = textField.getText();
+				messaggio = new GUI_Messaggio(numeroBolla);
+				messaggio.frmMessaggi.setVisible(true);
+			}
+		});
+		btnVisualizzaNote.setBounds(216, 7, 147, 23);
+		panel.add(btnVisualizzaNote);
+		
 		list.setBounds(10, 28, 158, 161);
 		frmBolleDiLavorazione.getContentPane().add(list);
 		
