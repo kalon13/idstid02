@@ -6,4 +6,6 @@ public class Global {
 	public static final String _URLBolla = "/bolla";
 	public static final String _URLAut = "/autenticazione";
 	public static final String _URLddt = "/DDT";
+	public static final String _URLMess = "/messaggio";
+	public static final String _URLMessSearch = "/messaggio/search/";
 }
