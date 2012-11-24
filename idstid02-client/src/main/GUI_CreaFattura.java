@@ -1,3 +1,4 @@
+package main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -42,7 +43,7 @@ public class GUI_CreaFattura {
 		frmCreazioneFattura = new JFrame();
 		frmCreazioneFattura.setResizable(false);
 		frmCreazioneFattura.setTitle("Creazione Fattura");
-		frmCreazioneFattura.setBounds(100, 100, 471, 298);
+		frmCreazioneFattura.setBounds(100, 100, 471, 294);
 		frmCreazioneFattura.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCreazioneFattura.getContentPane().setLayout(null);
 		

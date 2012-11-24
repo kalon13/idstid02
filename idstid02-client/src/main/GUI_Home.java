@@ -1,3 +1,4 @@
+package main;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -11,6 +12,7 @@ public class GUI_Home {
 	private String user;
 	static GUI_Magazzino windowMagazzino;
 	static GUI_Fatturazione windowFatturazione;
+	static GUI_Bolla windowBolla;
 
 	public GUI_Home(String user) {
 		this.user = user;
@@ -22,7 +24,7 @@ public class GUI_Home {
 		frmHome.setResizable(false);
 		frmHome.setTitle("Home");
 		frmHome.setBounds(100, 100, 405, 168);
-		frmHome.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmHome.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -46,6 +48,14 @@ public class GUI_Home {
 		panel.add(btnGestioneMagazzino);
 		
 		JButton btnGestioneBolleDi = new JButton("Gestione Bolle di lavorazione");
+		btnGestioneBolleDi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				windowBolla = new GUI_Bolla();
+				windowBolla.frmBolleDiLavorazione.setVisible(true);
+
+			}
+		});
 		btnGestioneBolleDi.setBounds(0, 34, 169, 25);
 		panel.add(btnGestioneBolleDi);
 		
