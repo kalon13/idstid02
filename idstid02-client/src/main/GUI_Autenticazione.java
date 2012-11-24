@@ -9,21 +9,30 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import classResources.Materiale;
 import classResources.Utente;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JPasswordField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 
 public class GUI_Autenticazione {
 
 	private JFrame frmAutenticazione;
 	private JTextField textUser;
-	private JTextField textPsw;
+	private JPasswordField textPsw;
 	static GUI_Autenticazione windowAutenticazione;
 	static GUI_Home windowHome;
 	/**
@@ -80,35 +89,54 @@ public class GUI_Autenticazione {
 		panel.add(textUser);
 		textUser.setColumns(10);
 		
-		textPsw = new JTextField();
+		textPsw = new JPasswordField();
 		textPsw.setBounds(80, 27, 117, 20);
 		panel.add(textPsw);
 		textPsw.setColumns(10);
-		
 		JButton btnAccedi = new JButton("Accedi");
 		btnAccedi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 List<Utente> lista = ResourceClass.getResources(Utente.class, Global._URLAut);
-				 Iterator<Utente> it=lista.iterator();
-				 Boolean flgLog = false;String usr=null;
-			    while(it.hasNext())
-		        { Utente user = it.next();
-		          usr = user.getUser();
-		          String psw = user.getPsw();
-		          if((usr.equals(textUser.getText())) && (psw.equals(textPsw.getText()))){
-		          flgLog = true; break;}		        
-		        }
-			    if(flgLog == true){
-			    	windowHome = new GUI_Home(usr);
-			    	windowHome.frmHome.setVisible(true);
-			    	windowAutenticazione.frmAutenticazione.dispose();			    	
-			    	}
-			    else
-			    	JOptionPane.showMessageDialog(null, "Username o password non corrette!", "Attenzione", 0);
+				MessageDigest md;
+				try {
+					md = MessageDigest.getInstance("MD5");
+				
+					MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+					param.add("username", textUser.getText().trim());
+					param.add("password", md.digest(textPsw.getPassword().toString().getBytes()).toString());
+					
+					Sessione session = ResourceClass.getService().
+							path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+					
+					if(session != null) {
+						Autenticazione.setSessione(session);
+						windowHome = new GUI_Home(session.getUtente().getUser());
+				    	windowHome.frmHome.setVisible(true);
+				    	frmAutenticazione.dispose();
+					}
+				    else {
+				    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+				    }
+				} 
+				catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
-		btnAccedi.setBounds(45, 61, 89, 23);
+		btnAccedi.setBounds(109, 59, 89, 26);
 		panel.add(btnAccedi);
+		
+		JButton btnEsci = new JButton("Esci");
+		btnEsci.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frmAutenticazione.dispose();
+			}
+		});
+		btnEsci.setBounds(0, 59, 88, 26);
+		panel.add(btnEsci);
+	}
+	
+	public JFrame getFrame() {
+		return frmAutenticazione;
 	}
 }
