@@ -1,3 +1,4 @@
+package main;
 import javax.ws.rs.core.MultivaluedMap;
 import classResources.Materiale;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
