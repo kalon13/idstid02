@@ -1,11 +1,14 @@
+package main;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
+import javax.xml.bind.UnmarshalException;
 
 import classResources.Materiale;
 
@@ -19,7 +22,7 @@ import com.sun.jersey.api.client.config.DefaultClientConfig;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 
-public class ResourceClass {
+public class ResourceClass extends ResourceInsUpd {
 	
 
 	public ResourceClass(){	}
@@ -32,8 +35,8 @@ public class ResourceClass {
 		  client = Client.create(config);
 	      service = client.resource(getBaseURI());
 	  	}
-		//per visualizzare tutti i dati 
-		public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException { 
+		//per visualizzare tutti i dati della select
+		public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException{ 
 			   ParameterizedType genericType = new ParameterizedType() { 
 	               @Override 
 	               public Type[] getActualTypeArguments() { 
@@ -50,15 +53,45 @@ public class ResourceClass {
 	                   return List.class; 
 	               } 
 	           };
+	       try{
 	           if (service == null && client == null ) Config();
 	           GenericType<List<T>> type = new GenericType<List< T >>(genericType) {};
 	           return service.path(path).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(type);
+	       	  }
+	       catch(UniformInterfaceException ex){
+	    	   final int status = ex.getResponse().getStatus();
+	    	   if(204 == status)
+	            {
+	            	JOptionPane.showMessageDialog(null, "La tabella è vuota!", "Attenzione", 0);
+	            }
+	    	   else if (404 == status)
+	            {
+	             JOptionPane.showMessageDialog(null, "Problema di connessione!", "Attenzione", 0);
+	            } 
+	           return null;
+	           }
 	     } 
 		//per visualizzare un det dato passare nella path/id del dato stesso
-		public static <T> T getResource(final Class<T> clazz, String path) { 
-			   if (service == null && client == null ) Config();
-			   T t = service.path(path).accept(MediaType.APPLICATION_JSON).get(clazz);
-			   return t;
+		public static <T> T getResource(final Class<T> clazz, String path) throws UniformInterfaceException {
+		 T t =null;
+		 try{  
+		      if (service == null && client == null ) Config();
+			   t = service.path(path).accept(MediaType.APPLICATION_JSON).get(clazz);
+			}
+			   catch (UniformInterfaceException ex)
+		        {
+		            final int status = ex.getResponse().getStatus();
+
+		            if (404 == status)
+		            {
+		             JOptionPane.showMessageDialog(null, "Problema di connessione!", "Attenzione", 0);
+		            }
+		            else if(204 == status)
+		            {
+		            	t = null;
+		            }
+		        }
+		      return t;
 	     } 
 	
 		//TODO: Aggiunge un nuova risorsa		
@@ -79,8 +112,9 @@ public class ResourceClass {
 			String className = clazz.getName();
 			MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
 			formData = multValueUpd(className, classObj, path);
-			System.out.print(id);
+			System.out.println(formData);
 			service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(clazz, formData);
+			System.out.println(id+formData);
 		} 
 		
 		// Elimino una risorsa		
@@ -89,42 +123,6 @@ public class ResourceClass {
 		    service.path(path).path(id).accept(MediaType.APPLICATION_JSON).delete(String.class);
 		} 
 		
-		private static <T> MultivaluedMap<String, String> multValueUpd(String className, T classObj, String path){
-		 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-		  if (className == "classResources.Materiale" && path.equals(Global._URLMag)){
-				Materiale m = (Materiale) classObj;
-				String quantita =  String.valueOf(m.getQuantita());
-				formData.add("quantita", quantita) ;
-				System.out.print(quantita);
-			}
-		  else if (className == "classResources.Materiale"  && path.equals(Global._URLddt)){
-				Materiale m = (Materiale) classObj;
-				String quantita =  String.valueOf(m.getQuantita());
-				formData.add("quantita", quantita);
-			}
-			return formData;
-	   }
-	   private static <T> MultivaluedMap<String, String> multValueIns(String className, T classObj, String path){
-			 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
-			 if (className == "classResources.Materiale" && path.equals(Global._URLMag)){
-					Materiale m = (Materiale) classObj;
-					String des = m.getDescrizione();
-					String costUn =  String.valueOf(m.getCostoUnitario());
-					formData.add("descrizione", des);
-					formData.add("costoUnitario", costUn) ;
-					System.out.print(des+costUn);
-				}
-			  else if (className == "classResources.Materiale"  && path.equals(Global._URLddt)){
-					Materiale m = (Materiale) classObj;
-					String id = String.valueOf(m.getId());
-					String id_terzista =  String.valueOf(m.getId_terzista());
-					String quantita =  String.valueOf(m.getQuantita());
-					formData.add("Materiale_id", (id));
-					formData.add("Terzista_id", id_terzista);
-					formData.add("quantita", quantita);
-				}
-				return formData;
-		   }
 		
 	public static URI getBaseURI() {
 		return UriBuilder.fromUri("http://localhost:8080/idstid02-server").build();

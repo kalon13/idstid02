@@ -1,3 +1,4 @@
+package main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -39,7 +40,7 @@ public class GUI_UpdMagazzino {
 		frameUpdMat.setTitle("Aggiorna materiale");
 		frameUpdMat.getContentPane().setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		frameUpdMat.setResizable(false);
-		frameUpdMat.setBounds(100, 100, 286, 216);
+		frameUpdMat.setBounds(100, 100, 270, 192);
 		frameUpdMat.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frameUpdMat.getContentPane().setLayout(null);
 		
