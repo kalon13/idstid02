@@ -127,6 +127,45 @@ public class DDTResource {
 		}
 	}
 	
+	@PUT
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String insertDDT(  @FormParam("Terzista_id") int Terzista_id,
+							  @FormParam("dataInvio") String dataInvio,
+							  @FormParam("flussoAzienda") Boolean flussoAzienda,
+							  @FormParam("registrato") Boolean registrato) {
+		
+		Statement statement = null;
+		ResultSet result = null;
+		int ok = -1;
+		int id = -1;
+		
+		try {
+			statement = DB.instance.createStatement();
+			ok = statement.executeUpdate(
+					"INSERT INTO ProgIngSw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +
+					"VALUES('" + Terzista_id + "', '" + dataInvio + "', '" + 1 + "', '" + 0+ "');", 
+					Statement.RETURN_GENERATED_KEYS);
+			
+			if(ok == 1) { // Inserimento ok
+				result = statement.getGeneratedKeys();
+		        if (result.next()){
+		        	id = result.getInt(1);
+		        }
+		        result.close();
+			}
+			statement.close();
+
+			return String.valueOf(id);
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "-1";
+		}
+		
+		
+	}
+		
 //	@DELETE
 //	@Path ("{id}")
 //	@Produces(MediaType.APPLICATION_JSON)
@@ -149,42 +188,5 @@ public class DDTResource {
 //		}
 //	}
 	//registro il DDT inserendo i nuovi materiali in materiali dei terzisti	
-//	@PUT
-//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public String insertDDT(  @FormParam("Terzista_id") int Terzista_id,
-//							  @FormParam("Materiale_id") int Materiale_id,
-//							  @FormParam("quantita") double quantita) {
-//		
-//		Statement statement = null;
-//		ResultSet result = null;
-//		int ok = -1;
-//		int id = -1;
-//		
-//		try {
-//			statement = DB.instance.createStatement();
-//			ok = statement.executeUpdate(
-//					"INSERT INTO ProgIngSw.materialeterzista(quantita, Terzista_id, Materiale_id) " +
-//					"VALUES('" + quantita + "', '" + Terzista_id + "', '" + Materiale_id + "');", 
-//					Statement.RETURN_GENERATED_KEYS);
-//			
-//			if(ok == 1) { // Inserimento ok
-//				result = statement.getGeneratedKeys();
-//		        if (result.next()){
-//		        	id = result.getInt(1);
-//		        }
-//		        result.close();
-//			}
-//			statement.close();
-//
-//			return String.valueOf(id);
-//		
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return "-1";
-//		}
-//		
-//		
-//	}
-	
+
 }

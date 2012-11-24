@@ -94,6 +94,7 @@ public class ResourceClass extends ResourceInsUpd {
 		      return t;
 	     } 
 	
+		
 		//TODO: Aggiunge un nuova risorsa		
 		public static <T> String addResources(String path, T classObj) throws UniformInterfaceException { 
 			if (service == null && client == null ) Config();
