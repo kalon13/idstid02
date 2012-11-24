@@ -9,6 +9,8 @@ import java.util.List;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
+
+import classResources.DDT;
 import classResources.Materiale;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -34,13 +36,14 @@ public class GUI_Magazzino {
 	
 	private void loadTableDt(Boolean flgSearch){
 		 List<Materiale> lista = null;
-		if(flgSearch==false)
+		if(flgSearch==false || textSearch.getText().equals(""))
 		 lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
 		else
-		{ if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
+		{	if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
 			lista = ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText());
-		    else lista=null;	
+		    else lista=null;
 		}
+		if(lista!=null){
 		 Iterator<Materiale> it=lista.iterator();
 	     int cntDt = lista.size();
 	     int cntTit = _titles.length;
@@ -55,7 +58,7 @@ public class GUI_Magazzino {
            _data[k][0] = String.valueOf(mtCl.getCodice());
            _data[k][2] = String.valueOf(mtCl.getQuantita());
            _id[k]= mtCl.getId_matTerz();
-           k++;
+           k++;}
           }
         }
 	}
@@ -117,8 +120,12 @@ public class GUI_Magazzino {
 		btnRegDDT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				if(lsDDT.size() != 0){
 				windowRegDDT = new GUI_RegistraDDT();
 				windowRegDDT.frmRegistraDdt.setVisible(true);
+				}
+				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");	
 			}
 		});
 		btnRegDDT.setBounds(296, 217, 123, 23);

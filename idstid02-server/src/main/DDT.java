@@ -12,15 +12,17 @@ public class DDT {
 	private int idTerzista;
 	private boolean flussoAzienda;
 	private List<Materiale> ddtMateriale;
+	private boolean registrato;
 	
 	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
-			boolean flussoAzienda) {
+			boolean flussoAzienda, boolean registrato) {
 		this.id = id;
 		this.numDoc = numDoc;
 		this.dataRicezione = dataRicezione;
 		this.dataInvio = dataInvio;
 		this.idTerzista = idTerzista;
 		this.flussoAzienda = flussoAzienda;
+		this.registrato = registrato;
 		this.setDdtMateriale(ddtMateriale);
 	}
 
@@ -96,5 +98,13 @@ public class DDT {
 
 	public void setDdtMateriale(List<Materiale> ddtMateriale) {
 		this.ddtMateriale = ddtMateriale;
+	}
+
+	public boolean isRegistrato() {
+		return registrato;
+	}
+
+	public void setRegistrato(boolean registrato) {
+		this.registrato = registrato;
 	}
 }

@@ -2,8 +2,11 @@ import java.awt.EventQueue;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JCheckBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,8 +30,9 @@ public class GUI_RegistraDDT {
 
 	JFrame frmRegistraDdt;
 	private JTable tblMateriale;
-	private static String[] _dataLsDDT = null;
 	private static int[] _idLsDDT = null;
+	private DefaultListModel modelLsDDT;
+	private DefaultTableModel dfm;
 	private static GUI_RegistraDDT windowRegDDT;
 	private static String[][] _dataDDT;
 	private static int[] _idMat;
@@ -59,8 +63,8 @@ public class GUI_RegistraDDT {
 	private void loadLstDDT(){
 		 List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
 		 Iterator<DDT> it=lsDDT.iterator();
+		 modelLsDDT = new DefaultListModel();
          int cntDt = lsDDT.size();
-         _dataLsDDT = new String[cntDt];
          _idLsDDT = new int[cntDt];
 	      int t = 0;
 		    while(it.hasNext())
@@ -68,9 +72,8 @@ public class GUI_RegistraDDT {
 		      DDT ddt = it.next();
 		      String[] dtInvio = ddt.getDataInvio().replace("-", "/").split(" ");
 		      String[] dtRicezione=ddt.getDataRicezione().replace("-", "/").split(" ");
-	          _dataLsDDT[t] = ddt.getNumDoc()+" - data invio: "+dtInvio[0]+" - data ricezione: "+dtRicezione[0];
+	          modelLsDDT.addElement(ddt.getNumDoc()+" - data invio: "+dtInvio[0]+" - data ricezione: "+dtRicezione[0]);
 	          _idLsDDT[t] = ddt.getId();
-	          System.out.println(_dataLsDDT[t]);
 	          t++;
 	     }
 	 }
@@ -78,6 +81,7 @@ public class GUI_RegistraDDT {
 	private static void loadTblDDT(int id){
 		DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+id);
 		List<Materiale> lsMatDDT = ddt.getDdtMateriale();
+		if(lsMatDDT != null){
 		Iterator<Materiale> it=lsMatDDT.iterator();
 		int cntDt = lsMatDDT.size(); int cntTit=_titlesDDT.length;
 		_dataDDT = new String[cntDt][cntTit];
@@ -92,8 +96,9 @@ public class GUI_RegistraDDT {
 	     _idMat[k]= mt.getId();
          k++;
         }
-	 }
-	
+	  }
+		else _dataDDT = null;
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -125,13 +130,15 @@ public class GUI_RegistraDDT {
 		scrollPane_DDT.setBounds(2, 0, 377, 100);
 		panel.add(scrollPane_DDT);
 		
-		final JList listDDT = new JList(_dataLsDDT);
+		final JList listDDT = new JList(modelLsDDT);
 		listDDT.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				int k = listDDT.getSelectedIndex();
+				if(k!=-1){
 				loadTblDDT(_idLsDDT[k]);
-				DefaultTableModel dfm=new DefaultTableModel (_dataDDT, _titlesDDT);
+				dfm=new DefaultTableModel (_dataDDT, _titlesDDT);
 				tblMateriale.setModel(dfm);
+			  }
 			}
 		});
 		scrollPane_DDT.setViewportView(listDDT);
@@ -144,28 +151,36 @@ public class GUI_RegistraDDT {
 				int idDDT = _idLsDDT[i];
 				DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+idDDT);
 				List<Materiale> lsMatDDT = ddt.getDdtMateriale();
+				if(lsMatDDT != null){
 				Iterator<Materiale> it=lsMatDDT.iterator();
 				while(it.hasNext())
 			    {
 			     Materiale mtDDT = it.next();
 			     int idMat = mtDDT.getId();mtDDT.setId_terzista(1);
-			     Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMagMat+idMat);
+			     Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+
+			    		 "/"+mtDDT.getId_terzista());			    	
 			     if(mat != null)
 			     {  //update
 			    	double qnt = mat.getQuantita() + mtDDT.getQuantita();  
 			    	mat.setQuantita(qnt);
-			    	ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMat), mat);
-			    	System.out.println("vciao"+mat.getQuantita());
+					ResourceClass.updResources(Materiale.class, Global._URLMag, 
+			    			String.valueOf(mat.getId_matTerz()), mat);
 				 }
 					else{
 					//TODO Insert terzista! int id, double quantita, int id_terzista
 					Materiale m1 = new Materiale(mtDDT.getId(),mtDDT.getQuantita(), mtDDT.getId_terzista());
 					String id = ResourceClass.addResources("/magazzinoterzista", m1);
 					m1.setId(Integer.parseInt(id));
-					System.out.println("ao"+m1.getQuantita());
 				}
 		      }
 			}
+				ResourceClass.updResources(DDT.class, Global._URLddt, 
+		    			String.valueOf(idDDT), ddt);
+				loadLstDDT();
+				listDDT.setSelectedIndex(-1);
+				deleteAllRowTable();
+				listDDT.setModel(modelLsDDT);
+		  }
 		});
 		btnRegistra.setBounds(195, 229, 89, 23);
 		panel.add(btnRegistra);
@@ -179,5 +194,12 @@ public class GUI_RegistraDDT {
 		});
 		btnAnnulla.setBounds(294, 230, 89, 23);
 		panel.add(btnAnnulla);
+	}
+	private void deleteAllRowTable(){
+		int numRows = dfm.getRowCount()-1;
+		for (int i=numRows;i>=0;i--) {
+		  dfm.removeRow(i);
+		  System.out.println("i"+i+"num"+numRows);
+		}
 	}
 }
