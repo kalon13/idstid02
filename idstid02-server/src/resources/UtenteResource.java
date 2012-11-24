@@ -17,7 +17,7 @@ import javax.ws.rs.*;
 import utils.DB;
 import main.Utente;
 
-@Path("/autenticazione")
+@Path("/utente")
 public class UtenteResource {
 	
 	public UtenteResource() {} // E' necessario anche se vuoto
@@ -83,8 +83,9 @@ public class UtenteResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public String updateUtente( @PathParam("id") int id,
-								@DefaultValue("") @FormParam("descrizione") String descrizione,
-								@DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
+								@FormParam("username") String username,
+								@FormParam("password") String password,
+								@FormParam("tipo") int tipo) {
 		
 		Statement statement = null;
 		int ok = -1;
@@ -92,8 +93,8 @@ public class UtenteResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.Utente SET descrizione = '" + descrizione +"'," +
-					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
+					"UPDATE ProgIngSw.Utente SET username = '" + username +"'," +
+					"password = " + password + ", tipo='" + tipo + "' WHERE id='" + id + "';"
 					);
 			statement.close();
 
@@ -129,8 +130,9 @@ public class UtenteResource {
 	@PUT
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
-	public String insertUtente(  @FormParam("descrizione") String descrizione,
-									@FormParam("costoUnitario") double costoUnitario) {
+	public String insertUtente( @FormParam("username") String username,
+								@FormParam("password") String password,
+								@FormParam("tipo") int tipo) {
 		
 		Statement statement = null;
 		ResultSet result = null;
@@ -140,8 +142,8 @@ public class UtenteResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.Utente(descrizione, costoUnitario) " +
-					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
+					"INSERT INTO ProgIngSw.Utente(username, password, tipo) " +
+					"VALUES('" + username + "', '" + password + "', '" + tipo + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
 			if(ok == 1) { // Inserimento ok
