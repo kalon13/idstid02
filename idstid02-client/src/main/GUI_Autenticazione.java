@@ -26,6 +26,8 @@ import java.util.List;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class GUI_Autenticazione {
@@ -90,6 +92,12 @@ public class GUI_Autenticazione {
 		textUser.setColumns(10);
 		
 		textPsw = new JPasswordField();
+		textPsw.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+		});
 		textPsw.setBounds(80, 27, 117, 20);
 		panel.add(textPsw);
 		textPsw.setColumns(10);
@@ -97,30 +105,7 @@ public class GUI_Autenticazione {
 		btnAccedi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				MessageDigest md;
-				try {
-					md = MessageDigest.getInstance("MD5");
-				
-					MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-					param.add("username", textUser.getText().trim());
-					param.add("password", md.digest(textPsw.getPassword().toString().getBytes()).toString());
-					
-					Sessione session = ResourceClass.getService().
-							path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
-					
-					if(session != null) {
-						Autenticazione.setSessione(session);
-						windowHome = new GUI_Home(session.getUtente().getUser());
-				    	windowHome.frmHome.setVisible(true);
-				    	frmAutenticazione.dispose();
-					}
-				    else {
-				    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
-				    }
-				} 
-				catch (NoSuchAlgorithmException e1) {
-					e1.printStackTrace();
-				}
+				tryLogin();
 			}
 		});
 		btnAccedi.setBounds(109, 59, 89, 26);
@@ -134,6 +119,31 @@ public class GUI_Autenticazione {
 		});
 		btnEsci.setBounds(0, 59, 88, 26);
 		panel.add(btnEsci);
+	}
+	
+	private void tryLogin() {
+
+		String u = textUser.getText().trim();
+		String p = Autenticazione.getMD5Sum(textPsw.getPassword());
+		
+		if(!u.equals("")) {
+			MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+			param.add("username", u);
+			param.add("password", p);
+			
+			Sessione session = ResourceClass.getService().
+					path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+			
+			if(session.getUtente() != null) {
+				Autenticazione.setSessione(session);
+				windowHome = new GUI_Home(session.getUtente().getUser());
+		    	windowHome.frmHome.setVisible(true);
+		    	frmAutenticazione.dispose();
+			}
+		    else {
+		    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+		    }
+		}
 	}
 	
 	public JFrame getFrame() {

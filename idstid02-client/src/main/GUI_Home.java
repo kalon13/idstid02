@@ -3,8 +3,15 @@ import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GUI_Home {
 
@@ -71,6 +78,20 @@ public class GUI_Home {
 		panel.add(btnGestioneFatture);
 		
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+				param.add("sid", Autenticazione.getSessione().getSessionID());
+				
+				ResourceClass.getService().path(Global._URLAutLogout).
+					accept(MediaType.APPLICATION_JSON).post(String.class, param);
+				
+				frmHome.dispose();
+				GUI_Autenticazione windowAuth = new GUI_Autenticazione();
+				windowAuth.getFrame().setVisible(true);
+			}
+		});
 		btnLogout.setBounds(238, 80, 110, 25);
 		panel.add(btnLogout);
 		
