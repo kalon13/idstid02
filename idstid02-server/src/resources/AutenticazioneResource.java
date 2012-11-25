@@ -39,11 +39,12 @@ public class AutenticazioneResource {
 		Statement statement = null;
 		ResultSet result = null;
 		Utente utente = null;
+		Sessione sessione = new Sessione();
 		
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.utente WHERE username='" + username + "' AND password='" + password + "';"
+						"SELECT * FROM ProgIngSw.Utente WHERE user='" + username + "' AND psw='" + password + "';"
 			);
 			
 			while(result.next()) {
@@ -51,18 +52,20 @@ public class AutenticazioneResource {
 						result.getString(3),result.getInt(4));
 			}
 			statement.close();
-			return Autenticazione.generateSession(utente);
+			if(utente != null) {
+				sessione = Autenticazione.generateSession(utente);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return sessione;
 	}
 	
 	@POST
-	@Path("/logout")
+	@Path("logout")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String logout(Sessione sessione) {
-		Autenticazione.destroySession(sessione);
+	public String logout(@FormParam("sid") String sid) {
+		Autenticazione.destroySession(sid);
 		return "OK";
 	}
 	
