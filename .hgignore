@@ -1,0 +1,12 @@
+# I file il cui nome soddisfa queste espressioni
+# verranno ignorate da mercurial
+
+# espressioni con sintassi global
+syntax: glob
+
+bin/*
+build/*
+*~
+Thumbs.db
+idstid02-client/.classpath
+idstid02-server/.classpath
