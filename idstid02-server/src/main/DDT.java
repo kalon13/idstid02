@@ -25,7 +25,15 @@ public class DDT {
 		this.registrato = registrato;
 		this.setDdtMateriale(ddtMateriale);
 	}
-
+	
+	public DDT(String dataInvio, int idTerzista,
+			boolean flussoAzienda, boolean registrato) {
+		this.dataInvio = dataInvio;
+		this.idTerzista = idTerzista;
+		this.flussoAzienda = flussoAzienda;
+		this.registrato = registrato;
+	}
+	
 	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
 			boolean flussoAzienda, List<Materiale> ddtMateriale) {
 		this.id = id;

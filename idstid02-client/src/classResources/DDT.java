@@ -1,5 +1,4 @@
 package classResources;
-
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,17 +12,28 @@ public class DDT {
 	private int idTerzista;
 	private boolean flussoAzienda;
 	private List<Materiale> ddtMateriale;
+	private boolean registrato;
 	
 	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
-			boolean flussoAzienda) {
+			boolean flussoAzienda, boolean registrato) {
 		this.id = id;
 		this.numDoc = numDoc;
 		this.dataRicezione = dataRicezione;
 		this.dataInvio = dataInvio;
 		this.idTerzista = idTerzista;
 		this.flussoAzienda = flussoAzienda;
+		this.registrato = registrato;
+		this.setDdtMateriale(ddtMateriale);
 	}
-
+	
+	public DDT(String dataInvio, int idTerzista,
+			boolean flussoAzienda, boolean registrato) {
+		this.dataInvio = dataInvio;
+		this.idTerzista = idTerzista;
+		this.flussoAzienda = flussoAzienda;
+		this.registrato = registrato;
+	}
+	
 	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
 			boolean flussoAzienda, List<Materiale> ddtMateriale) {
 		this.id = id;
@@ -96,5 +106,13 @@ public class DDT {
 
 	public void setDdtMateriale(List<Materiale> ddtMateriale) {
 		this.ddtMateriale = ddtMateriale;
+	}
+
+	public boolean isRegistrato() {
+		return registrato;
+	}
+
+	public void setRegistrato(boolean registrato) {
+		this.registrato = registrato;
 	}
 }

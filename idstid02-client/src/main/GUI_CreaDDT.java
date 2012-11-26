@@ -1,60 +1,56 @@
 package main;
+
+import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultListModel;
-import javax.swing.JComponent;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
+
 
 import classResources.DDT;
-import classResources.Fattura;
-import classResources.Fattura_Lavorazione;
 import classResources.Materiale;
+import javax.swing.JButton;
+
+import com.sun.faces.facelets.util.Resource;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JComboBox;
-import javax.swing.AbstractListModel;
-import javax.swing.DefaultComboBoxModel;
-
 
 public class GUI_CreaDDT {
 
-	JFrame frmCreaDdt;
-	private JTable tblMateriale;
-	private DefaultTableModel dfm;
-	private static GUI_CreaDDT windowNewDDT;
+	private JFrame frmCreaDdt;
+	private JTable table;
+	private static String[] _titlesNewDDT = {"Materiale", "Quantità"};
 	private static Object[][] _dataNewDDT;
-	private static String[] _comboNewDDT;
-	private static JComboBox comboBoxDDT;
-	private static JTextField textDDT;
+	private static Object[] _id;
 	private static int[] _idMat;
-	private static Object[] _titlesDDT={"Materiale", "Quantità"};
-	/**
-	 * Launch the application.*/
+	private static int cntDt;
+	private static String[] _comboNewDDT;
+	List<TableCellEditor> editors ;
+	private DefaultTableModel dfm;
 	
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					windowNewDDT = new GUI_CreaDDT();
-					windowNewDDT.frmCreaDdt.setVisible(true);
+					GUI_CreaDDT window = new GUI_CreaDDT();
+					window.frmCreaDdt.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -66,19 +62,32 @@ public class GUI_CreaDDT {
 	 * Create the application.
 	 */
 	public GUI_CreaDDT() {
-		loadComboDDT();
+		cntDt=0;
+		loadTableDt();
+		int cnt = loadComboDDT();
+		editors = new ArrayList<TableCellEditor>(cnt);
 		initialize();
 	}
-
-	private static void loadComboDDT(){
+	
+	private void loadTableDt(){
+		 int cntTit = _titlesNewDDT.length;
+	     _dataNewDDT = new String[cntDt+1][cntTit];
+	   for(int i=0; i<=cntDt; i++)
+       {//[riga][colonna]
+          _dataNewDDT[i][0] = "Seleziona materiale";
+          _dataNewDDT[i][1] = null;
+       }
+	}
+	
+	private static int loadComboDDT(){
 		List<Materiale> lsMat = ResourceClass.getResources(Materiale.class, Global._URLMag);
+		int k = 0;
 		if(lsMat != null){
 		Iterator<Materiale> it=lsMat.iterator();
-		int cntDt = lsMat.size(); int cntTit=_titlesDDT.length;
+		int cntDt = lsMat.size();
 		_comboNewDDT = new String[cntDt];
 		_idMat = new int[cntDt];
-	     int k = 0;
-	    while(it.hasNext())
+		while(it.hasNext())
 	    {//[riga][colonna]
 	     Materiale mt = it.next();
 	     _comboNewDDT[k] = mt.getCodice()+" - "+mt.getDescrizione();;
@@ -87,89 +96,90 @@ public class GUI_CreaDDT {
         }
 	  }
 		else _comboNewDDT = null;
+		return k;
 	}
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frmCreaDdt = new JFrame();
-		frmCreaDdt.setResizable(false);
-		frmCreaDdt.setTitle("Crea nuovo DDT");
-		frmCreaDdt.setBounds(100, 100, 508, 347);
+		frmCreaDdt.setTitle("Crea DDT");
+		frmCreaDdt.setBounds(100, 100, 471, 263);
 		frmCreaDdt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmCreaDdt.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(18, 11, 476, 307);
-		frmCreaDdt.getContentPane().add(panel);
-		panel.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(24, 11, 308, 169);
+		frmCreaDdt.getContentPane().add(scrollPane);
 		
-		JScrollPane scrollPane_Mat = new JScrollPane();
-		scrollPane_Mat.setFocusTraversalPolicyProvider(true);
-		scrollPane_Mat.setFocusTraversalKeysEnabled(false);
-		scrollPane_Mat.setBounds(0, 0, 359, 245);
-		panel.add(scrollPane_Mat);
-		
-		 JComboBox qta=new JComboBox();
-		 for(int i=0;i<=50;i++)
-		 qta.addItem(new Integer(i));
-		 comboBoxDDT = new JComboBox(_comboNewDDT);
-			//scrollPane_Mat.setColumnHeaderView(comboBoxDDT);
-		TableColumn col = tblMateriale.getColumnModel().getColumn(1);
-		col.setCellEditor((TableCellEditor) comboBoxDDT);
-		 _dataNewDDT = new String[2][2] ; 
-		_dataNewDDT[0][0] = comboBoxDDT;
-		tblMateriale = new JTable(_dataNewDDT, _titlesDDT);
-		tblMateriale.setAutoCreateRowSorter(true);
-		tblMateriale.setRowSelectionAllowed(false);
-		scrollPane_Mat.setViewportView(tblMateriale);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"caio\tcio"}));
-		scrollPane_Mat.setColumnHeaderView(comboBox);
+		JComboBox comboBoxDDT = new JComboBox( _comboNewDDT );
+        DefaultCellEditor dce = new DefaultCellEditor( comboBoxDDT );
+        editors.add( dce );
+        
+		dfm = new DefaultTableModel(_dataNewDDT, _titlesNewDDT);
+		final JTable tableMat = new JTable(dfm)
+        {
+            //  Determine editor to be used by row
+            public TableCellEditor getCellEditor(int row, int column)
+            {
+                int modelColumn = convertColumnIndexToModel( column );
 
+                if (modelColumn == 0){
+                	  return editors.get(0);
+                 }
+                else
+                  return super.getCellEditor(row, column);
+            }
+        };
+		scrollPane.setViewportView(tableMat);
 		
-		JButton btnNew = new JButton("Crea ");
-		btnNew.addMouseListener(new MouseAdapter() {
+		JButton btnAggiungi = new JButton("Aggiungi");
+		btnAggiungi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				/*int i = listDDT.getSelectedIndex();
-				int idDDT = _idLsDDT[i];
-				DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+idDDT);
-				List<Materiale> lsMatDDT = ddt.getDdtMateriale();
-				if(lsMatDDT != null){
-				Iterator<Materiale> it=lsMatDDT.iterator();
-				while(it.hasNext())
-			    {
-			     Materiale mtDDT = it.next();
-			     int idMat = mtDDT.getId();mtDDT.setId_terzista(1);
-			     Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+
-			    		 "/"+mtDDT.getId_terzista());			    	
-			     if(mat != null)
-			     {  //update
-			    	double qnt = mat.getQuantita() + mtDDT.getQuantita();  
-			    	mat.setQuantita(qnt);
-					ResourceClass.updResources(Materiale.class, Global._URLMag, 
-			    			String.valueOf(mat.getId_matTerz()), mat);
-				 }
-					else{
-					//TODO Insert terzista! int id, double quantita, int id_terzista
-					Materiale m1 = new Materiale(mtDDT.getId(),mtDDT.getQuantita(), mtDDT.getId_terzista());
-					String id = ResourceClass.addResources("/magazzinoterzista", m1);
-					m1.setId(Integer.parseInt(id));
-				}
-		      }
+				cntDt++;
+				dfm.insertRow(cntDt,new Object[]{"Seleziona materiale",null});
 			}
-				ResourceClass.updResources(DDT.class, Global._URLddt, 
-		    			String.valueOf(idDDT), ddt);
-				loadLstDDT();
-				listDDT.setSelectedIndex(-1);
-				deleteAllRowTable();
-				listDDT.setModel(modelLsDDT);*/
-		  }
 		});
-		btnNew.setBounds(249, 256, 89, 23);
-		panel.add(btnNew);
+		btnAggiungi.setBounds(342, 27, 99, 23);
+		frmCreaDdt.getContentPane().add(btnAggiungi);
+		
+		JButton btnRimuovi = new JButton("Rimuovi");
+		btnRimuovi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tableMat.getSelectedRow();
+				if (row >= 0){
+				dfm.removeRow(row);
+				cntDt--;
+				}
+				else
+					JOptionPane.showMessageDialog(frmCreaDdt, "Non è stato selezionato il materiale da rimuovere dal DDT!");
+			}
+		});
+		btnRimuovi.setBounds(342, 58, 99, 23);
+		frmCreaDdt.getContentPane().add(btnRimuovi);
+		
+		JButton btnCrea = new JButton("Crea");
+		btnCrea.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String DATE_FORMAT = "yyyyMMdd";
+				SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+				Calendar c1 = Calendar.getInstance(); // today
+				String today = sdf.format(c1.getTime());
+				//TODO idTerz
+				int idTerzista = 1;
+				DDT ddt = new DDT(today, idTerzista, true, false);
+				String id  = ResourceClass.addResources(Global._URLddt, ddt);
+				CreatePDF pdf = new CreatePDF(tableMat);
+				String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l dal terzista Mario N. Doc "+id;
+				pdf.print("file.pdf", DDT);
+			}
+		});
+		btnCrea.setBounds(246, 191, 89, 23);
+		frmCreaDdt.getContentPane().add(btnCrea);
 		
 		JButton btnAnnulla = new JButton("Annulla");
 		btnAnnulla.addMouseListener(new MouseAdapter() {
@@ -178,22 +188,24 @@ public class GUI_CreaDDT {
 				frmCreaDdt.dispose();
 			}
 		});
-		btnAnnulla.setBounds(348, 256, 89, 23);
-		panel.add(btnAnnulla);
+		btnAnnulla.setBounds(342, 191, 89, 23);
+		frmCreaDdt.getContentPane().add(btnAnnulla);
 		
-		JButton btnAggiungi = new JButton("Aggiungi");
-		btnAggiungi.setBounds(371, 87, 89, 23);
-		panel.add(btnAggiungi);
-		
-		JButton btnRimuovi = new JButton("Rimuovi");
-		btnRimuovi.setBounds(370, 121, 89, 23);
-		panel.add(btnRimuovi);
+		JButton btnRimuoviTutto = new JButton("Rimuovi Tutto");
+		btnRimuoviTutto.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				deleteAllRowTable();
+			}
+		});
+		btnRimuoviTutto.setBounds(342, 88, 99, 23);
+		frmCreaDdt.getContentPane().add(btnRimuoviTutto);
 	}
 	private void deleteAllRowTable(){
 		int numRows = dfm.getRowCount()-1;
 		for (int i=numRows;i>=0;i--) {
 		  dfm.removeRow(i);
-		  System.out.println("i"+i+"num"+numRows);
 		}
+		cntDt = -1;
 	}
 }

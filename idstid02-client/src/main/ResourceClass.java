@@ -23,17 +23,16 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 
 public class ResourceClass extends ResourceInsUpd {
-
 	public ResourceClass(){	}
 	
 	private static Client client = null;  
-	private static WebResource service = null;
+	public static WebResource service = null;
 	
-	private static void Config() { 
-		ClientConfig config = new DefaultClientConfig();
-		client = Client.create(config);
-		service = client.resource(getBaseURI());
-  	}
+	private static void Config(){ 
+		  ClientConfig config = new DefaultClientConfig();
+		  client = Client.create(config);
+	      service = client.resource(getBaseURI());
+	  	}
 	
 	//per visualizzare tutti i dati della select
 	public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException { 
