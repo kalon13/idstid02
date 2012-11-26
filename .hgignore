@@ -8,3 +8,5 @@ bin/*
 build/*
 *~
 Thumbs.db
+idstid02-client/.classpath
+idstid02-server/.classpath
