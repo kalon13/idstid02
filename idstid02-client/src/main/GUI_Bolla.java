@@ -349,7 +349,7 @@ public class GUI_Bolla {
 		btnVisualizzaNote.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String numeroBolla = textField.getText();
-				messaggio = new GUI_Messaggio(numeroBolla);
+				messaggio = new GUI_Messaggio(id, numeroBolla);
 				messaggio.frmMessaggi.setVisible(true);
 			}
 		});
