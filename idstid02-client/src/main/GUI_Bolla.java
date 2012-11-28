@@ -18,6 +18,7 @@ import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
 import classResources.Bolla;
+import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 
