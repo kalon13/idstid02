@@ -14,6 +14,7 @@ public class Global {
     	public static final String _URLMatTeoSearch = "/matTeo/search/"; //con join
     	public static final String _URLMatTeoSearch1 = "/matTeo/search1/"; //senza join
     	public static final String _URLMatId = "/materiale";
+    	public static final String _URLMatDaProdurre = "/matDaProdurre";
     	public static final String _URLMatDaProd = "/matDaProdurre/search/"; //senza join
     	public static final String _URLMatDaProd1 = "/matDaProdurre/search1/"; //con join
 }

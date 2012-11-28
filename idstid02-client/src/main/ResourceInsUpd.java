@@ -3,6 +3,8 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import classResources.DDT;
 import classResources.Materiale;
+import classResources.MaterialeDaProdurre;
+
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 
@@ -13,11 +15,20 @@ public class ResourceInsUpd {
 		  if (className == "classResources.Materiale"){
 				Materiale m = (Materiale) classObj;
 				String quantita =  String.valueOf(m.getQuantita());
-				formData.add("quantita", quantita) ;
+				formData.add("quantita", quantita);
 			}
 		  else if (className == "classResources.DDT"){
-				formData.add("registrato", "1") ;
+				formData.add("registrato", "1");
 			}
+		  else if (className == "classResources.MaterialeDaProdurre") {
+			  MaterialeDaProdurre m = (MaterialeDaProdurre) classObj;
+			  String quantitaProdotta =  String.valueOf(m.getQuantitaProdotta());
+			  String quantitaSpedita =  String.valueOf(m.getQuantitaSpedita());
+			  String numeroMorti =  String.valueOf(m.getNumeroMorti());
+			  formData.add("quantitaProdotta", quantitaProdotta);
+			  formData.add("quantitaSpedita", quantitaSpedita);
+			  formData.add("numeroMorti", numeroMorti);
+		  }
 		  
 		 return formData;
 	   }

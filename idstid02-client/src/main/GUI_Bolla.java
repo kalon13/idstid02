@@ -24,7 +24,11 @@ import classResources.MaterialeTeorico;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GUI_Bolla {
 
@@ -196,6 +200,10 @@ public class GUI_Bolla {
 		});
 	}
 	
+//	Materiale m = new Materiale(idMatTer, Double.parseDouble(textQnt.getText()));
+//	ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMatTer), m);
+//	frameUpdMat.dispose();
+	
 	//TableModel per table (materiali da produrre)
 	public DefaultTableModel dmPrima = new DefaultTableModel(
 			new Object[][] {
@@ -274,6 +282,7 @@ public class GUI_Bolla {
 		panel.add(lblMaterialiTeorici);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
+
 		scrollPane_1.setBounds(10, 46, 353, 79);
 		panel.add(scrollPane_1);
 		
@@ -287,17 +296,9 @@ public class GUI_Bolla {
 		table_1 = new JTable(dm);
 		scrollPane.setViewportView(table_1);
 		
-		JButton btnNewButton = new JButton("Segna Morti");
-		btnNewButton.setBounds(10, 295, 112, 23);
-		panel.add(btnNewButton);
-		
 		JButton btnRichiediExtra = new JButton("Richiedi Extra");
-		btnRichiediExtra.setBounds(132, 295, 112, 23);
+		btnRichiediExtra.setBounds(251, 295, 112, 23);
 		panel.add(btnRichiediExtra);
-		
-		JButton btnAggiornaStato = new JButton("Aggiorna Stato");
-		btnAggiornaStato.setBounds(251, 295, 112, 23);
-		panel.add(btnAggiornaStato);
 		
 		
 		final DefaultListModel modelloLista=new DefaultListModel();
@@ -370,5 +371,34 @@ public class GUI_Bolla {
 		JButton btnChiudiBolla = new JButton("Chiudi Bolla");
 		btnChiudiBolla.setBounds(10, 268, 158, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
+		
+		//Al premere di Invio richiama l'Update
+		dmPrima.addTableModelListener(new TableModelListener(){
+			
+			@Override
+			public void tableChanged(TableModelEvent e) {
+				int col = e.getColumn();
+				int row = e.getFirstRow();
+//				System.out.println(col + "  " + row + " ");
+				if(col > 2) {
+//					System.out.println(dmPrima.getValueAt(e.getFirstRow(), e.getColumn()));
+					try {
+						MaterialeDaProdurre mdp = listaMDaProd1.get(row);
+						int nm = Integer.parseInt(dmPrima.getValueAt(row, 3).toString());
+						double qtp = Double.parseDouble(dmPrima.getValueAt(row, 4).toString());
+						double qts = Double.parseDouble(dmPrima.getValueAt(row, 5).toString());
+						mdp.setNumeroMorti(nm);
+						mdp.setQuantitaProdotta(qtp);
+						mdp.setQuantitaSpedita(qts);
+						ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
+					}
+					catch(Exception er) {
+						er.printStackTrace();
+					}					
+				}
+			}
+			
+			
+		});
 	}
 }
