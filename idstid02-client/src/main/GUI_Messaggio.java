@@ -20,13 +20,13 @@ import javax.swing.event.ListSelectionEvent;
 
 public class GUI_Messaggio {
 
-        public GUI_Messaggio(String numeroBolla)
+        public GUI_Messaggio(int numeroBolla, String codiceBolla)
         {
-                if (numeroBolla != " ") 
+                if (numeroBolla != 0) 
                 {
                         System.out.println(numeroBolla);
                         loadTableDt(numeroBolla); //carica la lista con i messaggi
-                        initialize(numeroBolla);
+                        initialize(numeroBolla, codiceBolla);
                 }
                 else
                 {
@@ -40,7 +40,7 @@ public class GUI_Messaggio {
         private static int[] _id;
         List<Messaggio> lista = null;
         
-        private void loadTableDt(String numeroBolla){
+        private void loadTableDt(int numeroBolla){
                 //Load lista messaggi   
                 //lista = ResourceClass.getResources(Messaggio.class, Global._URLMess);
                 
@@ -95,7 +95,7 @@ public class GUI_Messaggio {
         /**
          * Initialize the contents of the frame.
          */
-        private void initialize(String numeroBolla) {
+        private void initialize(int numeroBolla, String codiceBolla) {
                 frmMessaggi = new JFrame();
                 frmMessaggi.setTitle("Messaggi");
                 frmMessaggi.setResizable(false);
@@ -137,7 +137,7 @@ public class GUI_Messaggio {
                 frmMessaggi.getContentPane().add(textField);
                 textField.setColumns(10);
                 
-                textField.setText(numeroBolla); //numeroBolla che è stato passato dalla GUI_Bolla
+                textField.setText(codiceBolla); //numeroBolla che è stato passato dalla GUI_Bolla
                 
                 final JList listMessaggi = new JList(_data);
                 listMessaggi.addListSelectionListener(new ListSelectionListener() {
