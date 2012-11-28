@@ -44,7 +44,8 @@ public class MaterialeDaProdurre {
 	private double costoUnitario;
 	private String udm;
 	//1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario
-	public MaterialeDaProdurre(double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm) {
+	public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm) {
+		this.id = id;
 		this.quantita = quantita;
 		this.quantitaProdotta = quantitaProdotta;
 		this.quantitaSpedita = quantitaSpedita;
