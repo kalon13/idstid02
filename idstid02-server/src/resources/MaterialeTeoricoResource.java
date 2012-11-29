@@ -54,37 +54,4 @@ public class MaterialeTeoricoResource {
 			return null;
 		}
 	}
-	
-	//aggiunto
-		@GET
-		@Path ("/search1/{txtSearch1}")
-		@Produces(MediaType.APPLICATION_JSON)
-		public List<MaterialeTeorico> getListaMaterialeTeorico1(@PathParam("txtSearch1") String txtSearch1) {
-			Statement statement = null;
-			ResultSet result = null;
-			List<MaterialeTeorico> listaMaterialeTeorico1 = new ArrayList<MaterialeTeorico>();
-			try {
-				statement = DB.instance.createStatement();
-				result = statement.executeQuery(
-						"SELECT * " +
-						" FROM ProgIngSw.materialiteorici" +
-						" WHERE Bolla_id =" + txtSearch1 + ";");
-				if(result != null){
-				 while(result.next()) {
-					//1-id 2-quantita 3-udm 4-bolla_id 5-materiale_id
-					MaterialeTeorico m = new MaterialeTeorico(result.getInt(1), result.getDouble(2), result.getInt(4), result.getInt(5));
-					listaMaterialeTeorico1.add(m); 
-				 }
-				}
-				else return null;
-				statement.close();
-				
-				return listaMaterialeTeorico1;
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-				return null;
-			}
-		}
-		
 }

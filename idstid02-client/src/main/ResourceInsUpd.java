@@ -1,7 +1,12 @@
 package main;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.ws.rs.core.MultivaluedMap;
+import javax.xml.crypto.Data;
 
 import classResources.DDT;
+import classResources.Extraconsumo;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 
@@ -29,7 +34,15 @@ public class ResourceInsUpd {
 			  formData.add("quantitaSpedita", quantitaSpedita);
 			  formData.add("numeroMorti", numeroMorti);
 		  }
-		  
+		  else if (className == "classResources.Extraconsumo") {
+			  Extraconsumo ext = (Extraconsumo) classObj;
+			  String quantita =  String.valueOf(ext.getQuantita());
+			  String giustificato =  String.valueOf(ext.isGiustificato());
+			  String dataRichiesta =  String.valueOf(ext.getDataRichiesta());
+			  formData.add("quantita", quantita);
+			  formData.add("giustificato", giustificato);
+			  formData.add("dataRichiesta", dataRichiesta);
+		  }
 		 return formData;
 	   }
 	

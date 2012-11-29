@@ -32,7 +32,7 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM progingsw.bolla;"
+						"SELECT * FROM ProgIngSw.Bolla;"
 					);
 			
 			while(result.next()) {
@@ -61,7 +61,7 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM progingsw.bolla WHERE id='" + id + "';"
+						"SELECT * FROM ProgIngSw.bolla WHERE id='" + id + "';"
 					);
 			
 			while(result.next()) {
@@ -78,7 +78,35 @@ public class BollaResource {
 		}
 	}
 	
-	
+	//aggiunto Giorgia
+	@GET
+	@Path ("/search/{id_terzista}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Bolla> getListaBolla1(@PathParam("id_terzista") int id_terzista) {
+		Statement statement = null;
+		ResultSet result = null;
+		List<Bolla> listaBolla = new ArrayList<Bolla>();
+		
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+						"SELECT * FROM ProgIngSw.Bolla WHERE Terzista_id = " + id_terzista + ";"
+					);
+			
+			while(result.next()) {
+				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+											result.getString(4));
+				listaBolla.add(m);
+			}
+			statement.close();
+			
+			return listaBolla;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 			
 	@POST
 	@Path ("{id}")
@@ -94,7 +122,7 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE progingsw.bolla SET descrizione = '" + descrizione +"'," +
+					"UPDATE ProgIngSw.Bolla SET descrizione = '" + descrizione +"'," +
 					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
 					);
 			statement.close();
@@ -117,7 +145,7 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"DELETE FROM progingsw.bolla WHERE id='" + id + "';"
+					"DELETE FROM ProgIngSw.Bolla WHERE id='" + id + "';"
 					);
 			statement.close();
 
@@ -142,7 +170,7 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO progingsw.bolla(descrizione, costoUnitario) " +
+					"INSERT INTO ProgIngSw.Bolla(descrizione, costoUnitario) " +
 					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			

@@ -2,7 +2,7 @@ package main;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Terzista extends Utente{
+public class Terzista {
 	private int id;
 	private String fax;
 	private String telefono;
@@ -13,6 +13,7 @@ public class Terzista extends Utente{
 	private String ragioneSociale;
 	private String pIva;
 	private String email;
+	private int utente_id;
 	
 	public Terzista() {
 		this.id = -1;
@@ -27,7 +28,7 @@ public class Terzista extends Utente{
 		this.email = "";
 	}
 	
-	public Terzista(int id, String fax, String tel, String citta, String prov, String cap, String ind, String rs, String pi, String email) {
+	public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
 		this.id = id;
 		this.fax = fax;
 		this.telefono = tel;
@@ -38,6 +39,7 @@ public class Terzista extends Utente{
 		this.ragioneSociale = rs;
 		this.pIva = pi;
 		this.email = email;
+		this.utente_id = utente_id;
 	}
 	
 	public Terzista(int id, String rs, String pi) {
@@ -46,6 +48,14 @@ public class Terzista extends Utente{
 		this.pIva = pi;
 	}
 	
+	public int getUtente_id() {
+		return utente_id;
+	}
+
+	public void setUtente_id(int utente_id) {
+		this.utente_id = utente_id;
+	}
+
 	public int getId() {
 		return id;
 	}
