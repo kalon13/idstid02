@@ -9,27 +9,27 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Utente {
-    private int id;
-    private String user;
-    private String psw;
-    private int tipo;
+    protected int utenteId;
+    protected String user;
+    protected String psw;
+    protected int tipo;
 
     public Utente() {
     }
 
     public Utente(int id, String user, String psw, int tipo) {
-        this.id = id;
+        this.utenteId = id;
         this.user = user;
         this.psw = psw;
         this.tipo = tipo;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getUtenteId() {
+        return utenteId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUtenteId(int id) {
+        this.utenteId = id;
     }
 
     public String getUser() {

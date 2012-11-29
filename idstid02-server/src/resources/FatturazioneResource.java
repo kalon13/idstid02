@@ -34,7 +34,7 @@ public class FatturazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.fattura;"
+						"SELECT * FROM progingsw.fattura;"
 					);
 			
 			while(result.next()) {
@@ -118,7 +118,7 @@ public class FatturazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.fattura SET descrizione = '" + descrizione +"'," +
+					"UPDATE progingsw.fattura SET descrizione = '" + descrizione +"'," +
 					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
 					);
 			statement.close();
@@ -143,10 +143,10 @@ public class FatturazioneResource {
 			statement = DB.instance.createStatement();
 			statement2 = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"DELETE FROM ProgIngSw.fattura WHERE id='" + id + "';"
+					"DELETE FROM progingsw.fattura WHERE id='" + id + "';"
 					);
 			ok = statement2.executeUpdate(
-					"DELETE FROM ProgIngSw.fatturabolla WHERE Fattura_id='" + id + "';"
+					"DELETE FROM progingsw.fatturabolla WHERE Fattura_id='" + id + "';"
 					);
 			statement.close();
 			statement2.close();
@@ -172,7 +172,7 @@ public class FatturazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.fattura(descrizione, costoUnitario) " +
+					"INSERT INTO progingsw.fattura(descrizione, costoUnitario) " +
 					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
