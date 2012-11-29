@@ -39,6 +39,7 @@ public class GUI_Bolla {
 	private int id; //id bolla
 	
 	GUI_Messaggio messaggio;
+	GUI_Extraconsumo extraconsumo;
 	List<Bolla> lista = null;
 	List<MaterialeTeorico> lista1 = null;
 	List<MaterialeDaProdurre> listaMDaProd = null; //senza join
@@ -95,7 +96,7 @@ public class GUI_Bolla {
 				k++;
 				//Aggiunge i valori alla tabella
 				((DefaultTableModel) table_1.getModel()).insertRow(
-			            table_1.getRowCount(), new Object[]{descMat, udm, costMat, qtaMat});
+			            table_1.getRowCount(), new Object[]{descMat,qtaMat, udm, costMat});
 			}	
 	}
 	
@@ -218,7 +219,7 @@ public class GUI_Bolla {
 			new Object[][] {
 			},
 			new String[] {
-					"Desc", "udm", "Costo", "Quantità"
+					"Desc", "Quantità", "udm", "CostoUnit", 
 			}
 		);
 	
@@ -235,7 +236,7 @@ public class GUI_Bolla {
 		frmBolleDiLavorazione = new JFrame();
 		frmBolleDiLavorazione.setResizable(false);
 		frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-		frmBolleDiLavorazione.setBounds(100, 100, 569, 417);
+		frmBolleDiLavorazione.setBounds(100, 100, 662, 418);
 		frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmBolleDiLavorazione.getContentPane().setLayout(null);
 		
@@ -244,7 +245,7 @@ public class GUI_Bolla {
 		frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(178, 11, 373, 329);
+		panel.setBounds(178, 11, 468, 329);
 		frmBolleDiLavorazione.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -255,18 +256,18 @@ public class GUI_Bolla {
 		//**textField**
 		//Quando cambia il contenuto del textField (quindi il numero di bolla)
 		textField = new JTextField();
-		textField.getDocument().addDocumentListener(new DocumentListener() {
-			     public void removeUpdate(DocumentEvent e) {
-			        // TODO add code!
-			     }
-			     public void insertUpdate(DocumentEvent e) {
-			        // TODO add code!
-//						String numeroBolla = textField.getText();
-			     }
-			     public void changedUpdate(DocumentEvent e) {
-			        // TODO add code!
-			     }
-			  });
+//		textField.getDocument().addDocumentListener(new DocumentListener() {
+//			     public void removeUpdate(DocumentEvent e) {
+//			        // TODO add code!
+//			     }
+//			     public void insertUpdate(DocumentEvent e) {
+//			        // TODO add code!
+////						String numeroBolla = textField.getText();
+//			     }
+//			     public void changedUpdate(DocumentEvent e) {
+//			        // TODO add code!
+//			     }
+//			  });
 			
 		textField.setEditable(false);
 		textField.setBounds(107, 8, 44, 20);
@@ -283,7 +284,7 @@ public class GUI_Bolla {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 
-		scrollPane_1.setBounds(10, 46, 353, 79);
+		scrollPane_1.setBounds(10, 46, 448, 79);
 		panel.add(scrollPane_1);
 		
 		//Inizializza crea tabelle materiali
@@ -291,14 +292,12 @@ public class GUI_Bolla {
 		scrollPane_1.setViewportView(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 161, 353, 74);
+		scrollPane.setBounds(10, 161, 448, 74);
 		panel.add(scrollPane);
 		table_1 = new JTable(dm);
+		table_1.setEnabled(false);
 		scrollPane.setViewportView(table_1);
 		
-		JButton btnRichiediExtra = new JButton("Richiedi Extra");
-		btnRichiediExtra.setBounds(251, 295, 112, 23);
-		panel.add(btnRichiediExtra);
 		
 		
 		final DefaultListModel modelloLista=new DefaultListModel();
@@ -314,14 +313,13 @@ public class GUI_Bolla {
 				frmBolleDiLavorazione.dispose();
 			}
 		});
-		btnEsci.setBounds(462, 351, 89, 23);
+		btnEsci.setBounds(557, 352, 89, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnEsci);
 		
 		final JList list = new JList(_data); //aggiunge alla Jlist numero + data delle bolle
 		list.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(MouseEvent e) {
-						
+			public void mouseReleased(MouseEvent e) {			
 				int indice = list.getSelectedIndex();
 				Bolla b = lista.get(indice);
 				String testo = b.getCodice();
@@ -354,8 +352,22 @@ public class GUI_Bolla {
 				messaggio.frmMessaggi.setVisible(true);
 			}
 		});
-		btnVisualizzaNote.setBounds(216, 7, 147, 23);
+		btnVisualizzaNote.setBounds(311, 7, 147, 23);
 		panel.add(btnVisualizzaNote);
+		
+		//**btnRichiediExtra**
+		JButton btnRichiediExtra = new JButton("Richiedi Extra");
+		btnRichiediExtra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
+					//Passo codice bolla nella text box e id della bolla per la query
+					extraconsumo = new GUI_Extraconsumo(textField.getText(), id);
+					extraconsumo.frmExtraconsumo.setVisible(true);
+					}
+				}
+		});
+		btnRichiediExtra.setBounds(346, 295, 112, 23);
+		panel.add(btnRichiediExtra);
 		
 		list.setBounds(10, 28, 158, 161);
 		frmBolleDiLavorazione.getContentPane().add(list);
@@ -372,9 +384,8 @@ public class GUI_Bolla {
 		btnChiudiBolla.setBounds(10, 268, 158, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
 		
-		//Al premere di Invio richiama l'Update
+		//Al premere di Invio in una cella di table_1 richiama l'Update
 		dmPrima.addTableModelListener(new TableModelListener(){
-			
 			@Override
 			public void tableChanged(TableModelEvent e) {
 				int col = e.getColumn();
@@ -384,6 +395,7 @@ public class GUI_Bolla {
 //					System.out.println(dmPrima.getValueAt(e.getFirstRow(), e.getColumn()));
 					try {
 						MaterialeDaProdurre mdp = listaMDaProd1.get(row);
+						//Colonne: 3-numeroMorti 4-QtaProdotta 5-QtaSpedita
 						int nm = Integer.parseInt(dmPrima.getValueAt(row, 3).toString());
 						double qtp = Double.parseDouble(dmPrima.getValueAt(row, 4).toString());
 						double qts = Double.parseDouble(dmPrima.getValueAt(row, 5).toString());
@@ -397,8 +409,6 @@ public class GUI_Bolla {
 					}					
 				}
 			}
-			
-			
 		});
 	}
 }
