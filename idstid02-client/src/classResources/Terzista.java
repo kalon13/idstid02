@@ -1,5 +1,8 @@
 package classResources;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Terzista {
 	private int id;
 	private String fax;
@@ -11,6 +14,7 @@ public class Terzista {
 	private String ragioneSociale;
 	private String pIva;
 	private String email;
+	private int utente_id;
 	
 	public Terzista() {
 		this.id = -1;
@@ -25,7 +29,7 @@ public class Terzista {
 		this.email = "";
 	}
 	
-	public Terzista(int id, String fax, String tel, String citta, String prov, String cap, String ind, String rs, String pi, String email) {
+	public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
 		this.id = id;
 		this.fax = fax;
 		this.telefono = tel;
@@ -36,6 +40,7 @@ public class Terzista {
 		this.ragioneSociale = rs;
 		this.pIva = pi;
 		this.email = email;
+		this.utente_id = utente_id;
 	}
 	
 	public Terzista(int id, String rs, String pi) {
@@ -44,6 +49,14 @@ public class Terzista {
 		this.pIva = pi;
 	}
 	
+	public int getUtente_id() {
+		return utente_id;
+	}
+
+	public void setUtente_id(int utente_id) {
+		this.utente_id = utente_id;
+	}
+
 	public int getId() {
 		return id;
 	}

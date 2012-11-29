@@ -22,39 +22,7 @@ import utils.DB;
 public class MaterialeDaProdurreResource {
 
 	public MaterialeDaProdurreResource() {} // E' necessario anche se vuoto
-	
-	//aggiunto
-	@GET
-	@Path ("/search/{txtSearch}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<MaterialeDaProdurre> getListaMaterialeDaProdurre(@PathParam("txtSearch") String txtSearch) {
-		Statement statement = null;
-		ResultSet result = null;
-		List<MaterialeDaProdurre> listaMaterialeDaProdurre = new ArrayList<MaterialeDaProdurre>();
-		try {
-			statement = DB.instance.createStatement();
-			result = statement.executeQuery(
-					"SELECT * " +
-					" FROM ProgIngSw.materialidaprodurre" +
-					" WHERE Bolla_id =" + txtSearch + ";");
-			if(result != null){
-				while(result.next()) {
-				//1-id 2-quantita 3-numeromorti 4-quantitaprodotta 5-quantitaspedita 6-bollaid 7-materialeid
-					MaterialeDaProdurre m = new MaterialeDaProdurre(result.getInt(1), result.getDouble(2), result.getInt(3), result.getDouble(4), result.getDouble(5));
-					listaMaterialeDaProdurre.add(m); 
-				}
-			}
-			else return null;
-			statement.close();
-					
-			return listaMaterialeDaProdurre;
-					
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
+		
 	//aggiunto - con join
 		@GET
 		@Path ("/search1/{txtSearch1}")

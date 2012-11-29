@@ -104,7 +104,7 @@ public class GUI_Extraconsumo {
 	private void initialize(final int id) {
 		frmExtraconsumo = new JFrame();
 		frmExtraconsumo.setTitle("Extraconsumo");
-		frmExtraconsumo.setBounds(100, 100, 483, 270);
+		frmExtraconsumo.setBounds(100, 100, 558, 270);
 		frmExtraconsumo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		final JLabel lblBollaN = new JLabel("Bolla n\u00B0:");
@@ -124,7 +124,7 @@ public class GUI_Extraconsumo {
 		frmExtraconsumo.getContentPane().add(lblMaterialiTeorici);
 		
 		JButton btnRichiedi = new JButton("Richiedi");
-		btnRichiedi.setBounds(275, 206, 90, 23);
+		btnRichiedi.setBounds(350, 206, 90, 23);
 		frmExtraconsumo.getContentPane().add(btnRichiedi);
 		
 		//**btnEsci**
@@ -135,11 +135,11 @@ public class GUI_Extraconsumo {
 				frmExtraconsumo.dispose();
 			}
 		});
-		btnEsci.setBounds(375, 206, 90, 23);
+		btnEsci.setBounds(450, 206, 90, 23);
 		frmExtraconsumo.getContentPane().add(btnEsci);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(7, 56, 458, 139);
+		scrollPane.setBounds(7, 56, 533, 139);
 		frmExtraconsumo.getContentPane().add(scrollPane);
 		
 		//**table_1**

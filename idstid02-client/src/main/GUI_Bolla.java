@@ -21,6 +21,7 @@ import classResources.Bolla;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
+import classResources.Terzista;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -37,34 +38,82 @@ public class GUI_Bolla {
 	private JTable table;
 	private JTable table_1;
 	private int id; //id bolla
+	private int idTerzista; //id terzista
+	
 	
 	GUI_Messaggio messaggio;
 	GUI_Extraconsumo extraconsumo;
 	List<Bolla> lista = null;
+	List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
 	List<MaterialeTeorico> lista1 = null;
 	List<MaterialeDaProdurre> listaMDaProd = null; //senza join
 	List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
 	List<Materiale> lista2 = null;
-	private static String[] _data;
+	List<Terzista> listaTerz = null;
+	private static String[] _data; //bolle
 	private static int[] _id;
 	private static String[] _data1;
 	private static int[] _id1;
+	private static String[] _data2; //terzisti
+	private static int[] _id2;
+	private static String[] _data3; //bolle-terzisti
+	private static int[] _id3;
 	
-	private void loadTableDt(){
-		//Load lista bolle
-		lista = ResourceClass.getResources(Bolla.class, Global._URLBolla);
-		Iterator<Bolla> it = lista.iterator();
+	private void loadListaTerzisti(){
+		//Load lista terzisti
+		listaTerz = ResourceClass.getResources(Terzista.class, Global._URLTerzista);
+		Iterator<Terzista> it = listaTerz.iterator();
 
-		_data = new String[lista.size()];
-		_id = new int[lista.size()];
+		_data2 = new String[listaTerz.size()];
+		_id2 = new int[listaTerz.size()];
+		int k = 0;
+		while(it.hasNext())
+			{
+				Terzista terCl = (Terzista)it.next();
+				String id = String.valueOf(terCl.getId());
+				String ragSoc = String.valueOf(terCl.getRagioneSociale());
+				_data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
+				_id2[k]= terCl.getId();
+				k++;
+			}
+	}
+	
+//	private void loadTableDt(){
+//		//Load lista bolle
+//		lista = ResourceClass.getResources(Bolla.class, Global._URLBolla);
+//		Iterator<Bolla> it = lista.iterator();
+//
+//		_data = new String[lista.size()];
+//		_id = new int[lista.size()];
+//		int k = 0;
+//		while(it.hasNext())
+//			{
+//				Bolla messCl = (Bolla)it.next();
+//				String codBol = String.valueOf(messCl.getCodice());
+//				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
+//				_data[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
+//				_id[k]= messCl.getId();
+//				k++;
+//			}
+//	}
+	
+	private void loadListaBolleTerzista(int id_terzista){
+		//Load lista bolle del terzista
+		listaBTer = ResourceClass.getResources(Bolla.class, Global._URLBollaTerz+id_terzista);
+		Iterator<Bolla> it = listaBTer.iterator();
+
+		_data3 = new String[listaBTer.size()];
+		_id3 = new int[listaBTer.size()];
 		int k = 0;
 		while(it.hasNext())
 			{
 				Bolla messCl = (Bolla)it.next();
 				String codBol = String.valueOf(messCl.getCodice());
 				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
-				_data[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-				_id[k]= messCl.getId();
+				_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
+				_id3[k]= messCl.getId();
+				System.out.println(_data3[k]);
+				System.out.println(_id3[k]);
 				k++;
 			}
 	}
@@ -100,63 +149,6 @@ public class GUI_Bolla {
 			}	
 	}
 	
-	private String[] loadTableMatTeo1(String numBolla){
-		//Load lista materiali teorici senza JOIN
-		dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
-		
-		lista1 = ResourceClass.getResources(MaterialeTeorico.class, Global._URLMatTeoSearch1+numBolla);
-		Iterator<MaterialeTeorico> it = lista1.iterator();
-
-		_data1 = new String[lista1.size()];
-		_id1 = new int[lista1.size()];
-		int k = 0;
-		while(it.hasNext())
-			{			
-				MaterialeTeorico matCl = (MaterialeTeorico)it.next();
-				//aggiunto
-				String nmMat = String.valueOf(matCl.getId());
-				String idMat = String.valueOf(matCl.getId_materiale());
-				String idBolla = String.valueOf(matCl.getId_bolla());
-				String qtaMat = String.valueOf(matCl.getQuantita());
-				_data1[k] = nmMat + "-" + idMat + "-" + idBolla + "-" + qtaMat;
-				_id1[k]= matCl.getId();
-				k++;
-				//Aggiunge i valori alla tabella
-				((DefaultTableModel) table_1.getModel()).insertRow(
-			            table_1.getRowCount(), new Object[]{nmMat, idMat, idBolla, qtaMat});
-			}		
-		return _data1;
-	}
-	
-	private void loadTableMatDaProdurre(String numBolla){
-		//Load lista materiali da produrre senza JOIN
-		dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
-		
-		listaMDaProd = ResourceClass.getResources(MaterialeDaProdurre.class, Global._URLMatDaProd+numBolla);
-		Iterator<MaterialeDaProdurre> it = listaMDaProd.iterator();
-
-		_data1 = new String[listaMDaProd.size()];
-		_id1 = new int[listaMDaProd.size()];
-		int k = 0;
-		while(it.hasNext())
-			{			
-			MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
-				//aggiunto
-				String nmMat = String.valueOf(matCl.getId());
-				String qtaMat = String.valueOf(matCl.getQuantita());
-				String numMorti = String.valueOf(matCl.getNumeroMorti());
-				String qtaProdotta = String.valueOf(matCl.getQuantitaProdotta());
-				String qtaSpedita = String.valueOf(matCl.getQuantitaSpedita());
-				_data1[k] = nmMat + "-" + qtaMat + "-" + numMorti + "-" + qtaProdotta + "-" + qtaSpedita;
-				_id1[k]= matCl.getId();
-				k++;
-				//Aggiunge i valori alla tabella
-				((DefaultTableModel) table.getModel()).insertRow(
-			            table.getRowCount(), new Object[]{nmMat, qtaMat, numMorti, qtaProdotta, qtaSpedita});
-			}
-	}
-	
-	
 	private void loadTableMatDaProdurre1(int numBolla){
 		//Load lista materiali da produrre con JOIN
 		dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
@@ -187,7 +179,6 @@ public class GUI_Bolla {
 			}
 	}
 	
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -200,11 +191,7 @@ public class GUI_Bolla {
 			}
 		});
 	}
-	
-//	Materiale m = new Materiale(idMatTer, Double.parseDouble(textQnt.getText()));
-//	ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMatTer), m);
-//	frameUpdMat.dispose();
-	
+		
 	//TableModel per table (materiali da produrre)
 	public DefaultTableModel dmPrima = new DefaultTableModel(
 			new Object[][] {
@@ -225,7 +212,8 @@ public class GUI_Bolla {
 	
 	public GUI_Bolla() {
 		
-		loadTableDt(); //carica lista bolle
+//		loadTableDt(); //carica lista bolle
+		loadListaTerzisti(); //carica lista terzisti
 		initialize();
 	}
 
@@ -241,7 +229,7 @@ public class GUI_Bolla {
 		frmBolleDiLavorazione.getContentPane().setLayout(null);
 		
 		JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
-		lblBolleDiLavorazione.setBounds(10, 11, 106, 14);
+		lblBolleDiLavorazione.setBounds(10, 136, 106, 14);
 		frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
 		
 		JPanel panel = new JPanel();
@@ -254,21 +242,7 @@ public class GUI_Bolla {
 		panel.add(lblNewLabel);
 		
 		//**textField**
-		//Quando cambia il contenuto del textField (quindi il numero di bolla)
 		textField = new JTextField();
-//		textField.getDocument().addDocumentListener(new DocumentListener() {
-//			     public void removeUpdate(DocumentEvent e) {
-//			        // TODO add code!
-//			     }
-//			     public void insertUpdate(DocumentEvent e) {
-//			        // TODO add code!
-////						String numeroBolla = textField.getText();
-//			     }
-//			     public void changedUpdate(DocumentEvent e) {
-//			        // TODO add code!
-//			     }
-//			  });
-			
 		textField.setEditable(false);
 		textField.setBounds(107, 8, 44, 20);
 		panel.add(textField);
@@ -279,12 +253,12 @@ public class GUI_Bolla {
 		panel.add(lblMaterialiDaProdurre);
 		
 		JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
-		lblMaterialiTeorici.setBounds(10, 136, 112, 14);
+		lblMaterialiTeorici.setBounds(10, 150, 112, 14);
 		panel.add(lblMaterialiTeorici);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 
-		scrollPane_1.setBounds(10, 46, 448, 79);
+		scrollPane_1.setBounds(10, 46, 448, 93);
 		panel.add(scrollPane_1);
 		
 		//Inizializza crea tabelle materiali
@@ -292,18 +266,11 @@ public class GUI_Bolla {
 		scrollPane_1.setViewportView(table);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 161, 448, 74);
+		scrollPane.setBounds(10, 175, 448, 109);
 		panel.add(scrollPane);
 		table_1 = new JTable(dm);
 		table_1.setEnabled(false);
 		scrollPane.setViewportView(table_1);
-		
-		
-		
-		final DefaultListModel modelloLista=new DefaultListModel();
-		JList list_1 =new JList(modelloLista);
-		list_1.setBounds(10, 246, 353, 38);
-		panel.add(list_1);
 		
 		//**btnEsci**
 		JButton btnEsci = new JButton("Esci");
@@ -316,29 +283,23 @@ public class GUI_Bolla {
 		btnEsci.setBounds(557, 352, 89, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnEsci);
 		
-		final JList list = new JList(_data); //aggiunge alla Jlist numero + data delle bolle
-		list.addMouseListener(new MouseAdapter() {
+		//**JList Bolle**
+		final DefaultListModel listModel = new DefaultListModel();
+		final JList list = new JList(listModel); //aggiunge alla Jlist numero + data delle bolle
+		list.addMouseListener(new MouseAdapter() { //quando clicco qu una bolla nella lista bolle
 			@Override
 			public void mouseReleased(MouseEvent e) {			
 				int indice = list.getSelectedIndex();
-				Bolla b = lista.get(indice);
+				Bolla b = listaBTer.get(indice);
 				String testo = b.getCodice();
 				textField.setText(testo); //numero bolla selezionata nella lista
 				System.out.println(testo);
 				
 				int k = list.getSelectedIndex();
-				id = _id[k]; //id bolla
+				id = _id3[k]; //id bolla
 		         
-//				String[] data = new String[1000];
-//				data = loadTableMatTeo1(testo); //carica la lista materiali teorici in base al numero bolla selezionato
-				loadTableMatTeo(id);
-//				loadTableMatDaProdurre(testo);
-				loadTableMatDaProdurre1(id);
-//				for (int i=0; i<lista1.size(); i++)
-//				{
-//					System.out.println(data[i]);
-//					modelloLista.addElement(data[i]);
-//				}
+				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
+				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
 			}
 		});
 		
@@ -369,20 +330,43 @@ public class GUI_Bolla {
 		btnRichiediExtra.setBounds(346, 295, 112, 23);
 		panel.add(btnRichiediExtra);
 		
-		list.setBounds(10, 28, 158, 161);
+		list.setBounds(10, 161, 158, 77);
 		frmBolleDiLavorazione.getContentPane().add(list);
 		
 		JButton btnAnnullaBolla = new JButton("Annulla Bolla");
-		btnAnnullaBolla.setBounds(10, 200, 158, 23);
+		btnAnnullaBolla.setBounds(10, 249, 158, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnAnnullaBolla);
 		
 		JButton btnChiudiParzialmente = new JButton("Chiudi Parzialmente");
-		btnChiudiParzialmente.setBounds(10, 234, 158, 23);
+		btnChiudiParzialmente.setBounds(10, 283, 158, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnChiudiParzialmente);
 		
 		JButton btnChiudiBolla = new JButton("Chiudi Bolla");
-		btnChiudiBolla.setBounds(10, 268, 158, 23);
+		btnChiudiBolla.setBounds(10, 317, 158, 23);
 		frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
+		
+		JLabel lblTerzisti = new JLabel("Terzisti:");
+		lblTerzisti.setBounds(10, 11, 46, 14);
+		frmBolleDiLavorazione.getContentPane().add(lblTerzisti);
+		
+		//**JList Terzisti**
+		final JList list_2 = new JList(_data2);
+		//Se clicco in un terzista della lista mi visualizza solo le bolle a lui assegnate
+		list_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				int k = list_2.getSelectedIndex();
+				idTerzista = _id2[k]; //id bolla
+				System.out.print(idTerzista);
+				listModel.removeAllElements();
+				loadListaBolleTerzista(idTerzista);
+				for (int i = 0; i<_data3.length; i++)
+				listModel.addElement(_data3[i]); 
+			}
+		});
+		
+		list_2.setBounds(10, 36, 158, 83);
+		frmBolleDiLavorazione.getContentPane().add(list_2);
 		
 		//Al premere di Invio in una cella di table_1 richiama l'Update
 		dmPrima.addTableModelListener(new TableModelListener(){
@@ -390,9 +374,7 @@ public class GUI_Bolla {
 			public void tableChanged(TableModelEvent e) {
 				int col = e.getColumn();
 				int row = e.getFirstRow();
-//				System.out.println(col + "  " + row + " ");
 				if(col > 2) {
-//					System.out.println(dmPrima.getValueAt(e.getFirstRow(), e.getColumn()));
 					try {
 						MaterialeDaProdurre mdp = listaMDaProd1.get(row);
 						//Colonne: 3-numeroMorti 4-QtaProdotta 5-QtaSpedita
