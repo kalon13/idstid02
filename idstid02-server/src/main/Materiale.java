@@ -38,6 +38,13 @@ public class Materiale {
 		this.descrizione = descrizione;
 	}
 
+	public Materiale(int id, String codice, Double costoUnitario, String descrizione) {
+		this.id = id;
+		this.codice = codice;
+		this.costoUnitario = costoUnitario;
+		this.descrizione = descrizione;
+	}
+	
 	public Materiale(int id, String codice, String descrizione, double costoUnitario, double quantita, int id_terzista, int id_matTerz) {
 		this.id = id;
 		this.codice = codice;
