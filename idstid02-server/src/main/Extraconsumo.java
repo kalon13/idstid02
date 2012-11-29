@@ -8,8 +8,7 @@ public class Extraconsumo {
 	private boolean giustificato;
 	private String dataRichiesta;
 	
-	public Extraconsumo(int id, double quantita, boolean giustificato,
-			String dataRichiesta) {
+	public Extraconsumo(int id, double quantita, boolean giustificato, String dataRichiesta) {
 		this.id = id;
 		this.quantita = quantita;
 		this.giustificato = giustificato;
@@ -21,6 +20,56 @@ public class Extraconsumo {
 		this.quantita = 0;
 		this.giustificato = false;
 		this.dataRichiesta = "";
+	}
+	
+	//aggiunto
+	private String codiceArticolo;
+	private String descrizione;
+	private double qtaAttuale;
+	private String udm;
+	//1-extraconsumo.id, 2-codiceArticolo, 3-descrizione, 4-materialiteorici.quantita AS QtaAttuale
+	//5-extraconsumo.quantita AS QtaRichiesta, 6-udm, 7-giustificato, 8-dataRichiesta
+	public Extraconsumo(int id, String codiceArticolo, String descrizione, double qtaAttuale, double quantita, String udm, boolean giustificato, String dataRichiesta) {
+		this.id = id;
+		this.quantita = quantita;
+		this.giustificato = giustificato;
+		this.dataRichiesta = dataRichiesta;
+		this.codiceArticolo = codiceArticolo;
+		this.descrizione = descrizione;
+		this.qtaAttuale = qtaAttuale;
+		this.udm = udm;
+	}
+
+	public String getCodiceArticolo() {
+		return codiceArticolo;
+	}
+
+	public void setCodiceArticolo(String codiceArticolo) {
+		this.codiceArticolo = codiceArticolo;
+	}
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
+
+	public double getQtaAttuale() {
+		return qtaAttuale;
+	}
+
+	public void setQtaAttuale(double qtaAttuale) {
+		this.qtaAttuale = qtaAttuale;
+	}
+
+	public String getUdm() {
+		return udm;
+	}
+
+	public void setUdm(String udm) {
+		this.udm = udm;
 	}
 
 	public int getId() {
