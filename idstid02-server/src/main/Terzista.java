@@ -2,7 +2,7 @@ package main;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Terzista {
+public class Terzista extends Utente{
 	private int id;
 	private String fax;
 	private String telefono;
