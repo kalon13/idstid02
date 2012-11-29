@@ -78,7 +78,35 @@ public class BollaResource {
 		}
 	}
 	
-	
+	//aggiunto Giorgia
+	@GET
+	@Path ("/search/{id_terzista}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Bolla> getListaBolla1(@PathParam("id_terzista") int id_terzista) {
+		Statement statement = null;
+		ResultSet result = null;
+		List<Bolla> listaBolla = new ArrayList<Bolla>();
+		
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+						"SELECT * FROM ProgIngSw.Bolla WHERE Terzista_id = " + id_terzista + ";"
+					);
+			
+			while(result.next()) {
+				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+											result.getString(4));
+				listaBolla.add(m);
+			}
+			statement.close();
+			
+			return listaBolla;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 			
 	@POST
 	@Path ("{id}")

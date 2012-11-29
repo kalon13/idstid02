@@ -5,6 +5,7 @@ public class Global {
         public static final String _URLMagMat = "/magazzinoterzista/materiale/";
         public static final String _URLFatt = "/fatturazione";
         public static final String _URLBolla = "/bolla";
+        public static final String _URLBollaTerz = "/bolla/search/";
         public static final String _URLUser = "/utente";
         public static final String _URLAutLogin = "/autenticazione/login";
         public static final String _URLAutLogout = "/autenticazione/logout";
@@ -12,11 +13,10 @@ public class Global {
         public static final String _URLMess = "/messaggio";
         public static final String _URLMessSearch = "/messaggio/search/";
     	public static final String _URLMatTeoSearch = "/matTeo/search/"; //con join
-    	public static final String _URLMatTeoSearch1 = "/matTeo/search1/"; //senza join
     	public static final String _URLMatId = "/materiale";
     	public static final String _URLMatDaProdurre = "/matDaProdurre";
-    	public static final String _URLMatDaProd = "/matDaProdurre/search/"; //senza join
     	public static final String _URLMatDaProd1 = "/matDaProdurre/search1/"; //con join
     	public static final String _URLExtra = "/extraconsumo/search/";
     	public static final String _URLExtraPost = "/extraconsumo"; //Post di Extraconsumo
+    	public static final String _URLTerzista = "/terzista";
 }
