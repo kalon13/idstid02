@@ -44,7 +44,7 @@ public class AutenticazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Utente WHERE user='" + username + "' AND psw='" + password + "';"
+						"SELECT * FROM progingsw.utente WHERE user='" + username + "' AND psw='" + password + "';"
 			);
 			
 			while(result.next()) {

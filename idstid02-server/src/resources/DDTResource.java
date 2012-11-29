@@ -36,7 +36,7 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.ddt where registrato <> 1 and flussoAzienda = 1;"
+						"SELECT * FROM progingsw.ddt where registrato <> 1 and flussoAzienda = 1;"
 					);
 			
 			while(result.next()) {
@@ -79,7 +79,7 @@ public class DDTResource {
 			result1 = statement1.executeQuery(
 						"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario," +
 						" quantita FROM progingsw.materiale join (progingsw.ddt join progingsw.ddtmateriale" +
-						" on ddt.id = DDT_id) on materiale_id = materiale.id where DDT_id ='" + id + "';"
+						" on ddt.id = DDT_id) on  Materiale_id = materiale.id where DDT_id ='" + id + "';"
 					);
 			
 			while(result1.next()) {
@@ -117,7 +117,7 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.ddt SET registrato = '" + registrato + "' WHERE id='" + idDDT + "';"
+					"UPDATE progingsw.ddt SET registrato = '" + registrato + "' WHERE id='" + idDDT + "';"
 					);
 			statement.close();
 			return String.valueOf(ok);
@@ -143,7 +143,7 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +
+					"INSERT INTO progingsw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +
 					"VALUES('" + Terzista_id + "', '" + dataInvio + "', '" + 1 + "', '" + 0+ "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
@@ -177,7 +177,7 @@ public class DDTResource {
 //		try {
 //			statement = DB.instance.createStatement();
 //			ok = statement.executeUpdate(
-//					"DELETE FROM ProgIngSw.ddt WHERE id='" + id + "';"
+//					"DELETE FROM progingsw.ddt WHERE id='" + id + "';"
 //					);
 //			statement.close();
 //

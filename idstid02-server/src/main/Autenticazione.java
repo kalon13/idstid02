@@ -13,9 +13,9 @@ public class Autenticazione {
 	private static List<Sessione> sessioni = new ArrayList<Sessione>();
 	private static SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 	
-	public static boolean isValid(Sessione sessione) {
+	public static boolean isValid(String sid) {
 		for(Sessione s: sessioni) {
-			if(s.getSessionID().equals(sessione.getSessionID())) {
+			if(s.getSessionID().equals(sid)) {
 				return true;
 			}
 		}
