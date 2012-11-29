@@ -30,7 +30,8 @@ public class GUI_Magazzino {
 	JFrame frmGestioneMagazzino;
 	private JTextField textSearch;
 	private static GUI_RegistraDDT windowRegDDT;
-	private static String[] _titles = {"Codice", "Descrizione", "Quantità"};
+	private static GUI_CreaDDT windowNewDDT;
+	private static String[] _titles = {"Codice", "Descrizione", "Quantitï¿½"};
 	private static Object[][] _data;
 	private static Object[] _id;
 	private JTable table;
@@ -80,7 +81,14 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
 				loadTableDt(false);
-				DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
+				DefaultTableModel dfm=new DefaultTableModel (_data,_titles) {
+					boolean[] columnEditables = new boolean[]{
+							false,false,false
+					};
+					public boolean isCellEditable(int row, int column){
+					return columnEditables[column];	
+					}
+				};
 				table.setModel(dfm);
 			}
 			public void windowLostFocus(WindowEvent e) {
@@ -114,6 +122,13 @@ public class GUI_Magazzino {
 		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JButton btnNewDDT = new JButton("Crea DDT");
+		btnNewDDT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				windowNewDDT = new GUI_CreaDDT();
+				windowNewDDT.frmCreaDdt.setVisible(true);
+			}
+		});
 		btnNewDDT.setBounds(163, 217, 123, 23);
 		frmGestioneMagazzino.getContentPane().add(btnNewDDT);
 		
@@ -148,11 +163,11 @@ public class GUI_Magazzino {
 					window.frameUpdMat.setVisible(true);
 				}
 				else{
-					JOptionPane.showMessageDialog(null, "Non è stato selezionato il materiale!", "Attenzione", 0);
+					JOptionPane.showMessageDialog(null, "Non ï¿½ stato selezionato il materiale!", "Attenzione", 0);
 				}
 			 }
 			 else {
-			        JOptionPane.showMessageDialog(null, "La lista è vuota!", "Attenzione", 0);
+			        JOptionPane.showMessageDialog(null, "La lista ï¿½ vuota!", "Attenzione", 0);
 			     }
 			}
 		});

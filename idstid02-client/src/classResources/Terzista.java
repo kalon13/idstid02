@@ -1,6 +1,8 @@
 package classResources;
+import javax.xml.bind.annotation.XmlRootElement;
 
-public class Terzista {
+@XmlRootElement
+public class Terzista extends Utente{
 	private int id;
 	private String fax;
 	private String telefono;

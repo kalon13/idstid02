@@ -31,9 +31,9 @@ import java.awt.event.MouseEvent;
 
 public class GUI_CreaDDT {
 
-	private JFrame frmCreaDdt;
+	JFrame frmCreaDdt;
 	private JTable table;
-	private static String[] _titlesNewDDT = {"Materiale", "Quantità"};
+	private static String[] _titlesNewDDT = {"Materiale", "Quantitï¿½"};
 	private static Object[][] _dataNewDDT;
 	private static Object[] _id;
 	private static int[] _idMat;
@@ -44,8 +44,7 @@ public class GUI_CreaDDT {
 	
 	/**
 	 * Launch the application.
-	 */
-	public static void main(String[] args) {
+	 public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -58,7 +57,7 @@ public class GUI_CreaDDT {
 		});
 	}
 
-	/**
+	
 	 * Create the application.
 	 */
 	public GUI_CreaDDT() {
@@ -155,7 +154,7 @@ public class GUI_CreaDDT {
 				cntDt--;
 				}
 				else
-					JOptionPane.showMessageDialog(frmCreaDdt, "Non è stato selezionato il materiale da rimuovere dal DDT!");
+					JOptionPane.showMessageDialog(frmCreaDdt, "Non ï¿½ stato selezionato il materiale da rimuovere dal DDT!");
 			}
 		});
 		btnRimuovi.setBounds(342, 58, 99, 23);

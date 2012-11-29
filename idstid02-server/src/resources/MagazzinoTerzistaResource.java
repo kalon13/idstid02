@@ -35,8 +35,8 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 						"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id, " +
-						"materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
-						" materiale.id = Materiale_id ;");
+						"materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+						" materiale.id = materiale_id ;");
 			//int id, String codice, String descrizione, double costoUnitario, int id_terzista
 			while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
@@ -65,7 +65,7 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 					" materiale.id = Materiale_id WHERE materiale.descrizione LIKE '%" + txtSearch + "%';");
 			 while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
@@ -92,7 +92,7 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
+					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 					" materiale.id = Materiale_id WHERE materiale.id='" + idMateriale + "';");
 			if(result != null){
 			 while(result.next()) {
@@ -122,8 +122,8 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
-					" materiale.id = Materiale_id WHERE materialeTerzista.id='" + id + "';");
+					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materiale.id = Materiale_id WHERE materialeterzista.id='" + id + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
@@ -152,9 +152,9 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeTerzista.id FROM ProgIngSw.MaterialeTerzista JOIN ProgIngSw.Materiale ON" +
-					" materiale.id = Materiale_id WHERE materialeTerzista.materiale_id='" + idMat + "' " +
-							"and materialeTerzista.terzista_id='" + terzista + "';");
+					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materiale.id = Materiale_id WHERE materialeterzista.materiale_id='" + idMat + "' " +
+							"and materialeterzista.terzista_id='" + terzista + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
@@ -184,7 +184,7 @@ public class MagazzinoTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"UPDATE ProgIngSw.materialeterzista SET " +
+					"UPDATE progingsw.materialeterzista SET " +
 					"quantita = " + quantita + " WHERE id='" + id + "';"
 					);
 			System.out.println(id+quantita);
@@ -208,7 +208,7 @@ public class MagazzinoTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"DELETE FROM ProgIngSw.materialeterzista WHERE id='" + id + "';"
+					"DELETE FROM progingsw.materialeterzista WHERE id='" + id + "';"
 					);
 			statement.close();
 
@@ -234,7 +234,7 @@ public class MagazzinoTerzistaResource {
 			try {
 				statement = DB.instance.createStatement();
 				ok = statement.executeUpdate(
-						"INSERT INTO ProgIngSw.materialeterzista (quantita, Terzista_id, Materiale_id) " +
+						"INSERT INTO progingsw.materialeterzista (quantita, Terzista_id, Materiale_id) " +
 						"VALUES('" + quantita + "', '" + Terzista_id + "', '" + Materiale_id + "');", 
 						Statement.RETURN_GENERATED_KEYS);
 				
