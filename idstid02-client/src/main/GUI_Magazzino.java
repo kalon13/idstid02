@@ -114,6 +114,18 @@ public class GUI_Magazzino {
 		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		
 		JButton btnNewDDT = new JButton("Crea DDT");
+		btnNewDDT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				if(lsDDT.size() != 0){
+					GUI_CreaDDT window = new GUI_CreaDDT();
+					window.frmCreaDdt.setVisible(true);
+				}
+				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");	
+			}
+		});
+		
 		btnNewDDT.setBounds(163, 217, 123, 23);
 		frmGestioneMagazzino.getContentPane().add(btnNewDDT);
 		

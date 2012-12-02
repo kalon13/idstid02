@@ -31,7 +31,7 @@ import java.awt.event.MouseEvent;
 
 public class GUI_CreaDDT {
 
-	private JFrame frmCreaDdt;
+	JFrame frmCreaDdt;
 	private JTable table;
 	private static String[] _titlesNewDDT = {"Materiale", "Quantità"};
 	private static Object[][] _dataNewDDT;
@@ -44,7 +44,7 @@ public class GUI_CreaDDT {
 	
 	/**
 	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

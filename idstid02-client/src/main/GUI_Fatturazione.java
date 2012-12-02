@@ -34,7 +34,7 @@ public class GUI_Fatturazione {
 
 	JFrame frmElenco;
 	private JTable table;
-	private JTable table_1;
+	private JTable tableExtra;
 	private JTextField textNum;
 	private JTextField textDt;
 	private JTextField textImpToT;
@@ -162,8 +162,8 @@ public class GUI_Fatturazione {
 		scrollPane.setBounds(137, 115, 107, 107);
 		panel.add(scrollPane);
 		
-		table_1 = new JTable();
-		scrollPane.setViewportView(table_1);
+		tableExtra = new JTable();
+		scrollPane.setViewportView(tableExtra);
 		
 		textNum = new JTextField();
 		textNum.setEditable(false);

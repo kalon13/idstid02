@@ -11,6 +11,7 @@ public class MaterialeDaProdurre {
 	private int numeroMorti;
     private int id_bolla;
     private int id_materiale;
+    private String codArt;
     
 	public MaterialeDaProdurre() {
 		this.id = -1;
@@ -44,7 +45,7 @@ public class MaterialeDaProdurre {
 	private double costoUnitario;
 	private String udm;
 	//1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario
-	public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm) {
+	public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm, String codArt) {
 		this.id = id;
 		this.quantita = quantita;
 		this.quantitaProdotta = quantitaProdotta;
@@ -53,6 +54,7 @@ public class MaterialeDaProdurre {
 		this.descrizione = descrizione;
 		this.costoUnitario = costoUnitario;
 		this.udm = udm;
+		this.codArt = codArt;
 	}
 	
 	public String getUdm() {
@@ -120,5 +122,13 @@ public class MaterialeDaProdurre {
 	}
 	public void setId_materiale(int id_materiale) {
 		this.id_materiale = id_materiale;
+	}
+
+	public String getCodArt() {
+		return codArt;
+	}
+
+	public void setCodArt(String codArt) {
+		this.codArt = codArt;
 	}
 }

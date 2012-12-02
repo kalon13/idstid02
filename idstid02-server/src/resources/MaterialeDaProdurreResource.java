@@ -24,23 +24,23 @@ public class MaterialeDaProdurreResource {
 	public MaterialeDaProdurreResource() {} // E' necessario anche se vuoto
 		
 	//aggiunto - con join
-		@GET
-		@Path ("/search1/{txtSearch1}")
-		@Produces(MediaType.APPLICATION_JSON)
-		public List<MaterialeDaProdurre> getListaMaterialeDaProdurre1(@PathParam("txtSearch1") String txtSearch1) {
-			Statement statement = null;
-			ResultSet result = null;
-			List<MaterialeDaProdurre> listaMaterialeDaProdurre = new ArrayList<MaterialeDaProdurre>();
-			try {
+	@GET
+	@Path ("/idBolla/{idBolla}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<MaterialeDaProdurre> getListaMaterialeDaProdurre1(@PathParam("idBolla") String idBolla) {
+		Statement statement = null;
+		ResultSet result = null;
+		List<MaterialeDaProdurre> listaMaterialeDaProdurre = new ArrayList<MaterialeDaProdurre>();
+		 try {
 				statement = DB.instance.createStatement();
 				result = statement.executeQuery(
-						"SELECT quantita, numeroMorti, quantitaProdotta, quantitaSpedita, descrizione, costoUnitario, udm, materialidaprodurre.id" +
-						" FROM progingsw.materialidaprodurre join materiale" +
-						" on materiale.id = materialidaprodurre.Materiale_id WHERE Bolla_id =" + txtSearch1 + ";");
+						"SELECT quantita, numeroMorti, quantitaProdotta, quantitaSpedita, descrizione, costoUnitario, udm, materialidaprodurre.id, codiceArticolo" +
+						" FROM progingsw.materialidaprodurre join progingsw.materiale" +
+						" on materiale.id = materialidaprodurre.Materiale_id WHERE Bolla_id =" + idBolla + ";");
 				if(result != null){
 					while(result.next()) {
 					//1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario 7-udm
-						MaterialeDaProdurre m = new MaterialeDaProdurre(result.getInt(8), result.getDouble(1), result.getInt(2), result.getDouble(3), result.getDouble(4), result.getString(5), result.getDouble(6), result.getString(7));
+						MaterialeDaProdurre m = new MaterialeDaProdurre(result.getInt(8), result.getDouble(1), result.getInt(2), result.getDouble(3), result.getDouble(4), result.getString(5), result.getDouble(6), result.getString(7),result.getString(8));
 						listaMaterialeDaProdurre.add(m); 
 					}
 				}
