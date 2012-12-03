@@ -1,5 +1,4 @@
 package resources;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -105,32 +104,6 @@ public class FatturazioneResource {
                 }
         }
        
-        @POST
-        @Path ("{id}")
-        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-        @Produces(MediaType.APPLICATION_JSON)
-        public String updateFattura( @PathParam("id") int id,
-                                                                @DefaultValue("") @FormParam("descrizione") String descrizione,
-                                                                @DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
-               
-                Statement statement = null;
-                int ok = -1;
-               
-                try {
-                        statement = DB.instance.createStatement();
-                        ok = statement.executeUpdate(
-                                        "UPDATE ProgIngSw.fattura SET descrizione = '" + descrizione +"'," +
-                                        "costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
-                                        );
-                        statement.close();
-
-                        return String.valueOf(ok);
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                        return "-1";
-                }
-        }
-       
         @DELETE
         @Path ("{id}")
         @Produces(MediaType.APPLICATION_JSON)
@@ -162,8 +135,9 @@ public class FatturazioneResource {
         @PUT
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
-        public String insertFattura(  @FormParam("descrizione") String descrizione,
-                                                                        @FormParam("costoUnitario") double costoUnitario) {
+        public String insertFattura(  @FormParam("dataEmissione") String dataEmissione,
+                                                                        @FormParam("importo") double importo,
+                                                                        @FormParam("Terzista_id") int Terzista_id){
                
                 Statement statement = null;
                 ResultSet result = null;
@@ -173,8 +147,8 @@ public class FatturazioneResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "INSERT INTO ProgIngSw.fattura(descrizione, costoUnitario) " +
-                                        "VALUES('" + descrizione + "', '" + costoUnitario + "');",
+                                        "INSERT INTO ProgIngSw.fattura(dataEmissione, importo, Terzista_id) " +
+                                        "VALUES('" + dataEmissione + "', '" + importo + "', '" + Terzista_id + "');",
                                         Statement.RETURN_GENERATED_KEYS);
                        
                         if(ok == 1) { // Inserimento ok
@@ -195,5 +169,43 @@ public class FatturazioneResource {
                
                
         }
-       
+        @PUT
+        @Path("/Bolla")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.APPLICATION_JSON)
+        public String insertFattura(  @FormParam("idBolla") int idBolla,
+                                                                        @FormParam("idFatt") int idFatt) {
+               
+                Statement statement = null;
+                ResultSet result = null;
+                int ok = -1;
+                int id = -1;
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        ok = statement.executeUpdate(
+                                        "INSERT INTO ProgIngSw.fatturaBolla(Bolla_id, Fattura_id) " +
+                                        "VALUES('" + idBolla + "', '" + idFatt + "');",
+                                        Statement.RETURN_GENERATED_KEYS);
+                       
+                        if(ok == 1) { // Inserimento ok
+                                result = statement.getGeneratedKeys();
+                        if (result.next()){
+                                id = result.getInt(1);
+                        }
+                        result.close();
+                        }
+                        statement.close();
+
+                        return String.valueOf(id);
+               
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return "-1";
+                }
+               
+               
+        }
+               
 }
+

@@ -164,9 +164,9 @@ public class LavorazioneTerzistaResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String updateLavorazTerz(@PathParam("id") int id,
                                 @FormParam("prezzo") double prezzo,
-                                @FormParam("capacitaProduzione") float capacita,
+                                @FormParam("capacitaProduzione") float capacitaProduzione,
                                 @FormParam("Lavorazione_id") int lavorazId,
-                                @FormParam("Terzista_id") int terzId) {
+                                @FormParam("Terzista_id") int terzistaId) {
            
             Statement statement = null;
             int ok = -1;
@@ -174,7 +174,7 @@ public class LavorazioneTerzistaResource {
             try {
                     statement = DB.instance.createStatement();
                     ok = statement.executeUpdate(
-                                    "UPDATE ProgIngSw.lavorazioneterzista SET prezzo ='" + prezzo + "', capacitaProduzione ='" + capacita + "', Lavorazione_id='" + lavorazId + "', Terzista_id='" + terzId + "' WHERE id='" + id + "';");
+                                    "UPDATE progingsw.lavorazioneterzista SET prezzo ='" + prezzo + "', capacitaProduzione ='" + capacitaProduzione + "' WHERE id='" + id + "';");
                     statement.close();
 
                     return String.valueOf(ok);
