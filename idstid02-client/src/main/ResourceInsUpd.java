@@ -5,6 +5,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
+import classResources.Fattura;
 import classResources.LavorazioneTerzista;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
@@ -146,6 +147,23 @@ public class ResourceInsUpd {
                         	 formData.add("ordine", ordine);
                         	 formData.add("LavorazioneTerzista_id", lavId);
                          }
+                         else if (className == "classResources.Fattura" && path == Global._URLFatt){
+                             Fattura fat = (Fattura) classObj;
+                             String dt = fat.getDataEmissione();
+                             String idT = String.valueOf(fat.getIdTerz());
+                             String imp =  String.valueOf(fat.getImporto());
+                             formData.add("dataEmissione", dt);
+                                 formData.add("importo", imp);
+                                 formData.add("Terzista_id", idT);
+                         }
+                         else if (className == "classResources.Fattura" && path == Global._URLFatt+"/Bolla"){
+                             Fattura fat = (Fattura) classObj;
+                             String idF = String.valueOf(fat.getId());
+                             String idB = String.valueOf(fat.getIdBolla());
+                             formData.add("Fattura_id", idF);
+                             formData.add("Bolla_id", idB);
+                         }
+
                          return formData;
      }
     
