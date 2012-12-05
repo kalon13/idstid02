@@ -17,7 +17,7 @@ public class Global {
     	public static final String _URLMatId = "/materiale";
     	public static final String _URLMatDaProdurre = "/matDaProdurre";
     	public static final String _URLMatDaProd1 = "/matDaProdurre/search1/"; //Giorgia (con join)
-    	public static final String _URLExtra = "/extraconsumo/search/"; //Giorgia
+    	public static final String _URLExtra = "/extraconsumo/idBolla/"; //Giorgia
     	public static final String _URLExtraPost = "/extraconsumo"; //Giorgia (Post di Extraconsumo)
     	public static final String _URLTerzista = "/terzista";
 }
