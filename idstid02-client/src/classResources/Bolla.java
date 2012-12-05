@@ -11,6 +11,7 @@ public class Bolla {
 	private Terzista terzista;
 	private Lavorazione lavorazione;
 	private int terzista_id;
+	private String nomeLavorazione; //Giorgia
 	//TODO: aggiungere lavorazione_Id
 	
 	public Bolla(int id, String codice, int stato, String data) {
@@ -20,6 +21,22 @@ public class Bolla {
 		this.stato = stato;
 	}
 	
+	public Bolla(int id, String codice, int stato, String data, String nomeLavorazione) {
+		this.id = id;
+		this.codice =codice;
+		this.data = data;
+		this.stato = stato;
+		this.nomeLavorazione = nomeLavorazione;
+	}
+	
+	public String getNomeLavorazione() {
+		return nomeLavorazione;
+	}
+
+	public void setNomeLavorazione(String nomeLavorazione) {
+		this.nomeLavorazione = nomeLavorazione;
+	}
+
 	public Bolla() {
 		this.id = -1;
 		this.data = "";
