@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,8 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JList;
-import javax.swing.ListModel;
-import javax.swing.JTextPane;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +28,6 @@ import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
 import javax.swing.JTable;
-import javax.swing.table.TableModel;
 
 public class GUI_Bolla_Terzista {
 
@@ -52,8 +48,6 @@ public class GUI_Bolla_Terzista {
 	List<Terzista> listaTerz = null;
 	private static String[] _data1;
 	private static int[] _id1;
-	private static String[] _data2; //terzisti
-	private static int[] _id2;
 	private static String[] _data3; //bolle-terzisti
 	private static int[] _id3;
 	private static String[] _nomeLav;

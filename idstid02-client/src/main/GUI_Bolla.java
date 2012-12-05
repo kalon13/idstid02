@@ -23,13 +23,9 @@ import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
 
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class GUI_Bolla {
 
@@ -42,7 +38,7 @@ public class GUI_Bolla {
 	private JTextField txtNomeLav; //textbox del nome della lavorazione
 	
 	GUI_Messaggio messaggio;
-	GUI_Extraconsumo extraconsumo;
+	GUI_Extraconsumo_Azienda extraconsumo;
 	List<Bolla> lista = null;
 	List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
 	List<MaterialeTeorico> lista1 = null;
@@ -50,8 +46,6 @@ public class GUI_Bolla {
 	List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
 	List<Materiale> lista2 = null;
 	List<Terzista> listaTerz = null;
-	private static String[] _data; //bolle
-	private static int[] _id;
 	private static String[] _data1;
 	private static int[] _id1;
 	private static String[] _data2; //terzisti
@@ -222,15 +216,11 @@ public class GUI_Bolla {
 		);
 	
 	public GUI_Bolla() {
-		
 //		loadTableDt(); //carica lista bolle
 		loadListaTerzisti(); //carica lista terzisti
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {	
 		frmBolleDiLavorazione = new JFrame();
 		frmBolleDiLavorazione.setResizable(false);
@@ -340,7 +330,7 @@ public class GUI_Bolla {
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
 					//Passo codice bolla nella text box e id della bolla per la query
-					extraconsumo = new GUI_Extraconsumo(textField.getText(), id);
+					extraconsumo = new GUI_Extraconsumo_Azienda(textField.getText(), id);
 					extraconsumo.frmExtraconsumo.setVisible(true);
 					}
 				}
