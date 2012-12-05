@@ -35,11 +35,11 @@ public class ResourceClass extends ResourceInsUpd {
 	  	}
 	
 	//per visualizzare tutti i dati della select
-	public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException { 
+	public static <T> List<T> getResources(final Class<T> classType, String path) throws UniformInterfaceException { 
 		ParameterizedType genericType = new ParameterizedType() { 
 			@Override 
 			public Type[] getActualTypeArguments() { 
-				return new Type[] {clazz}; 
+				return new Type[] {classType}; 
 			} 
 
            @Override 
@@ -71,11 +71,11 @@ public class ResourceClass extends ResourceInsUpd {
 	} 
 
 //per visualizzare un det dato passare nella path/id del dato stesso
-	public static <T> T getResource(final Class<T> clazz, String path) throws UniformInterfaceException {
+	public static <T> T getResource(final Class<T> classType, String path) throws UniformInterfaceException {
 		T t = null;
 		try{  
 			if (service == null && client == null) Config();
-			t = service.path(path).accept(MediaType.APPLICATION_JSON).get(clazz);
+			t = service.path(path).accept(MediaType.APPLICATION_JSON).get(classType);
 		}
 		catch (UniformInterfaceException ex) {
             final int status = ex.getResponse().getStatus();
@@ -103,13 +103,13 @@ public class ResourceClass extends ResourceInsUpd {
 	} 
 
 	//TODO: Modifico una risorsa		
-	public static <T> void updResources(final Class<T> clazz, String path, String id, T classObj) throws UniformInterfaceException { 
+	public static <T> void updResources(final Class<T> classType, String path, String id, T classObj) throws UniformInterfaceException { 
 		if (service == null && client == null ) Config();
-		String className = clazz.getName();
+		String className = classType.getName();
 		MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
 		formData = multValueUpd(className, classObj, path);
 		System.out.println(formData);
-		service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(clazz, formData);
+		service.path(path).path(id).accept(MediaType.APPLICATION_JSON).post(classType, formData);
 		System.out.println(id+formData);
 	}
 
