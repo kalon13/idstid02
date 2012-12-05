@@ -25,9 +25,9 @@ public class MaterialeDaProdurreResource {
 		
 	//aggiunto - con join
 		@GET
-		@Path ("/search1/{txtSearch1}")
+		@Path ("/idBolla/{idBolla}")
 		@Produces(MediaType.APPLICATION_JSON)
-		public List<MaterialeDaProdurre> getListaMaterialeDaProdurre1(@PathParam("txtSearch1") String txtSearch1) {
+		public List<MaterialeDaProdurre> getListaMaterialeDaProdurre1(@PathParam("idBolla") String idBolla) {
 			Statement statement = null;
 			ResultSet result = null;
 			List<MaterialeDaProdurre> listaMaterialeDaProdurre = new ArrayList<MaterialeDaProdurre>();
@@ -36,7 +36,7 @@ public class MaterialeDaProdurreResource {
 				result = statement.executeQuery(
 						"SELECT quantita, numeroMorti, quantitaProdotta, quantitaSpedita, descrizione, costoUnitario, udm, materialidaprodurre.id" +
 						" FROM progingsw.materialidaprodurre join materiale" +
-						" on materiale.id = materialidaprodurre.Materiale_id WHERE Bolla_id =" + txtSearch1 + ";");
+						" on materiale.id = materialidaprodurre.Materiale_id WHERE Bolla_id =" + idBolla + ";");
 				if(result != null){
 					while(result.next()) {
 					//1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario 7-udm
