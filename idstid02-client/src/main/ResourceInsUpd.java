@@ -8,6 +8,7 @@ import javax.xml.crypto.Data;
 import classResources.Bolla;
 import classResources.DDT;
 import classResources.Extraconsumo;
+import classResources.Fattura;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 
