@@ -56,6 +56,7 @@ public class GUI_Bolla_Terzista {
 	private static int[] _id2;
 	private static String[] _data3; //bolle-terzisti
 	private static int[] _id3;
+	private static String[] _nomeLav;
 	
 	//TableModel per table (materiali da produrre)
 	@SuppressWarnings("serial")
@@ -84,7 +85,8 @@ public class GUI_Bolla_Terzista {
 		);
 	private JTable table;
 	private JTable table_1;
-	private JTextField textField_1;
+	private JTextField textField_1; //textbox dell'id del terzista
+	private JTextField txtNomeLav; //textbox del nome della lavorazione
 	
 	private void loadListaBolleTerzista(int id_terzista){
 		//Load lista bolle del terzista
@@ -93,14 +95,16 @@ public class GUI_Bolla_Terzista {
 
 		_data3 = new String[listaBTer.size()];
 		_id3 = new int[listaBTer.size()];
+		_nomeLav = new String[listaBTer.size()];
 		int k = 0;
 		while(it.hasNext())
 			{
-				Bolla messCl = (Bolla)it.next();
-				String codBol = String.valueOf(messCl.getCodice());
-				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
+				Bolla bollaCl = (Bolla)it.next();
+				String codBol = String.valueOf(bollaCl.getCodice());
+				String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
+				_nomeLav[k] = bollaCl.getNomeLavorazione();
 				_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-				_id3[k]= messCl.getId();
+				_id3[k]= bollaCl.getId();
 				System.out.println(_data3[k]);
 				System.out.println(_id3[k]);
 				k++;
@@ -209,6 +213,7 @@ public class GUI_Bolla_Terzista {
 				
 				int k = list.getSelectedIndex();
 				id = _id3[k]; //id bolla
+				txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
 		         
 				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
 				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
@@ -243,6 +248,12 @@ public class GUI_Bolla_Terzista {
 		textField.setBounds(107, 8, 44, 20);
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		txtNomeLav = new JTextField();
+		txtNomeLav.setEditable(false);
+		txtNomeLav.setBounds(161, 8, 140, 20);
+		panel.add(txtNomeLav);
+		txtNomeLav.setColumns(10);
 		
 		JLabel lblMaterialiDaProdurre = new JLabel("Materiali da produrre:");
 		lblMaterialiDaProdurre.setBounds(10, 28, 141, 14);
@@ -316,7 +327,7 @@ public class GUI_Bolla_Terzista {
 		});
 		btnRichiediExtra.setBounds(346, 295, 112, 23);
 		panel.add(btnRichiediExtra);
-		
+			
 		list.setBounds(10, 89, 158, 149);
 		frmBolleDiLavorazione.getContentPane().add(list);
 		
@@ -331,7 +342,7 @@ public class GUI_Bolla_Terzista {
 					JLabel label = new JLabel("Impossibile annullare una bolla in corso di lavorazione!");
 					dialog.setLocationRelativeTo(null);
 					dialog.setTitle("Attenzione!");
-					dialog.add(label);
+					dialog.getContentPane().add(label);
 					dialog.pack();
 					dialog.setVisible(true);
 					System.out.println(statoBolla);

@@ -90,12 +90,12 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Bolla WHERE Terzista_id = " + id_terzista + ";"
+						"SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione on lavorazione.id = Lavorazione_id WHERE Terzista_id = " + id_terzista + ";"
 					);
 			
 			while(result.next()) {
 				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
-											result.getString(4));
+											result.getString(4), result.getString(8));
 				listaBolla.add(m);
 			}
 			statement.close();

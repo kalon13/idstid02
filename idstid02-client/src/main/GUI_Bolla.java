@@ -39,6 +39,7 @@ public class GUI_Bolla {
 	private JTable table_1;
 	private int id; //id bolla
 	private int idTerzista; //id terzista
+	private JTextField txtNomeLav; //textbox del nome della lavorazione
 	
 	GUI_Messaggio messaggio;
 	GUI_Extraconsumo extraconsumo;
@@ -57,6 +58,7 @@ public class GUI_Bolla {
 	private static int[] _id2;
 	private static String[] _data3; //bolle-terzisti
 	private static int[] _id3;
+	private static String[] _nomeLav;
 	
 	private void loadListaTerzisti(){
 		//Load lista terzisti
@@ -103,14 +105,16 @@ public class GUI_Bolla {
 
 		_data3 = new String[listaBTer.size()];
 		_id3 = new int[listaBTer.size()];
+		_nomeLav = new String[listaBTer.size()];
 		int k = 0;
 		while(it.hasNext())
 			{
-				Bolla messCl = (Bolla)it.next();
-				String codBol = String.valueOf(messCl.getCodice());
-				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
+				Bolla bollaCl = (Bolla)it.next();
+				String codBol = String.valueOf(bollaCl.getCodice());
+				String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
 				_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-				_id3[k]= messCl.getId();
+				_id3[k]= bollaCl.getId();
+				_nomeLav[k] = bollaCl.getNomeLavorazione();
 				System.out.println(_data3[k]);
 				System.out.println(_id3[k]);
 				k++;
@@ -192,13 +196,21 @@ public class GUI_Bolla {
 	}
 		
 	//TableModel per table (materiali da produrre)
+	@SuppressWarnings("serial")
 	public DefaultTableModel dmPrima = new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
 					"Descrizione", "Qta", "udm", "numeroMorti", "qtaProdotta", "QtaSpedita"
-			}
-		);
+			})
+			{
+				boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
+					false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			};
 	
 	//TableModel per table_1 (materiali teorici)
 	public DefaultTableModel dm = new DefaultTableModel(
@@ -228,7 +240,7 @@ public class GUI_Bolla {
 		frmBolleDiLavorazione.getContentPane().setLayout(null);
 		
 		JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
-		lblBolleDiLavorazione.setBounds(10, 136, 106, 14);
+		lblBolleDiLavorazione.setBounds(10, 172, 106, 14);
 		frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
 		
 		JPanel panel = new JPanel();
@@ -246,6 +258,12 @@ public class GUI_Bolla {
 		textField.setBounds(107, 8, 44, 20);
 		panel.add(textField);
 		textField.setColumns(10);
+		
+		txtNomeLav = new JTextField();
+		txtNomeLav.setEditable(false);
+		txtNomeLav.setBounds(161, 8, 140, 20);
+		panel.add(txtNomeLav);
+		txtNomeLav.setColumns(10);
 		
 		JLabel lblMaterialiDaProdurre = new JLabel("Materiali da produrre:");
 		lblMaterialiDaProdurre.setBounds(10, 28, 141, 14);
@@ -296,6 +314,7 @@ public class GUI_Bolla {
 				
 				int k = list.getSelectedIndex();
 				id = _id3[k]; //id bolla
+				txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
 		         
 				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
 				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
@@ -316,8 +335,8 @@ public class GUI_Bolla {
 		panel.add(btnVisualizzaNote);
 		
 		//**btnRichiediExtra**
-		JButton btnRichiediExtra = new JButton("Richiedi Extra");
-		btnRichiediExtra.addActionListener(new ActionListener() {
+		JButton btnVisualizzaExtra = new JButton("Visualizza Extra");
+		btnVisualizzaExtra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
 					//Passo codice bolla nella text box e id della bolla per la query
@@ -326,23 +345,11 @@ public class GUI_Bolla {
 					}
 				}
 		});
-		btnRichiediExtra.setBounds(346, 295, 112, 23);
-		panel.add(btnRichiediExtra);
+		btnVisualizzaExtra.setBounds(311, 295, 147, 23);
+		panel.add(btnVisualizzaExtra);
 		
-		list.setBounds(10, 161, 158, 77);
+		list.setBounds(10, 197, 158, 143);
 		frmBolleDiLavorazione.getContentPane().add(list);
-		
-		JButton btnAnnullaBolla = new JButton("Annulla Bolla");
-		btnAnnullaBolla.setBounds(10, 249, 158, 23);
-		frmBolleDiLavorazione.getContentPane().add(btnAnnullaBolla);
-		
-		JButton btnChiudiParzialmente = new JButton("Chiudi Parzialmente");
-		btnChiudiParzialmente.setBounds(10, 283, 158, 23);
-		frmBolleDiLavorazione.getContentPane().add(btnChiudiParzialmente);
-		
-		JButton btnChiudiBolla = new JButton("Chiudi Bolla");
-		btnChiudiBolla.setBounds(10, 317, 158, 23);
-		frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
 		
 		JLabel lblTerzisti = new JLabel("Terzisti:");
 		lblTerzisti.setBounds(10, 11, 46, 14);
@@ -366,7 +373,7 @@ public class GUI_Bolla {
 			}
 		});
 		
-		list_2.setBounds(10, 36, 158, 83);
+		list_2.setBounds(10, 36, 158, 125);
 		frmBolleDiLavorazione.getContentPane().add(list_2);
 		
 		//Al premere di Invio in una cella di table_1 richiama l'Update
