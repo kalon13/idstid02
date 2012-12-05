@@ -2,12 +2,12 @@ package main;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.lang.*;
-import java.lang.String;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -155,16 +155,11 @@ public class GUI_Extraconsumo {
 				int row = e.getFirstRow();
 				if(col > 2) {
 					try {
-						Calendar c = Calendar.getInstance();
-//						Date tempo = (c.getTime()); /* Rappresentazione come stringa in base al tuo Locale */
-//						int anno = (c.get(Calendar.YEAR)); /* Ottieni l'anno */
-//						int mese = (c.get(Calendar.MONTH)); /* Ottieni il mese */
-//						int giorno = (c.get(Calendar.DAY_OF_MONTH)); /* Ottieni il giorno */
-						String anno = Integer.toString(c.get(Calendar.YEAR));
-						String mese = Integer.toString(c.get(Calendar.MONTH));
-						String giorno = Integer.toString(c.get(Calendar.DAY_OF_MONTH));
-						String data = anno + mese + giorno;
-						System.out.println(data);
+						//Data di oggi
+						Calendar calendar = Calendar.getInstance();
+					    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");	
+					    String today = dateFormat.format(calendar.getTime());
+					    System.out.println("Today: " + dateFormat.format(calendar.getTime()));
 						
 						Extraconsumo ext = listaExtra.get(row);
 						//Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta
@@ -173,7 +168,7 @@ public class GUI_Extraconsumo {
 //						String dr = (String) dm.getValueAt(row, 6);
 						ext.setQuantita(qr);
 						ext.setGiustificato(giu);
-						ext.setDataRichiesta(data);
+						ext.setDataRichiesta(today); //data
 						ResourceClass.updResources(Extraconsumo.class, Global._URLExtraPost, String.valueOf(ext.getId()), ext);
 						loadTable(id); //aggiorno tabella con data
 					}

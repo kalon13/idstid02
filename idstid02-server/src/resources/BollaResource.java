@@ -134,6 +134,32 @@ public class BollaResource {
 		}
 	}
 	
+	//aggiunto Giorgia
+	@POST
+	@Path ("/stato/{id}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateBolla1( @PathParam("id") int id,
+								@FormParam("Terzista_id") int terzista_id,
+								@FormParam("stato") int stato) {
+		
+		Statement statement = null;
+		int ok = -1;
+		
+		try {
+			statement = DB.instance.createStatement();
+			ok = statement.executeUpdate(
+					"UPDATE ProgIngSw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = '" + id + "';"
+					);
+			statement.close();
+
+			return String.valueOf(ok);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "-1";
+		}
+	}
+	
 	@DELETE
 	@Path ("{id}")
 	@Produces(MediaType.APPLICATION_JSON)

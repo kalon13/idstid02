@@ -10,7 +10,7 @@ public class Bolla {
 	private int stato;
 	private Terzista terzista;
 	private Lavorazione lavorazione;
-	//TODO: aggiungere terzista_Id
+	private int terzista_id;
 	//TODO: aggiungere lavorazione_Id
 	
 	public Bolla(int id, String codice, int stato, String data) {
@@ -72,5 +72,13 @@ public class Bolla {
 
 	public void setCodice(String codice) {
 		this.codice = codice;
+	}
+
+	public int getTerzista_id() {
+		return terzista_id;
+	}
+
+	public void setTerzista_id(int terzista_id) {
+		this.terzista_id = terzista_id;
 	}
 }
