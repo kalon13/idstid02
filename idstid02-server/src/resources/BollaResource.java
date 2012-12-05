@@ -90,12 +90,12 @@ public class BollaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Bolla WHERE Terzista_id = " + id_terzista + ";"
+						"SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione on lavorazione.id = Lavorazione_id WHERE Terzista_id = " + id_terzista + ";"
 					);
 			
 			while(result.next()) {
 				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
-											result.getString(4));
+											result.getString(4), result.getString(8));
 				listaBolla.add(m);
 			}
 			statement.close();
@@ -124,6 +124,32 @@ public class BollaResource {
 			ok = statement.executeUpdate(
 					"UPDATE ProgIngSw.Bolla SET descrizione = '" + descrizione +"'," +
 					"costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
+					);
+			statement.close();
+
+			return String.valueOf(ok);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "-1";
+		}
+	}
+	
+	//aggiunto Giorgia
+	@POST
+	@Path ("/stato/{id}")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public String updateBolla1( @PathParam("id") int id,
+								@FormParam("Terzista_id") int terzista_id,
+								@FormParam("stato") int stato) {
+		
+		Statement statement = null;
+		int ok = -1;
+		
+		try {
+			statement = DB.instance.createStatement();
+			ok = statement.executeUpdate(
+					"UPDATE ProgIngSw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = '" + id + "';"
 					);
 			statement.close();
 
