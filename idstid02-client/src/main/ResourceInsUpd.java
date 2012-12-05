@@ -5,9 +5,9 @@ import java.util.Date;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.crypto.Data;
 
+import classResources.Bolla;
 import classResources.DDT;
 import classResources.Extraconsumo;
-import classResources.Fattura;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 
@@ -44,6 +44,13 @@ public class ResourceInsUpd {
 			  formData.add("giustificato", giustificato);
 			  formData.add("dataRichiesta", dataRichiesta);
 		  }
+		  else if (className == "classResources.Bolla") { //Giorgia
+			  Bolla b = (Bolla) classObj;
+			  String stato = String.valueOf(b.getStato());
+			  String terzista_id = String.valueOf(b.getTerzista_id());
+			  formData.add("stato", stato);
+			  formData.add("Terzista_id", terzista_id); //maiuscola!
+		  }
 		 return formData;
 	   }
 	
@@ -67,22 +74,6 @@ public class ResourceInsUpd {
 					formData.add("dataInvio", dtInvio);
 					formData.add("flussoAzienda", flAz);
 					formData.add("registrato", "0") ;
-				}
-			 else if (className == "classResources.Fattura" && path == Global._URLFatt){
-				    Fattura fat = (Fattura) classObj;
-				    String dt = fat.getDataEmissione();
-				    String idT = String.valueOf(fat.getIdTerz());
-				    String imp =  String.valueOf(fat.getImporto());
-				    formData.add("dataEmissione", dt);
-					formData.add("importo", imp);
-					formData.add("Terzista_id", idT);
-				}
-			 else if (className == "classResources.Fattura" && path == Global._URLFatt+"/Bolla"){
-				    Fattura fat = (Fattura) classObj;
-				    String idF = String.valueOf(fat.getId());
-				    String idB = String.valueOf(fat.getIdBolla());
-				    formData.add("Fattura_id", idF);
-				    formData.add("Bolla_id", idB);
 				}
 			 	return formData;
 		   }
