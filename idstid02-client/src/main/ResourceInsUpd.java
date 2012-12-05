@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.crypto.Data;
 
+import classResources.Bolla;
 import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Materiale;
@@ -42,6 +43,13 @@ public class ResourceInsUpd {
 			  formData.add("quantita", quantita);
 			  formData.add("giustificato", giustificato);
 			  formData.add("dataRichiesta", dataRichiesta);
+		  }
+		  else if (className == "classResources.Bolla") { //Giorgia
+			  Bolla b = (Bolla) classObj;
+			  String stato = String.valueOf(b.getStato());
+			  String terzista_id = String.valueOf(b.getTerzista_id());
+			  formData.add("stato", stato);
+			  formData.add("Terzista_id", terzista_id); //maiuscola!
 		  }
 		 return formData;
 	   }
