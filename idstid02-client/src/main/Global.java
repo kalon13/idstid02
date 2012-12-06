@@ -5,8 +5,9 @@ public class Global {
         public static final String _URLMagMat = "/magazzinoterzista/materiale/";
         public static final String _URLFatt = "/fatturazione";
         public static final String _URLBolla = "/bolla";
-        public static final String _URLBollaTerz = "/bolla/search/"; //Giorgia
-        public static final String _URLBollaStato = "/bolla/stato/"; //Giorgia
+        public static final String _URLBollaTerz = "/bolla/terzista/"; //Giorgia
+        public static final String _URLBollaStato = "/bolla/stato/"; //Giorgia Post
+        public static final String _URLBollaCM = "/bolla/statoCM/"; //Giorgia (Bolla Chiusa o con Morto)
         public static final String _URLUser = "/utente";
         public static final String _URLAutLogin = "/autenticazione/login";
         public static final String _URLAutLogout = "/autenticazione/logout";
