@@ -28,6 +28,8 @@ import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class GUI_Bolla_Terzista {
 
@@ -193,24 +195,25 @@ public class GUI_Bolla_Terzista {
 		
 		//**JList Bolle**
 		for (int i = 0; i<_data3.length; i++)
-			listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
-		
-		list.addMouseListener(new MouseAdapter() { //quando clicco su una bolla nella lista bolle
-			@Override
-			public void mouseReleased(MouseEvent e) {			
-				int indice = list.getSelectedIndex();
-				Bolla b = listaBTer.get(indice);
-				String testo = b.getCodice();
-				textField.setText(testo); //numero bolla selezionata nella lista
-				statoBolla = b.getStato(); //stato della bolla selezionata
-				System.out.println(testo);
-				
-				int k = list.getSelectedIndex();
-				id = _id3[k]; //id bolla
-				txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
-		         
-				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
-				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+		listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == true)
+				{
+					int indice = list.getSelectedIndex();
+					Bolla b = listaBTer.get(indice);
+					String testo = b.getCodice();
+					textField.setText(testo); //numero bolla selezionata nella lista
+					statoBolla = b.getStato(); //stato della bolla selezionata
+					System.out.println(testo);
+					
+					int k = list.getSelectedIndex();
+					id = _id3[k]; //id bolla
+					txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
+			         
+					loadTableMatTeo(id); //carica i materiali teorici di quella bolla
+					loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+				}
 			}
 		});
 	}
