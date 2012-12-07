@@ -24,7 +24,7 @@ import classResources.DDT;
 import classResources.Materiale;
 import javax.swing.JButton;
 
-import com.sun.faces.facelets.util.Resource;
+//import com.sun.faces.facelets.util.Resource;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -171,11 +171,11 @@ public class GUI_CreaDDT {
                                 String today = sdf.format(c1.getTime());
                                 //TODO idTerz
                                 int idTerzista = 1;
-                                DDT ddt = new DDT(today, idTerzista, true, false);
-                                String id  = ResourceClass.addResources(Global._URLddt, ddt);
-                                CreatePDF pdf = new CreatePDF(tableMat);
-                                String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l dal terzista Mario N. Doc "+id;
-                                pdf.print("file.pdf", DDT);
+//                                DDT ddt = new DDT(today, idTerzista, true, false);
+//                                String id  = ResourceClass.addResources(Global._URLddt, ddt);
+//                                CreatePDF pdf = new CreatePDF(tableMat);
+//                                String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l dal terzista Mario N. Doc "+id;
+//                                pdf.print("file.pdf", DDT);
                         }
                 });
                 btnCrea.setBounds(246, 191, 89, 23);

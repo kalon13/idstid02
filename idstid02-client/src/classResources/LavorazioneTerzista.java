@@ -42,6 +42,10 @@ public class LavorazioneTerzista {
                 this.lavorazioneID=lavorazioneID;
                 this.terzistaID=terzistaID; 
 	        }
+	        
+	        public LavorazioneTerzista(int lavorazioneID) {
+                this.lavorazioneID=lavorazioneID;
+	        }
 	       
 	        public int getID() {
 	                return id;
