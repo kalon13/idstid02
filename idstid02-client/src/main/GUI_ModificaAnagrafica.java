@@ -22,6 +22,10 @@ import classResources.Utente;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GUI_ModificaAnagrafica {
 
@@ -39,8 +43,12 @@ public class GUI_ModificaAnagrafica {
 	
 	private String user;
 	private int tipo;
+	private boolean matched;	//Per il controllo di validità degli input
+	private short focus=0;		//Per controllare che non mi mostri il JOption 3 volte
 	
 	private Terzista t;
+	private static Pattern pattern;
+	private static Matcher matcher;
 
 	/**
 	 * Launch the application.
@@ -52,6 +60,7 @@ public class GUI_ModificaAnagrafica {
 	public GUI_ModificaAnagrafica(String user, int tipo) {
 		this.user=user;
 		this.tipo=tipo;
+		matched=true;
 		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
 		initialize();
 	}
@@ -79,6 +88,22 @@ public class GUI_ModificaAnagrafica {
 		panel.add(piva);
 		
 		email = new JTextField(t.getEmail());
+		email.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				//Controlliamo la validità dell'input
+				if(!verificaEmail(email.getText())){
+					matched=false;
+					focus++;
+					if(focus==1) JOptionPane.showMessageDialog(null, "Campo non valido!", "Attenzione", 0);	//Questo controllo perche altrim la richiamava 3 volte ma non so perche
+					else if(focus==3) focus=0;
+					email.requestFocusInWindow();
+					email.selectAll();
+				}
+				else
+					matched=true;
+			}
+		});
 		email.setColumns(40);
 		email.setBounds(132, 215, 326, 20);
 		panel.add(email);
@@ -110,6 +135,21 @@ public class GUI_ModificaAnagrafica {
 		panel.add(label_4);
 		
 		cap = new JTextField(t.getCap());
+		cap.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(!verificaCAP(cap.getText())){
+					matched=false;
+					focus++;
+					if(focus==1) JOptionPane.showMessageDialog(null, "Campo non valido!", "Attenzione", 0);
+					else if(focus==3) focus=0;
+					cap.requestFocusInWindow();
+					cap.selectAll();
+				}
+				else
+					matched=true;
+			}
+		});
 		cap.setColumns(40);
 		cap.setBounds(132, 137, 326, 20);
 		panel.add(cap);
@@ -186,6 +226,7 @@ public class GUI_ModificaAnagrafica {
 	}
 	
 	public void update(){
+		if(matched){
 		//Occorre convalidare i dati ed aggiornarli nel DB
 		//Convalida ancora da fare
 		Terzista updTerzista=new Terzista(t.getId(), email.getText(), piva.getText(), ragsoc.getText(), indirizzo.getText(), cap.getText(),
@@ -199,5 +240,21 @@ public class GUI_ModificaAnagrafica {
 		GUI_Home windowHome=new GUI_Home(user,tipo);
 		windowHome.frmHome.setVisible(true);
 		frmModificaAnagrafica.setVisible(false);
+		}
 	}
+	
+	public static boolean verificaEmail(String email) {
+		pattern = Pattern.compile(".+@.+\\.[a-z]+");
+		matcher = pattern.matcher(email);
+		if(matcher.matches()) return true;
+		else return false;
+	}
+	
+	public static boolean verificaCAP(String cap) {
+		pattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
+		matcher = pattern.matcher(cap);
+		if(matcher.matches()) return true;
+		else return false;
+	}
+
 }
