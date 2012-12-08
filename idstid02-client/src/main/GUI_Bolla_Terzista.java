@@ -28,6 +28,10 @@ import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
 import javax.swing.JTable;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class GUI_Bolla_Terzista {
 
@@ -51,6 +55,7 @@ public class GUI_Bolla_Terzista {
 	private static String[] _data3; //bolle-terzisti
 	private static int[] _id3;
 	private static String[] _nomeLav;
+	private static int[] _statoBol;
 	
 	//TableModel per table (materiali da produrre)
 	@SuppressWarnings("serial")
@@ -90,6 +95,7 @@ public class GUI_Bolla_Terzista {
 		_data3 = new String[listaBTer.size()];
 		_id3 = new int[listaBTer.size()];
 		_nomeLav = new String[listaBTer.size()];
+		_statoBol = new int[listaBTer.size()];
 		int k = 0;
 		while(it.hasNext())
 			{
@@ -99,8 +105,7 @@ public class GUI_Bolla_Terzista {
 				_nomeLav[k] = bollaCl.getNomeLavorazione();
 				_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
 				_id3[k]= bollaCl.getId();
-				System.out.println(_data3[k]);
-				System.out.println(_id3[k]);
+				_statoBol[k] = bollaCl.getStato();
 				k++;
 			}
 	}
@@ -187,30 +192,42 @@ public class GUI_Bolla_Terzista {
 	public DefaultListModel listModel = new DefaultListModel();
 	public JList list = new JList(listModel);
 	
+	private JTextField textField_2;
+	JButton btnRichiediExtra = new JButton("Richiedi Extra");
+	
 	//Carica JList dcon le bolle del terzista
 	private void caricaJListBolle(int idTerzista){
 		loadListaBolleTerzista(idTerzista); //carica lista bolle del terzista in ListaBTer (e crea il vettore _data3)
 		
 		//**JList Bolle**
 		for (int i = 0; i<_data3.length; i++)
-			listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
-		
-		list.addMouseListener(new MouseAdapter() { //quando clicco su una bolla nella lista bolle
-			@Override
-			public void mouseReleased(MouseEvent e) {			
-				int indice = list.getSelectedIndex();
-				Bolla b = listaBTer.get(indice);
-				String testo = b.getCodice();
-				textField.setText(testo); //numero bolla selezionata nella lista
-				statoBolla = b.getStato(); //stato della bolla selezionata
-				System.out.println(testo);
-				
-				int k = list.getSelectedIndex();
-				id = _id3[k]; //id bolla
-				txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
-		         
-				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
-				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+		listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == true)
+				{
+					textField_2.setText("");
+					btnRichiediExtra.setEnabled(true);
+					
+					int indice = list.getSelectedIndex();
+					Bolla b = listaBTer.get(indice);
+					String testo = b.getCodice();
+					textField.setText(testo); //numero bolla selezionata nella lista
+					statoBolla = b.getStato(); //stato della bolla selezionata
+					System.out.println(testo);
+					
+					int k = list.getSelectedIndex();
+					id = _id3[k]; //id bolla
+					txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
+			         
+					loadTableMatTeo(id); //carica i materiali teorici di quella bolla
+					loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+					if (_statoBol[k] == 3 || _statoBol[k] == 4)
+					{
+						textField_2.setText("Bolla chiusa!");
+						btnRichiediExtra.setEnabled(false);
+					}
+				}
 			}
 		});
 	}
@@ -309,7 +326,7 @@ public class GUI_Bolla_Terzista {
 		panel.add(btnVisualizzaNote);
 		
 		//**btnRichiediExtra**
-		JButton btnRichiediExtra = new JButton("Richiedi Extra");
+//		JButton btnRichiediExtra = new JButton("Richiedi Extra");
 		btnRichiediExtra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
@@ -321,6 +338,14 @@ public class GUI_Bolla_Terzista {
 		});
 		btnRichiediExtra.setBounds(346, 295, 112, 23);
 		panel.add(btnRichiediExtra);
+		
+		textField_2 = new JTextField();
+		textField_2.setForeground(Color.RED);
+		textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField_2.setEditable(false);
+		textField_2.setColumns(10);
+		textField_2.setBounds(10, 296, 284, 20);
+		panel.add(textField_2);
 			
 		list.setBounds(10, 89, 158, 149);
 		frmBolleDiLavorazione.getContentPane().add(list);

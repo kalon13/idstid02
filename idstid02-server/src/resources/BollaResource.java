@@ -80,7 +80,7 @@ public class BollaResource {
 	
 	//aggiunto Giorgia
 	@GET
-	@Path ("/search/{id_terzista}")
+	@Path ("/terzista/{id_terzista}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Bolla> getListaBolla1(@PathParam("id_terzista") int id_terzista) {
 		Statement statement = null;
@@ -102,6 +102,36 @@ public class BollaResource {
 			
 			return listaBolla;
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	//aggiunto Giorgia
+	@GET
+	@Path ("/statoCM/{stato}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Bolla> getListaBollaStato(@PathParam("stato") int stato){
+		Statement statement = null;
+		ResultSet result = null;
+		List<Bolla> listaBolla = new ArrayList<Bolla>();
+		
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+					"SELECT bolla.id, codice, stato, data, Terzista_id, Lavorazione_id, nome, ragSociale FROM ProgIngSw.Bolla JOIN ProgIngSw.lavorazione JOIN ProgIngSw.terzista ON lavorazione.id = Lavorazione_id AND Terzista_id = terzista.id WHERE stato = '" + stato + "';"
+					);
+				
+			while(result.next()) {
+				Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+						result.getString(4), result.getInt(5), result.getInt(6), result.getString(7), result.getString(8));
+				listaBolla.add(m);
+			}
+			statement.close();
+				
+			return listaBolla;
+				
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
@@ -214,9 +244,6 @@ public class BollaResource {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "-1";
-		}
-		
-		
+		}	
 	}
-	
 }
