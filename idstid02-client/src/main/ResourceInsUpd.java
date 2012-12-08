@@ -77,21 +77,21 @@ public class ResourceInsUpd {
 					formData.add("registrato", "0") ;
 				}
 			 else if (className == "classResources.Fattura" && path == Global._URLFatt){
-				    Fattura fat = (Fattura) classObj;
-				    String dt = fat.getDataEmissione();
-				    String idT = String.valueOf(fat.getIdTerz());
-				    String imp =  String.valueOf(fat.getImporto());
-				    formData.add("dataEmissione", dt);
-					formData.add("importo", imp);
-					formData.add("Terzista_id", idT);
-				}
+				 	Fattura fat = (Fattura) classObj;
+				 	String dt = fat.getDataEmissione();
+				 	String idT = String.valueOf(fat.getIdTerz());
+				 	String imp =  String.valueOf(fat.getImporto());
+				 	formData.add("dataEmissione", dt);
+				 	formData.add("importo", imp);
+				 	formData.add("Terzista_id", idT);
+			 	}
 			 else if (className == "classResources.Fattura" && path == Global._URLFatt+"/Bolla"){
-				    Fattura fat = (Fattura) classObj;
-				    String idF = String.valueOf(fat.getId());
-				    String idB = String.valueOf(fat.getIdBolla());
-				    formData.add("Fattura_id", idF);
-				    formData.add("Bolla_id", idB);
-				}
-			 	return formData;
-		   }
+				 	Fattura fat = (Fattura) classObj;
+				 	String idF = String.valueOf(fat.getId());
+				 	String idB = String.valueOf(fat.getIdBolla());
+				 	formData.add("Fattura_id", idF);
+				 	formData.add("Bolla_id", idB);
+			 }
+			 return formData;
+    	}
 }

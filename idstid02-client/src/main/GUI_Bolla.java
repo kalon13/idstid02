@@ -26,6 +26,11 @@ import classResources.Terzista;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.Font;
+import java.awt.Color;
 
 public class GUI_Bolla {
 
@@ -37,12 +42,12 @@ public class GUI_Bolla {
 	private int idTerzista; //id terzista
 	private JTextField txtNomeLav; //textbox del nome della lavorazione
 	
+	GUI_BolleChiuse bolleChiuse;
 	GUI_Messaggio messaggio;
 	GUI_Extraconsumo_Azienda extraconsumo;
 	List<Bolla> lista = null;
 	List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
 	List<MaterialeTeorico> lista1 = null;
-	List<MaterialeDaProdurre> listaMDaProd = null; //senza join
 	List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
 	List<Materiale> lista2 = null;
 	List<Terzista> listaTerz = null;
@@ -53,6 +58,7 @@ public class GUI_Bolla {
 	private static String[] _data3; //bolle-terzisti
 	private static int[] _id3;
 	private static String[] _nomeLav;
+	private static int[] _statoBol;
 	
 	private void loadListaTerzisti(){
 		//Load lista terzisti
@@ -73,25 +79,6 @@ public class GUI_Bolla {
 			}
 	}
 	
-//	private void loadTableDt(){
-//		//Load lista bolle
-//		lista = ResourceClass.getResources(Bolla.class, Global._URLBolla);
-//		Iterator<Bolla> it = lista.iterator();
-//
-//		_data = new String[lista.size()];
-//		_id = new int[lista.size()];
-//		int k = 0;
-//		while(it.hasNext())
-//			{
-//				Bolla messCl = (Bolla)it.next();
-//				String codBol = String.valueOf(messCl.getCodice());
-//				String[] dtMess = messCl.getData().replace("-", "/").split(" ");
-//				_data[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-//				_id[k]= messCl.getId();
-//				k++;
-//			}
-//	}
-	
 	private void loadListaBolleTerzista(int id_terzista){
 		//Load lista bolle del terzista
 		listaBTer = ResourceClass.getResources(Bolla.class, Global._URLBollaTerz+id_terzista);
@@ -100,22 +87,25 @@ public class GUI_Bolla {
 		_data3 = new String[listaBTer.size()];
 		_id3 = new int[listaBTer.size()];
 		_nomeLav = new String[listaBTer.size()];
+		_statoBol = new int[listaBTer.size()];
 		int k = 0;
 		while(it.hasNext())
 			{
 				Bolla bollaCl = (Bolla)it.next();
 				String codBol = String.valueOf(bollaCl.getCodice());
-				String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
-				_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-				_id3[k]= bollaCl.getId();
-				_nomeLav[k] = bollaCl.getNomeLavorazione();
-				System.out.println(_data3[k]);
-				System.out.println(_id3[k]);
+//				int statoBol = bollaCl.getStato();
+//				if (statoBol != 3 && statoBol !=4) //se la bolla non è chiusa o chiusa con morti
+//				{
+					String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
+					_data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
+					_id3[k]= bollaCl.getId();
+					_nomeLav[k] = bollaCl.getNomeLavorazione();
+					_statoBol[k] = bollaCl.getStato();
+//				}
 				k++;
 			}
 	}
 	
-	//aggiunto
 	//restituisce il vettore di dati dei materiali che si riferscono alla bolla selezionata nella lista
 	private void loadTableMatTeo(int numBolla){
 		//Load lista
@@ -214,9 +204,9 @@ public class GUI_Bolla {
 					"Desc", "Quantità", "udm", "CostoUnit", 
 			}
 		);
+	private JTextField textField_1;
 	
 	public GUI_Bolla() {
-//		loadTableDt(); //carica lista bolle
 		loadListaTerzisti(); //carica lista terzisti
 		initialize();
 	}
@@ -293,21 +283,28 @@ public class GUI_Bolla {
 		//**JList Bolle**
 		final DefaultListModel listModel = new DefaultListModel();
 		final JList list = new JList(listModel); //aggiunge alla Jlist numero + data delle bolle
-		list.addMouseListener(new MouseAdapter() { //quando clicco su una bolla nella lista bolle
-			@Override
-			public void mouseReleased(MouseEvent e) {			
-				int indice = list.getSelectedIndex();
-				Bolla b = listaBTer.get(indice);
-				String testo = b.getCodice();
-				textField.setText(testo); //numero bolla selezionata nella lista
-				System.out.println(testo);
-				
-				int k = list.getSelectedIndex();
-				id = _id3[k]; //id bolla
-				txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
-		         
-				loadTableMatTeo(id); //carica i materiali teorici di quella bolla
-				loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+		//Quando clicco su una bolla nella lista bolle
+		list.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == true)
+				{
+					textField_1.setText(""); //pulisce campo testo
+					int indice = list.getSelectedIndex();
+					Bolla b = listaBTer.get(indice);
+					String testo = b.getCodice();
+					textField.setText(testo); //numero bolla selezionata nella lista
+					
+					int k = list.getSelectedIndex();
+					id = _id3[k]; //id bolla
+					txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
+			         
+					loadTableMatTeo(id); //carica i materiali teorici di quella bolla
+					loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+					if (_statoBol[k] == 3 || _statoBol[k] == 4)
+					{
+						textField_1.setText("Bolla chiusa!");
+					}
+				}
 			}
 		});
 		
@@ -338,6 +335,14 @@ public class GUI_Bolla {
 		btnVisualizzaExtra.setBounds(311, 295, 147, 23);
 		panel.add(btnVisualizzaExtra);
 		
+		textField_1 = new JTextField();
+		textField_1.setEditable(false);
+		textField_1.setForeground(Color.RED);
+		textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
+		textField_1.setBounds(11, 295, 284, 20);
+		panel.add(textField_1);
+		textField_1.setColumns(10);
+		
 		list.setBounds(10, 197, 158, 143);
 		frmBolleDiLavorazione.getContentPane().add(list);
 		
@@ -348,23 +353,41 @@ public class GUI_Bolla {
 		//**JList Terzisti**
 		final JList list_2 = new JList(_data2);
 		//Se clicco in un terzista della lista mi visualizza solo le bolle a lui assegnate
-		list_2.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				int k = list_2.getSelectedIndex();
-				idTerzista = _id2[k]; //id terzista
+		list_2.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == true)
+				{
+					dm.setRowCount(0); //pulisce tabella
+					dmPrima.setRowCount(0); //pulisce tabella
+					textField.setText(""); //pulisce campi testo
+					txtNomeLav.setText("");
+					textField_1.setText("");
+					
+					int k = list_2.getSelectedIndex();
+					idTerzista = _id2[k]; //id terzista
 				
-				System.out.print(idTerzista);
+					System.out.println(idTerzista);
 				
-				listModel.removeAllElements();
-				loadListaBolleTerzista(idTerzista);
-				for (int i = 0; i<_data3.length; i++)
-					listModel.addElement(_data3[i]); 
+					listModel.removeAllElements();
+					loadListaBolleTerzista(idTerzista);
+					for (int i = 0; i<_data3.length; i++)
+						listModel.addElement(_data3[i]); }
 			}
 		});
-		
+				
 		list_2.setBounds(10, 36, 158, 125);
 		frmBolleDiLavorazione.getContentPane().add(list_2);
+		
+		JButton btnBolleChiuse = new JButton("Bolle Chiuse");
+		btnBolleChiuse.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				bolleChiuse = new GUI_BolleChiuse();
+				bolleChiuse.frmBolleChiuse.setVisible(true);
+			}
+		});
+		btnBolleChiuse.setBounds(407, 352, 140, 23);
+		frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
 		
 		//Al premere di Invio in una cella di table_1 richiama l'Update
 		dmPrima.addTableModelListener(new TableModelListener(){
