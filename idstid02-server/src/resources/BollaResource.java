@@ -1,4 +1,5 @@
 package resources;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -32,7 +33,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                                "SELECT * FROM ProgIngSw.Bolla;"
+                                                "SELECT * FROM progingsw.bolla;"
                                         );
                        
                         while(result.next()) {
@@ -43,6 +44,33 @@ public class BollaResource {
                         statement.close();
                        
                         return listaBolla;
+                       
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                }
+        }
+        
+        @GET
+        @Path ("/valuta/")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Bolla> getListaBollaValutaz() {
+                Statement statement = null;
+                ResultSet result = null;
+                List<Bolla> listaBolla1 = new ArrayList<Bolla>();
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        result = statement.executeQuery("SELECT * FROM progingsw.bolla WHERE stato='1' AND valutata='0';");
+                       
+                        while(result.next()) {
+                                Bolla m1 = new Bolla(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4),
+                                		result.getInt(5), result.getInt(6), result.getInt(7));
+                                listaBolla1.add(m1);
+                        }
+                        statement.close();
+                       
+                        return listaBolla1;
                        
                 } catch (SQLException e) {
                         e.printStackTrace();
@@ -81,7 +109,7 @@ public class BollaResource {
         @GET
         @Path ("/search/{id_terzista}")
         @Produces(MediaType.APPLICATION_JSON)
-        public List<Bolla> getListaBolla1(@PathParam("id_terzista") int id_terzista) {
+        public List<Bolla> getListaBolla2(@PathParam("id_terzista") int id_terzista) {
                 Statement statement = null;
                 ResultSet result = null;
                 List<Bolla> listaBolla = new ArrayList<Bolla>();
@@ -106,6 +134,67 @@ public class BollaResource {
                         return null;
                 }
         }
+        
+      //aggiunto Giorgia
+        @GET
+        @Path ("/terzista/{id_terzista}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Bolla> getListaBolla1(@PathParam("id_terzista") int id_terzista) {
+                Statement statement = null;
+                ResultSet result = null;
+                List<Bolla> listaBolla = new ArrayList<Bolla>();
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        result = statement.executeQuery(
+                                                "SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione on lavorazione.id = Lavorazione_id WHERE Terzista_id = " + id_terzista + ";"
+                                        );
+                       
+                        while(result.next()) {
+                                Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+                                                                                        result.getString(4), result.getString(8));
+                                listaBolla.add(m);
+                        }
+                        statement.close();
+                       
+                        return listaBolla;
+                       
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                }
+        }
+       
+        //aggiunto Giorgia
+        @GET
+        @Path ("/statoCM/{stato}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Bolla> getListaBollaStato(@PathParam("stato") int stato){
+                Statement statement = null;
+                ResultSet result = null;
+                List<Bolla> listaBolla = new ArrayList<Bolla>();
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        result = statement.executeQuery(
+                                        "SELECT bolla.id, codice, stato, data, Terzista_id, Lavorazione_id, nome, ragSociale FROM ProgIngSw.Bolla JOIN ProgIngSw.lavorazione JOIN ProgIngSw.terzista ON lavorazione.id = Lavorazione_id AND Terzista_id = terzista.id WHERE stato = '" + stato + "';"
+                                        );
+                               
+                        while(result.next()) {
+                                Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
+                                                result.getString(4), result.getInt(5), result.getInt(6), result.getString(7), result.getString(8));
+                                listaBolla.add(m);
+                        }
+                        statement.close();
+                               
+                        return listaBolla;
+                               
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                }
+        }
+
         
         //Aggiunto Marco
         @GET
@@ -163,6 +252,61 @@ public class BollaResource {
                         return "-1";
                 }
         }
+        
+      //aggiunto Giorgia
+        @POST
+        @Path ("/stato/{id}")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.APPLICATION_JSON)
+        public String updateBolla1( @PathParam("id") int id,
+                                                                @FormParam("Terzista_id") int terzista_id,
+                                                                @FormParam("stato") int stato) {
+               
+                Statement statement = null;
+                int ok = -1;
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        ok = statement.executeUpdate(
+                                        "UPDATE ProgIngSw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = '" + id + "';"
+                                        );
+                        statement.close();
+
+                        return String.valueOf(ok);
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return "-1";
+                }
+        }
+        
+        //aggiunto Marco
+        @POST
+        @Path ("/valuta/{id}")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.APPLICATION_JSON)
+        public String updateBolla2( @PathParam("id") int id,
+        							@FormParam("stato") int stato,
+        							@FormParam("Terzista_id") int terzista_id) {
+               
+                Statement statement = null;
+                int ok = -1;
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        ok = statement.executeUpdate(
+                                        "UPDATE progingsw.bolla SET valutata = '1' WHERE id = '" + id + "';"
+                        );
+                        
+                        statement.close();
+
+                        return String.valueOf(ok);
+                        
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return "-1";
+                }
+        }
+
        
         @DELETE
         @Path ("{id}")

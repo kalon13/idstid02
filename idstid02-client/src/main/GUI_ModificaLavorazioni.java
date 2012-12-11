@@ -59,6 +59,10 @@ public class GUI_ModificaLavorazioni {
 	ArrayList id_Lav2=new ArrayList();
 	private JTable table_2;
 	private JTable table_3;
+	private JTextField txtPrezzo;
+	private JTextField txtCapacita;
+	private JTextField txtFase;
+	private JTextField txtOrdine;
 	
 	public GUI_ModificaLavorazioni(String user, int tipo) {
 		this.user=user;
@@ -119,15 +123,17 @@ public class GUI_ModificaLavorazioni {
 		panel_1.add(lblLavorazione);
 		lblLavorazione.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		final JTextField txtCapacita = new JTextField();
+		txtCapacita = new JTextField();
 		txtCapacita.setBounds(260, 25, 86, 20);
 		panel_1.add(txtCapacita);
 		txtCapacita.setColumns(10);
+		txtCapacita.setDocument(new LimitDocument(6));
 		
-		final JTextField txtPrezzo = new JTextField();
+		txtPrezzo = new JTextField();
 		txtPrezzo.setBounds(157, 25, 86, 20);
 		panel_1.add(txtPrezzo);
 		txtPrezzo.setColumns(10);
+		txtPrezzo.setDocument(new LimitDocument(6));
 		
 												//BOTTONE INSERISCI LAVORAZIONE
 		
@@ -136,17 +142,19 @@ public class GUI_ModificaLavorazioni {
 		panel_1.add(btnInserisci);
 		btnInserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
-				int lavorazSelezionata=cmbTipoLavorazioni.getSelectedIndex();
-				lavorazSelezionata=(Integer) index.get(lavorazSelezionata);
-				LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
-						0,lavorazSelezionata,t.getId());
-				String id = ResourceClass.addResources("/lavorazioneterzista/", l);
-				JOptionPane.showMessageDialog(null, "Lavorazione inserita correttamente", "Attenzione", 1);
-				//m1.setId(Integer.parseInt(id));
-				frmModificaLavorazioni.setVisible(false);
-				GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
-				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+				if(verificaPrezzoIns(txtPrezzo.getText()) && verificaCapacitaIns(txtCapacita.getText())){
+					Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+					int lavorazSelezionata=cmbTipoLavorazioni.getSelectedIndex();
+					lavorazSelezionata=(Integer) index.get(lavorazSelezionata);
+					LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
+							0,lavorazSelezionata,t.getId());
+					String id = ResourceClass.addResources("/lavorazioneterzista/", l);
+					JOptionPane.showMessageDialog(null, "Lavorazione inserita correttamente", "Attenzione", 1);
+					//m1.setId(Integer.parseInt(id));
+					frmModificaLavorazioni.setVisible(false);
+					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+				}
 			}
 		});
 		btnInserisci.setMnemonic(KeyEvent.VK_ENTER);
@@ -216,22 +224,24 @@ public class GUI_ModificaLavorazioni {
 		table_1.setEnabled(false);
 		table_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
-		final JTextField txtFase = new JTextField();
+		txtFase = new JTextField();
 		txtFase.setBounds(303, 132, 125, 20);
 		panel_2.add(txtFase);
-		txtFase.setColumns(10);
+		txtFase.setColumns(20);
+		txtFase.setDocument(new LimitDocument(20));
 		
-		final JTextField txtOrdine = new JTextField();
+		txtOrdine = new JTextField();
 		txtOrdine.setBounds(428, 132, 58, 20);
 		panel_2.add(txtOrdine);
 		txtOrdine.setColumns(10);
+		txtOrdine.setDocument(new LimitDocument(3));
 		
 															//BOTTONE INSERISCI FASE
 		
 		JButton btnInserisci_1 = new JButton("Inserisci");
 		btnInserisci_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(table.getSelectedRow()!=-1){
+				if(table.getSelectedRow()!=-1 && verificaOrdineIns(txtOrdine.getText()) && verificaNomeFaseIns(txtFase.getText())){
 					int lavorazioneTerzSelezionata=(Integer) id_Lav.get(table.getSelectedRow());
 					Fase f = new Fase(txtFase.getText(),Integer.parseInt(txtOrdine.getText()),lavorazioneTerzSelezionata);
 					String id = ResourceClass.addResources("/fase", f);
@@ -303,6 +313,12 @@ public class GUI_ModificaLavorazioni {
 				"Lavorazione", "Prezzo", "Capacita"
 			}
 		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Double.class, Float.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
 			boolean[] columnEditables = new boolean[] {
 				false, true, true
 			};
@@ -310,6 +326,7 @@ public class GUI_ModificaLavorazioni {
 				return columnEditables[column];
 			}
 		});
+		table_2.getColumnModel().getColumn(0).setPreferredWidth(102);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		scrollPane_3.setBounds(327, 89, 220, 92);
@@ -324,18 +341,25 @@ public class GUI_ModificaLavorazioni {
 			new String[] {
 				"Fase", "Ordine"
 			}
-		));
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Short.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
 		table_3.getColumnModel().getColumn(0).setPreferredWidth(108);
 		table_3.setForeground(Color.BLACK);
 		scrollPane_3.setViewportView(table_3);
 		
 		JTextArea txtrPerOgniRiga = new JTextArea();
+		txtrPerOgniRiga.setEditable(false);
 		txtrPerOgniRiga.setFont(new Font("Tahoma", Font.BOLD, 10));
 		txtrPerOgniRiga.setOpaque(false);
 		txtrPerOgniRiga.setText("Per ogni riga:\r\n   -ENTER --> Modifica\r\n   -CANC  --> Elimina");
 		txtrPerOgniRiga.setBounds(10, 11, 283, 67);
 		modifica.add(txtrPerOgniRiga);
-		table_2.getColumnModel().getColumn(0).setPreferredWidth(102);
 		
 		final Terzista t1 = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
 		//Visualizziamo le lavorazioni --> Per la modifica o cancellazione
@@ -377,16 +401,19 @@ public class GUI_ModificaLavorazioni {
             	if(!lavorazioneAperta){
             		String p=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 1));
             		String c=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 2));
-            		LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
-            		ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
+            		if(table_2.getValueAt(table_2.getSelectedRow(), 1)!=null && table_2.getValueAt(table_2.getSelectedRow(), 2)!=null){
+            			LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
+            			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
+                    	//Refresh della screen
+                		frmModificaLavorazioni.setVisible(false);
+                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+                		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+            		}
+            		else
+            			JOptionPane.showMessageDialog(null, "Impossibile lasciare i campi vuoti.", "Attenzione", 0);
             	}
             	else
             		JOptionPane.showMessageDialog(null, "Impossibile modificare. Hai ancora questa lavorazione in corso.", "Attenzione", 0);
-        		
-            	//Refresh della screen
-        		frmModificaLavorazioni.setVisible(false);
-        		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
-        		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
             }
         });
 		table_2.getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(canc, "DELETE");
@@ -432,12 +459,16 @@ public class GUI_ModificaLavorazioni {
             	int faseSelezionata=(Integer) id_Lav2.get(table_3.getSelectedRow());
 				String n=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 0));
 				String o=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 1));
-				Fase f1 = new Fase(n,Integer.parseInt(o));
-				ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
-				//Refresh della screen
-				frmModificaLavorazioni.setVisible(false);
-				GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
-				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+				if(!n.trim().isEmpty() && table_3.getValueAt(table_3.getSelectedRow(), 1)!=null && n.length()<=30){
+					Fase f1 = new Fase(n,Integer.parseInt(o));
+					ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
+					//Refresh della screen
+					frmModificaLavorazioni.setVisible(false);
+					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+				}
+				else
+					JOptionPane.showMessageDialog(null, "Campi vuoti o nome fase troppo lungo.", "Attenzione", 0);
             }
         });
 		table_3.getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(canc, "DELETE");
@@ -483,12 +514,19 @@ public class GUI_ModificaLavorazioni {
 	public void visualFaseMod(){
 		//Svuotiamo la tabella
 		table_3.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Fase", "Ordine"
-			}
-		));
+				new Object[][] {
+				},
+				new String[] {
+					"Fase", "Ordine"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, Short.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			});
 		List<Fase> fasi = ResourceClass.getResources(Fase.class, Global._URLFase+id_Lav.get(table_2.getSelectedRow()));
 		Iterator<Fase> listaFasi = fasi.iterator();
 		id_Lav2.clear();
@@ -503,7 +541,48 @@ public class GUI_ModificaLavorazioni {
 		}
 	}
 	
-	public void queryLavorazioni(){
-		
+	public void queryLavorazioni(){} //Bho
+	
+	public boolean verificaPrezzoIns(String p){
+		try{
+			Double.parseDouble(p);
+			return true;
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Prezzo non corretto!", "Attenzione", 0);
+			return false;
+		}
 	}
+	
+	public boolean verificaCapacitaIns(String c){
+		try{
+			Float.parseFloat(c);
+			return true;
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Capacità non corretta!", "Attenzione", 0);
+			return false;
+		}
+	}
+	
+	public boolean verificaOrdineIns(String o){
+		try{
+			Short.parseShort(o);
+			return true;
+		}
+		catch(Exception ex){
+			JOptionPane.showMessageDialog(null, "Ordine non corretto!", "Attenzione", 0);
+			return false;
+		}
+	}
+	
+	public boolean verificaNomeFaseIns(String nomeF){
+		if(!nomeF.trim().isEmpty())
+			return true;
+		else{
+			JOptionPane.showMessageDialog(null, "Nome non corretto!", "Attenzione", 0);
+			return false;
+		}
+	}
+	
 }

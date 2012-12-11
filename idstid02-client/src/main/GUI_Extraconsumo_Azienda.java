@@ -1,4 +1,5 @@
 package main;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ import javax.swing.JScrollPane;
 
 import classResources.Extraconsumo;
 
-public class GUI_Extraconsumo {
+public class GUI_Extraconsumo_Azienda {
 
         public JFrame frmExtraconsumo;
         private JTextField textField;
@@ -27,6 +28,7 @@ public class GUI_Extraconsumo {
         private static String[] _data;
         private static int[] _id;
        
+        //TableModel per table_1 (materiali extra)
         //TableModel per table_1 (materiali extra)
         @SuppressWarnings("serial")
         public DefaultTableModel dm = new DefaultTableModel(
@@ -37,7 +39,7 @@ public class GUI_Extraconsumo {
                         })
         {
                 boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                        false, false, false, true, false, false, false
+                        false, false, false, false, false, true, false
                 };
                 public boolean isCellEditable(int row, int column) {
                         return columnEditables[column];
@@ -73,8 +75,7 @@ public class GUI_Extraconsumo {
                                                 table_1.getRowCount(), new Object[]{codArt, desc, qtaAttu, qtaRichiesta, udm, giustif, data});
                         }
         }
-       
-       
+
         /**
          * Launch the application.
          */
@@ -82,8 +83,8 @@ public class GUI_Extraconsumo {
 //              EventQueue.invokeLater(new Runnable() {
 //                      public void run() {
 //                              try {
-//                                      GUI_Extraconsumo window = new GUI_Extraconsumo();
-//                                      window.frmExtraconsumo.setVisible(true);
+//                                      GUI_Extraconsumo_Azienda window = new GUI_Extraconsumo_Azienda();
+//                                      window.frame.setVisible(true);
 //                              } catch (Exception e) {
 //                                      e.printStackTrace();
 //                              }
@@ -94,9 +95,11 @@ public class GUI_Extraconsumo {
         /**
          * Create the application.
          */
-        public GUI_Extraconsumo(String codiceBolla, int id) {
+        public GUI_Extraconsumo_Azienda(String codiceBolla, int id) {
                 initialize(id);
                 textField.setText(codiceBolla);
+               
+
                
                 System.out.println(id);
                 loadTable(id); //passo l'id della bolla selezionata nella lista in frmBolla
@@ -107,7 +110,7 @@ public class GUI_Extraconsumo {
          */
         private void initialize(final int id) {
                 frmExtraconsumo = new JFrame();
-                frmExtraconsumo.setTitle("Richiedi Extraconsumo");
+                frmExtraconsumo.setTitle("Valuta Extraconsumo");
                 frmExtraconsumo.setBounds(100, 100, 558, 270);
                 frmExtraconsumo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                
@@ -126,10 +129,6 @@ public class GUI_Extraconsumo {
                 JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
                 lblMaterialiTeorici.setBounds(7, 31, 105, 14);
                 frmExtraconsumo.getContentPane().add(lblMaterialiTeorici);
-               
-                JButton btnRichiedi = new JButton("Richiedi");
-                btnRichiedi.setBounds(350, 206, 90, 23);
-                frmExtraconsumo.getContentPane().add(btnRichiedi);
                
                 //**btnEsci**
                 JButton btnEsci = new JButton("Esci");
@@ -159,6 +158,7 @@ public class GUI_Extraconsumo {
                                 int row = e.getFirstRow();
                                 if(col > 2) {
                                         try {
+
                                                 //Data di oggi
                                                 Calendar calendar = Calendar.getInstance();
                                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
@@ -168,10 +168,10 @@ public class GUI_Extraconsumo {
                                                 Extraconsumo ext = listaExtra.get(row);
                                                 //Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta
                                                 double qr = Double.parseDouble(dm.getValueAt(row, 3).toString());
-//                                              boolean giu = Boolean.parseBoolean(dm.getValueAt(row, 5).toString());
+                                                boolean giu = Boolean.parseBoolean(dm.getValueAt(row, 5).toString());
 //                                              String dr = (String) dm.getValueAt(row, 6);
                                                 ext.setQuantita(qr);
-                                                ext.setGiustificato(false);
+                                                ext.setGiustificato(giu);
                                                 ext.setDataRichiesta(today); //data
                                                 ResourceClass.updResources(Extraconsumo.class, Global._URLExtraPost, String.valueOf(ext.getId()), ext);
                                                 loadTable(id); //aggiorno tabella con data

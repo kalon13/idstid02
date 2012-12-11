@@ -61,6 +61,14 @@ public class MaterialeDaProdurre {
                 return udm;
         }
 
+        public String getCodArt() {
+                return codArt;
+        }
+
+        public void setCodArt(String codArt) {
+                this.codArt = codArt;
+        }
+
         public void setUdm(String udm) {
                 this.udm = udm;
         }
@@ -122,14 +130,6 @@ public class MaterialeDaProdurre {
         }
         public void setId_materiale(int id_materiale) {
                 this.id_materiale = id_materiale;
-        }
-
-        public String getCodArt() {
-                return codArt;
-        }
-
-        public void setCodArt(String codArt) {
-                this.codArt = codArt;
         }
 }
 

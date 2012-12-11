@@ -2,6 +2,7 @@ package main;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import classResources.Bolla;
 import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
@@ -47,7 +48,13 @@ public class ResourceInsUpd {
                       formData.add("giustificato", giustificato);
                       formData.add("dataRichiesta", dataRichiesta);
                   }
-
+                  else if (className == "classResources.Bolla") { //Giorgia
+                      Bolla b = (Bolla) classObj;
+                      String stato = String.valueOf(b.getStato());
+                      String terzista_id = String.valueOf(b.getTerzistaId());
+                      formData.add("stato", stato);
+                      formData.add("Terzista_id", terzista_id); //maiuscola!
+                  }
                   else if (className == "classResources.Terzista"){
                   	Terzista m = (Terzista) classObj;
                     String id = String.valueOf(m.getId());
@@ -88,11 +95,15 @@ public class ResourceInsUpd {
                 	  String capacita=String.valueOf(m.getCapProd());
                 	  String lavorazId=String.valueOf(m.getLavorazioneID());
                 	  String terzistaId=String.valueOf(m.getTerzistaID());
+                	  String qualita=String.valueOf(m.getQualita());
+                	  String numVotazioni=String.valueOf(m.getNumVotaz());
                 	  
                 	  formData.add("prezzo", prezzo);
                 	  formData.add("capacitaProduzione", capacita);
                 	  formData.add("Lavorazione_id", lavorazId);
                 	  formData.add("Terzista_id", terzistaId);
+                	  formData.add("qualita", qualita);
+                	  formData.add("numeroVotazioni", numVotazioni);
                   }
                   else if (className == "classResources.Fase"){
                 	  Fase m = (Fase) classObj;
