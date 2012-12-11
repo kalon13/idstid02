@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -71,7 +72,7 @@ public class ExtraconsumoResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE ProgIngSw.extraconsumo SET quantita = " + quantita + ", giustificato=" + giustificato + ", dataRichiesta =" + dataRichiesta + " WHERE id=" + id + ";"
+                                        "UPDATE ProgIngSw.extraconsumo SET quantita = " + quantita + ", giustificato=" + giustificato + ", dataRichiesta ='" + dataRichiesta + "' WHERE id=" + id + ";"
                                         );
                         statement.close();
                         return String.valueOf(ok);
@@ -81,4 +82,3 @@ public class ExtraconsumoResource {
                 }
         }
 }
-

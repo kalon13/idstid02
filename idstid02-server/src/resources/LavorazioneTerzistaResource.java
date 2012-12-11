@@ -40,7 +40,7 @@ public class LavorazioneTerzistaResource {
 		
 		try {
 			statement = DB.instance.createStatement();
-			result = statement.executeQuery("SELECT * FROM ProgIngSw.lavorazioneterzista;");
+			result = statement.executeQuery("SELECT * FROM progingsw.lavorazioneterzista;");
 			while(result.next()) {
 				LavorazioneTerzista m = new LavorazioneTerzista(result.getInt(1), result.getDouble(2), result.getDouble(3), 
 						result.getFloat(4), result.getInt(5), result.getInt(6), result.getInt(7));
@@ -74,6 +74,34 @@ public class LavorazioneTerzistaResource {
 						result.getFloat(4), result.getInt(5), result.getInt(6), result.getInt(7));
 				lavTerzista.add(m);
 			}
+			statement.close();
+			
+			return lavTerzista;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path ("select/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public LavorazioneTerzista getLavorazioneTerzID
+	(@PathParam("id") int id) {
+		Statement statement = null;
+		ResultSet result = null;
+		LavorazioneTerzista lavTerzista = null;
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+						"SELECT * FROM progingsw.lavorazioneterzista WHERE id='" + id + "';"
+			);
+			
+			while(result.next()){
+				lavTerzista = new LavorazioneTerzista(result.getInt(1), result.getDouble(3), result.getInt(5), result.getInt(6));
+			}
+			
 			statement.close();
 			
 			return lavTerzista;
@@ -178,6 +206,32 @@ public class LavorazioneTerzistaResource {
                     statement.close();
 
                     return String.valueOf(ok);
+                    
+            } catch (SQLException e) {
+                    e.printStackTrace();
+                    return "-1";
+            }
+    }
+	
+	@POST
+    @Path ("valuta/{id}")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String updateLavorazTerz1(@PathParam("id") int id,
+                                @FormParam("qualita") double qualita,
+                                @FormParam("numeroVotazioni") int numVotazioni) {
+           
+            Statement statement = null;
+            int ok = -1;
+           
+            try {
+                    statement = DB.instance.createStatement();
+                    ok = statement.executeUpdate(
+                                    "UPDATE progingsw.lavorazioneterzista SET qualita ='" + qualita + "', numeroVotazioni ='" + numVotazioni + "' WHERE id='" + id + "';");
+                    statement.close();
+
+                    return String.valueOf(ok);
+                    
             } catch (SQLException e) {
                     e.printStackTrace();
                     return "-1";

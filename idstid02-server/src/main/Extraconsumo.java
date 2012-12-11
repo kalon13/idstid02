@@ -10,12 +10,6 @@ public class Extraconsumo {
         private double quantita;
         private boolean giustificato;
         private String dataRichiesta;
-        //aggiunto
-        private String codiceArticolo;
-        private String descrizione;
-        private double qtaAttuale;
-        private String udm;
-        private double costo;
        
         public Extraconsumo(int id, double quantita, boolean giustificato, String dataRichiesta) {
                 this.id = id;
@@ -31,7 +25,12 @@ public class Extraconsumo {
                 this.dataRichiesta = "";
         }
        
-       
+        //aggiunto
+        private String codiceArticolo;
+        private String descrizione;
+        private double qtaAttuale;
+        private String udm;
+        private double costo;
         //1-extraconsumo.id, 2-codiceArticolo, 3-descrizione, 4-materialiteorici.quantita AS QtaAttuale
         //5-extraconsumo.quantita AS QtaRichiesta, 6-udm, 7-giustificato, 8-dataRichiesta
         public Extraconsumo(int id, String codiceArticolo, String descrizione, double qtaAttuale, double quantita, String udm, boolean giustificato, String dataRichiesta, double costo) {

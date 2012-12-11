@@ -2,82 +2,90 @@ package main;
 
 import java.awt.EventQueue;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JButton;
+import javax.swing.JList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableModel;
+
 import classResources.Bolla;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
-
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.SwingConstants;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
 
-public class GUI_Bolla {
+public class GUI_Bolla_Terzista {
 
-        JFrame frmBolleDiLavorazione;
+        private JFrame frmBolleDiLavorazione;
         private JTextField textField;
-        private JTable table;
-        private JTable table_1;
         private int id; //id bolla
         private int idTerzista; //id terzista
-        private JTextField txtNomeLav; //textbox del nome della lavorazione
+        private int statoBolla;
        
-        GUI_BolleChiuse bolleChiuse;
         GUI_Messaggio messaggio;
-        GUI_Extraconsumo_Azienda extraconsumo;
+        GUI_Extraconsumo extraconsumo;
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
+        List<MaterialeDaProdurre> listaMDaProd = null; //senza join
         List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
         List<Materiale> lista2 = null;
         List<Terzista> listaTerz = null;
         private static String[] _data1;
         private static int[] _id1;
-        private static String[] _data2; //terzisti
-        private static int[] _id2;
         private static String[] _data3; //bolle-terzisti
         private static int[] _id3;
         private static String[] _nomeLav;
         private static int[] _statoBol;
        
-        private void loadListaTerzisti(){
-                //Load lista terzisti
-                listaTerz = ResourceClass.getResources(Terzista.class, Global._URLTerzista);
-                Iterator<Terzista> it = listaTerz.iterator();
-
-                _data2 = new String[listaTerz.size()];
-                _id2 = new int[listaTerz.size()];
-                int k = 0;
-                while(it.hasNext())
+        //TableModel per table (materiali da produrre)
+        @SuppressWarnings("serial")
+        public DefaultTableModel dmPrima = new DefaultTableModel(
+                        new Object[][] {
+                        },
+                        new String[] {
+                                        "Descrizione", "Qta", "udm", "numeroMorti", "qtaProdotta", "QtaSpedita"
+                        })
                         {
-                                Terzista terCl = (Terzista)it.next();
-                                String id = String.valueOf(terCl.getId());
-                                String ragSoc = String.valueOf(terCl.getRagioneSociale());
-                                _data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
-                                _id2[k]= terCl.getId();
-                                k++;
+                                boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
+                                        false, false, false, true, true, true
+                                };
+                                public boolean isCellEditable(int row, int column) {
+                                        return columnEditables[column];
+                                }
+                        };
+       
+        //TableModel per table_1 (materiali teorici)
+        public DefaultTableModel dm = new DefaultTableModel(
+                        new Object[][] {
+                        },
+                        new String[] {
+                                        "Desc", "Quantità", "udm", "CostoUnit",
                         }
-        }
+                );
+        private JTable table;
+        private JTable table_1;
+        private JTextField textField_1; //textbox dell'id del terzista
+        private JTextField txtNomeLav; //textbox del nome della lavorazione
        
         private void loadListaBolleTerzista(int id_terzista){
                 //Load lista bolle del terzista
@@ -93,19 +101,16 @@ public class GUI_Bolla {
                         {
                                 Bolla bollaCl = (Bolla)it.next();
                                 String codBol = String.valueOf(bollaCl.getCodice());
-//                              int statoBol = bollaCl.getStato();
-//                              if (statoBol != 3 && statoBol !=4) //se la bolla non è chiusa o chiusa con morti
-//                              {
-                                        String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
-                                        _data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
-                                        _id3[k]= bollaCl.getId();
-                                        _nomeLav[k] = bollaCl.getNomeLavorazione();
-                                        _statoBol[k] = bollaCl.getStato();
-//                              }
+                                String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
+                                _nomeLav[k] = bollaCl.getNomeLavorazione();
+                                _data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
+                                _id3[k]= bollaCl.getId();
+                                _statoBol[k] = bollaCl.getStato();
                                 k++;
                         }
         }
        
+        //aggiunto
         //restituisce il vettore di dati dei materiali che si riferscono alla bolla selezionata nella lista
         private void loadTableMatTeo(int numBolla){
                 //Load lista
@@ -165,12 +170,12 @@ public class GUI_Bolla {
                                     table.getRowCount(), new Object[]{desc, qtaMat, udm, numMorti, qtaProdotta, qtaSpedita});
                         }
         }
-       
+
         public static void main(String[] args) {
                 EventQueue.invokeLater(new Runnable() {
                         public void run() {
                                 try {
-                                        GUI_Bolla window = new GUI_Bolla();
+                                        GUI_Bolla_Terzista window = new GUI_Bolla_Terzista();
                                         window.frmBolleDiLavorazione.setVisible(true);
                                 } catch (Exception e) {
                                         e.printStackTrace();
@@ -178,40 +183,56 @@ public class GUI_Bolla {
                         }
                 });
         }
-               
-        //TableModel per table (materiali da produrre)
-        @SuppressWarnings("serial")
-        public DefaultTableModel dmPrima = new DefaultTableModel(
-                        new Object[][] {
-                        },
-                        new String[] {
-                                        "Descrizione", "Qta", "udm", "numeroMorti", "qtaProdotta", "QtaSpedita"
-                        })
-                        {
-                                boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                                        false, false, false, false, false, false
-                                };
-                                public boolean isCellEditable(int row, int column) {
-                                        return columnEditables[column];
-                                }
-                        };
-       
-        //TableModel per table_1 (materiali teorici)
-        public DefaultTableModel dm = new DefaultTableModel(
-                        new Object[][] {
-                        },
-                        new String[] {
-                                        "Desc", "Quantità", "udm", "CostoUnit",
-                        }
-                );
-        private JTextField textField_1;
-       
-        public GUI_Bolla() {
-                loadListaTerzisti(); //carica lista terzisti
+
+        public GUI_Bolla_Terzista() {
                 initialize();
         }
-
-        private void initialize() {    
+       
+        //ListModel lista delle bolle del terzista
+        public DefaultListModel listModel = new DefaultListModel();
+        public JList list = new JList(listModel);
+       
+        private JTextField textField_2;
+        JButton btnRichiediExtra = new JButton("Richiedi Extra");
+       
+        //Carica JList dcon le bolle del terzista
+        private void caricaJListBolle(int idTerzista){
+                loadListaBolleTerzista(idTerzista); //carica lista bolle del terzista in ListaBTer (e crea il vettore _data3)
+               
+                //**JList Bolle**
+                for (int i = 0; i<_data3.length; i++)
+                listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
+                list.addListSelectionListener(new ListSelectionListener() {
+                        public void valueChanged(ListSelectionEvent e) {
+                                if (e.getValueIsAdjusting() == true)
+                                {
+                                        textField_2.setText("");
+                                        btnRichiediExtra.setEnabled(true);
+                                       
+                                        int indice = list.getSelectedIndex();
+                                        Bolla b = listaBTer.get(indice);
+                                        String testo = b.getCodice();
+                                        textField.setText(testo); //numero bolla selezionata nella lista
+                                        statoBolla = b.getStato(); //stato della bolla selezionata
+                                        System.out.println(testo);
+                                       
+                                        int k = list.getSelectedIndex();
+                                        id = _id3[k]; //id bolla
+                                        txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
+                                 
+                                        loadTableMatTeo(id); //carica i materiali teorici di quella bolla
+                                        loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+                                        if (_statoBol[k] == 3 || _statoBol[k] == 4)
+                                        {
+                                                textField_2.setText("Bolla chiusa!");
+                                                btnRichiediExtra.setEnabled(false);
+                                        }
+                                }
+                        }
+                });
+        }
+       
+        private void initialize() {
                 frmBolleDiLavorazione = new JFrame();
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
@@ -220,7 +241,7 @@ public class GUI_Bolla {
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
                 JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
-                lblBolleDiLavorazione.setBounds(10, 172, 106, 14);
+                lblBolleDiLavorazione.setBounds(10, 64, 106, 14);
                 frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
                
                 JPanel panel = new JPanel();
@@ -280,33 +301,16 @@ public class GUI_Bolla {
                 btnEsci.setBounds(557, 352, 89, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnEsci);
                
-                //**JList Bolle**
-                final DefaultListModel listModel = new DefaultListModel();
-                final JList list = new JList(listModel); //aggiunge alla Jlist numero + data delle bolle
-                //Quando clicco su una bolla nella lista bolle
-                list.addListSelectionListener(new ListSelectionListener() {
-                        public void valueChanged(ListSelectionEvent e) {
-                                if (e.getValueIsAdjusting() == true)
-                                {
-                                        textField_1.setText(""); //pulisce campo testo
-                                        int indice = list.getSelectedIndex();
-                                        Bolla b = listaBTer.get(indice);
-                                        String testo = b.getCodice();
-                                        textField.setText(testo); //numero bolla selezionata nella lista
-                                       
-                                        int k = list.getSelectedIndex();
-                                        id = _id3[k]; //id bolla
-                                        txtNomeLav.setText(_nomeLav[k]); //nome lavorazione della bolla selezionata
-                                 
-                                        loadTableMatTeo(id); //carica i materiali teorici di quella bolla
-                                        loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
-                                        if (_statoBol[k] == 3 || _statoBol[k] == 4)
-                                        {
-                                                textField_1.setText("Bolla chiusa!");
-                                        }
-                                }
-                        }
-                });
+                textField_1 = new JTextField();
+                textField_1.setText("1");
+                System.out.println(textField_1.getText());
+                textField_1.setBounds(10, 33, 158, 20);
+                frmBolleDiLavorazione.getContentPane().add(textField_1);
+                textField_1.setColumns(10);
+               
+                //ID TERZISTA --> dopo da cambiare in base alla sessione
+                idTerzista = Integer.parseInt(textField_1.getText());
+                caricaJListBolle(idTerzista); //carica JList bolle del terzista
                
                 //**btnVisualizzaNote**
                 JButton btnVisualizzaNote = new JButton("Visualizza Note");
@@ -322,72 +326,75 @@ public class GUI_Bolla {
                 panel.add(btnVisualizzaNote);
                
                 //**btnRichiediExtra**
-                JButton btnVisualizzaExtra = new JButton("Visualizza Extra");
-                btnVisualizzaExtra.addActionListener(new ActionListener() {
+//              JButton btnRichiediExtra = new JButton("Richiedi Extra");
+                btnRichiediExtra.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                                 if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
                                         //Passo codice bolla nella text box e id della bolla per la query
-                                        extraconsumo = new GUI_Extraconsumo_Azienda(textField.getText(), id);
+                                        extraconsumo = new GUI_Extraconsumo(textField.getText(), id);
                                         extraconsumo.frmExtraconsumo.setVisible(true);
                                         }
                                 }
                 });
-                btnVisualizzaExtra.setBounds(311, 295, 147, 23);
-                panel.add(btnVisualizzaExtra);
+                btnRichiediExtra.setBounds(346, 295, 112, 23);
+                panel.add(btnRichiediExtra);
                
-                textField_1 = new JTextField();
-                textField_1.setEditable(false);
-                textField_1.setForeground(Color.RED);
-                textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-                textField_1.setBounds(11, 295, 284, 20);
-                panel.add(textField_1);
-                textField_1.setColumns(10);
-               
-                list.setBounds(10, 197, 158, 143);
+                textField_2 = new JTextField();
+                textField_2.setForeground(Color.RED);
+                textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
+                textField_2.setEditable(false);
+                textField_2.setColumns(10);
+                textField_2.setBounds(10, 296, 284, 20);
+                panel.add(textField_2);
+                       
+                list.setBounds(10, 89, 158, 149);
                 frmBolleDiLavorazione.getContentPane().add(list);
                
-                JLabel lblTerzisti = new JLabel("Terzisti:");
-                lblTerzisti.setBounds(10, 11, 46, 14);
-                frmBolleDiLavorazione.getContentPane().add(lblTerzisti);
-               
-                //**JList Terzisti**
-                final JList list_2 = new JList(_data2);
-                //Se clicco in un terzista della lista mi visualizza solo le bolle a lui assegnate
-                list_2.addListSelectionListener(new ListSelectionListener() {
-                        public void valueChanged(ListSelectionEvent e) {
-                                if (e.getValueIsAdjusting() == true)
-                                {
-                                        dm.setRowCount(0); //pulisce tabella
-                                        dmPrima.setRowCount(0); //pulisce tabella
-                                        textField.setText(""); //pulisce campi testo
-                                        txtNomeLav.setText("");
-                                        textField_1.setText("");
-                                       
-                                        int k = list_2.getSelectedIndex();
-                                        idTerzista = _id2[k]; //id terzista
-                               
-                                        System.out.println(idTerzista);
-                               
-                                        listModel.removeAllElements();
-                                        loadListaBolleTerzista(idTerzista);
-                                        for (int i = 0; i<_data3.length; i++)
-                                                listModel.addElement(_data3[i]); }
-                        }
-                });
-                               
-                list_2.setBounds(10, 36, 158, 125);
-                frmBolleDiLavorazione.getContentPane().add(list_2);
-               
-                JButton btnBolleChiuse = new JButton("Bolle Chiuse");
-                btnBolleChiuse.addMouseListener(new MouseAdapter() {
+                //**btnAnnullaBolla**
+                JButton btnAnnullaBolla = new JButton("Annulla Bolla");
+                //Se cerco di annullare una bolla già iniziata -> errore!
+                btnAnnullaBolla.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                                bolleChiuse = new GUI_BolleChiuse();
-                                bolleChiuse.frmBolleChiuse.setVisible(true);
+                                if (statoBolla == 2) {
+                                        JDialog dialog = new JDialog();
+                                        JLabel label = new JLabel("Impossibile annullare una bolla in corso di lavorazione!");
+                                        dialog.setLocationRelativeTo(null);
+                                        dialog.setTitle("Attenzione!");
+                                        dialog.getContentPane().add(label);
+                                        dialog.pack();
+                                        dialog.setVisible(true);
+                                        System.out.println(statoBolla);
+                                }
+                                else //se la bolla non è stata ancora iniziata può essere annullata
+                                {
+                                        //Mettere a -1 l'id_terzista di quella bolla
+                                        Bolla b = new Bolla();
+                                        b.setStato(0); //setto a 0 = bolla da assegnare, lo stato della bolla
+                                        b.setTerzistaId(-1); //setto id_terzista -1
+                                        System.out.println("BollaID: " + id);
+                                        ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+                                        listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
+                                        caricaJListBolle(idTerzista); //ricarica la lista delle bolle del terzista
+                                        dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
+                                        dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
+                                }
                         }
                 });
-                btnBolleChiuse.setBounds(407, 352, 140, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
+                btnAnnullaBolla.setBounds(10, 249, 158, 23);
+                frmBolleDiLavorazione.getContentPane().add(btnAnnullaBolla);
+               
+                JButton btnChiudiParzialmente = new JButton("Chiudi Parzialmente");
+                btnChiudiParzialmente.setBounds(10, 283, 158, 23);
+                frmBolleDiLavorazione.getContentPane().add(btnChiudiParzialmente);
+               
+                JButton btnChiudiBolla = new JButton("Chiudi Bolla");
+                btnChiudiBolla.setBounds(10, 317, 158, 23);
+                frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
+               
+                JLabel lblTerzisti = new JLabel("Terzista:");
+                lblTerzisti.setBounds(10, 11, 106, 14);
+                frmBolleDiLavorazione.getContentPane().add(lblTerzisti);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update
                 dmPrima.addTableModelListener(new TableModelListener(){
@@ -405,7 +412,13 @@ public class GUI_Bolla {
                                                 mdp.setNumeroMorti(nm);
                                                 mdp.setQuantitaProdotta(qtp);
                                                 mdp.setQuantitaSpedita(qts);
+
+                                                Bolla b = new Bolla();
+                                                b.setStato(2); //setto lo stato della bolla selezionata a 2 = in corso di lavorazione
+                                                b.setTerzistaId(Integer.parseInt(textField_1.getText())); //id_terzista --> DA MODIFICARE CON LA SESSIONE
                                                 ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
+                                                ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+                                                statoBolla = b.getStato(); //aggiorno variabile dello stato della bolla selezionata
                                         }
                                         catch(Exception er) {
                                                 er.printStackTrace();

@@ -42,6 +42,18 @@ public class LavorazioneTerzista {
                 this.lavorazioneID=lavorazioneID;
                 this.terzistaID=terzistaID; 
 	        }
+	        
+	        public LavorazioneTerzista(int id, Double qualita, int numVotazioni, int lavorazioneID) {
+	        	this.id=id;
+	        	this.qualita=qualita;
+	        	this.numVotazioni=numVotazioni;
+                this.lavorazioneID=lavorazioneID;
+	        }
+	        
+	        public LavorazioneTerzista(Double qualita, int numVotazioni) {
+	        	this.qualita=qualita;
+	        	this.numVotazioni=numVotazioni;
+	        }
 	       
 	        public int getID() {
 	                return id;
@@ -91,8 +103,8 @@ public class LavorazioneTerzista {
                 this.numVotazioni=numVotaz;
 	        }
 	        
-	        public void setLavorazioneID(int lavID) {
-                this.lavorazioneID=lavID;
+	        public void setLavorazioneID(int lavorazioneID) {
+                this.lavorazioneID=lavorazioneID;
 	        }
 	        
 	        public void setTerzistaID(int terzID) {

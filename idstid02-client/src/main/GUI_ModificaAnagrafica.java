@@ -83,7 +83,22 @@ public class GUI_ModificaAnagrafica {
 		panel.add(label);
 		
 		piva = new JTextField(t.getpIva());
-		piva.setColumns(40);
+		piva.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(!verificaIva(piva.getText())){
+					matched=false;
+					focus++;
+					if(focus==1) JOptionPane.showMessageDialog(null, "Campo non valido!", "Attenzione", 0);
+					else if(focus==3) focus=0;
+					piva.requestFocusInWindow();
+					piva.selectAll();
+				}
+				else
+					matched=true;
+			}
+		});
+		piva.setColumns(30);
 		piva.setBounds(132, 241, 326, 20);
 		panel.add(piva);
 		
@@ -117,12 +132,42 @@ public class GUI_ModificaAnagrafica {
 		panel.add(label_2);
 		
 		fax = new JTextField(t.getFax());
-		fax.setColumns(40);
+		fax.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(!verificaTel(fax.getText())){
+					matched=false;
+					focus++;
+					if(focus==1) JOptionPane.showMessageDialog(null, "Campo non valido!", "Attenzione", 0);
+					else if(focus==3) focus=0;
+					fax.requestFocusInWindow();
+					fax.selectAll();
+				}
+				else
+					matched=true;
+			}
+		});
+		fax.setColumns(15);
 		fax.setBounds(132, 189, 326, 20);
 		panel.add(fax);
 		
 		tel = new JTextField(t.getTelefono());
-		tel.setColumns(40);
+		tel.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if(!verificaTel(tel.getText())){
+					matched=false;
+					focus++;
+					if(focus==1) JOptionPane.showMessageDialog(null, "Campo non valido!", "Attenzione", 0);
+					else if(focus==3) focus=0;
+					tel.requestFocusInWindow();
+					tel.selectAll();
+				}
+				else
+					matched=true;
+			}
+		});
+		tel.setColumns(15);
 		tel.setBounds(132, 163, 326, 20);
 		panel.add(tel);
 		
@@ -162,23 +207,29 @@ public class GUI_ModificaAnagrafica {
 		label_6.setBounds(10, 88, 112, 14);
 		panel.add(label_6);
 		
-		citta = new JTextField(t.getCitta());
-		citta.setColumns(40);
+		citta = new JTextField();
+		citta.setColumns(30);
 		citta.setBounds(132, 82, 326, 20);
+		citta.setDocument(new LimitDocument(30));
+		citta.setText(t.getCitta()); //Occorre metterlo qui altrim il setDocument lo azzera.
 		panel.add(citta);
 		
-		indirizzo = new JTextField(t.getIndirizzo());
-		indirizzo.setColumns(40);
+		indirizzo = new JTextField();
+		indirizzo.setColumns(60);
 		indirizzo.setBounds(132, 56, 326, 20);
+		indirizzo.setDocument(new LimitDocument(60));
+		indirizzo.setText(t.getIndirizzo());
 		panel.add(indirizzo);
 		
 		JLabel lblIndirizzo = new JLabel("Indirizzo");
 		lblIndirizzo.setBounds(10, 62, 112, 14);
 		panel.add(lblIndirizzo);
 		
-		prov = new JTextField(t.getProvincia());
-		prov.setColumns(40);
+		prov = new JTextField();
+		prov.setColumns(20);
 		prov.setBounds(132, 111, 326, 20);
+		prov.setDocument(new LimitDocument(20));
+		prov.setText(t.getProvincia());
 		panel.add(prov);
 		
 		ragsoc = new JTextField(t.getRagioneSociale());
@@ -220,15 +271,17 @@ public class GUI_ModificaAnagrafica {
 		btnIndietro.setBounds(270, 354, 89, 23);
 		panel.add(btnIndietro);
 		
-		pass = new JPasswordField(GUI_Autenticazione.psw);
+		pass = new JPasswordField();
+		pass.setColumns(30);
 		pass.setBounds(132, 268, 326, 20);
+		pass.setDocument(new LimitDocument(30));
+		pass.setText(GUI_Autenticazione.psw);
 		panel.add(pass);
 	}
 	
 	public void update(){
 		if(matched){
 		//Occorre convalidare i dati ed aggiornarli nel DB
-		//Convalida ancora da fare
 		Terzista updTerzista=new Terzista(t.getId(), email.getText(), piva.getText(), ragsoc.getText(), indirizzo.getText(), cap.getText(),
 				prov.getText(), citta.getText(), tel.getText(), fax.getText());
 		ResourceClass.updResources(Terzista.class, Global._URLTerz, String.valueOf(t.getId()), updTerzista);
@@ -253,6 +306,20 @@ public class GUI_ModificaAnagrafica {
 	public static boolean verificaCAP(String cap) {
 		pattern = Pattern.compile("^[0-9]{5}(?:-[0-9]{4})?$");
 		matcher = pattern.matcher(cap);
+		if(matcher.matches()) return true;
+		else return false;
+	}
+	
+	public static boolean verificaTel(String tel) {//Anche per il fax
+		pattern = Pattern.compile("^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$");
+		matcher = pattern.matcher(tel);
+		if(matcher.matches()) return true;
+		else return false;
+	}
+	
+	public static boolean verificaIva(String iva){
+		pattern = Pattern.compile("^[0-9]{11}$");
+		matcher = pattern.matcher(iva);
 		if(matcher.matches()) return true;
 		else return false;
 	}
