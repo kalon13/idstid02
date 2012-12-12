@@ -139,7 +139,7 @@ public class GUI_Home {
                 frmHome.getContentPane().add(lblBenvenuto);
                
                 JLabel labelUser = new JLabel(user);
-                labelUser.setBounds(89, 5, 102, 14);
+                labelUser.setBounds(124, 5, 161, 14);
                 frmHome.getContentPane().add(labelUser);
         }
 
