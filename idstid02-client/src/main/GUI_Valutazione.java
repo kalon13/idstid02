@@ -36,17 +36,13 @@ public class GUI_Valutazione {
 
 	public JFrame frmValutazione;	//Ci vorrebbe il getFrame() e lasciarlo private
 	private JTable tableValutazione;
-	private String user;
-	private int tipo;
 	ArrayList index=new ArrayList();
 	ArrayList qualita=new ArrayList();
 	ArrayList numVotazioni=new ArrayList();
 	ArrayList lavorazioni=new ArrayList();
 
 
-	public GUI_Valutazione(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_Valutazione() {
 		initialize();
 		trovaBolleDaValutare();
 	}
@@ -123,7 +119,7 @@ public class GUI_Valutazione {
             			JOptionPane.showMessageDialog(null, "Bolla valutata correttamente.", "Attenzione", 1);
             			//Refresh della screen
             			frmValutazione.setVisible(false);
-            			GUI_Valutazione windowValutazione=new GUI_Valutazione(user, tipo);
+            			GUI_Valutazione windowValutazione=new GUI_Valutazione();
             			windowValutazione.frmValutazione.setVisible(true);
             		}
             		else
@@ -138,7 +134,7 @@ public class GUI_Valutazione {
 		JButton btnIndietro = new JButton("Indietro");
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati(user, tipo);
+				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
 				windowGestione.frmGestioneDati.setVisible(true);
 				frmValutazione.setVisible(false);
 			}

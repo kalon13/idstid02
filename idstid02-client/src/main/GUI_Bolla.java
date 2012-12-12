@@ -41,8 +41,6 @@ public class GUI_Bolla {
         private int id; //id bolla
         private int idTerzista; //id terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
-        private String user;
-        private int tipo;
         
         GUI_BolleChiuse bolleChiuse;
         GUI_Messaggio messaggio;
@@ -209,9 +207,8 @@ public class GUI_Bolla {
                 );
         private JLabel textField_1;
        
-        public GUI_Bolla(String user, int tipo) {
-        		this.user = user;
-        		this.tipo = tipo;
+        public GUI_Bolla() {
+
                 loadListaTerzisti(); //carica lista terzisti
                 initialize();
         }
@@ -280,7 +277,7 @@ public class GUI_Bolla {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                                 frmBolleDiLavorazione.setVisible(false);
-                                home = new GUI_Home(user, tipo);
+                                home = new GUI_Home();
                                 home.frmHome.setVisible(true);
                         }
                 });

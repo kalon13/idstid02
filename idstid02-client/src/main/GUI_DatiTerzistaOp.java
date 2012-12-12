@@ -63,9 +63,7 @@ public class GUI_DatiTerzistaOp {
 	int indiceTerzista;
 	
 	//index contiene l'id del terzista da visualizzare
-	public GUI_DatiTerzistaOp(int index, String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_DatiTerzistaOp(int index) {
 		indiceTerzista=index;
 		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+index);
 		initialize();
@@ -165,7 +163,7 @@ public class GUI_DatiTerzistaOp {
 			public void actionPerformed(ActionEvent e) {
 				frmDatiTerzistaOp.setVisible(false);
 				//Porca come si torna indietro??? Solo così???
-				GUI_SceltaTerzista windowScelta=new GUI_SceltaTerzista(user, tipo);
+				GUI_SceltaTerzista windowScelta=new GUI_SceltaTerzista();
 				windowScelta.frmSceltaTerzista.setVisible(true);
 			}
 			

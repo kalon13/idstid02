@@ -26,8 +26,8 @@ import java.util.List;
 public class GUI_GestioneDati {
 
 	public JFrame frmGestioneDati;
-	private String user;
-	private int tipo;
+//	private String user;
+//	private int tipo;
 
 	public static GUI_SceltaTerzista windowScelta;
 	public static GUI_DatiTerzistaTr windowDatiTr;
@@ -35,9 +35,7 @@ public class GUI_GestioneDati {
 	public static GUI_Valutazione windowValutazione;
 	public static GUI_CancellazioneTerzistaOp windowCanc;
 	
-	public GUI_GestioneDati(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_GestioneDati() {
 		initialize();
 	}
 
@@ -54,14 +52,14 @@ public class GUI_GestioneDati {
 		btnVisualizza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Se è l'Operatore dell'azienda che visualizza
-				if(tipo==2){
-					windowScelta = new GUI_SceltaTerzista(user, tipo);
+				if(Autenticazione.getSessione().getTipoUtente()==2){
+					windowScelta = new GUI_SceltaTerzista();
 					windowScelta.frmSceltaTerzista.setVisible(true);
 					frmGestioneDati.setVisible(false);
 				}
 				else
 				{
-					windowDatiTr = new GUI_DatiTerzistaTr(user, tipo, GUI_Autenticazione.ID);
+					windowDatiTr = new GUI_DatiTerzistaTr();
 					windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 					frmGestioneDati.setVisible(false);
 				}
@@ -75,14 +73,14 @@ public class GUI_GestioneDati {
 		JButton btnModificaValuta = new JButton("Modifica / Valuta");
 		btnModificaValuta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tipo==1){
-					windowModificaDati = new GUI_ModificaDati(user, tipo);
+				if(Autenticazione.getSessione().getTipoUtente()==1){
+					windowModificaDati = new GUI_ModificaDati();
 					windowModificaDati.frmModificaDati.setVisible(true);
 					frmGestioneDati.setVisible(false);
 				}
 				else{
 					//Finestra di valutazione
-					windowValutazione = new GUI_Valutazione(user, tipo);
+					windowValutazione = new GUI_Valutazione();
 					windowValutazione.frmValutazione.setVisible(true);
 					frmGestioneDati.setVisible(false);
 				}
@@ -95,8 +93,9 @@ public class GUI_GestioneDati {
 		JButton btnElimina = new JButton("Cancella Profilo Terzista");
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(tipo==1){//E' il terzista
-					Terzista t=ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+				if(Autenticazione.getSessione().getTipoUtente()==1){//E' il terzista
+					Terzista t=ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+
+									Autenticazione.getSessione().getUtente().getUserId());
 					int terzSelezionato=t.getId();
 					boolean lavorazioneAperta=false;
 					List<Bolla> listab=ResourceClass.getResources(Bolla.class, "/bolla/search/"+terzSelezionato);
@@ -124,7 +123,7 @@ public class GUI_GestioneDati {
 		        		JOptionPane.showMessageDialog(null, "Cancellazione negata, hai ancora delle lavorazioni in corso.", "Attenzione", 0);
 				}
 				else{//E' l'azienda
-					windowCanc = new GUI_CancellazioneTerzistaOp(user, tipo);
+					windowCanc = new GUI_CancellazioneTerzistaOp();
 					windowCanc.frmCancellazioneTerzista.setVisible(true);
 					frmGestioneDati.setVisible(false);
 				}
@@ -140,7 +139,7 @@ public class GUI_GestioneDati {
 		btnHome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmGestioneDati.setVisible(false);
-				GUI_Home windowHome=new GUI_Home(user, tipo);
+				GUI_Home windowHome=new GUI_Home();
 				windowHome.frmHome.setVisible(true);
 			}
 		});

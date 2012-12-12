@@ -38,8 +38,8 @@ public class GUI_Autenticazione {
         
         static GUI_Home windowHome;
         
-        public static int ID=-1;
-        public static String psw;
+//        public static int ID=-1;
+//        public static String psw;
         
         /**
          * Create the application.
@@ -132,8 +132,7 @@ public class GUI_Autenticazione {
                 if(session.getUtente() != null) {
                 	
                 	Autenticazione.setSessione(session);
-                	ID = session.getUtente().getUserId();
-                    windowHome = new GUI_Home(session.getUtente().getUser(), session.getUtente().getTipo());
+                    windowHome = new GUI_Home();
                     windowHome.frmHome.setVisible(true);
                     frmAutenticazione.setVisible(false);
                 }

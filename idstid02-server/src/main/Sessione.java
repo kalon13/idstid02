@@ -5,13 +5,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class Sessione {
         private Utente utente;
-        private Terzista terzista;
         private String sessionID;
         private Date timestamp;
        
         public Sessione() {
                 utente = null;
-                terzista = null;
                 sessionID = "";
         }
        
@@ -41,12 +39,4 @@ public class Sessione {
         public void setTimestamp(Date timestamp) {
                 this.timestamp = timestamp;
         }
-
-		public Terzista getTerzista() {
-			return terzista;
-		}
-
-		public void setTerzista(Terzista terzista) {
-			this.terzista = terzista;
-		}
 }
