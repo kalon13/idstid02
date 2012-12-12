@@ -240,8 +240,8 @@ public class BollaResource {
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
         public String updateBolla( @PathParam("id") int id,
-                                                                @DefaultValue("") @FormParam("descrizione") String descrizione,
-                                                                @DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
+        							@DefaultValue("") @FormParam("descrizione") String descrizione,
+        							@DefaultValue("0") @FormParam("costoUnitario") double costoUnitario) {
                
                 Statement statement = null;
                 int ok = -1;
@@ -276,7 +276,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE ProgIngSw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = '" + id + "';"
+                                        "UPDATE ProgIngSw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = " + id + ";"
                                         );
                         statement.close();
 

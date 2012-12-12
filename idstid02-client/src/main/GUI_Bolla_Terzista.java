@@ -374,6 +374,8 @@ public class GUI_Bolla_Terzista {
                     b.setStato(0); //setto a 0 = bolla da assegnare, lo stato della bolla
                     b.setTerzistaId(-1); //setto id_terzista -1
                     System.out.println("BollaID: " + id);
+                    System.out.println(b.getId());
+                    System.out.println(b.getTerzistaId());
                     ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                     listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
                     caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
