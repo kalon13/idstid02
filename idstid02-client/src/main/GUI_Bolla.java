@@ -41,10 +41,11 @@ public class GUI_Bolla {
         private int id; //id bolla
         private int idTerzista; //id terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
-       
+        
         GUI_BolleChiuse bolleChiuse;
         GUI_Messaggio messaggio;
         GUI_Extraconsumo_Azienda extraconsumo;
+        GUI_Home home;
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
@@ -166,18 +167,18 @@ public class GUI_Bolla {
                         }
         }
        
-        public static void main(String[] args) {
-                EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                try {
-                                        GUI_Bolla window = new GUI_Bolla();
-                                        window.frmBolleDiLavorazione.setVisible(true);
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-        }
+//        public static void main(String[] args) {
+//                EventQueue.invokeLater(new Runnable() {
+//                        public void run() {
+//                                try {
+//                                        GUI_Bolla window = new GUI_Bolla();
+//                                        window.frmBolleDiLavorazione.setVisible(true);
+//                                } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                }
+//                        }
+//                });
+//        }
                
         //TableModel per table (materiali da produrre)
         @SuppressWarnings("serial")
@@ -204,9 +205,10 @@ public class GUI_Bolla {
                                         "Desc", "Quantità", "udm", "CostoUnit",
                         }
                 );
-        private JTextField textField_1;
+        private JLabel textField_1;
        
         public GUI_Bolla() {
+
                 loadListaTerzisti(); //carica lista terzisti
                 initialize();
         }
@@ -274,7 +276,9 @@ public class GUI_Bolla {
                 btnEsci.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                                frmBolleDiLavorazione.dispose();
+                                frmBolleDiLavorazione.setVisible(false);
+                                home = new GUI_Home();
+                                home.frmHome.setVisible(true);
                         }
                 });
                 btnEsci.setBounds(557, 352, 89, 23);
@@ -335,13 +339,11 @@ public class GUI_Bolla {
                 btnVisualizzaExtra.setBounds(311, 295, 147, 23);
                 panel.add(btnVisualizzaExtra);
                
-                textField_1 = new JTextField();
-                textField_1.setEditable(false);
+                textField_1 = new JLabel();
                 textField_1.setForeground(Color.RED);
                 textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
                 textField_1.setBounds(11, 295, 284, 20);
                 panel.add(textField_1);
-                textField_1.setColumns(10);
                
                 list.setBounds(10, 197, 158, 143);
                 frmBolleDiLavorazione.getContentPane().add(list);

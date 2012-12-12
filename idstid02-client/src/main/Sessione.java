@@ -1,7 +1,8 @@
 package main;
-
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import classResources.Terzista;
 import classResources.Utente;
 
 @XmlRootElement
@@ -41,4 +42,12 @@ public class Sessione {
         public void setTimestamp(Date timestamp) {
                 this.timestamp = timestamp;
         }
+        
+        public int getTipoUtente() {
+        	if(utente != null) {
+        		return utente.getTipo();
+        	}
+        	return 0;
+        }
+
 }

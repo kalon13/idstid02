@@ -36,7 +36,7 @@ public class MessaggioResource {
                         //int id, String data, String testo, boolean letto
                         result = statement.executeQuery(
                                                 "SELECT id, data, testo, letto "+
-                                                "FROM ProgIngSw.Messaggio;");
+                                                "FROM progingsw.Messaggio;");
                         while(result.next()) {
                                 Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
                                                                                         result.getString(3), result.getBoolean(4));
@@ -65,7 +65,7 @@ public class MessaggioResource {
                                 statement = DB.instance.createStatement();
                                 result = statement.executeQuery(
                                                 "SELECT id, data, testo, letto, Bolla_id" +
-                                                " FROM ProgIngSw.Messaggio" +
+                                                " FROM progingsw.Messaggio" +
                                                 " WHERE Bolla_id=" + txtSearch + ";");
                                 if(result != null){
                                  while(result.next()) {

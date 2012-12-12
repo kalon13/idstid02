@@ -41,8 +41,6 @@ public class GUI_ModificaAnagrafica {
 	private JTextField ragsoc;
 	private JPasswordField pass;
 	
-	private String user;
-	private int tipo;
 	private boolean matched;	//Per il controllo di validità degli input
 	private short focus=0;		//Per controllare che non mi mostri il JOption 3 volte
 	
@@ -57,11 +55,9 @@ public class GUI_ModificaAnagrafica {
 	/**
 	 * Create the application.
 	 */
-	public GUI_ModificaAnagrafica(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_ModificaAnagrafica() {
 		matched=true;
-		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId());
 		initialize();
 	}
 
@@ -263,7 +259,7 @@ public class GUI_ModificaAnagrafica {
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmModificaAnagrafica.setVisible(false);
-				GUI_ModificaDati windowModificaDati = new GUI_ModificaDati(user, tipo);
+				GUI_ModificaDati windowModificaDati = new GUI_ModificaDati();
 				windowModificaDati.frmModificaDati.setVisible(true);
 			}
 		});
@@ -275,24 +271,41 @@ public class GUI_ModificaAnagrafica {
 		pass.setColumns(30);
 		pass.setBounds(132, 268, 326, 20);
 		pass.setDocument(new LimitDocument(30));
-		pass.setText(GUI_Autenticazione.psw);
+		pass.setText("------");
 		panel.add(pass);
 	}
 	
 	public void update(){
 		if(matched){
-		//Occorre convalidare i dati ed aggiornarli nel DB
-		Terzista updTerzista=new Terzista(t.getId(), email.getText(), piva.getText(), ragsoc.getText(), indirizzo.getText(), cap.getText(),
-				prov.getText(), citta.getText(), tel.getText(), fax.getText());
-		ResourceClass.updResources(Terzista.class, Global._URLTerz, String.valueOf(t.getId()), updTerzista);
-		//Devo modificare la password nella tabella utente
-		Utente updUtente=new Utente(GUI_Autenticazione.ID, user, pass.getText(), tipo);
-		ResourceClass.updResources(Utente.class, Global._URLUser+"/", String.valueOf(GUI_Autenticazione.ID), updUtente);
-		GUI_Autenticazione.psw=pass.getText();
-		JOptionPane.showMessageDialog(null, "Dati modificati correttamente.", "Attenzione", 1);
-		GUI_Home windowHome=new GUI_Home(user,tipo);
-		windowHome.frmHome.setVisible(true);
-		frmModificaAnagrafica.setVisible(false);
+			String psw = pass.getPassword().toString();
+			if(psw.length() > 0) {
+				if(psw == "------") {
+					psw = Autenticazione.getSessione().getUtente().getPsw();
+				}
+				else {
+					psw = Autenticazione.getMD5Sum(pass.getPassword());
+				}
+				
+				//Occorre convalidare i dati ed aggiornarli nel DB
+				Terzista updTerzista=new Terzista(t.getId(), email.getText(), piva.getText(), ragsoc.getText(), indirizzo.getText(), cap.getText(),
+						prov.getText(), citta.getText(), tel.getText(), fax.getText());
+				ResourceClass.updResources(Terzista.class, Global._URLTerz, String.valueOf(t.getId()), updTerzista);
+				//Devo modificare la password nella tabella utente
+				
+				Utente updUtente=new Utente(Autenticazione.getSessione().getUtente().getUserId(), 
+						Autenticazione.getSessione().getUtente().getUser(), 
+						psw, 
+						Autenticazione.getSessione().getUtente().getTipo());
+				ResourceClass.updResources(Utente.class, Global._URLUser+"/", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()), updUtente);
+				JOptionPane.showMessageDialog(null, "Dati modificati correttamente.", "Attenzione", 1);
+				GUI_Home windowHome=new GUI_Home();
+				windowHome.frmHome.setVisible(true);
+				frmModificaAnagrafica.setVisible(false);
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Impossibile impostare password vuota!", "Attenzione", 1);
+			}
+
 		}
 	}
 	

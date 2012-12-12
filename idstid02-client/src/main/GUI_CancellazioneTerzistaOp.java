@@ -29,16 +29,12 @@ import javax.swing.ListSelectionModel;
 public class GUI_CancellazioneTerzistaOp {
 
 	public JFrame frmCancellazioneTerzista;
-	private String user;
-	private int tipo;
 	JList listTerzisti;
 	ArrayList terz_id= new ArrayList();
 	ArrayList listaTerzisti= new ArrayList();
 
 
-	public GUI_CancellazioneTerzistaOp(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_CancellazioneTerzistaOp() {
 		initialize();
 		//Riempiamo la lista terzisti, solo quelli che non hanno lavorazioni in corso
     	List<Terzista> listat=ResourceClass.getResources(Terzista.class, Global._URLTerz);
@@ -122,7 +118,7 @@ public class GUI_CancellazioneTerzistaOp {
 				if(response==0){
 					ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
 					JOptionPane.showMessageDialog(null, "Terzista eliminato correttamente.", "Attenzione", 1);
-					GUI_Home windowHome = new GUI_Home(user, tipo);
+					GUI_Home windowHome = new GUI_Home();
 					windowHome.frmHome.setVisible(true);
 					frmCancellazioneTerzista.setVisible(false);
 				}
@@ -134,7 +130,7 @@ public class GUI_CancellazioneTerzistaOp {
 		JButton btnIndietro = new JButton("Indietro");
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati(user, tipo);
+				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
 				windowGestione.frmGestioneDati.setVisible(true);
 				frmCancellazioneTerzista.setVisible(false);
 			}
