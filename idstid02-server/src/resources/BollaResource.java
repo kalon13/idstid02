@@ -147,12 +147,15 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                                "SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione on lavorazione.id = Lavorazione_id WHERE Terzista_id = " + id_terzista + ";"
+                                                "SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione join ProgIngSw.lavorazioneterzista on lavorazione.id = lavorazioneterzista.Lavorazione_id " +
+                                                " and bolla.LavorazioneTerzista_id = lavorazioneterzista.id " +
+                                                " WHERE bolla.Terzista_id = '" + id_terzista + "';"
                                         );
                        
                         while(result.next()) {
+                        	//int id, String codice, int stato, String data, String nomeLavorazione
                                 Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
-                                                                                        result.getString(4), result.getString(8));
+                                                                                        result.getString(4), result.getString(9));
                                 listaBolla.add(m);
                         }
                         statement.close();
@@ -177,10 +180,15 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                        "SELECT bolla.id, codice, stato, data, Terzista_id, Lavorazione_id, nome, ragSociale FROM ProgIngSw.Bolla JOIN ProgIngSw.lavorazione JOIN ProgIngSw.terzista ON lavorazione.id = Lavorazione_id AND Terzista_id = terzista.id WHERE stato = '" + stato + "';"
+                        		"SELECT bolla.id, codice, stato, data, bolla.Terzista_id, Lavorazione_id, nome, ragSociale " +
+                        		" FROM ProgIngSw.Bolla JOIN ProgIngSw.lavorazione JOIN ProgIngSw.terzista JOIN ProgIngSw.lavorazioneterzista " +
+                        		" ON lavorazione.id = lavorazioneterzista.Lavorazione_id " +
+                        		" AND bolla.LavorazioneTerzista_id = lavorazioneterzista.id " +
+                        		" AND bolla.Terzista_id = terzista.id WHERE stato ='" + stato + "';"
                                         );
                                
                         while(result.next()) {
+                        	//int id, String codice, int stato, String data, int terzista_id, int lavorazione_id, String nomeLavorazione, String ragSociale
                                 Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
                                                 result.getString(4), result.getInt(5), result.getInt(6), result.getString(7), result.getString(8));
                                 listaBolla.add(m);
@@ -259,9 +267,9 @@ public class BollaResource {
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
         public String updateBolla1( @PathParam("id") int id,
-                                                                @FormParam("Terzista_id") int terzista_id,
-                                                                @FormParam("stato") int stato) {
-               
+                                 	@FormParam("Terzista_id") int terzista_id,
+                                 	@FormParam("stato") int stato) {
+               	
                 Statement statement = null;
                 int ok = -1;
                
