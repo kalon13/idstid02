@@ -63,7 +63,7 @@ public class GUI_Bolla {
        
         private void loadListaTerzisti(){
                 //Load lista terzisti
-                listaTerz = ResourceClass.getResources(Terzista.class, Global._URLTerzista);
+                listaTerz = ResourceClass.getResources(Terzista.class, Global._URLTerz);
                 Iterator<Terzista> it = listaTerz.iterator();
 
                 _data2 = new String[listaTerz.size()];
