@@ -65,8 +65,8 @@ public class GUI_ModificaLavorazioni {
 	int id;
 	
 	public GUI_ModificaLavorazioni() {
-		initialize();
 		this.id = Autenticazione.getSessione().getUtente().getUserId();
+		initialize();
 	}
 	
 	/**
