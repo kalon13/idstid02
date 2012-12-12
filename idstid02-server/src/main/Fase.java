@@ -1,46 +1,65 @@
 package main;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Fase {
-	private int id;
-	private String nome;
-	private int ordine; //in che ordine vanno eseguite le fasi!
-	//TODO: aggiungere lavorazioneTerzista_Id
-	
-	public Fase(int id, String nome, int ordine) {
-		this.id = id;
-		this.nome = nome;
-		this.ordine = ordine;
-	}
-	
-	public Fase() {
-		this.id = -1;
-		this.nome = "";
-		this.ordine = 0;
-	}
+        private int id;
+        private String nome;
+        private int ordine; //in che ordine vanno eseguite le fasi!
+        private int lavTerzId;
+       
+        public Fase(int id, String nome, int ordine, int lavTerzId) {
+                this.id = id;
+                this.nome = nome;
+                this.ordine = ordine;
+                this.lavTerzId = lavTerzId;
+        }
+        
+        public Fase(String nome, int ordine, int lavTerzId) {
+            this.nome = nome;
+            this.ordine = ordine;
+            this.lavTerzId = lavTerzId;
+        }
+        
+        public Fase(String nome, int ordine) {
+            this.nome = nome;
+            this.ordine = ordine;
+        }
+       
+        public Fase() {
 
-	public int getId() {
-		return id;
-	}
+        }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+        public int getLavTerzId(){
+        	return lavTerzId;
+        }
+        
+        public void setLavTerzId(int lavTerzId){
+        	this.lavTerzId = lavTerzId;
+        }
+        
+        public int getId() {
+                return id;
+        }
 
-	public String getNome() {
-		return nome;
-	}
+        public void setId(int id) {
+                this.id = id;
+        }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+        public String getNome() {
+                return nome;
+        }
 
-	public int getOrdine() {
-		return ordine;
-	}
+        public void setNome(String nome) {
+                this.nome = nome;
+        }
 
-	public void setOrdine(int ordine) {
-		this.ordine = ordine;
-	}
+        public int getOrdine() {
+                return ordine;
+        }
+
+        public void setOrdine(int ordine) {
+                this.ordine = ordine;
+        }
 }

@@ -22,9 +22,9 @@ import utils.DB;
 
 @Path("/messaggio")
 public class MessaggioResource {
-        
+       
         public MessaggioResource () {} // E' necessario anche se vuoto
-        
+       
         @GET
         @Produces(MediaType.APPLICATION_JSON)
         public List<Messaggio> getListaMessaggio() {
@@ -43,15 +43,15 @@ public class MessaggioResource {
                                 listaMessaggio.add(m);
                         }
                         statement.close();
-                        
+                       
                         return listaMessaggio;
-                        
+                       
                 } catch (SQLException e) {
                         e.printStackTrace();
                         return null;
                 }
         }
-                
+               
                 //aggiunto
                 @GET
                 @Path ("/search/{txtSearch}")
@@ -71,18 +71,18 @@ public class MessaggioResource {
                                  while(result.next()) {
                                          Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
                                                         result.getString(3), result.getBoolean(4), result.getString(5));
-                                        listaMessaggio.add(m); 
+                                        listaMessaggio.add(m);
                                  }
                                 }
                                 else return null;
                                 statement.close();
-                                
+                               
                                 return listaMessaggio;
-                                
+                               
                         } catch (SQLException e) {
                                 e.printStackTrace();
                                 return null;
                         }
                 }
-        
+       
 }

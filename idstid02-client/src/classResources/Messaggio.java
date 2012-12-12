@@ -11,14 +11,14 @@ public class Messaggio {
         private String bolla_Id; //aggiunto
         //TODO: aggiungere utente_Id
         //TODO: aggiungere bolla_Id
-        
+       
         public Messaggio(int id, String data, String testo, boolean letto) {
                 this.id = id;
                 this.data = data;
                 this.testo = testo;
                 this.letto = letto;
         }
-        
+       
         //aggiunto
         public Messaggio(int id, String data, String testo, boolean letto, String bolla_Id) {
                 this.id = id;
@@ -34,7 +34,7 @@ public class Messaggio {
         public void setBolla_Id(String bolla_Id) {
                 this.bolla_Id = bolla_Id;
         }
-        
+       
         public Messaggio() {
                 this.id = -1;
                 this.data = "";
@@ -74,3 +74,4 @@ public class Messaggio {
                 this.letto = letto;
         }
 }
+

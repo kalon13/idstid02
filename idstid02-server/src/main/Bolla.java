@@ -8,26 +8,107 @@ public class Bolla {
 	private String codice;
 	private String data;
 	private int stato;
-	private Terzista terzista;
-	private Lavorazione lavorazione;
-	//TODO: aggiungere terzista_Id
-	//TODO: aggiungere lavorazione_Id
-	
+	private int valutata;
+	private int terzistaId;
+	private int lavorazioneTerzistaId;
+	private String nomeLavorazione; //Giorgia
+	private String ragSociale; //Giorgia
+
+	public Bolla() {
+
+	}
+
+    public Bolla(int id, String codice, int stato, String data, String nomeLavorazione) {
+        this.id = id;
+        this.codice =codice;
+        this.data = data;
+        this.stato = stato;
+        this.nomeLavorazione = nomeLavorazione;
+    }
+    
+    public Bolla(int id, String codice, int stato, String data, int terzista_id, int lavorazione_id, String nomeLavorazione, String ragSociale) {
+        this.id = id;
+        this.codice =codice;
+        this.data = data;
+        this.stato = stato;
+        this.nomeLavorazione = nomeLavorazione;
+        this.terzistaId = terzista_id;
+        this.lavorazioneTerzistaId = lavorazione_id;
+        this.ragSociale = ragSociale;
+    }
+    
+    public String getNomeLavorazione() {
+        return nomeLavorazione;
+    }
+
+    public void setNomeLavorazione(String nomeLavorazione) {
+        this.nomeLavorazione = nomeLavorazione;
+    }
+
+    public String getRagSociale() {
+        return ragSociale;
+    }
+
+    public void setRagSociale(String ragSociale) {
+        this.ragSociale = ragSociale;
+	}
+
 	public Bolla(int id, String codice, int stato, String data) {
 		this.id = id;
 		this.codice =codice;
 		this.data = data;
 		this.stato = stato;
 	}
+
+	public Bolla(int id, String codice, String data, int terzId, int lavorazTerzId) {
+		this.id = id;
+		this.codice =codice;
+		this.data = data;
+		this.terzistaId = terzId;
+		this.lavorazioneTerzistaId = lavorazTerzId;
+	}
+
+	public Bolla(int id, String codice, int stato, String data, int valutata, int terzId, int lavorazTerzId) {
+		this.id = id;
+		this.codice =codice;
+		this.stato=stato;
+		this.data = data;
+		this.valutata = valutata;
+		this.terzistaId = terzId;
+		this.lavorazioneTerzistaId = lavorazTerzId;
+	}
 	
-	public Bolla() {
-		this.id = -1;
-		this.data = "";
-		this.stato = 0;
+	//Aggiunto Marco
+	public Bolla(int id) {
+		this.id = id;
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public int getTerzistaId() {
+		return terzistaId;
+	}
+	
+	public void setTerzistaId(int terzistaId){
+		this.terzistaId = terzistaId;
+	}
+
+	public int getLavorazioneTerzistaId() {
+		return lavorazioneTerzistaId;
+	}
+	
+	public void setLavorazioneTerzistaId(int lavorazioneTerzistaId){
+		this.lavorazioneTerzistaId = lavorazioneTerzistaId;
+	}
+
+	public int getValutata() {
+		return valutata;
+	}
+
+	public void setValutata(int valutata){
+		this.valutata = valutata;
 	}
 
 	public void setId(int id) {
@@ -48,22 +129,6 @@ public class Bolla {
 
 	public void setStato(int stato) {
 		this.stato = stato;
-	}
-
-	public Terzista getTerzista() {
-		return terzista;
-	}
-
-	public void setTerzista(Terzista terzista) {
-		this.terzista = terzista;
-	}
-
-	public Lavorazione getLavorazione() {
-		return lavorazione;
-	}
-
-	public void setLavorazione(Lavorazione lavorazione) {
-		this.lavorazione = lavorazione;
 	}
 
 	public String getCodice() {
