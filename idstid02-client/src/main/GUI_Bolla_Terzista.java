@@ -306,7 +306,7 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
            
             textField_1 = new JLabel();
-            terzista = ResourceClass.getResource(Terzista.class, Global._URLTerzista+"/utenteId/"+Autenticazione.getSessione().getUtente().getUserId());
+            terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId());
       
             textField_1.setText(terzista.getRagioneSociale());
             

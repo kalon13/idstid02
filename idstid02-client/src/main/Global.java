@@ -10,8 +10,7 @@ public class Global {
 //    public static final String _URLBollaTerz = "/bolla/search/";
     //public static final String _URLAut = "/autenticazione";
     public static final String _URLddt = "/DDT";
-    public static final String _URLTerz = "/terzista/";	//Gio ha usato _URLTerzista
-    public static final String _URLTerzista = "/terzista";
+    public static final String _URLTerz = "/terzista/";
     public static final String _URLUser = "/utente";
     public static final String _URLMatTeoSearch = "/matTeo/search/"; //con join
     public static final String _URLMatId = "/materiale";
