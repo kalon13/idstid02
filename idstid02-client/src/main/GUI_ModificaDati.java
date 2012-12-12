@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 public class GUI_ModificaDati {
 
 	public JFrame frmModificaDati;
-	private String user;
-	private int tipo;
 	
 	GUI_ModificaAnagrafica windowAnagrafica;
 	GUI_ModificaLavorazioni windowLavorazioni;
@@ -26,9 +24,7 @@ public class GUI_ModificaDati {
 	/**
 	 * Create the application.
 	 */
-	public GUI_ModificaDati(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
+	public GUI_ModificaDati() {
 		initialize();
 	}
 
@@ -48,7 +44,7 @@ public class GUI_ModificaDati {
 		JButton btnModificaAnagrafica = new JButton("Modifica Anagrafica");
 		btnModificaAnagrafica.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				windowAnagrafica = new GUI_ModificaAnagrafica(user, tipo);
+				windowAnagrafica = new GUI_ModificaAnagrafica();
 				windowAnagrafica.frmModificaAnagrafica.setVisible(true);
 				frmModificaDati.setVisible(false);
 			}
@@ -61,7 +57,7 @@ public class GUI_ModificaDati {
 		btnModificaLavorazioni.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//frmModificaDati.setVisible(false);
-				windowLavorazioni= new GUI_ModificaLavorazioni(user, tipo);
+				windowLavorazioni= new GUI_ModificaLavorazioni();
 				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
 			}
 		});
@@ -73,7 +69,7 @@ public class GUI_ModificaDati {
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmModificaDati.setVisible(false);
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati(user, tipo);
+				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
 				windowGestione.frmGestioneDati.setVisible(true);
 			}
 		});

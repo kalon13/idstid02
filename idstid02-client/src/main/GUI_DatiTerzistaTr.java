@@ -43,8 +43,6 @@ import javax.swing.JScrollPane;
 public class GUI_DatiTerzistaTr {
 
 	public JFrame frmDatiTerzistaTr;
-	private String user;
-	private int tipo;
 	private int ID;
 	
 	private JTextField indirizzo;
@@ -66,11 +64,9 @@ public class GUI_DatiTerzistaTr {
 	/**
 	 * Create the application.
 	 */
-	public GUI_DatiTerzistaTr(String user, int tipo, int ID) {
-		this.user=user;
-		this.tipo=tipo;
-		this.ID=ID;
-		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+ID);
+	public GUI_DatiTerzistaTr() {
+		t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+
+				Autenticazione.getSessione().getUtente().getUserId());
 		initialize();
 		visualLavorazioni();
 	}
@@ -147,7 +143,7 @@ public class GUI_DatiTerzistaTr {
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmDatiTerzistaTr.setVisible(false);
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati(user, tipo);
+				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
 				windowGestione.frmGestioneDati.setVisible(true);
 			}
 		});

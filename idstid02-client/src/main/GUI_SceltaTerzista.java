@@ -42,8 +42,6 @@ public class GUI_SceltaTerzista {
 	JComboBox cmbTipoLavorazione;
 	JLabel lblTipoLavorazione;
 	JList listTerzisti;
-	private String user;
-	private int tipo;
 	
 	public GUI_DatiTerzistaOp windowDati;
 	
@@ -79,10 +77,8 @@ public class GUI_SceltaTerzista {
 		
 	}
 	
-	public GUI_SceltaTerzista(String user, int tipo) {
+	public GUI_SceltaTerzista() {
 		
-		this.user=user;
-		this.tipo=tipo;
 		initialize();
 		
 		//Componiamo la ComboBox
@@ -164,7 +160,7 @@ public class GUI_SceltaTerzista {
 					//ID del terzista selezionato dalla lista
 					int indice=listTerzisti.getSelectedIndex();
 					indice=(Integer) index1.get(indice);
-					windowDati = new GUI_DatiTerzistaOp(indice, user, tipo);
+					windowDati = new GUI_DatiTerzistaOp(indice);
 					windowDati.frmDatiTerzistaOp.setVisible(true);
 					frmSceltaTerzista.setVisible(false);
 				}
@@ -181,7 +177,7 @@ public class GUI_SceltaTerzista {
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmSceltaTerzista.setVisible(false);
-				GUI_GestioneDati windowGestione=new GUI_GestioneDati(user, tipo);
+				GUI_GestioneDati windowGestione=new GUI_GestioneDati();
 				windowGestione.frmGestioneDati.setVisible(true);
 			}
 		});

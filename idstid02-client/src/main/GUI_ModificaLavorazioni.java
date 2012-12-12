@@ -49,8 +49,6 @@ public class GUI_ModificaLavorazioni {
 
 	public JFrame frmModificaLavorazioni;
 	
-	private String user;
-	private int tipo;
 	private JTabbedPane panel;
 	JTable table_1,table;
 	ArrayList index=new ArrayList();
@@ -64,27 +62,11 @@ public class GUI_ModificaLavorazioni {
 	private JTextField txtFase;
 	private JTextField txtOrdine;
 	
-	public GUI_ModificaLavorazioni(String user, int tipo) {
-		this.user=user;
-		this.tipo=tipo;
-//		//Settiamo lo stile windows alle screen (basta metterlo nel main)
-//		try {
-//			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-//		} catch (UnsupportedLookAndFeelException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InstantiationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+	int id;
+	
+	public GUI_ModificaLavorazioni() {
 		initialize();
+		this.id = Autenticazione.getSessione().getUtente().getUserId();
 	}
 	
 	/**
@@ -143,7 +125,7 @@ public class GUI_ModificaLavorazioni {
 		btnInserisci.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(verificaPrezzoIns(txtPrezzo.getText()) && verificaCapacitaIns(txtCapacita.getText())){
-					Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+					Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+id);
 					int lavorazSelezionata=cmbTipoLavorazioni.getSelectedIndex();
 					lavorazSelezionata=(Integer) index.get(lavorazSelezionata);
 					LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
@@ -152,7 +134,7 @@ public class GUI_ModificaLavorazioni {
 					JOptionPane.showMessageDialog(null, "Lavorazione inserita correttamente", "Attenzione", 1);
 					//m1.setId(Integer.parseInt(id));
 					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
 					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
 				}
 			}
@@ -247,7 +229,7 @@ public class GUI_ModificaLavorazioni {
 					String id = ResourceClass.addResources("/fase", f);
 					JOptionPane.showMessageDialog(null, "Fase inserita correttamente", "Attenzione", 1);
 					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
 					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
 				}
 			}
@@ -266,7 +248,7 @@ public class GUI_ModificaLavorazioni {
 		lblOrdine.setBounds(428, 107, 58, 14);
 		panel_2.add(lblOrdine);
 		
-		Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+		Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+id);
 		
 		//Visualizziamo le lavorazioni --> Per l'inserimento delle fasi
 		List<LavorazioneTerzista> lista1 = ResourceClass.getResources(LavorazioneTerzista.class, Global._URLLavorazTerzista+"idTerzista/"+t.getId());
@@ -361,7 +343,7 @@ public class GUI_ModificaLavorazioni {
 		txtrPerOgniRiga.setBounds(10, 11, 283, 67);
 		modifica.add(txtrPerOgniRiga);
 		
-		final Terzista t1 = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+GUI_Autenticazione.ID);
+		final Terzista t1 = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+id);
 		//Visualizziamo le lavorazioni --> Per la modifica o cancellazione
 		List<LavorazioneTerzista> lista2 = ResourceClass.getResources(LavorazioneTerzista.class, Global._URLLavorazTerzista+"idTerzista/"+t1.getId());
 		Iterator<LavorazioneTerzista> lavTerzista1 = lista2.iterator();
@@ -406,7 +388,7 @@ public class GUI_ModificaLavorazioni {
             			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
                     	//Refresh della screen
                 		frmModificaLavorazioni.setVisible(false);
-                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
                 		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
             		}
             		else
@@ -444,7 +426,7 @@ public class GUI_ModificaLavorazioni {
             
             	//Refresh della screen
         		frmModificaLavorazioni.setVisible(false);
-        		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+        		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
         		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
             }
         });
@@ -464,7 +446,7 @@ public class GUI_ModificaLavorazioni {
 					ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
 					//Refresh della screen
 					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
 					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
 				}
 				else
@@ -481,7 +463,7 @@ public class GUI_ModificaLavorazioni {
             	ResourceClass.delResources(Global._URLFase, String.valueOf(faseSelezionata));
             	//Refresh della screen
 				frmModificaLavorazioni.setVisible(false);
-				GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni(user,tipo);
+				GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
 				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
             }
         });

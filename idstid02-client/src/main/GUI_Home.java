@@ -30,9 +30,9 @@ public class GUI_Home {
         /**
 		 * @wbp.parser.constructor
 		 */
-        public GUI_Home(String user, int tipo) {
-                this.user = user;
-                this.tipo = tipo;
+        public GUI_Home() {
+                this.user = Autenticazione.getSessione().getUtente().getUser();
+                this.tipo = Autenticazione.getSessione().getUtente().getTipo();
                 initialize();
         }
                
@@ -60,7 +60,7 @@ public class GUI_Home {
                 btnGestioneDati.addActionListener(new ActionListener() {
                 	
                 	public void actionPerformed(ActionEvent e) {
-                		windowGestione = new GUI_GestioneDati(user, tipo);
+                		windowGestione = new GUI_GestioneDati();
                 		windowGestione.frmGestioneDati.setVisible(true);
                 		frmHome.setVisible(false);
                 	}
@@ -86,13 +86,13 @@ public class GUI_Home {
                 	public void actionPerformed(ActionEvent e) {
                 		if (tipo < 5) //operatore azienda
                 		{
-                			windowBolla = new GUI_Bolla(user, tipo);
+                			windowBolla = new GUI_Bolla();
                             windowBolla.frmBolleDiLavorazione.setVisible(true);
                             frmHome.setVisible(false);
                 		}
                 		else if (tipo == 5) //terzista
                 		{
-                			windowBollaTerzista = new GUI_Bolla_Terzista(user, tipo);
+                			windowBollaTerzista = new GUI_Bolla_Terzista();
                 			windowBollaTerzista.frmBolleDiLavorazioneTerzista.setVisible(true);
                             frmHome.setVisible(false);
                 		}
