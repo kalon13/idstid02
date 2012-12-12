@@ -38,8 +38,8 @@ public class GUI_Autenticazione {
         
         static GUI_Home windowHome;
         
-        public static int ID=-1;
-        public static String psw;
+//        public static int ID=-1;
+//        public static String psw;
         
         /**
          * Create the application.
@@ -83,10 +83,7 @@ public class GUI_Autenticazione {
                 textPsw.setBounds(80, 27, 117, 20);
                 panel.add(textPsw);
                 textPsw.setColumns(10);
-               
-                JButton btnAccedi = new JButton("Accedi");
-                btnAccedi.setMnemonic(KeyEvent.VK_ENTER);
-                btnAccedi.addKeyListener(new KeyAdapter() {
+                textPsw.addKeyListener(new KeyAdapter() {
                 	@Override
                 	public void keyPressed(KeyEvent e) {
                 		if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -95,6 +92,9 @@ public class GUI_Autenticazione {
                 		}
                 	}
                 });
+               
+                JButton btnAccedi = new JButton("Accedi");
+                btnAccedi.setMnemonic(KeyEvent.VK_ENTER);
                 
                 btnAccedi.addActionListener(new ActionListener() {
                 	
@@ -118,50 +118,51 @@ public class GUI_Autenticazione {
         
         private void tryLogin(){
         	
-//        	String u = textUser.getText().trim();
-//            String p = Autenticazione.getMD5Sum(textPsw.getPassword());
-//
-//            if(!u.equals("")) {
-//                MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-//                param.add("username", u);
-//                param.add("password", p);
-//               
-//                Sessione session = ResourceClass.getService().
-//                                path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
-//               
-//                if(session.getUtente() != null) {
-//                	Autenticazione.setSessione(session);
-//                    windowHome = new GUI_Home(session.getUtente().getUser(), session.getUtente().getTipo());
-//                    windowHome.frmHome.setVisible(true);
-//                    frmAutenticazione.setVisible(false);
-//                }
-//                else {
-//                	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
-//                }
-//            }
+        	String u = textUser.getText().trim();
+            String p = Autenticazione.getMD5Sum(textPsw.getPassword());
+
+            if(!u.equals("")) {
+                MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+                param.add("username", u);
+                param.add("password", p);
+               
+                Sessione session = ResourceClass.getService().
+                                path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+               
+                if(session.getUtente() != null) {
+                	
+                	Autenticazione.setSessione(session);
+                    windowHome = new GUI_Home();
+                    windowHome.frmHome.setVisible(true);
+                    frmAutenticazione.setVisible(false);
+                }
+                else {
+                	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+                }
+            }
 
             //Lasciarlo solo per le prove
-        	List<Utente> lista = ResourceClass.getResources(Utente.class, Global._URLUser);
-            Iterator<Utente> it=lista.iterator();
-            Boolean flgLog = false; String usr=null; int tipo=0;
-            while(it.hasNext())
-            {
-            	Utente user = it.next();
-            	ID = user.getId();
-            	psw = user.getPsw();
-            	usr = user.getUser();
-            	String psw = user.getPsw();
-            	tipo = user.getTipo();
-            	if((usr.equals(textUser.getText())) && (psw.equals(textPsw.getText()))){
-            		flgLog = true; break;}                        
-            }
-            if(flgLog == true){
-            	windowHome = new GUI_Home(usr, tipo);
-            	windowHome.frmHome.setVisible(true);
-            	frmAutenticazione.setVisible(false);
-            }
-            else
-            	JOptionPane.showMessageDialog(null, "Username o password non corrette!", "Attenzione", 0);
+//        	List<Utente> lista = ResourceClass.getResources(Utente.class, Global._URLUser);
+//            Iterator<Utente> it=lista.iterator();
+//            Boolean flgLog = false; String usr=null; int tipo=0;
+//            while(it.hasNext())
+//            {
+//            	Utente user = it.next();
+//            	ID = user.getId();
+//            	psw = user.getPsw();
+//            	usr = user.getUser();
+//            	String psw = user.getPsw();
+//            	tipo = user.getTipo();
+//            	if((usr.equals(textUser.getText())) && (psw.equals(textPsw.getText()))){
+//            		flgLog = true; break;}                        
+//            }
+//            if(flgLog == true){
+//            	windowHome = new GUI_Home(usr, tipo);
+//            	windowHome.frmHome.setVisible(true);
+//            	frmAutenticazione.setVisible(false);
+//            }
+//            else
+//            	JOptionPane.showMessageDialog(null, "Username o password non corrette!", "Attenzione", 0);
         }
         	        
         public JFrame getFrame() {	//Forse serve per il ritorno indietro!

@@ -24,17 +24,18 @@ public class GUI_Home {
         static GUI_GestioneDati windowGestione;
         static GUI_Fatturazione windowFatturazione;
         static GUI_Bolla windowBolla;
+        static GUI_Bolla_Terzista windowBollaTerzista;
 
         
         /**
 		 * @wbp.parser.constructor
 		 */
-        public GUI_Home(String user, int tipo) {
-                this.user = user;
-                this.tipo = tipo;
+        public GUI_Home() {
+                this.user = Autenticazione.getSessione().getUtente().getUser();
+                this.tipo = Autenticazione.getSessione().getUtente().getTipo();
                 initialize();
         }
-        
+               
 //        public GUI_Home() {
 //            this.user = user;	//Quando torno indietro non rimane lo user e nemmeno il tipo xche ho creato un nuovo oggetto
 //            this.tipo = tipo;	//e dovrei quindi portarmi dietro i valori
@@ -59,7 +60,7 @@ public class GUI_Home {
                 btnGestioneDati.addActionListener(new ActionListener() {
                 	
                 	public void actionPerformed(ActionEvent e) {
-                		windowGestione = new GUI_GestioneDati(user, tipo);
+                		windowGestione = new GUI_GestioneDati();
                 		windowGestione.frmGestioneDati.setVisible(true);
                 		frmHome.setVisible(false);
                 	}
@@ -73,33 +74,32 @@ public class GUI_Home {
                 	public void actionPerformed(ActionEvent e) {
                 		windowMagazzino = new GUI_Magazzino();
                         windowMagazzino.frmGestioneMagazzino.setVisible(true);
+                        frmHome.setVisible(false);
                 	}
                 });
-                btnGestioneMagazzino.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowMagazzino = new GUI_Magazzino();
-                                windowMagazzino.frmGestioneMagazzino.setVisible(true);
-                        }
-                });
+
                 btnGestioneMagazzino.setBounds(192, 0, 177, 25);
                 panel.add(btnGestioneMagazzino);
                
                 JButton btnGestioneBolleDi = new JButton("Gestione Bolle di lavorazione");
                 btnGestioneBolleDi.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		 windowBolla = new GUI_Bolla();
-                         windowBolla.frmBolleDiLavorazione.setVisible(true);
+                		if (tipo < 5) //operatore azienda
+                		{
+                			windowBolla = new GUI_Bolla();
+                            windowBolla.frmBolleDiLavorazione.setVisible(true);
+                            frmHome.setVisible(false);
+                		}
+                		else if (tipo == 5) //terzista
+                		{
+                			windowBollaTerzista = new GUI_Bolla_Terzista();
+                			windowBollaTerzista.frmBolleDiLavorazioneTerzista.setVisible(true);
+                            frmHome.setVisible(false);
+                		}
+                		 
                 	}
                 });
-                btnGestioneBolleDi.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowBolla = new GUI_Bolla();
-                                windowBolla.frmBolleDiLavorazione.setVisible(true);
 
-                        }
-                });
                 btnGestioneBolleDi.setBounds(0, 34, 177, 25);
                 panel.add(btnGestioneBolleDi);
                
@@ -108,15 +108,10 @@ public class GUI_Home {
                 	public void actionPerformed(ActionEvent e) {
                 		 windowFatturazione = new GUI_Fatturazione();
                          windowFatturazione.frmElenco.setVisible(true);
+                         frmHome.setVisible(false);
                 	}
                 });
-                btnGestioneFatture.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowFatturazione = new GUI_Fatturazione();
-                                windowFatturazione.frmElenco.setVisible(true);
-                        }
-                });
+
                 btnGestioneFatture.setBounds(192, 34, 179, 25);
                 panel.add(btnGestioneFatture);
                
@@ -144,7 +139,7 @@ public class GUI_Home {
                 frmHome.getContentPane().add(lblBenvenuto);
                
                 JLabel labelUser = new JLabel(user);
-                labelUser.setBounds(89, 5, 102, 14);
+                labelUser.setBounds(124, 5, 161, 14);
                 frmHome.getContentPane().add(labelUser);
         }
 

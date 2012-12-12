@@ -27,31 +27,32 @@ import javax.swing.JMenu;
 
 public class GUI_Magazzino {
 
-        JFrame frmGestioneMagazzino;
-        private JTextField textSearch;
-        private static GUI_RegistraDDT windowRegDDT;
-        private static String[] _titles = {"Codice", "Descrizione", "Quantità"};
-        private static Object[][] _data;
-        private static Object[] _id;
-        private JTable table;
-       
-        private void loadTableDt(Boolean flgSearch){
-                 List<Materiale> lista = null;
-                if(flgSearch==false || textSearch.getText().equals(""))
-                 lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
-                else
-                {       if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
-                        lista = ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText());
-                    else lista=null;
-                }
-                if(lista!=null){
-                 Iterator<Materiale> it=lista.iterator();
-             int cntDt = lista.size();
-             int cntTit = _titles.length;
-             _data = new String[cntDt][cntTit];
-             _id = new Object[cntDt];
-            int k = 0;
-            while(it.hasNext())
+	JFrame frmGestioneMagazzino;
+	private JTextField textSearch;
+	private static GUI_RegistraDDT windowRegDDT;
+	private static GUI_CreaDDT windowNewDDT;
+	private static String[] _titles = {"Codice", "Descrizione", "Quantitï¿½"};
+	private static Object[][] _data;
+	private static Object[] _id;
+	private JTable table;
+	
+	private void loadTableDt(Boolean flgSearch){
+		 List<Materiale> lista = null;
+		if(flgSearch==false || textSearch.getText().equals(""))
+		 lista = ResourceClass.getResources(Materiale.class, Global._URLMag);
+		else
+		{	if (ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText()) != null)
+			lista = ResourceClass.getResources(Materiale.class, Global._URLMagSearch+textSearch.getText());
+		    else lista=null;
+		}
+		if(lista!=null){
+		 Iterator<Materiale> it=lista.iterator();
+	     int cntDt = lista.size();
+	     int cntTit = _titles.length;
+	     _data = new String[cntDt][cntTit];
+	     _id = new Object[cntDt];
+	    int k = 0;
+	    while(it.hasNext())
         {//[riga][colonna]
           Materiale mtCl = it.next();
           if(k<cntDt){
@@ -62,152 +63,153 @@ public class GUI_Magazzino {
            k++;}
           }
         }
-        }
-        /**
-         * Create the application.
-         */
-        public GUI_Magazzino() {
-                loadTableDt(false);
-                initialize();
-        }
+	}
+	/**
+	 * Create the application.
+	 */
+	public GUI_Magazzino() {
+		loadTableDt(false);
+		initialize();
+	}
 
-        /**
-         * Initialize the contents of the frame.
-         */
-        private void initialize() {
-                frmGestioneMagazzino = new JFrame();
-                frmGestioneMagazzino.setTitle("Gestione Magazzino");
-                frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
-                        public void windowGainedFocus(WindowEvent e) {
-                                loadTableDt(false);
-                                DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
-                                table.setModel(dfm);
-                        }
-                        public void windowLostFocus(WindowEvent e) {
-                        }
-                });
-                frmGestioneMagazzino.setResizable(false);
-                frmGestioneMagazzino.setBounds(100, 100, 444, 325);
-                frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frmGestioneMagazzino.getContentPane().setLayout(null);
-               
-                JLabel lblNewLabel = new JLabel("Ricerca materiale:");
-                lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-                lblNewLabel.setBounds(10, 11, 97, 17);
-                frmGestioneMagazzino.getContentPane().add(lblNewLabel);
-               
-                textSearch = new JTextField();
-                textSearch.setName("searchTxt");
-                textSearch.setBounds(117, 9, 86, 20);
-                frmGestioneMagazzino.getContentPane().add(textSearch);
-                textSearch.setColumns(10);
-               
-                JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setFocusTraversalKeysEnabled(false);
-                scrollPane.setEnabled(false);
-                scrollPane.setBounds(10, 36, 414, 170);
-                frmGestioneMagazzino.getContentPane().add(scrollPane);
-               
-                table = new JTable(_data, _titles);
-                scrollPane.setViewportView(table);
-                table.setDragEnabled(true);
-                table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-               
-                JButton btnNewDDT = new JButton("Crea DDT");
-                btnNewDDT.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
-                                if(lsDDT.size() != 0){
-                                        GUI_CreaDDT window = new GUI_CreaDDT();
-                                        window.frmCreaDdt.setVisible(true);
-                                }
-                                else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");      
-                        }
-                });
-               
-                btnNewDDT.setBounds(163, 217, 123, 23);
-                frmGestioneMagazzino.getContentPane().add(btnNewDDT);
-               
-                JButton btnRegDDT = new JButton("Registra DDT");
-                btnRegDDT.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
-                                if(lsDDT.size() != 0){
-                                windowRegDDT = new GUI_RegistraDDT();
-                                windowRegDDT.frmRegistraDdt.setVisible(true);
-                                }
-                                else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");      
-                        }
-                });
-                btnRegDDT.setBounds(296, 217, 123, 23);
-                frmGestioneMagazzino.getContentPane().add(btnRegDDT);
-               
-                JButton btnUpdMat = new JButton("Aggiorna materiale");
-                btnUpdMat.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                          if (table.getRowCount() > 0 && table.getColumnCount() > 0) {
-                            if (table.getSelectedRow() >= 0) {
-                                        int cntRow = table.getSelectedRow();
-                                        int cntColumn =_titles.length;
-                                        String cod = (String) table.getValueAt(cntRow, 0);
-                                        String  desc= (String) table.getValueAt(cntRow, 1);
-                                        String qnt = (String) table.getValueAt(cntRow, 2);
-                                        int idMatTer = (Integer) _id[cntRow];
-                                        GUI_UpdMagazzino window = new GUI_UpdMagazzino(idMatTer,cod,desc,qnt);
-                                        window.frameUpdMat.setVisible(true);
-                                }
-                                else{
-                                        JOptionPane.showMessageDialog(null, "Non è stato selezionato il materiale!", "Attenzione", 0);
-                                }
-                         }
-                         else {
-                                JOptionPane.showMessageDialog(null, "La lista è vuota!", "Attenzione", 0);
-                             }
-                        }
-                });
-                btnUpdMat.setName("btnUpdMat");
-                btnUpdMat.setBounds(163, 245, 123, 23);
-                frmGestioneMagazzino.getContentPane().add(btnUpdMat);
-               
-                JButton btnChiudi = new JButton("Chiudi");
-                btnChiudi.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                          frmGestioneMagazzino.dispose();
-                        }
-                });
-                btnChiudi.setBounds(296, 245, 123, 23);
-                frmGestioneMagazzino.getContentPane().add(btnChiudi);
-               
-                JButton button = new JButton("Ricerca");
-                button.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                textSearch.getText();
-                                //TODO creare una sql di ricerca LIKE e ricaricare la table
-                                loadTableDt(true);
-                                DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
-                                table.setModel(dfm);
-                        }
-                });
-                button.setName("searchBtn");
-                button.setBounds(213, 8, 123, 23);
-                frmGestioneMagazzino.getContentPane().add(button);
-               
-                JMenuBar menuBar = new JMenuBar();
-                frmGestioneMagazzino.setJMenuBar(menuBar);
-               
-                JMenu mnDdt = new JMenu("Gestione DDT");
-                menuBar.add(mnDdt);
-               
-                JMenuItem mntmCreaDdt = new JMenuItem("Crea DDT");
-                mnDdt.add(mntmCreaDdt);
-               
-                JMenuItem mntmRegistraDdt = new JMenuItem("Registra DDT");
-                mnDdt.add(mntmRegistraDdt);
-        }
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmGestioneMagazzino = new JFrame();
+		frmGestioneMagazzino.setTitle("Gestione Magazzino");
+		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
+			public void windowGainedFocus(WindowEvent e) {
+				loadTableDt(false);
+				DefaultTableModel dfm=new DefaultTableModel (_data,_titles) {
+					boolean[] columnEditables = new boolean[]{
+							false,false,false
+					};
+					public boolean isCellEditable(int row, int column){
+					return columnEditables[column];	
+					}
+				};
+				table.setModel(dfm);
+			}
+			public void windowLostFocus(WindowEvent e) {
+			}
+		});
+		frmGestioneMagazzino.setResizable(false);
+		frmGestioneMagazzino.setBounds(100, 100, 444, 325);
+		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmGestioneMagazzino.getContentPane().setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("Ricerca materiale:");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setBounds(10, 11, 97, 17);
+		frmGestioneMagazzino.getContentPane().add(lblNewLabel);
+		
+		textSearch = new JTextField();
+		textSearch.setName("searchTxt");
+		textSearch.setBounds(117, 9, 86, 20);
+		frmGestioneMagazzino.getContentPane().add(textSearch);
+		textSearch.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setFocusTraversalKeysEnabled(false);
+		scrollPane.setEnabled(false);
+		scrollPane.setBounds(10, 36, 414, 170);
+		frmGestioneMagazzino.getContentPane().add(scrollPane);
+		
+		table = new JTable(_data, _titles);
+		scrollPane.setViewportView(table);
+		table.setDragEnabled(true);
+		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		
+		JButton btnNewDDT = new JButton("Crea DDT");
+		btnNewDDT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				windowNewDDT = new GUI_CreaDDT();
+				windowNewDDT.frmCreaDdt.setVisible(true);
+			}
+		});
+		btnNewDDT.setBounds(163, 217, 123, 23);
+		frmGestioneMagazzino.getContentPane().add(btnNewDDT);
+		
+		JButton btnRegDDT = new JButton("Registra DDT");
+		btnRegDDT.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				if(lsDDT.size() != 0){
+				windowRegDDT = new GUI_RegistraDDT();
+				windowRegDDT.frmRegistraDdt.setVisible(true);
+				}
+				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non sono presenti nuovi DDT!");	
+			}
+		});
+		btnRegDDT.setBounds(296, 217, 123, 23);
+		frmGestioneMagazzino.getContentPane().add(btnRegDDT);
+		
+		JButton btnUpdMat = new JButton("Aggiorna materiale");
+		btnUpdMat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			  if (table.getRowCount() > 0 && table.getColumnCount() > 0) {
+			    if (table.getSelectedRow() >= 0) {
+					int cntRow = table.getSelectedRow();
+					int cntColumn =_titles.length;
+					String cod = (String) table.getValueAt(cntRow, 0);
+					String  desc= (String) table.getValueAt(cntRow, 1);
+					String qnt = (String) table.getValueAt(cntRow, 2);
+					int idMatTer = (Integer) _id[cntRow];
+					GUI_UpdMagazzino window = new GUI_UpdMagazzino(idMatTer,cod,desc,qnt);
+					window.frameUpdMat.setVisible(true);
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Non ï¿½ stato selezionato il materiale!", "Attenzione", 0);
+				}
+			 }
+			 else {
+			        JOptionPane.showMessageDialog(null, "La lista ï¿½ vuota!", "Attenzione", 0);
+			     }
+			}
+		});
+		btnUpdMat.setName("btnUpdMat");
+		btnUpdMat.setBounds(163, 245, 123, 23);
+		frmGestioneMagazzino.getContentPane().add(btnUpdMat);
+		
+		JButton btnChiudi = new JButton("Chiudi");
+		btnChiudi.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			  frmGestioneMagazzino.dispose();
+			}
+		});
+		btnChiudi.setBounds(296, 245, 123, 23);
+		frmGestioneMagazzino.getContentPane().add(btnChiudi);
+		
+		JButton button = new JButton("Ricerca");
+		button.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				textSearch.getText();
+				//TODO creare una sql di ricerca LIKE e ricaricare la table
+				loadTableDt(true);
+				DefaultTableModel dfm=new DefaultTableModel (_data,_titles);
+				table.setModel(dfm);
+			}
+		});
+		button.setName("searchBtn");
+		button.setBounds(213, 8, 123, 23);
+		frmGestioneMagazzino.getContentPane().add(button);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frmGestioneMagazzino.setJMenuBar(menuBar);
+		
+		JMenu mnDdt = new JMenu("Gestione DDT");
+		menuBar.add(mnDdt);
+		
+		JMenuItem mntmCreaDdt = new JMenuItem("Crea DDT");
+		mnDdt.add(mntmCreaDdt);
+		
+		JMenuItem mntmRegistraDdt = new JMenuItem("Registra DDT");
+		mnDdt.add(mntmRegistraDdt);
+	}
 }
-
