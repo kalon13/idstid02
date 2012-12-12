@@ -41,10 +41,13 @@ public class GUI_Bolla {
         private int id; //id bolla
         private int idTerzista; //id terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
-       
+        private String user;
+        private int tipo;
+        
         GUI_BolleChiuse bolleChiuse;
         GUI_Messaggio messaggio;
         GUI_Extraconsumo_Azienda extraconsumo;
+        GUI_Home home;
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
@@ -166,18 +169,18 @@ public class GUI_Bolla {
                         }
         }
        
-        public static void main(String[] args) {
-                EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                try {
-                                        GUI_Bolla window = new GUI_Bolla();
-                                        window.frmBolleDiLavorazione.setVisible(true);
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-        }
+//        public static void main(String[] args) {
+//                EventQueue.invokeLater(new Runnable() {
+//                        public void run() {
+//                                try {
+//                                        GUI_Bolla window = new GUI_Bolla();
+//                                        window.frmBolleDiLavorazione.setVisible(true);
+//                                } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                }
+//                        }
+//                });
+//        }
                
         //TableModel per table (materiali da produrre)
         @SuppressWarnings("serial")
@@ -206,7 +209,9 @@ public class GUI_Bolla {
                 );
         private JTextField textField_1;
        
-        public GUI_Bolla() {
+        public GUI_Bolla(String user, int tipo) {
+        		this.user = user;
+        		this.tipo = tipo;
                 loadListaTerzisti(); //carica lista terzisti
                 initialize();
         }
@@ -274,7 +279,9 @@ public class GUI_Bolla {
                 btnEsci.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                                frmBolleDiLavorazione.dispose();
+                                frmBolleDiLavorazione.setVisible(false);
+                                home = new GUI_Home(user, tipo);
+                                home.frmHome.setVisible(true);
                         }
                 });
                 btnEsci.setBounds(557, 352, 89, 23);
