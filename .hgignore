@@ -3,7 +3,6 @@
 
 # espressioni con sintassi global
 syntax: glob
-
 bin/*
 build/*
 *~

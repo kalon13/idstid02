@@ -1,4 +1,5 @@
 package main;
+
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -22,7 +23,7 @@ public class GUI_Messaggio {
 
         public GUI_Messaggio(int numeroBolla, String codiceBolla)
         {
-                if (numeroBolla != 0) 
+                if (numeroBolla != 0)
                 {
                         System.out.println(numeroBolla);
                         loadTableDt(numeroBolla); //carica la lista con i messaggi
@@ -33,25 +34,25 @@ public class GUI_Messaggio {
                         System.out.println("no num bolla");
                 }
         }
-        
+       
         public JFrame frmMessaggi;
         private JTextField textField;
         private static String[] _data;
         private static int[] _id;
         List<Messaggio> lista = null;
-        
+       
         private void loadTableDt(int numeroBolla){
-                //Load lista messaggi   
+                //Load lista messaggi  
                 //lista = ResourceClass.getResources(Messaggio.class, Global._URLMess);
-                
+               
                 //aggiunto
                 if (ResourceClass.getResources(Messaggio.class, Global._URLMessSearch+numeroBolla) != null)
                         //Lista dei messaggi riferiti a quel numero di bolla
                         lista = ResourceClass.getResources(Messaggio.class, Global._URLMessSearch+numeroBolla);
-                else 
+                else
                         //Lista di tutti i messaggi
                         lista = ResourceClass.getResources(Messaggio.class, Global._URLMess);
-                        
+                       
                 Iterator<Messaggio> it = lista.iterator();
 
                 _data = new String[lista.size()]; //Array della stessa lunghezza della lista di tutti i messaggi
@@ -67,7 +68,7 @@ public class GUI_Messaggio {
                                 k++;
                         }
         }
-        
+       
         /**
          * Launch the application.
          */
@@ -102,23 +103,23 @@ public class GUI_Messaggio {
                 frmMessaggi.setBounds(100, 100, 450, 300);
                 frmMessaggi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmMessaggi.getContentPane().setLayout(null);
-                
+               
                 JLabel lblMessaggi = new JLabel("Numero Bolla:");
                 lblMessaggi.setBounds(10, 11, 125, 14);
                 frmMessaggi.getContentPane().add(lblMessaggi);
-                                
+                               
                 final JTextPane textPaneMessaggio = new JTextPane();
                 textPaneMessaggio.setBounds(230, 36, 204, 77);
                 frmMessaggi.getContentPane().add(textPaneMessaggio);
-                
+               
                 JTextPane textPaneNuovoMess = new JTextPane();
                 textPaneNuovoMess.setBounds(10, 124, 424, 99);
                 frmMessaggi.getContentPane().add(textPaneNuovoMess);
-                
+               
                 JButton btnInvia = new JButton("Invia");
                 btnInvia.setBounds(246, 234, 89, 23);
                 frmMessaggi.getContentPane().add(btnInvia);
-                
+               
                 JButton btnEsci = new JButton("Chiudi");
                 btnEsci.setBounds(345, 234, 89, 23);
                 btnEsci.addMouseListener(new MouseAdapter() {
@@ -127,18 +128,18 @@ public class GUI_Messaggio {
                                 frmMessaggi.dispose();
                         }
                 });
-                
+               
                 frmMessaggi.getContentPane().add(btnEsci);
-                
+               
                 textField = new JTextField();
                 textField.setEditable(false);
                 textField.setText("");
                 textField.setBounds(134, 8, 86, 20);
                 frmMessaggi.getContentPane().add(textField);
                 textField.setColumns(10);
-                
+               
                 textField.setText(codiceBolla); //numeroBolla che è stato passato dalla GUI_Bolla
-                
+               
                 final JList listMessaggi = new JList(_data);
                 listMessaggi.addListSelectionListener(new ListSelectionListener() {
                         //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
@@ -153,3 +154,4 @@ public class GUI_Messaggio {
                 frmMessaggi.getContentPane().add(listMessaggi);
         }
 }
+

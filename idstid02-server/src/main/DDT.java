@@ -1,118 +1,112 @@
 package main;
+
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class DDT {
-	private int id;
-	private int numDoc;
-	private String dataRicezione;
-	private String dataInvio;
-	private int idTerzista;
-	private boolean flussoAzienda;
-	private List<Materiale> ddtMateriale;
-	private boolean registrato;
-	
-	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
-			boolean flussoAzienda, boolean registrato) {
-		this.id = id;
-		this.numDoc = numDoc;
-		this.dataRicezione = dataRicezione;
-		this.dataInvio = dataInvio;
-		this.idTerzista = idTerzista;
-		this.flussoAzienda = flussoAzienda;
-		this.registrato = registrato;
-		this.setDdtMateriale(ddtMateriale);
-	}
-	
-	public DDT(String dataInvio, int idTerzista,
-			boolean flussoAzienda, boolean registrato) {
-		this.dataInvio = dataInvio;
-		this.idTerzista = idTerzista;
-		this.flussoAzienda = flussoAzienda;
-		this.registrato = registrato;
-	}
-	
-	public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
-			boolean flussoAzienda, List<Materiale> ddtMateriale) {
-		this.id = id;
-		this.numDoc = numDoc;
-		this.dataRicezione = dataRicezione;
-		this.dataInvio = dataInvio;
-		this.idTerzista = idTerzista;
-		this.flussoAzienda = flussoAzienda;
-		this.setDdtMateriale(ddtMateriale);
-	}
-	public DDT() {
-		this.id = -1;
-		this.numDoc = 0;
-		this.dataRicezione = "";
-		this.dataInvio = "";
-		this.flussoAzienda = false;
-	}
+        private int id;
+        private int numDoc;
+        private String dataRicezione;
+        private String dataInvio;
+        private int idTerzista;
+        private boolean flussoAzienda;
+        private List<Materiale> ddtMateriale;
+        private boolean registrato;
+       
+        public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
+                        boolean flussoAzienda, boolean registrato) {
+                this.id = id;
+                this.numDoc = numDoc;
+                this.dataRicezione = dataRicezione;
+                this.dataInvio = dataInvio;
+                this.idTerzista = idTerzista;
+                this.flussoAzienda = flussoAzienda;
+                this.registrato = registrato;
+                this.setDdtMateriale(ddtMateriale);
+        }
 
-	public int getId() {
-		return id;
-	}
+        public DDT(int id, int numDoc, String dataRicezione, String dataInvio,int idTerzista,
+                        boolean flussoAzienda, List<Materiale> ddtMateriale) {
+                this.id = id;
+                this.numDoc = numDoc;
+                this.dataRicezione = dataRicezione;
+                this.dataInvio = dataInvio;
+                this.idTerzista = idTerzista;
+                this.flussoAzienda = flussoAzienda;
+                this.setDdtMateriale(ddtMateriale);
+        }
+        public DDT() {
+                this.id = -1;
+                this.numDoc = 0;
+                this.dataRicezione = "";
+                this.dataInvio = "";
+                this.flussoAzienda = false;
+        }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+        public int getId() {
+                return id;
+        }
 
-	public int getNumDoc() {
-		return numDoc;
-	}
+        public void setId(int id) {
+                this.id = id;
+        }
 
-	public void setNumDoc(int numDoc) {
-		this.numDoc = numDoc;
-	}
+        public int getNumDoc() {
+                return numDoc;
+        }
 
-	public String getDataRicezione() {
-		return dataRicezione;
-	}
+        public void setNumDoc(int numDoc) {
+                this.numDoc = numDoc;
+        }
 
-	public void setDataRicezione(String dataRicezione) {
-		this.dataRicezione = dataRicezione;
-	}
+        public String getDataRicezione() {
+                return dataRicezione;
+        }
 
-	public String getDataInvio() {
-		return dataInvio;
-	}
+        public void setDataRicezione(String dataRicezione) {
+                this.dataRicezione = dataRicezione;
+        }
 
-	public void setDataInvio(String dataInvio) {
-		this.dataInvio = dataInvio;
-	}
+        public String getDataInvio() {
+                return dataInvio;
+        }
 
-	public boolean isFlussoAzienda() {
-		return flussoAzienda;
-	}
+        public void setDataInvio(String dataInvio) {
+                this.dataInvio = dataInvio;
+        }
 
-	public void setFlussoAzienda(boolean flussoAzienda) {
-		this.flussoAzienda = flussoAzienda;
-	}
+        public boolean isFlussoAzienda() {
+                return flussoAzienda;
+        }
 
-	public int getIdTerzista() {
-		return idTerzista;
-	}
+        public void setFlussoAzienda(boolean flussoAzienda) {
+                this.flussoAzienda = flussoAzienda;
+        }
 
-	public void setIdTerzista(int idTerzista) {
-		this.idTerzista = idTerzista;
-	}
+        public int getIdTerzista() {
+                return idTerzista;
+        }
 
-	public List<Materiale> getDdtMateriale() {
-		return ddtMateriale;
-	}
+        public void setIdTerzista(int idTerzista) {
+                this.idTerzista = idTerzista;
+        }
 
-	public void setDdtMateriale(List<Materiale> ddtMateriale) {
-		this.ddtMateriale = ddtMateriale;
-	}
+        public List<Materiale> getDdtMateriale() {
+                return ddtMateriale;
+        }
 
-	public boolean isRegistrato() {
-		return registrato;
-	}
+        public void setDdtMateriale(List<Materiale> ddtMateriale) {
+                this.ddtMateriale = ddtMateriale;
+        }
 
-	public void setRegistrato(boolean registrato) {
-		this.registrato = registrato;
-	}
+        public boolean isRegistrato() {
+                return registrato;
+        }
+
+        public void setRegistrato(boolean registrato) {
+                this.registrato = registrato;
+        }
 }
+

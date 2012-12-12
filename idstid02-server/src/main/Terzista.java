@@ -1,138 +1,154 @@
 package main;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Terzista {
-	private int id;
-	private String fax;
-	private String telefono;
-	private String citta;
-	private String provincia;
-	private String cap;
-	private String indirizzo;
-	private String ragioneSociale;
-	private String pIva;
-	private String email;
-	private int utente_id;
-	
-	public Terzista() {
-		this.id = -1;
-		this.fax = "";
-		this.telefono = "";
-		this.citta = "";
-		this.provincia = "";
-		this.cap = "";
-		this.indirizzo = "";
-		this.ragioneSociale = "";
-		this.pIva = "";
-		this.email = "";
-	}
-	
-	public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
-		this.id = id;
-		this.fax = fax;
-		this.telefono = tel;
-		this.citta = citta;
-		this.provincia = prov;
-		this.cap = cap;
-		this.indirizzo = ind;
-		this.ragioneSociale = rs;
-		this.pIva = pi;
-		this.email = email;
-		this.utente_id = utente_id;
-	}
-	
-	public Terzista(int id, String rs, String pi) {
-		this.id = id;
-		this.ragioneSociale = rs;
-		this.pIva = pi;
-	}
-	
-	public int getUtente_id() {
-		return utente_id;
-	}
+        private int id;
+        private String fax;
+        private String telefono;
+        private String citta;
+        private String provincia;
+        private String cap;
+        private String indirizzo;
+        private String ragioneSociale;
+        private String pIva;
+        private String email;
+        private int utente_id;
 
-	public void setUtente_id(int utente_id) {
-		this.utente_id = utente_id;
-	}
+       
+        public Terzista() {
+                this.id = -1;
+                this.fax = "";
+                this.telefono = "";
+                this.citta = "";
+                this.provincia = "";
+                this.cap = "";
+                this.indirizzo = "";
+                this.ragioneSociale = "";
+                this.pIva = "";
+                this.email = "";
+        }
+       
+        public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax) {
+        		this.id = id;
+                this.fax = fax;
+                this.telefono = tel;
+                this.citta = citta;
+                this.provincia = prov;
+                this.cap = cap;
+                this.indirizzo = ind;
+                this.ragioneSociale = rs;
+                this.pIva = pi;
+                this.email = email;
+        }
+        
+        public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
+            this.id = id;
+            this.fax = fax;
+            this.telefono = tel;
+            this.citta = citta;
+            this.provincia = prov;
+            this.cap = cap;
+            this.indirizzo = ind;
+            this.ragioneSociale = rs;
+            this.pIva = pi;
+            this.email = email;
+            this.utente_id = utente_id;
+        }
 
-	public int getId() {
-		return id;
-	}
+       
+        public Terzista(int id, String rs, String pi) {
+                this.id = id;
+                this.ragioneSociale = rs;
+                this.pIva = pi;
+        }
+        
+        public int getUtente_id() {
+            return utente_id;
+        }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+        public void setUtente_id(int utente_id) {
+            this.utente_id = utente_id;
+        }
 
-	public String getFax() {
-		return fax;
-	}
+        public int getId() {
+                return id;
+        }
 
-	public void setFax(String fax) {
-		this.fax = fax;
-	}
+        public void setId(int id) {
+                this.id = id;
+        }
 
-	public String getTelefono() {
-		return telefono;
-	}
+        public String getFax() {
+                return fax;
+        }
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
+        public void setFax(String fax) {
+                this.fax = fax;
+        }
 
-	public String getCitta() {
-		return citta;
-	}
+        public String getTelefono() {
+                return telefono;
+        }
 
-	public void setCitta(String citta) {
-		this.citta = citta;
-	}
+        public void setTelefono(String telefono) {
+                this.telefono = telefono;
+        }
 
-	public String getProvincia() {
-		return provincia;
-	}
+        public String getCitta() {
+                return citta;
+        }
 
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
+        public void setCitta(String citta) {
+                this.citta = citta;
+        }
 
-	public String getCap() {
-		return cap;
-	}
+        public String getProvincia() {
+                return provincia;
+        }
 
-	public void setCap(String cap) {
-		this.cap = cap;
-	}
+        public void setProvincia(String provincia) {
+                this.provincia = provincia;
+        }
 
-	public String getIndirizzo() {
-		return indirizzo;
-	}
+        public String getCap() {
+                return cap;
+        }
 
-	public void setIndirizzo(String indirizzo) {
-		this.indirizzo = indirizzo;
-	}
+        public void setCap(String cap) {
+                this.cap = cap;
+        }
 
-	public String getRagioneSociale() {
-		return ragioneSociale;
-	}
+        public String getIndirizzo() {
+                return indirizzo;
+        }
 
-	public void setRagioneSociale(String ragioneSociale) {
-		this.ragioneSociale = ragioneSociale;
-	}
+        public void setIndirizzo(String indirizzo) {
+                this.indirizzo = indirizzo;
+        }
 
-	public String getpIva() {
-		return pIva;
-	}
+        public String getRagioneSociale() {
+                return ragioneSociale;
+        }
 
-	public void setpIva(String pIva) {
-		this.pIva = pIva;
-	}
+        public void setRagioneSociale(String ragioneSociale) {
+                this.ragioneSociale = ragioneSociale;
+        }
 
-	public String getEmail() {
-		return email;
-	}
+        public String getpIva() {
+                return pIva;
+        }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+        public void setpIva(String pIva) {
+                this.pIva = pIva;
+        }
+
+        public String getEmail() {
+                return email;
+        }
+
+        public void setEmail(String email) {
+                this.email = email;
+        }
 }
