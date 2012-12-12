@@ -3,7 +3,7 @@ package classResources;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Terzista {
+public class Terzista extends Utente{
         private int id;
         private String fax;
         private String telefono;
@@ -14,8 +14,6 @@ public class Terzista {
         private String ragioneSociale;
         private String pIva;
         private String email;
-        private int utente_id;
-
        
         public Terzista() {
                 this.id = -1;
@@ -43,7 +41,7 @@ public class Terzista {
                 this.email = email;
         }
         
-        public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
+        public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, Utente utente) {
             this.id = id;
             this.fax = fax;
             this.telefono = tel;
@@ -54,7 +52,10 @@ public class Terzista {
             this.ragioneSociale = rs;
             this.pIva = pi;
             this.email = email;
-            this.utente_id = utente_id;
+            this.userId = utente.userId;
+            this.user = utente.user;
+            this.psw = utente.psw;
+            this.tipo = utente.tipo;
         }
 
        
@@ -65,90 +66,86 @@ public class Terzista {
         }
         
         public int getUtente_id() {
-            return utente_id;
-        }
-
-        public void setUtente_id(int utente_id) {
-            this.utente_id = utente_id;
+            return userId;
         }
 
         public int getId() {
-                return id;
+        	return id;
         }
 
         public void setId(int id) {
-                this.id = id;
+        	this.id = id;
         }
 
         public String getFax() {
-                return fax;
+        	return fax;
         }
 
         public void setFax(String fax) {
-                this.fax = fax;
+        	this.fax = fax;
         }
 
         public String getTelefono() {
-                return telefono;
+        	return telefono;
         }
 
         public void setTelefono(String telefono) {
-                this.telefono = telefono;
+        	this.telefono = telefono;
         }
 
         public String getCitta() {
-                return citta;
+        	return citta;
         }
 
         public void setCitta(String citta) {
-                this.citta = citta;
+        	this.citta = citta;
         }
 
         public String getProvincia() {
-                return provincia;
+        	return provincia;
         }
 
         public void setProvincia(String provincia) {
-                this.provincia = provincia;
+        	this.provincia = provincia;
         }
 
         public String getCap() {
-                return cap;
+        	return cap;
         }
 
         public void setCap(String cap) {
-                this.cap = cap;
+        	this.cap = cap;
         }
 
         public String getIndirizzo() {
-                return indirizzo;
+        	return indirizzo;
         }
 
         public void setIndirizzo(String indirizzo) {
-                this.indirizzo = indirizzo;
+        	this.indirizzo = indirizzo;
         }
 
         public String getRagioneSociale() {
-                return ragioneSociale;
+        	return ragioneSociale;
         }
 
         public void setRagioneSociale(String ragioneSociale) {
-                this.ragioneSociale = ragioneSociale;
+        	this.ragioneSociale = ragioneSociale;
         }
 
         public String getpIva() {
-                return pIva;
+        	return pIva;
         }
 
         public void setpIva(String pIva) {
-                this.pIva = pIva;
+        	this.pIva = pIva;
         }
 
         public String getEmail() {
-                return email;
+        	return email;
         }
 
         public void setEmail(String email) {
-                this.email = email;
+        	this.email = email;
         }
 }

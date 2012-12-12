@@ -1,35 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Utente {
-    private int id;
-    private String user;
-    private String psw;
-    private int tipo;
+    protected int userId;
+    protected String user;
+    protected String psw;
+    protected int tipo;
 
-    public Utente() {  //???
+    public Utente() {}
 
-    }
-
-    public Utente(int id, String user, String psw, int tipo) {
-        this.id = id;
+    public Utente(int userId, String user, String psw, int tipo) {
+        this.userId = userId;
         this.user = user;
         this.psw = psw;
         this.tipo = tipo;
     }
 
-    public int getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getUser() {
@@ -54,5 +48,5 @@ public class Utente {
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
-    }    
+    }
 }
