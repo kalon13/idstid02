@@ -277,21 +277,20 @@ public class GUI_ModificaAnagrafica {
 	
 	public void update(){
 		if(matched){
-			String psw = pass.getPassword().toString();
+			String psw = pass.getText();
 			if(psw.length() > 0) {
-				if(psw == "------") {
+				if(psw.equals("------")) {
 					psw = Autenticazione.getSessione().getUtente().getPsw();
 				}
 				else {
 					psw = Autenticazione.getMD5Sum(pass.getPassword());
 				}
 				
-				//Occorre convalidare i dati ed aggiornarli nel DB
 				Terzista updTerzista=new Terzista(t.getId(), email.getText(), piva.getText(), ragsoc.getText(), indirizzo.getText(), cap.getText(),
 						prov.getText(), citta.getText(), tel.getText(), fax.getText());
 				ResourceClass.updResources(Terzista.class, Global._URLTerz, String.valueOf(t.getId()), updTerzista);
-				//Devo modificare la password nella tabella utente
 				
+				//Devo modificare la password nella tabella utente
 				Utente updUtente=new Utente(Autenticazione.getSessione().getUtente().getUserId(), 
 						Autenticazione.getSessione().getUtente().getUser(), 
 						psw, 
