@@ -27,6 +27,7 @@ import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
+import main.Sessione;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -38,7 +39,7 @@ public class GUI_Bolla_Terzista {
         public JFrame frmBolleDiLavorazioneTerzista;
         private JTextField textField;
         private int id; //id bolla
-        private int idTerzista; //id terzista
+        private Terzista terzista; //id terzista
         private int statoBolla;
         private String user;
         private int tipo;
@@ -87,7 +88,7 @@ public class GUI_Bolla_Terzista {
                 );
         private JTable table;
         private JTable table_1;
-        private JTextField textField_1; //textbox dell'id del terzista
+        private JLabel textField_1; //textbox dell'id del terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
        
         private void loadListaBolleTerzista(int id_terzista){
@@ -197,7 +198,7 @@ public class GUI_Bolla_Terzista {
         public DefaultListModel listModel = new DefaultListModel();
         public JList list = new JList(listModel);
        
-        private JTextField textField_2;
+        private JLabel textField_2;
         JButton btnRichiediExtra = new JButton("Richiedi Extra");
        
         //Carica JList dcon le bolle del terzista
@@ -308,17 +309,19 @@ public class GUI_Bolla_Terzista {
                 btnEsci.setBounds(557, 352, 89, 23);
                 frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
                
-                textField_1 = new JTextField();
-                textField_1.setText("1");
-
+                textField_1 = new JLabel();
+                terzista = ResourceClass.getResource(Terzista.class, Global._URLTerzista+"/utenteId/"+GUI_Autenticazione.ID);
+          
+                textField_1.setText(terzista.getRagioneSociale());
+                
                 textField_1.setBounds(10, 33, 158, 20);
                 frmBolleDiLavorazioneTerzista.getContentPane().add(textField_1);
-                textField_1.setColumns(10);
                
                 //ID TERZISTA --> dopo da cambiare in base alla sessione
-                idTerzista = Integer.parseInt(textField_1.getText());
-                caricaJListBolle(idTerzista); //carica JList bolle del terzista
+//                idTerzista = Integer.parseInt(textField_1.getText());
+                caricaJListBolle(terzista.getId()); //carica JList bolle del terzista
                
+                
                 //**btnVisualizzaNote**
                 JButton btnVisualizzaNote = new JButton("Visualizza Note");
                 //Quando clicco Visualizza Note richiama la GUI Messaggio passandogli il num di bolla
@@ -346,11 +349,9 @@ public class GUI_Bolla_Terzista {
                 btnRichiediExtra.setBounds(346, 295, 112, 23);
                 panel.add(btnRichiediExtra);
                
-                textField_2 = new JTextField();
+                textField_2 = new JLabel();
                 textField_2.setForeground(Color.RED);
                 textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-                textField_2.setEditable(false);
-                textField_2.setColumns(10);
                 textField_2.setBounds(10, 296, 284, 20);
                 panel.add(textField_2);
                        
@@ -382,7 +383,7 @@ public class GUI_Bolla_Terzista {
                                         System.out.println("BollaID: " + id);
                                         ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                                         listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
-                                        caricaJListBolle(idTerzista); //ricarica la lista delle bolle del terzista
+                                        caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
                                         dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
                                         dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
                                 }
@@ -422,7 +423,7 @@ public class GUI_Bolla_Terzista {
 
                                                 Bolla b = new Bolla();
                                                 b.setStato(2); //setto lo stato della bolla selezionata a 2 = in corso di lavorazione
-                                                b.setTerzistaId(Integer.parseInt(textField_1.getText())); //id_terzista --> DA MODIFICARE CON LA SESSIONE
+                                                b.setTerzistaId(terzista.getId()); //id_terzista --> DA MODIFICARE CON LA SESSIONE
                                                 ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
                                                 ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                                                 statoBolla = b.getStato(); //aggiorno variabile dello stato della bolla selezionata

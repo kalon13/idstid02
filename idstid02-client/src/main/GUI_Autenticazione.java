@@ -130,7 +130,9 @@ public class GUI_Autenticazione {
                                 path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
                
                 if(session.getUtente() != null) {
+                	
                 	Autenticazione.setSessione(session);
+                	ID = session.getUtente().getUserId();
                     windowHome = new GUI_Home(session.getUtente().getUser(), session.getUtente().getTipo());
                     windowHome.frmHome.setVisible(true);
                     frmAutenticazione.setVisible(false);

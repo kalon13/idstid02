@@ -22,7 +22,7 @@ public class Utente {
         return userId;
     }
 
-    public void setId(int id) {
+    public void setUserId(int id) {
         this.userId = id;
     }
 

@@ -52,10 +52,20 @@ public class Terzista extends Utente{
             this.ragioneSociale = rs;
             this.pIva = pi;
             this.email = email;
-            this.userId = utente.userId;
-            this.user = utente.user;
-            this.psw = utente.psw;
-            this.tipo = utente.tipo;
+        }
+        
+        public Terzista(int id, String email, String pi, String rs, String ind, String cap, String prov, String citta, String tel, String fax, int utente_id) {
+            this.id = id;
+            this.fax = fax;
+            this.telefono = tel;
+            this.citta = citta;
+            this.provincia = prov;
+            this.cap = cap;
+            this.indirizzo = ind;
+            this.ragioneSociale = rs;
+            this.pIva = pi;
+            this.email = email;
+            this.userId = utente_id;
         }
 
        
