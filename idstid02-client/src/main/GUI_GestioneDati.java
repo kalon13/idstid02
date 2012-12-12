@@ -48,7 +48,7 @@ public class GUI_GestioneDati {
 		frmGestioneDati.setBounds(100, 100, 390, 280);
 		frmGestioneDati.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
-		JButton btnVisualizza = new JButton("Visualizza");
+		JButton btnVisualizza = new JButton("Visualizza Dati Terzista");
 		btnVisualizza.setMnemonic(KeyEvent.VK_V);
 		btnVisualizza.setBounds(115, 34, 156, 23);
 		btnVisualizza.addActionListener(new ActionListener() {
@@ -72,7 +72,9 @@ public class GUI_GestioneDati {
 		btnVisualizza.setPreferredSize(new Dimension(111, 23));
 		frmGestioneDati.getContentPane().add(btnVisualizza);
 		
-		JButton btnModificaValuta = new JButton("Modifica / Valuta");
+		JButton btnModificaValuta = new JButton();
+		if(tipo==2) btnModificaValuta.setText("Valuta Bolle Chiuse");
+		else btnModificaValuta.setText("Modifica Dati");
 		btnModificaValuta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tipo==1){
@@ -92,7 +94,9 @@ public class GUI_GestioneDati {
 		btnModificaValuta.setBounds(115, 91, 156, 25);
 		frmGestioneDati.getContentPane().add(btnModificaValuta);
 		
-		JButton btnElimina = new JButton("Cancella Profilo Terzista");
+		JButton btnElimina = new JButton();
+		if(tipo==2) btnElimina.setText("Rimuovi Terzisti");
+		else btnElimina.setText("Cancella Profilo");
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(tipo==1){//E' il terzista

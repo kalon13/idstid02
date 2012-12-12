@@ -54,7 +54,7 @@ public class GUI_Home {
                 frmHome.getContentPane().add(panel);
                 panel.setLayout(null);
                
-                JButton btnGestioneDati = new JButton("Gestione Dati");
+                JButton btnGestioneDati = new JButton("Gestione Dati Terzista");
                 btnGestioneDati.setMnemonic(KeyEvent.VK_D);
                 btnGestioneDati.addActionListener(new ActionListener() {
                 	

@@ -2,6 +2,7 @@ package main;
 
 import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -68,14 +69,16 @@ public class GUI_SceltaTerzista {
 			index1.add(lavTerz.getTerzistaID());
 		}
 		//Ora per ogni terzista id devo fare una query nella tab Terzista ed elencare il nome
+		list.clear();
 		if(!index1.isEmpty()){
-			list.clear();
 			for(int i=0;i<index1.size();i++){
 				Terzista terz=ResourceClass.getResource(Terzista.class, Global._URLTerz+index1.get(i));
 				list.add(terz.getRagioneSociale());
 			}
 			listTerzisti.setListData(list.toArray());
 		}
+		else
+			listTerzisti.setListData(new Object[0]); //Svuotiamo la lista
 		
 	}
 	
@@ -90,8 +93,8 @@ public class GUI_SceltaTerzista {
 		Iterator<Lavorazione> lavoraz = lista.iterator();
 		while (lavoraz.hasNext()){
 			Lavorazione lavorazione=lavoraz.next();
-			cmbTipoLavorazione.addItem(lavorazione.getNome());
 			index.add(lavorazione.getId());
+			cmbTipoLavorazione.addItem(lavorazione.getNome());
 		}
 		
 		compose();
@@ -119,11 +122,8 @@ public class GUI_SceltaTerzista {
 		cmbTipoLavorazione = new JComboBox();
 		cmbTipoLavorazione.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(!list.isEmpty()){
-					lblTipoLavorazione.setText(cmbTipoLavorazione.getSelectedItem().toString());
-					compose();
-					listTerzisti.setListData(list.toArray());
-				}
+				lblTipoLavorazione.setText(cmbTipoLavorazione.getSelectedItem().toString());
+				compose();
 			}
 		});
 		
