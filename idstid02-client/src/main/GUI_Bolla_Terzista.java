@@ -35,14 +35,17 @@ import java.awt.Color;
 
 public class GUI_Bolla_Terzista {
 
-        private JFrame frmBolleDiLavorazione;
+        public JFrame frmBolleDiLavorazioneTerzista;
         private JTextField textField;
         private int id; //id bolla
         private int idTerzista; //id terzista
         private int statoBolla;
+        private String user;
+        private int tipo;
        
         GUI_Messaggio messaggio;
         GUI_Extraconsumo extraconsumo;
+        GUI_Home home;
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
@@ -171,21 +174,23 @@ public class GUI_Bolla_Terzista {
                         }
         }
 
-        public static void main(String[] args) {
-                EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                try {
-                                        GUI_Bolla_Terzista window = new GUI_Bolla_Terzista();
-                                        window.frmBolleDiLavorazione.setVisible(true);
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-        }
+//        public static void main(String[] args) {
+//                EventQueue.invokeLater(new Runnable() {
+//                        public void run() {
+//                                try {
+//                                        GUI_Bolla_Terzista window = new GUI_Bolla_Terzista();
+//                                        window.frmBolleDiLavorazione.setVisible(true);
+//                                } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                }
+//                        }
+//                });
+//        }
 
-        public GUI_Bolla_Terzista() {
-                initialize();
+        public GUI_Bolla_Terzista(String user, int tipo) {
+        	this.user = user;
+        	this.tipo = tipo;
+            initialize();
         }
        
         //ListModel lista delle bolle del terzista
@@ -233,20 +238,20 @@ public class GUI_Bolla_Terzista {
         }
        
         private void initialize() {
-                frmBolleDiLavorazione = new JFrame();
-                frmBolleDiLavorazione.setResizable(false);
-                frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 662, 418);
-                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frmBolleDiLavorazione.getContentPane().setLayout(null);
+                frmBolleDiLavorazioneTerzista = new JFrame();
+                frmBolleDiLavorazioneTerzista.setResizable(false);
+                frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
+                frmBolleDiLavorazioneTerzista.setBounds(100, 100, 662, 418);
+                frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frmBolleDiLavorazioneTerzista.getContentPane().setLayout(null);
                
                 JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
                 lblBolleDiLavorazione.setBounds(10, 64, 106, 14);
-                frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(lblBolleDiLavorazione);
                
                 JPanel panel = new JPanel();
                 panel.setBounds(178, 11, 468, 329);
-                frmBolleDiLavorazione.getContentPane().add(panel);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(panel);
                 panel.setLayout(null);
                
                 JLabel lblNewLabel = new JLabel("Numero bolla:");
@@ -295,17 +300,19 @@ public class GUI_Bolla_Terzista {
                 btnEsci.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                                frmBolleDiLavorazione.dispose();
+                                frmBolleDiLavorazioneTerzista.setVisible(false);
+                                home = new GUI_Home(user, tipo);
+                                home.frmHome.setVisible(true);
                         }
                 });
                 btnEsci.setBounds(557, 352, 89, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnEsci);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
                
                 textField_1 = new JTextField();
                 textField_1.setText("1");
-                System.out.println(textField_1.getText());
+
                 textField_1.setBounds(10, 33, 158, 20);
-                frmBolleDiLavorazione.getContentPane().add(textField_1);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(textField_1);
                 textField_1.setColumns(10);
                
                 //ID TERZISTA --> dopo da cambiare in base alla sessione
@@ -348,7 +355,7 @@ public class GUI_Bolla_Terzista {
                 panel.add(textField_2);
                        
                 list.setBounds(10, 89, 158, 149);
-                frmBolleDiLavorazione.getContentPane().add(list);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(list);
                
                 //**btnAnnullaBolla**
                 JButton btnAnnullaBolla = new JButton("Annulla Bolla");
@@ -382,19 +389,19 @@ public class GUI_Bolla_Terzista {
                         }
                 });
                 btnAnnullaBolla.setBounds(10, 249, 158, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnAnnullaBolla);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(btnAnnullaBolla);
                
                 JButton btnChiudiParzialmente = new JButton("Chiudi Parzialmente");
                 btnChiudiParzialmente.setBounds(10, 283, 158, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnChiudiParzialmente);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(btnChiudiParzialmente);
                
                 JButton btnChiudiBolla = new JButton("Chiudi Bolla");
                 btnChiudiBolla.setBounds(10, 317, 158, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnChiudiBolla);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(btnChiudiBolla);
                
                 JLabel lblTerzisti = new JLabel("Terzista:");
                 lblTerzisti.setBounds(10, 11, 106, 14);
-                frmBolleDiLavorazione.getContentPane().add(lblTerzisti);
+                frmBolleDiLavorazioneTerzista.getContentPane().add(lblTerzisti);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update
                 dmPrima.addTableModelListener(new TableModelListener(){

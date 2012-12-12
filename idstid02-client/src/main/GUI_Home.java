@@ -24,6 +24,7 @@ public class GUI_Home {
         static GUI_GestioneDati windowGestione;
         static GUI_Fatturazione windowFatturazione;
         static GUI_Bolla windowBolla;
+        static GUI_Bolla_Terzista windowBollaTerzista;
 
         
         /**
@@ -34,7 +35,7 @@ public class GUI_Home {
                 this.tipo = tipo;
                 initialize();
         }
-        
+               
 //        public GUI_Home() {
 //            this.user = user;	//Quando torno indietro non rimane lo user e nemmeno il tipo xche ho creato un nuovo oggetto
 //            this.tipo = tipo;	//e dovrei quindi portarmi dietro i valori
@@ -73,33 +74,32 @@ public class GUI_Home {
                 	public void actionPerformed(ActionEvent e) {
                 		windowMagazzino = new GUI_Magazzino();
                         windowMagazzino.frmGestioneMagazzino.setVisible(true);
+                        frmHome.setVisible(false);
                 	}
                 });
-                btnGestioneMagazzino.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowMagazzino = new GUI_Magazzino();
-                                windowMagazzino.frmGestioneMagazzino.setVisible(true);
-                        }
-                });
+
                 btnGestioneMagazzino.setBounds(192, 0, 177, 25);
                 panel.add(btnGestioneMagazzino);
                
                 JButton btnGestioneBolleDi = new JButton("Gestione Bolle di lavorazione");
                 btnGestioneBolleDi.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
-                		 windowBolla = new GUI_Bolla();
-                         windowBolla.frmBolleDiLavorazione.setVisible(true);
+                		if (tipo < 5) //operatore azienda
+                		{
+                			windowBolla = new GUI_Bolla(user, tipo);
+                            windowBolla.frmBolleDiLavorazione.setVisible(true);
+                            frmHome.setVisible(false);
+                		}
+                		else if (tipo == 5) //terzista
+                		{
+                			windowBollaTerzista = new GUI_Bolla_Terzista(user, tipo);
+                			windowBollaTerzista.frmBolleDiLavorazioneTerzista.setVisible(true);
+                            frmHome.setVisible(false);
+                		}
+                		 
                 	}
                 });
-                btnGestioneBolleDi.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowBolla = new GUI_Bolla();
-                                windowBolla.frmBolleDiLavorazione.setVisible(true);
 
-                        }
-                });
                 btnGestioneBolleDi.setBounds(0, 34, 177, 25);
                 panel.add(btnGestioneBolleDi);
                
@@ -108,15 +108,10 @@ public class GUI_Home {
                 	public void actionPerformed(ActionEvent e) {
                 		 windowFatturazione = new GUI_Fatturazione();
                          windowFatturazione.frmElenco.setVisible(true);
+                         frmHome.setVisible(false);
                 	}
                 });
-                btnGestioneFatture.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                windowFatturazione = new GUI_Fatturazione();
-                                windowFatturazione.frmElenco.setVisible(true);
-                        }
-                });
+
                 btnGestioneFatture.setBounds(192, 34, 179, 25);
                 panel.add(btnGestioneFatture);
                
