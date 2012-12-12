@@ -59,9 +59,5 @@ public class Main {
 		});
 		
 	}
-	
-	private static URI getBaseURI() {
-		return UriBuilder.fromUri("http://localhost:8080/idstid02-server").build();
-	}
 
 }
