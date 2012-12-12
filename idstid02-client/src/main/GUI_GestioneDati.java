@@ -71,7 +71,7 @@ public class GUI_GestioneDati {
 		frmGestioneDati.getContentPane().add(btnVisualizza);
 		
 		JButton btnModificaValuta = new JButton();
-		if(tipo==2) btnModificaValuta.setText("Valuta Bolle Chiuse");
+		if(Autenticazione.getSessione().getUtente().getTipo()==2) btnModificaValuta.setText("Valuta Bolle Chiuse");
 		else btnModificaValuta.setText("Modifica Dati");
 		btnModificaValuta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,7 +93,7 @@ public class GUI_GestioneDati {
 		frmGestioneDati.getContentPane().add(btnModificaValuta);
 		
 		JButton btnElimina = new JButton();
-		if(tipo==2) btnElimina.setText("Rimuovi Terzisti");
+		if(Autenticazione.getSessione().getUtente().getTipo()==2) btnElimina.setText("Rimuovi Terzisti");
 		else btnElimina.setText("Cancella Profilo");
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
