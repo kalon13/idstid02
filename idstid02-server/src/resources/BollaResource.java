@@ -61,7 +61,7 @@ public class BollaResource {
                
                 try {
                         statement = DB.instance.createStatement();
-                        result = statement.executeQuery("SELECT * FROM progingsw.bolla WHERE stato='1' AND valutata='0';");
+                        result = statement.executeQuery("SELECT * FROM progingsw.bolla WHERE (stato='3' OR stato='4') AND valutata='0';");
                        
                         while(result.next()) {
                                 Bolla m1 = new Bolla(result.getInt(1), result.getString(2), result.getInt(3), result.getString(4),
@@ -295,6 +295,32 @@ public class BollaResource {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
                                         "UPDATE progingsw.bolla SET valutata = '1' WHERE id = '" + id + "';"
+                        );
+                        
+                        statement.close();
+
+                        return String.valueOf(ok);
+                        
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return "-1";
+                }
+        }
+        
+        //aggiunto Marco
+        @POST
+        @Path ("/riassegna/{terzista_id}")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.APPLICATION_JSON)
+        public String updateBolla3(@PathParam("terzista_id") int terzista_id) {
+               
+                Statement statement = null;
+                int ok = -1;
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        ok = statement.executeUpdate(
+                                        "UPDATE progingsw.bolla SET stato='0', Terzista_id='-1', LavorazioneTerzista_id='-1' WHERE Terzista_id = '" + terzista_id + "' AND stato='1';"
                         );
                         
                         statement.close();

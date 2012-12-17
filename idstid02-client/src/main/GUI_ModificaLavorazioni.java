@@ -376,7 +376,7 @@ public class GUI_ModificaLavorazioni {
             	Iterator<Bolla> bolle = listab.iterator();
             	while(bolle.hasNext()){
             		Bolla b=bolle.next();
-            		if(b.getStato()==0){
+            		if(b.getStato()==2){
             			lavorazioneAperta=true;
             		}
             	}
@@ -410,7 +410,7 @@ public class GUI_ModificaLavorazioni {
             	Iterator<Bolla> bolle = listab.iterator();
             	while(bolle.hasNext()){
             		Bolla b=bolle.next();
-            		if(b.getStato()==0){
+            		if(b.getStato()==2){
             			lavorazioneAperta=true;
             		}
             	}
