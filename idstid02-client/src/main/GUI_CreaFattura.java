@@ -68,7 +68,7 @@ public class GUI_CreaFattura {
                 Double cstU =  exC.getCosto();
                 String dt = exC.getDataRichiesta();
                 String g = "Ingiustificato";
-                if(exC.isGiustificato()) g = "Giustificato";
+                if(exC.getGiustificato() == 1) g = "Giustificato";
               //Aggiunge i valori alla tabella
                   ((DefaultTableModel) tblMatEx.getModel()).insertRow(
                                   tblMatEx.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});  

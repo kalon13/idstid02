@@ -64,7 +64,7 @@ public class GUI_Extraconsumo_Azienda {
                                 String desc = String.valueOf(extraCl.getDescrizione());
                                 String qtaAttu = String.valueOf(extraCl.getQtaAttuale());
                                 String qtaRichiesta = String.valueOf(extraCl.getQuantita());
-                                String giustif = String.valueOf(extraCl.isGiustificato());
+                                String giustif = String.valueOf(extraCl.getGiustificato());
                                 String udm = String.valueOf(extraCl.getUdm());
                                 String data = extraCl.getDataRichiesta();
                                 _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
@@ -168,7 +168,7 @@ public class GUI_Extraconsumo_Azienda {
                                                 Extraconsumo ext = listaExtra.get(row);
                                                 //Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta
                                                 double qr = Double.parseDouble(dm.getValueAt(row, 3).toString());
-                                                boolean giu = Boolean.parseBoolean(dm.getValueAt(row, 5).toString());
+                                                int giu = Integer.parseInt(dm.getValueAt(row, 5).toString());
 //                                              String dr = (String) dm.getValueAt(row, 6);
                                                 ext.setQuantita(qr);
                                                 ext.setGiustificato(giu);

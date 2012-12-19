@@ -8,12 +8,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -23,6 +26,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import classResources.Bolla;
+import classResources.Extraconsumo;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
@@ -33,14 +37,18 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
+import javax.swing.ListSelectionModel;
 
 public class GUI_Bolla_Terzista {
 
         public JFrame frmBolleDiLavorazioneTerzista;
         private JTextField textField;
+        public JLabel lblExtra = new JLabel("");
+        public JLabel lblUdm = new JLabel("");
         private int id; //id bolla
         private Terzista terzista; //id terzista
         private int statoBolla;
+        public int idMatTeo;
        
         GUI_Messaggio messaggio;
         GUI_Extraconsumo extraconsumo;
@@ -54,6 +62,8 @@ public class GUI_Bolla_Terzista {
         List<Terzista> listaTerz = null;
         private static String[] _data1;
         private static int[] _id1;
+        private static String[] _data2;
+        private static int[] _id2;
         private static String[] _data3; //bolle-terzisti
         private static int[] _id3;
         private static String[] _nomeLav;
@@ -84,7 +94,7 @@ public class GUI_Bolla_Terzista {
                                 "Desc", "Quantità", "udm", "CostoUnit",
                 }
             );
-        private JTable table;
+        private JTable tableDaProdurre;
         private JTable table_1;
         private JLabel textField_1; //textbox dell'id del terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
@@ -115,15 +125,14 @@ public class GUI_Bolla_Terzista {
         //aggiunto
         //restituisce il vettore di dati dei materiali che si riferscono alla bolla selezionata nella lista
         private void loadTableMatTeo(int numBolla){
-            //Load lista
-            //Query con join
+        	 dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
+        	 
+            //Load lista - Query con join
             lista1 = ResourceClass.getResources(MaterialeTeorico.class, Global._URLMatTeoSearch+numBolla);
             Iterator<MaterialeTeorico> it = lista1.iterator();
-
-            dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
-           
-            _data1 = new String[lista1.size()];
-            _id1 = new int[lista1.size()];
+            
+            _data2 = new String[lista1.size()];
+            _id2 = new int[lista1.size()];
             int k = 0;
             while(it.hasNext())
             {                      
@@ -134,12 +143,12 @@ public class GUI_Bolla_Terzista {
                 String qtaMat = String.valueOf(matCl.getQuantita());
                 String idBolla = String.valueOf(matCl.getId_bolla());
                 String udm = String.valueOf(matCl.getUdm());
-                _data1[k] = descMat + "-" + costMat + "-" + qtaMat + "-" + idBolla;
-                _id1[k]= matCl.getId();
-                k++;
+                _data2[k] = descMat + "-" + costMat + "-" + qtaMat + "-" + idBolla;
+                _id2[k]= matCl.getId();
+                k++;            
                 //Aggiunge i valori alla tabella
                 ((DefaultTableModel) table_1.getModel()).insertRow(
-                    table_1.getRowCount(), new Object[]{descMat,qtaMat, udm, costMat});
+                    table_1.getRowCount(), new Object[]{descMat, qtaMat, udm, costMat});
             }      
         }
        
@@ -168,8 +177,8 @@ public class GUI_Bolla_Terzista {
                 _id1[k]= matCl.getId();
                 k++;
                 //Aggiunge i valori alla tabella
-                ((DefaultTableModel) table.getModel()).insertRow(
-                    table.getRowCount(), new Object[]{desc, qtaMat, udm, numMorti, qtaProdotta, qtaSpedita});
+                ((DefaultTableModel) tableDaProdurre.getModel()).insertRow(
+                    tableDaProdurre.getRowCount(), new Object[]{desc, qtaMat, udm, numMorti, qtaProdotta, qtaSpedita});
             }
         }
 
@@ -178,7 +187,7 @@ public class GUI_Bolla_Terzista {
 //                        public void run() {
 //                                try {
 //                                        GUI_Bolla_Terzista window = new GUI_Bolla_Terzista();
-//                                        window.frmBolleDiLavorazione.setVisible(true);
+//                                        window.frmBolleDiLavorazioneTerzista.setVisible(true);
 //                                } catch (Exception e) {
 //                                        e.printStackTrace();
 //                                }
@@ -195,7 +204,8 @@ public class GUI_Bolla_Terzista {
         public JList list = new JList(listModel);
        
         private JLabel textField_2;
-        JButton btnRichiediExtra = new JButton("Richiedi Extra");
+        JButton btnRichiediExtra = new JButton("Visualizza Extra");
+        private JTextField txtQuantitaExtra;
        
         //Carica JList dcon le bolle del terzista
         private void caricaJListBolle(int idTerzista){
@@ -238,7 +248,7 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista = new JFrame();
             frmBolleDiLavorazioneTerzista.setResizable(false);
             frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
-            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 662, 418);
+            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 663, 498);
             frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frmBolleDiLavorazioneTerzista.getContentPane().setLayout(null);
            
@@ -247,7 +257,7 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista.getContentPane().add(lblBolleDiLavorazione);
            
             JPanel panel = new JPanel();
-            panel.setBounds(178, 11, 468, 329);
+            panel.setBounds(178, 11, 468, 410);
             frmBolleDiLavorazioneTerzista.getContentPane().add(panel);
             panel.setLayout(null);
            
@@ -282,14 +292,21 @@ public class GUI_Bolla_Terzista {
             panel.add(scrollPane_1);
            
             //Inizializza crea tabelle materiali
-            table = new JTable(dmPrima);
-            scrollPane_1.setViewportView(table);
+            tableDaProdurre = new JTable(dmPrima);
+            scrollPane_1.setViewportView(tableDaProdurre);
            
             JScrollPane scrollPane = new JScrollPane();
             scrollPane.setBounds(10, 175, 448, 109);
             panel.add(scrollPane);
             table_1 = new JTable(dm);
-            table_1.setEnabled(false);
+            table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    		table_1.addMouseListener(new MouseAdapter() {
+    			@Override
+    			//Seleziono una riga sulla tabella dei materiali teorici
+    			public void mouseReleased(MouseEvent e) {
+    				idMatTeo = selezionaRiga();
+    			}
+    		});
             scrollPane.setViewportView(table_1);
            
             //**btnEsci**
@@ -302,7 +319,7 @@ public class GUI_Bolla_Terzista {
                 home.frmHome.setVisible(true);
             }
             });
-            btnEsci.setBounds(557, 352, 89, 23);
+            btnEsci.setBounds(557, 432, 89, 23);
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
            
             textField_1 = new JLabel();
@@ -339,7 +356,7 @@ public class GUI_Bolla_Terzista {
 	                    }
 	                }
             });
-            btnRichiediExtra.setBounds(346, 295, 112, 23);
+            btnRichiediExtra.setBounds(346, 376, 112, 23);
             panel.add(btnRichiediExtra);
            
             textField_2 = new JLabel();
@@ -347,6 +364,55 @@ public class GUI_Bolla_Terzista {
             textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
             textField_2.setBounds(10, 296, 284, 20);
             panel.add(textField_2);
+            
+            
+            lblExtra.setBounds(10, 341, 106, 14);
+            panel.add(lblExtra);
+            
+            txtQuantitaExtra = new JTextField();
+            txtQuantitaExtra.setBounds(126, 338, 86, 20);
+            panel.add(txtQuantitaExtra);
+            txtQuantitaExtra.setColumns(10);
+            
+            JButton btnRichiedi = new JButton("Richiedi");
+            btnRichiedi.addMouseListener(new MouseAdapter() {
+            	@Override
+            	public void mouseClicked(MouseEvent e) {
+            		if (!txtQuantitaExtra.getText().isEmpty()){ //se il campo con la quantità da richiedere non è vuota
+            			//fare una Insert nella tabella Extraconsumo
+            			//matTeoid quant giust datarichiesta
+            			Extraconsumo ext = new Extraconsumo();
+            		
+            			//Data di oggi
+            			Calendar calendar = Calendar.getInstance();
+            			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+            			String today = dateFormat.format(calendar.getTime());
+            			System.out.println("Today: " + dateFormat.format(calendar.getTime()));
+                    
+            			double qr = Double.parseDouble(txtQuantitaExtra.getText());
+            			ext.setQuantita(qr);
+            			ext.setGiustificato(0); //0 - false
+            			ext.setDataRichiesta(today); //data
+            			ext.setIdMatTeo(idMatTeo);
+            			System.out.println(qr);
+            			System.out.println(today);
+            			System.out.println(idMatTeo);
+            			ResourceClass.addResources(Global._URLExtraIns, ext);
+            		}
+            		else
+            		{
+            			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+            				    "Campo quantità richiesta vuoto!",
+            				    "Attenzione!",
+            				    JOptionPane.PLAIN_MESSAGE);
+            		}
+            	}
+            });
+            btnRichiedi.setBounds(346, 341, 89, 23);
+            panel.add(btnRichiedi);
+            
+            lblUdm.setBounds(222, 341, 46, 14);
+            panel.add(lblUdm);
                    
             list.setBounds(10, 89, 158, 149);
             frmBolleDiLavorazioneTerzista.getContentPane().add(list);
@@ -399,7 +465,7 @@ public class GUI_Bolla_Terzista {
             lblTerzisti.setBounds(10, 11, 106, 14);
             frmBolleDiLavorazioneTerzista.getContentPane().add(lblTerzisti);
            
-            //Al premere di Invio in una cella di table_1 richiama l'Update
+            //Al premere di Invio in una cella di table richiama l'Update
             dmPrima.addTableModelListener(new TableModelListener(){
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -430,5 +496,44 @@ public class GUI_Bolla_Terzista {
         }
         });
     }
-}
+      
+        public int selezionaRiga(){
+    		//Svuotiamo la tabella
+    		
+    		
+    		if(table_1.getSelectedRow()!=-1){
+    			System.out.println(_id2[0]);
+    			System.out.println(_id2[1]);
+
+    			int row = table_1.getSelectedRow();
+                MaterialeTeorico mt = lista1.get(row);
+                //Colonne: 3-numeroMorti 4-QtaProdotta 5-QtaSpedita
+                int id = mt.getId();
+                String descrizione = mt.getDescrizione();
+                String udm = mt.getUdm();
+                System.out.println("riga " + row);
+                System.out.println("ID " + id);
+                System.out.println("desc " + descrizione);
+                lblExtra.setText(descrizione);
+                lblUdm.setText(udm);
+
+    			System.out.println("Click");
+    			int idmater = _id2[table_1.getSelectedRow()];
+    			System.out.println(table_1.getSelectedRow());
+    			System.out.println(idmater);
+    			return idmater;
+//    			List<Fase> fasi = ResourceClass.getResources(Fase.class, Global._URLFase+id_Lav.get(table.getSelectedRow()));
+//    			Iterator<Fase> listaFasi = fasi.iterator();
+//    			int righe=-1;
+//    			while(listaFasi.hasNext()){
+//    				Fase fase = listaFasi.next();
+//    				righe++;
+//    				((DefaultTableModel) tableFase.getModel()).insertRow(righe, new Object[righe+1][2]);
+//    				tableFase.setValueAt(fase.getNome(), righe, 0);
+//    				tableFase.setValueAt(fase.getOrdine(), righe, 1);
+    			}
+    		return -1;
+    		}
+    	}
+
 

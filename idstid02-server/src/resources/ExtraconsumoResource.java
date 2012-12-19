@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -42,7 +43,7 @@ public class ExtraconsumoResource {
                         if(result != null){
                                 while(result.next()) {
                                     //1-extraconsumo.id, 2-codiceArticolo, 3-descrizione, 4-materialiteorici.quantita AS QtaAttuale, 5-extraconsumo.quantita AS QtaRichiesta, 6-udm, 7-giustificato, 8-dataRichiesta
-                                        Extraconsumo m = new Extraconsumo(result.getInt(1), result.getString(2), result.getString(3), result.getDouble(4), result.getDouble(5), result.getString(6), result.getBoolean(7), result.getString(8), result.getDouble(9));
+                                        Extraconsumo m = new Extraconsumo(result.getInt(1), result.getString(2), result.getString(3), result.getDouble(4), result.getDouble(5), result.getString(6), result.getInt(7), result.getString(8), result.getDouble(9));
                                         listaExtraconsumo.add(m);
                                 }
                         }
@@ -81,4 +82,39 @@ public class ExtraconsumoResource {
                         return "-1";
                 }
         }
+        
+        @PUT
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+		@Produces(MediaType.APPLICATION_JSON)
+		public String insertExtraconsumo(@FormParam("MaterialiTeorici_id") int MaterialiTeorici_id,
+								  @FormParam("quantita") double quantita,
+								  @FormParam("giustificato") int giustificato,
+								  @FormParam("dataRichiesta") String dataRichiesta) {
+			
+			Statement statement = null;
+			ResultSet result = null;
+			int ok = -1;
+			int id = -1;
+			try {
+				statement = DB.instance.createStatement();
+				ok = statement.executeUpdate(
+						"INSERT INTO progingsw.extraconsumo (MaterialiTeorici_id, quantita, giustificato, dataRichiesta) " +
+						"VALUES('" + MaterialiTeorici_id + "', '" + quantita + "', '" + giustificato + "', '" + dataRichiesta + "');", 
+						Statement.RETURN_GENERATED_KEYS);
+				
+				if(ok == 1) { // Inserimento ok
+					result = statement.getGeneratedKeys();
+			        if (result.next()){
+			        	id = result.getInt(1);
+			        }
+			        result.close();
+				}
+				statement.close();
+				return String.valueOf(id);
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				return "-1";
+			}
+	}
 }

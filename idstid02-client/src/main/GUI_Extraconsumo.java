@@ -62,7 +62,7 @@ public class GUI_Extraconsumo {
                                 String desc = String.valueOf(extraCl.getDescrizione());
                                 String qtaAttu = String.valueOf(extraCl.getQtaAttuale());
                                 String qtaRichiesta = String.valueOf(extraCl.getQuantita());
-                                String giustif = String.valueOf(extraCl.isGiustificato());
+                                String giustif = String.valueOf(extraCl.getGiustificato());
                                 String udm = String.valueOf(extraCl.getUdm());
                                 String data = extraCl.getDataRichiesta();
                                 _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
@@ -161,9 +161,9 @@ public class GUI_Extraconsumo {
                                         try {
                                                 //Data di oggi
                                                 Calendar calendar = Calendar.getInstance();
-                                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-                                            String today = dateFormat.format(calendar.getTime());
-                                            System.out.println("Today: " + dateFormat.format(calendar.getTime()));
+                                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+                                                String today = dateFormat.format(calendar.getTime());
+                                                System.out.println("Today: " + dateFormat.format(calendar.getTime()));
                                                
                                                 Extraconsumo ext = listaExtra.get(row);
                                                 //Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta
@@ -171,7 +171,7 @@ public class GUI_Extraconsumo {
 //                                              boolean giu = Boolean.parseBoolean(dm.getValueAt(row, 5).toString());
 //                                              String dr = (String) dm.getValueAt(row, 6);
                                                 ext.setQuantita(qr);
-                                                ext.setGiustificato(false);
+                                                ext.setGiustificato(0);
                                                 ext.setDataRichiesta(today); //data
                                                 ResourceClass.updResources(Extraconsumo.class, Global._URLExtraPost, String.valueOf(ext.getId()), ext);
                                                 loadTable(id); //aggiorno tabella con data
