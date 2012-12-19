@@ -9,9 +9,9 @@ public class Materiale {
         private double costoUnitario;
         private String codice;
         private double quantita;
-        private Um um;
-    private int id_terzista;
-    private int id_matTerz;
+        private String udm;
+        private int id_terzista;
+        private int id_matTerz;
    
         public Materiale() {
                 this.id = -1;
@@ -38,7 +38,14 @@ public class Materiale {
                 this.descrizione = descrizione;
         }
 
-        public Materiale(int id, String codice, String descrizione, double costoUnitario, double quantita, int id_terzista, int id_matTerz) {
+        public Materiale(int id, String codice, Double costoUnitario, String descrizione) {
+                this.id = id;
+                this.codice = codice;
+                this.costoUnitario = costoUnitario;
+                this.descrizione = descrizione;
+        }
+       
+        public Materiale(int id, String codice, String descrizione, double costoUnitario, double quantita, int id_terzista, int id_matTerz, String udm) {
                 this.id = id;
                 this.codice = codice;
                 this.descrizione = descrizione;
@@ -46,16 +53,26 @@ public class Materiale {
                 this.quantita = quantita;
                 this.id_terzista = id_terzista;
                 this.setId_matTerz(id_matTerz);
+                this.udm = udm;
         }
        
-        public Materiale(int id, String codice, String descrizione, double costoUnitario, Um um, int id_terzista) {
+        public Materiale(int id, String codice, String descrizione, double costoUnitario, String udm, int id_terzista) {
                 this.id = id;
                 this.codice = codice;
                 this.descrizione = descrizione;
                 this.costoUnitario = costoUnitario;
-                this.um = um;
+                this.udm = udm;
                 this.id_terzista = id_terzista;
         }
+        
+        public Materiale(int id, String codice, String descrizione, double costoUnitario,double quantita, String udm) {
+            this.id = id;
+            this.codice = codice;
+            this.descrizione = descrizione;
+            this.costoUnitario = costoUnitario;
+            this.quantita = quantita;
+            this.udm = udm;
+    }
        
         public Materiale(int id, String codice, String descrizione, double costoUnitario,double quantita) {
                 this.id = id;
@@ -97,12 +114,12 @@ public class Materiale {
                 this.codice = codice;
         }
 
-        public Um getUm() {
-                return um;
+        public String getudm() {
+                return udm;
         }
 
-        public void setUm(Um um) {
-                this.um = um;
+        public void setudm(String udm) {
+                this.udm = udm;
         }
         public int getId_terzista() {
                 return id_terzista;
@@ -112,10 +129,9 @@ public class Materiale {
                 this.id_terzista = id_terzista;
         }
 
-
         @Override
         public String toString(){
-                return id + " " + codice + " " + descrizione + " " + costoUnitario + " " + quantita + " "+ id_terzista + um.toString();
+                return id + " " + codice + " " + descrizione + " " + costoUnitario + " " + quantita + " "+ id_terzista + udm.toString();
         }
 
         public double getQuantita() {
@@ -134,3 +150,4 @@ public class Materiale {
                 this.id_matTerz = id_matTerz;
         }
 }
+
