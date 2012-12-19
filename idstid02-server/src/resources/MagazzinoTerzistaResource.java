@@ -30,17 +30,16 @@ public class MagazzinoTerzistaResource {
 		Statement statement = null;
 		ResultSet result = null;
 		List<Materiale> listaMateriali = new ArrayList<Materiale>();
-		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 						"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id, " +
-						"materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+						"materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 						" materiale.id = materiale_id ;");
 			//int id, String codice, String descrizione, double costoUnitario, int id_terzista
 			while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
-											result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+											result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
 				listaMateriali.add(m);
 			}
 			statement.close();
@@ -54,22 +53,22 @@ public class MagazzinoTerzistaResource {
 	}
 	
 	@GET
-	@Path ("/search/{txtSearch}")
+	@Path ("/search/{idTerzista}/{txtSearch}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Materiale> getMateriale1(@PathParam("txtSearch") String txtSearch) {
+	public List<Materiale> getMateriale1(@PathParam("idTerzista") int idTerzista,
+											@PathParam("txtSearch") String txtSearch) {
 		Statement statement = null;
 		ResultSet result = null;
 		List<Materiale> listaMateriali = new ArrayList<Materiale>();
-		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
-					" materiale.id = Materiale_id WHERE materiale.descrizione LIKE '%" + txtSearch + "%';");
+					" materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materiale.id = Materiale_id WHERE Terzista_id = "+ idTerzista +" and materiale.descrizione LIKE '%" + txtSearch + "%';");
 			 while(result.next()) {
 				Materiale m = new Materiale(result.getInt(1), result.getString(2),
-						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
 				listaMateriali.add(m);
 			  }
 			statement.close();
@@ -92,12 +91,12 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 					" materiale.id = Materiale_id WHERE materiale.id='" + idMateriale + "';");
 			if(result != null){
 			 while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
-						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
 			  }
 			}
 			else return null;
@@ -122,12 +121,12 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 					" materiale.id = Materiale_id WHERE materialeterzista.id='" + id + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
-						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
 			}
 			statement.close();
 			
@@ -138,6 +137,38 @@ public class MagazzinoTerzistaResource {
 			return null;
 		}
 	}
+	
+	@GET
+	@Path ("matTerzista/{terzista}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Materiale> getMaterialeTerzista(@PathParam("terzista") int terzista) {
+		Statement statement = null;
+		ResultSet result = null;
+		List<Materiale> listaMateriali = new ArrayList<Materiale>();
+		//TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
+					" materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materiale.id = Materiale_id WHERE materialeterzista.terzista_id='" + terzista + "';");
+			
+			while(result.next()) {
+				//int id, String codice, String descrizione, double costoUnitario, double quantita, int id_terzista, int id_matTerz
+				Materiale m = new Materiale(result.getInt(1), result.getString(2),
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
+				listaMateriali.add(m);
+			}
+			statement.close();
+			
+			return listaMateriali;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	
 	@GET
 	@Path ("{idMat}/{terzista}")
@@ -152,13 +183,13 @@ public class MagazzinoTerzistaResource {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
 					"SELECT materiale.id, codiceArticolo, descrizione, costoUnitario, quantita, Terzista_id," +
-					" materialeterzista.id FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
+					" materialeterzista.id, udm FROM progingsw.materialeterzista JOIN progingsw.materiale ON" +
 					" materiale.id = Materiale_id WHERE materialeterzista.materiale_id='" + idMat + "' " +
 							"and materialeterzista.terzista_id='" + terzista + "';");
 			
 			while(result.next()) {
 				materiale = new Materiale(result.getInt(1), result.getString(2),
-						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7));
+						result.getString(3), result.getDouble(4), result.getDouble(5), result.getInt(6), result.getInt(7), result.getString(8));
 			}
 			statement.close();
 			
