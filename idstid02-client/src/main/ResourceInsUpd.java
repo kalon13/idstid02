@@ -9,6 +9,7 @@ import classResources.Fase;
 import classResources.Fattura;
 import classResources.LavorazioneTerzista;
 import classResources.Materiale;
+import classResources.MaterialeDDT;
 import classResources.MaterialeDaProdurre;
 import classResources.Terzista;
 import classResources.Utente;
@@ -118,7 +119,7 @@ public class ResourceInsUpd {
         }
        
     protected static <T> MultivaluedMap<String, String> multValueIns(String className, T classObj, String path){
-                         MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
+    					 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
                          if (className == "classResources.Materiale"){
                                  Materiale m = (Materiale) classObj;
                                  String id = String.valueOf(m.getId());
@@ -137,6 +138,17 @@ public class ResourceInsUpd {
                              formData.add("dataInvio", dtInvio);
                              formData.add("flussoAzienda", flAz);
                              formData.add("registrato", "0") ;
+                         }
+                         else if (className == "classResources.MaterialeDDT"){
+                        	 MaterialeDDT matddt = (MaterialeDDT) classObj;
+                             String id_mat =  String.valueOf(matddt.getId_materiale());
+                             String qnt =  String.valueOf(matddt.getQuantita());
+                             String id_ddt =  String.valueOf(matddt.getid_DDT());
+                             String Terzista_id =  String.valueOf(matddt.getIdTerzista());
+                             formData.add("Materiale_id", id_mat);
+                             formData.add("quantita", qnt);
+                             formData.add("DDT_id", id_ddt);
+                             formData.add("Terzista_id", Terzista_id);
                          }
                          else if (className == "classResources.LavorazioneTerzista"){
                         	 LavorazioneTerzista m=(LavorazioneTerzista) classObj;

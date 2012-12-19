@@ -47,7 +47,7 @@ public class GUI_CancellazioneTerzistaOp {
         	Iterator<Bolla> bolle = listab.iterator();
         	while(bolle.hasNext()){
         		Bolla b=bolle.next();
-        		if(b.getStato()==0){
+        		if(b.getStato()==2){
         			lavorazioneAperta=true;
         		}
         	}
@@ -108,20 +108,28 @@ public class GUI_CancellazioneTerzistaOp {
 			public void actionPerformed(ActionEvent e) {
 				//Rimozione
 				int terzSelezionato=listTerzisti.getSelectedIndex();
-				terzSelezionato=(Integer) terz_id.get(terzSelezionato);
-				
-				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
-				//e inviare una comunicazione al terzista
-				
-				String[] choices = {"Si", "No"};
-				int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il Terzista?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
-				if(response==0){
-					ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
-					JOptionPane.showMessageDialog(null, "Terzista eliminato correttamente.", "Attenzione", 1);
-					GUI_Home windowHome = new GUI_Home();
-					windowHome.frmHome.setVisible(true);
-					frmCancellazioneTerzista.setVisible(false);
+				if(terzSelezionato!=-1){
+					terzSelezionato=(Integer) terz_id.get(terzSelezionato);
+					
+					//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
+					//e inviare una comunicazione al terzista
+					
+					String[] choices = {"Si", "No"};
+					int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il Terzista?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
+					if(response==0){
+						//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
+						Bolla bDaRiassegnare=new Bolla();
+						ResourceClass.updResources(Bolla.class, Global._URLBollaRiassegna, String.valueOf(terzSelezionato), bDaRiassegnare);
+						//Eliminiamo proprio il terzista
+						ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
+						JOptionPane.showMessageDialog(null, "Terzista eliminato correttamente.\nTutte le bolle a lui assegnate sono state\nimpostate da riassegnare.", "Attenzione", 1);
+						GUI_Home windowHome = new GUI_Home();
+						windowHome.frmHome.setVisible(true);
+						frmCancellazioneTerzista.setVisible(false);
+					}
 				}
+				else
+					JOptionPane.showMessageDialog(null, "Selezionare prima un Terzista.", "Attenzione", 0);
 			}
 		});
 		btnRimuovi.setBounds(181, 176, 89, 23);
