@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
@@ -31,7 +29,6 @@ import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Terzista;
-import main.Sessione;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -60,7 +57,6 @@ public class GUI_Bolla_Terzista {
         List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
         List<Materiale> lista2 = null;
         List<Terzista> listaTerz = null;
-        private static String[] _data1;
         private static int[] _id1;
         private static String[] _data2;
         private static int[] _id2;
@@ -78,22 +74,38 @@ public class GUI_Bolla_Terzista {
                                 "Descrizione", "Qta", "udm", "numeroMorti", "qtaProdotta", "QtaSpedita"
                 })
                 {
-                        boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                                false, false, false, true, true, true
-                        };
-                        public boolean isCellEditable(int row, int column) {
-                                return columnEditables[column];
-                        }
+        		@SuppressWarnings("rawtypes")
+				Class[] columnTypes = new Class[] {
+    				String.class, Integer.class, String.class, Integer.class, Double.class, Double.class
+    			};
+    			@SuppressWarnings({ "unchecked", "rawtypes" })
+				public Class getColumnClass(int columnIndex) {
+    				return columnTypes[columnIndex];
+    			} 
+                boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
+                    false, false, false, true, true, true
                 };
+                public boolean isCellEditable(int row, int column) {
+                	return columnEditables[column];
+                }
+            };
        
         //TableModel per table_1 (materiali teorici)
-        public DefaultTableModel dm = new DefaultTableModel(
+        @SuppressWarnings("serial")
+		public DefaultTableModel dm = new DefaultTableModel(
                 new Object[][] {
                 },
                 new String[] {
                                 "Desc", "Quantità", "udm", "CostoUnit",
-                }
-            );
+                })
+        {
+            boolean[] columnEditables = new boolean[] {
+                    false, false, false, false
+            };
+            public boolean isCellEditable(int row, int column) {
+                    return columnEditables[column];
+            }
+        };
         private JTable tableDaProdurre;
         private JTable table_1;
         private JLabel textField_1; //textbox dell'id del terzista
@@ -121,8 +133,7 @@ public class GUI_Bolla_Terzista {
                 k++;
             }
         }
-       
-        //aggiunto
+        
         //restituisce il vettore di dati dei materiali che si riferscono alla bolla selezionata nella lista
         private void loadTableMatTeo(int numBolla){
         	 dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
@@ -137,7 +148,6 @@ public class GUI_Bolla_Terzista {
             while(it.hasNext())
             {                      
                 MaterialeTeorico matCl = (MaterialeTeorico)it.next();
-                //aggiunto
                 String descMat = String.valueOf(matCl.getDescrizione());
                 String costMat = String.valueOf(matCl.getCostoUnitario());
                 String qtaMat = String.valueOf(matCl.getQuantita());
@@ -159,21 +169,18 @@ public class GUI_Bolla_Terzista {
             listaMDaProd1 = ResourceClass.getResources(MaterialeDaProdurre.class, Global._URLMatDaProd1+numBolla);
             Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
            
-            _data1 = new String[listaMDaProd1.size()];
             _id1 = new int[listaMDaProd1.size()];
             int k = 0;
             while(it.hasNext())
             {                      
                 MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
-                //aggiunto
-                String qtaMat = String.valueOf(matCl.getQuantita());
-                String numMorti = String.valueOf(matCl.getNumeroMorti());
-                String qtaProdotta = String.valueOf(matCl.getQuantitaProdotta());
-                String qtaSpedita = String.valueOf(matCl.getQuantitaSpedita());
-                String desc = String.valueOf(matCl.getDescrizione());
-                String costoUnit = String.valueOf(matCl.getCostoUnitario());
-                String udm = String.valueOf(matCl.getUdm());
-                _data1[k] = qtaMat + "-" + numMorti + "-" + qtaProdotta + "-" + qtaSpedita + "-" + desc + "-" + costoUnit + "-" + udm;
+                int qtaMat = matCl.getQuantita();
+                int numMorti = matCl.getNumeroMorti();
+                Double qtaProdotta = matCl.getQuantitaProdotta();
+                Double qtaSpedita = matCl.getQuantitaSpedita();
+                String desc = matCl.getDescrizione();
+                String udm = matCl.getUdm();
+                
                 _id1[k]= matCl.getId();
                 k++;
                 //Aggiunge i valori alla tabella
@@ -215,11 +222,15 @@ public class GUI_Bolla_Terzista {
             for (int i = 0; i<_data3.length; i++)
             listModel.addElement(_data3[i]); //aggiunge al modello della lista bolle, le bolle assegnate a quel terzista (numero + data delle bolle)
             list.addListSelectionListener(new ListSelectionListener() {
+            	//Seleziono bolla nella lista
                 public void valueChanged(ListSelectionEvent e) {
                     if (e.getValueIsAdjusting() == true)
                     {
                         textField_2.setText("");
                         btnRichiediExtra.setEnabled(true);
+                        lblExtra.setText("");
+                        lblUdm.setText("");
+                        txtQuantitaExtra.setEditable(false);
                        
                         int indice = list.getSelectedIndex();
                         Bolla b = listaBTer.get(indice);
@@ -305,6 +316,7 @@ public class GUI_Bolla_Terzista {
     			//Seleziono una riga sulla tabella dei materiali teorici
     			public void mouseReleased(MouseEvent e) {
     				idMatTeo = selezionaRiga();
+    				txtQuantitaExtra.setEditable(true);
     			}
     		});
             scrollPane.setViewportView(table_1);
@@ -365,12 +377,12 @@ public class GUI_Bolla_Terzista {
             textField_2.setBounds(10, 296, 284, 20);
             panel.add(textField_2);
             
-            
-            lblExtra.setBounds(10, 341, 106, 14);
+            lblExtra.setBounds(21, 347, 106, 14);
             panel.add(lblExtra);
             
             txtQuantitaExtra = new JTextField();
-            txtQuantitaExtra.setBounds(126, 338, 86, 20);
+            txtQuantitaExtra.setEditable(false);
+            txtQuantitaExtra.setBounds(126, 341, 86, 20);
             panel.add(txtQuantitaExtra);
             txtQuantitaExtra.setColumns(10);
             
@@ -379,25 +391,28 @@ public class GUI_Bolla_Terzista {
             	@Override
             	public void mouseClicked(MouseEvent e) {
             		if (!txtQuantitaExtra.getText().isEmpty()){ //se il campo con la quantità da richiedere non è vuota
-            			//fare una Insert nella tabella Extraconsumo
-            			//matTeoid quant giust datarichiesta
-            			Extraconsumo ext = new Extraconsumo();
-            		
-            			//Data di oggi
-            			Calendar calendar = Calendar.getInstance();
-            			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-            			String today = dateFormat.format(calendar.getTime());
-            			System.out.println("Today: " + dateFormat.format(calendar.getTime()));
-                    
-            			double qr = Double.parseDouble(txtQuantitaExtra.getText());
-            			ext.setQuantita(qr);
-            			ext.setGiustificato(0); //0 - false
-            			ext.setDataRichiesta(today); //data
-            			ext.setIdMatTeo(idMatTeo);
-            			System.out.println(qr);
-            			System.out.println(today);
-            			System.out.println(idMatTeo);
-            			ResourceClass.addResources(Global._URLExtraIns, ext);
+            			if (verificaQuantitaIns(txtQuantitaExtra.getText())){ //Controllo se ho inserito una quantità double
+            				//fare una Insert nella tabella Extraconsumo
+	            			//matTeoid quant giust datarichiesta
+	            			Extraconsumo ext = new Extraconsumo();
+	            		
+	            			//Data di oggi
+	            			Calendar calendar = Calendar.getInstance();
+	            			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+	            			String today = dateFormat.format(calendar.getTime());
+	            			System.out.println("Today: " + dateFormat.format(calendar.getTime()));
+	                    
+	            			double qr = Double.parseDouble(txtQuantitaExtra.getText());
+	            			ext.setQuantita(qr);
+	            			ext.setGiustificato(0); //0 - false
+	            			ext.setDataRichiesta(today); //data
+	            			ext.setIdMatTeo(idMatTeo);
+	            			System.out.println(qr);
+	            			System.out.println(today);
+	            			System.out.println(idMatTeo);
+	            			ResourceClass.addResources(Global._URLExtraIns, ext);
+	            			txtQuantitaExtra.setText("");
+            			}
             		}
             		else
             		{
@@ -411,7 +426,7 @@ public class GUI_Bolla_Terzista {
             btnRichiedi.setBounds(346, 341, 89, 23);
             panel.add(btnRichiedi);
             
-            lblUdm.setBounds(222, 341, 46, 14);
+            lblUdm.setBounds(237, 347, 46, 14);
             panel.add(lblUdm);
                    
             list.setBounds(10, 89, 158, 149);
@@ -497,31 +512,31 @@ public class GUI_Bolla_Terzista {
         });
     }
       
-        public int selezionaRiga(){
-    		//Svuotiamo la tabella
-    		
-    		
-    		if(table_1.getSelectedRow()!=-1){
-    			System.out.println(_id2[0]);
-    			System.out.println(_id2[1]);
+    public int selezionaRiga(){
+		//Svuotiamo la tabella
+		
+		
+		if(table_1.getSelectedRow()!=-1){
+			System.out.println(_id2[0]);
+			System.out.println(_id2[1]);
 
-    			int row = table_1.getSelectedRow();
-                MaterialeTeorico mt = lista1.get(row);
-                //Colonne: 3-numeroMorti 4-QtaProdotta 5-QtaSpedita
-                int id = mt.getId();
-                String descrizione = mt.getDescrizione();
-                String udm = mt.getUdm();
-                System.out.println("riga " + row);
-                System.out.println("ID " + id);
-                System.out.println("desc " + descrizione);
-                lblExtra.setText(descrizione);
-                lblUdm.setText(udm);
+			int row = table_1.getSelectedRow();
+            MaterialeTeorico mt = lista1.get(row);
+            //Colonne: 3-numeroMorti 4-QtaProdotta 5-QtaSpedita
+            int id = mt.getId();
+            String descrizione = mt.getDescrizione();
+            String udm = mt.getUdm();
+            System.out.println("riga " + row);
+            System.out.println("ID " + id);
+            System.out.println("desc " + descrizione);
+            lblExtra.setText(descrizione);
+            lblUdm.setText(udm);
 
-    			System.out.println("Click");
-    			int idmater = _id2[table_1.getSelectedRow()];
-    			System.out.println(table_1.getSelectedRow());
-    			System.out.println(idmater);
-    			return idmater;
+			System.out.println("Click");
+			int idmater = _id2[table_1.getSelectedRow()];
+			System.out.println(table_1.getSelectedRow());
+			System.out.println(idmater);
+			return idmater;
 //    			List<Fase> fasi = ResourceClass.getResources(Fase.class, Global._URLFase+id_Lav.get(table.getSelectedRow()));
 //    			Iterator<Fase> listaFasi = fasi.iterator();
 //    			int righe=-1;
@@ -531,9 +546,18 @@ public class GUI_Bolla_Terzista {
 //    				((DefaultTableModel) tableFase.getModel()).insertRow(righe, new Object[righe+1][2]);
 //    				tableFase.setValueAt(fase.getNome(), righe, 0);
 //    				tableFase.setValueAt(fase.getOrdine(), righe, 1);
-    			}
-    		return -1;
-    		}
-    	}
-
-
+			}
+		return -1;
+		}
+    	
+		public boolean verificaQuantitaIns(String p){
+			try{
+				Double.parseDouble(p);
+				return true;
+			}
+			catch(Exception ex){
+				JOptionPane.showMessageDialog(null, "Quantità non corretta!", "Attenzione", 0);
+				return false;
+			}
+		}
+}
