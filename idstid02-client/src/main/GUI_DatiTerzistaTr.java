@@ -282,22 +282,21 @@ public class GUI_DatiTerzistaTr {
 			new Object[][] {
 			},
 			new String[] {
-				"Lavorazione", "Capacit\u00E0", "Prezzo", "Media Qualit\u00E0"
+				"Lavorazione", "Capacit\u00E0", "Prezzo", "Media Qualit\u00E0", "N\u00B0 Votazioni"
 			}
-		)
-		{
+		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
+				false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(130);
+		table.getColumnModel().getColumn(0).setPreferredWidth(146);
 		table.getColumnModel().getColumn(1).setPreferredWidth(71);
-		table.getColumnModel().getColumn(2).setPreferredWidth(73);
-		table.getColumnModel().getColumn(3).setPreferredWidth(85);
+		table.getColumnModel().getColumn(2).setPreferredWidth(60);
+		table.getColumnModel().getColumn(3).setPreferredWidth(79);
+		table.getColumnModel().getColumn(4).setPreferredWidth(68);
 		table.setAutoCreateColumnsFromModel(false);
 		frmDatiTerzistaTr.getContentPane().setLayout(groupLayout);
 	}
@@ -317,6 +316,7 @@ public class GUI_DatiTerzistaTr {
 			table.setValueAt(lavTerz.getCapProd(), numRow, 1);
 			table.setValueAt(lavTerz.getPrezzo(), numRow, 2);
 			table.setValueAt(lavTerz.getQualita(), numRow, 3);
+			table.setValueAt(lavTerz.getNumVotaz(), numRow, 4);
 		}
 	}
 	
