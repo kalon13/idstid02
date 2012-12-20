@@ -7,6 +7,9 @@ import javax.swing.UIManager;
 
 import java.awt.FlowLayout;
 import javax.swing.JButton;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.GridLayout;
@@ -18,6 +21,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
@@ -115,12 +120,23 @@ public class GUI_GestioneDati {
 						int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il tuo profilo dal sistema e,\nquindi, di non" +
 								" ricevere più lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
 						if(response==0){
+							//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
+							Bolla bDaRiassegnare=new Bolla();
+							ResourceClass.updResources(Bolla.class, Global._URLBollaRiassegna, String.valueOf(terzSelezionato), bDaRiassegnare);
+							//Eliminiamo proprio il terzista
 							ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
-							JOptionPane.showMessageDialog(null, "Terzista eliminato correttamente.", "Attenzione", 1);
+							JOptionPane.showMessageDialog(null, "Cancellazione avvenuta correttamente.", "Attenzione", 1);
 							//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
 							//e inviare una comunicazione all'azienda
-							//Occorre il Logout
-							frmGestioneDati.setVisible(false);
+							//Facciamo il Logout
+							MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+                            param.add("sid", Autenticazione.getSessione().getSessionID());
+                            ResourceClass.getService().path(Global._URLAutLogout).
+                                    accept(MediaType.APPLICATION_JSON).post(String.class, param);
+                            frmGestioneDati.dispose();
+                            GUI_Autenticazione windowAuth = new GUI_Autenticazione();
+                            windowAuth.getFrame().setVisible(true);
+							//frmGestioneDati.setVisible(false);
 						}
 		        	}
 		        	else
