@@ -32,14 +32,14 @@ public class GUI_Extraconsumo_Azienda {
         //TableModel per table_1 (materiali extra)
         @SuppressWarnings("serial")
         public DefaultTableModel dm = new DefaultTableModel(
-                        new Object[][] {
+                        new Object[][] { 
                         },
                         new String[] {
                                         "codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
                         })
         {
                 boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                        false, false, false, false, false, true, false
+                        false, false, false, false, false, false, false
                 };
                 public boolean isCellEditable(int row, int column) {
                         return columnEditables[column];
@@ -64,9 +64,15 @@ public class GUI_Extraconsumo_Azienda {
                                 String desc = String.valueOf(extraCl.getDescrizione());
                                 String qtaAttu = String.valueOf(extraCl.getQtaAttuale());
                                 String qtaRichiesta = String.valueOf(extraCl.getQuantita());
-                                String giustif = String.valueOf(extraCl.isGiustificato());
+                                String giustif = String.valueOf(extraCl.getGiustificato());
                                 String udm = String.valueOf(extraCl.getUdm());
                                 String data = extraCl.getDataRichiesta();
+                                if (giustif.equals("0")){
+                                	giustif = "Ingiustificato";
+                                }
+                                else if (giustif.equals("1")){
+                                	giustif = "Giustificato";
+                                }
                                 _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
                                 _id[k]= extraCl.getId(); //id extraconsumo
                                 k++;
@@ -168,7 +174,7 @@ public class GUI_Extraconsumo_Azienda {
                                                 Extraconsumo ext = listaExtra.get(row);
                                                 //Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta
                                                 double qr = Double.parseDouble(dm.getValueAt(row, 3).toString());
-                                                boolean giu = Boolean.parseBoolean(dm.getValueAt(row, 5).toString());
+                                                int giu = Integer.parseInt(dm.getValueAt(row, 5).toString());
 //                                              String dr = (String) dm.getValueAt(row, 6);
                                                 ext.setQuantita(qr);
                                                 ext.setGiustificato(giu);

@@ -40,7 +40,7 @@ public class MaterialeDaProdurreResource {
                                 if(result != null){
                                         while(result.next()) {
                                         //1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario 7-udm 8-id 9-codArt
-                                                MaterialeDaProdurre m = new MaterialeDaProdurre(result.getInt(8), result.getDouble(1), result.getInt(2), result.getDouble(3), result.getDouble(4), result.getString(5), result.getDouble(6), result.getString(7),result.getString(9));
+                                                MaterialeDaProdurre m = new MaterialeDaProdurre(result.getInt(8), result.getInt(1), result.getInt(2), result.getDouble(3), result.getDouble(4), result.getString(5), result.getDouble(6), result.getString(7),result.getString(9));
                                                 listaMaterialeDaProdurre.add(m);
                                         }
                                 }

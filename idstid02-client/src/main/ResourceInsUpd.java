@@ -43,7 +43,7 @@ public class ResourceInsUpd {
                   else if (className == "classResources.Extraconsumo") {
                       Extraconsumo ext = (Extraconsumo) classObj;
                       String quantita =  String.valueOf(ext.getQuantita());
-                      String giustificato =  String.valueOf(ext.isGiustificato());
+                      String giustificato =  String.valueOf(ext.getGiustificato());
                       String dataRichiesta =  String.valueOf(ext.getDataRichiesta());
                       formData.add("quantita", quantita);
                       formData.add("giustificato", giustificato);
@@ -186,7 +186,17 @@ public class ResourceInsUpd {
                              formData.add("Fattura_id", idF);
                              formData.add("Bolla_id", idB);
                          }
-
+                         else if (className == "classResources.Extraconsumo"){
+                             Extraconsumo ext = (Extraconsumo) classObj;
+                             String idMatTeo = String.valueOf(ext.getIdMatTeo());
+                             String quantita = String.valueOf(ext.getQuantita());
+                             String giustificato = String.valueOf(ext.getGiustificato());
+                             String dataRichiesta = String.valueOf(ext.getDataRichiesta());
+                             formData.add("MaterialiTeorici_id", idMatTeo);
+                             formData.add("quantita", quantita);
+                             formData.add("giustificato", giustificato);
+                             formData.add("dataRichiesta", dataRichiesta);
+                         }
                          return formData;
      }
     

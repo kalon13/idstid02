@@ -3,11 +3,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class MaterialeTeorico {
-        private int id;
-        private double quantita;
-    private int id_bolla;
-    private int id_materiale;
-   
+	    private int id;
+	    private double quantita;
+	    private int id_bolla;
+	    private int id_materiale;
+	   
    
         public MaterialeTeorico() {
                 this.id = -1;
@@ -25,8 +25,9 @@ public class MaterialeTeorico {
         private String descrizione;
         private double costoUnitario;
         private String udm;
-        public MaterialeTeorico(String descrizione, double costoUnitario, double quantita, int id_bolla, String udm) {
-                this.descrizione = descrizione;
+        public MaterialeTeorico(int id, String descrizione, double costoUnitario, double quantita, int id_bolla, String udm) {
+               	this.id = id;
+        		this.descrizione = descrizione;
                 this.quantita = quantita;
                 this.costoUnitario = costoUnitario;
                 this.id_bolla = id_bolla;
