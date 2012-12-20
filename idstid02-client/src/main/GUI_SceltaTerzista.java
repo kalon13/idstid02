@@ -87,10 +87,15 @@ public class GUI_SceltaTerzista {
 		//Componiamo la ComboBox
 		List<Lavorazione> lista = ResourceClass.getResources(Lavorazione.class, Global._URLLavoraz);
 		Iterator<Lavorazione> lavoraz = lista.iterator();
+		short checkPrimaVolta=1;
 		while (lavoraz.hasNext()){
 			Lavorazione lavorazione=lavoraz.next();
-			index.add(lavorazione.getId());
-			cmbTipoLavorazione.addItem(lavorazione.getNome());
+			if(checkPrimaVolta!=1){
+				index.add(lavorazione.getId());
+				cmbTipoLavorazione.addItem(lavorazione.getNome());
+			}
+			else
+				checkPrimaVolta++;
 		}
 		
 		compose();
