@@ -32,14 +32,14 @@ public class GUI_Extraconsumo_Azienda {
         //TableModel per table_1 (materiali extra)
         @SuppressWarnings("serial")
         public DefaultTableModel dm = new DefaultTableModel(
-                        new Object[][] {
+                        new Object[][] { 
                         },
                         new String[] {
                                         "codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
                         })
         {
                 boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                        false, false, false, false, false, true, false
+                        false, false, false, false, false, false, false
                 };
                 public boolean isCellEditable(int row, int column) {
                         return columnEditables[column];
@@ -67,6 +67,12 @@ public class GUI_Extraconsumo_Azienda {
                                 String giustif = String.valueOf(extraCl.getGiustificato());
                                 String udm = String.valueOf(extraCl.getUdm());
                                 String data = extraCl.getDataRichiesta();
+                                if (giustif.equals("0")){
+                                	giustif = "Ingiustificato";
+                                }
+                                else if (giustif.equals("1")){
+                                	giustif = "Giustificato";
+                                }
                                 _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
                                 _id[k]= extraCl.getId(); //id extraconsumo
                                 k++;

@@ -30,18 +30,26 @@ public class GUI_Extraconsumo {
         //TableModel per table_1 (materiali extra)
         @SuppressWarnings("serial")
         public DefaultTableModel dm = new DefaultTableModel(
-                        new Object[][] {
-                        },
-                        new String[] {
-                                        "codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
-                        })
-        {
-                boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                        false, false, false, true, false, false, false
-                };
-                public boolean isCellEditable(int row, int column) {
-                        return columnEditables[column];
-                }
+            new Object[][] {
+            },
+            new String[] {
+        		"codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
+            })
+        	{
+    		@SuppressWarnings("rawtypes")
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, Double.class, Double.class, String.class, Integer.class, String.class
+			};
+			@SuppressWarnings({ "unchecked", "rawtypes" })
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			} 
+            boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
+                false, false, false, true, false, false, false
+            };
+            public boolean isCellEditable(int row, int column) {
+                return columnEditables[column];
+            }
         };
        
         private void loadTable(int idBolla){
@@ -51,7 +59,7 @@ public class GUI_Extraconsumo {
                 listaExtra = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idBolla);
                 Iterator<Extraconsumo> it = listaExtra.iterator();
                                
-                _data = new String[listaExtra.size()];
+//                _data = new String[listaExtra.size()];
                 _id = new int[listaExtra.size()];
                 int k = 0;
                 while(it.hasNext())
@@ -60,12 +68,20 @@ public class GUI_Extraconsumo {
                                 //aggiunto
                                 String codArt = String.valueOf(extraCl.getCodiceArticolo());
                                 String desc = String.valueOf(extraCl.getDescrizione());
-                                String qtaAttu = String.valueOf(extraCl.getQtaAttuale());
-                                String qtaRichiesta = String.valueOf(extraCl.getQuantita());
+//                                String qtaAttu = String.valueOf(extraCl.getQtaAttuale());
+//                                String qtaRichiesta = String.valueOf(extraCl.getQuantita());
+                                double qtaAttu = extraCl.getQtaAttuale();
+                                double qtaRichiesta = extraCl.getQuantita();
                                 String giustif = String.valueOf(extraCl.getGiustificato());
                                 String udm = String.valueOf(extraCl.getUdm());
                                 String data = extraCl.getDataRichiesta();
-                                _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
+                                if (giustif.equals("0")){
+                                	giustif = "Ingiustificato";
+                                }
+                                else if (giustif.equals("1")){
+                                	giustif = "Giustificato";
+                                }
+//                                _data[k] = codArt + "-" + desc + "-" + qtaAttu + "-" + qtaRichiesta + "-" + udm + "-" + giustif + "-" + data;
                                 _id[k]= extraCl.getId(); //id extraconsumo
                                 k++;
                                 //Aggiunge i valori alla tabella
