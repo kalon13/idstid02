@@ -80,42 +80,42 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
-		indirizzo.setBounds(132, 37, 326, 20);
+		indirizzo.setBounds(132, 37, 349, 20);
 		indirizzo.setEditable(false);
 		indirizzo.setColumns(40);
 		
 		citta = new JTextField(t.getCitta());
-		citta.setBounds(132, 63, 326, 20);
+		citta.setBounds(132, 63, 349, 20);
 		citta.setEditable(false);
 		citta.setColumns(40);
 		
 		prov = new JTextField(t.getProvincia());
-		prov.setBounds(132, 89, 326, 20);
+		prov.setBounds(132, 89, 349, 20);
 		prov.setEditable(false);
 		prov.setColumns(40);
 		
 		cap = new JTextField(t.getCap());
-		cap.setBounds(132, 115, 326, 20);
+		cap.setBounds(132, 115, 349, 20);
 		cap.setEditable(false);
 		cap.setColumns(40);
 		
 		tel = new JTextField(t.getTelefono());
-		tel.setBounds(132, 141, 326, 20);
+		tel.setBounds(132, 141, 349, 20);
 		tel.setEditable(false);
 		tel.setColumns(40);
 		
 		fax = new JTextField(t.getFax());
-		fax.setBounds(132, 167, 326, 20);
+		fax.setBounds(132, 167, 349, 20);
 		fax.setEditable(false);
 		fax.setColumns(40);
 		
 		email = new JTextField(t.getEmail());
-		email.setBounds(132, 193, 326, 20);
+		email.setBounds(132, 193, 349, 20);
 		email.setEditable(false);
 		email.setColumns(40);
 		
 		piva = new JTextField(t.getpIva());
-		piva.setBounds(132, 219, 326, 20);
+		piva.setBounds(132, 219, 349, 20);
 		piva.setEditable(false);
 		piva.setColumns(40);
 		
@@ -141,7 +141,7 @@ public class GUI_DatiTerzistaOp {
 		lblPiva.setBounds(10, 225, 112, 14);
 		
 		nome = new JTextField(t.getRagioneSociale());
-		nome.setBounds(132, 11, 326, 20);
+		nome.setBounds(132, 11, 349, 20);
 		nome.setFont(new Font("Tahoma", Font.BOLD, 11));
 		nome.setForeground(new Color(0, 0, 0));
 		nome.setEditable(false);
@@ -173,7 +173,7 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.getContentPane().add(separator);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 290, 448, 67);
+		scrollPane.setBounds(10, 290, 471, 67);
 		frmDatiTerzistaOp.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -184,12 +184,13 @@ public class GUI_DatiTerzistaOp {
 			new Object[][] {
 			},
 			new String[] {
-				"Lavorazione", "Capacit\u00E0", "Prezzo", "Media Qualit\u00E0"
+				"Lavorazione", "Capacit\u00E0", "Prezzo", "Media Qualit\u00E0", "N\u00B0 Votazioni"
 			}
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(2).setPreferredWidth(87);
 		table.getColumnModel().getColumn(3).setPreferredWidth(85);
+		table.getColumnModel().getColumn(4).setPreferredWidth(71);
 		table.setAutoCreateColumnsFromModel(false);
 		frmDatiTerzistaOp.getContentPane().add(lblCitt);
 		frmDatiTerzistaOp.getContentPane().add(lblProvincia);
@@ -223,6 +224,7 @@ public class GUI_DatiTerzistaOp {
 			table.setValueAt(lavTerz.getCapProd(), numRow, 1);
 			table.setValueAt(lavTerz.getPrezzo(), numRow, 2);
 			table.setValueAt(lavTerz.getQualita(), numRow, 3);
+			table.setValueAt(lavTerz.getNumVotaz(), numRow, 4);
 		}
 	}
 }
