@@ -73,7 +73,7 @@ public class GUI_Bolla_Terzista {
                 new Object[][] {
                 },
                 new String[] {
-                                "Descrizione", "Qta", "udm", "numeroMorti", "qtaProdotta", "QtaSpedita"
+                                "Descrizione", "Quantità", "udm", "Num.Morti", "Q.ta Prodotta", "Q.ta Spedita"
                 })
                 {
         		@SuppressWarnings("rawtypes")
@@ -98,7 +98,7 @@ public class GUI_Bolla_Terzista {
                 new Object[][] {
                 },
                 new String[] {
-                                "Desc", "Quantità", "udm", "CostoUnit",
+                                "Descrizione", "Quantità", "udm", "Costo Unitario",
                 })
         {
             boolean[] columnEditables = new boolean[] {
@@ -543,7 +543,7 @@ public class GUI_Bolla_Terzista {
             lblTerzisti.setBounds(10, 11, 106, 14);
             frmBolleDiLavorazioneTerzista.getContentPane().add(lblTerzisti);
            
-            //Al premere di Invio in una cella di table richiama l'Update
+            //Al premere di Invio in una cella di tableDaProdurre richiama l'Update
             dmPrima.addTableModelListener(new TableModelListener(){
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -556,6 +556,16 @@ public class GUI_Bolla_Terzista {
                     int nm = Integer.parseInt(dmPrima.getValueAt(row, 3).toString());
                     double qtp = Double.parseDouble(dmPrima.getValueAt(row, 4).toString());
                     double qts = Double.parseDouble(dmPrima.getValueAt(row, 5).toString());
+                    
+                    double qta = Double.parseDouble(dmPrima.getValueAt(row, 1).toString());
+                    if (qtp > qta){ //se inserisco una quantità prodotta maggiore di quella richiesta errore
+            			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+            				    "Campo quantità prodotta errato!",
+            				    "Attenzione!",
+            				    JOptionPane.PLAIN_MESSAGE);
+            			loadTableMatDaProdurre1(id);
+                    }
+                    else {
                     mdp.setNumeroMorti(nm);
                     mdp.setQuantitaProdotta(qtp);
                     mdp.setQuantitaSpedita(qts);
@@ -566,6 +576,7 @@ public class GUI_Bolla_Terzista {
                     ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
                     ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                     statoBolla = b.getStato(); //aggiorno variabile dello stato della bolla selezionata
+                    }
                 }
                 catch(Exception er) {
                     er.printStackTrace();
