@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -18,7 +17,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import main.Extraconsumo;
-import main.MaterialeDaProdurre;
 import utils.DB;
 
 @Path("/extraconsumo")
@@ -29,7 +27,7 @@ public class ExtraconsumoResource {
         @GET
         @Path ("/idBolla/{idBolla}")
         @Produces(MediaType.APPLICATION_JSON)
-        public List<Extraconsumo> getListaExtraconsumo(@PathParam("idBolla") String idBolla) {
+        public List<Extraconsumo> getListaExtraconsumo(@PathParam("idBolla") int idBolla) {
                 Statement statement = null;
                 ResultSet result = null;
                 List<Extraconsumo> listaExtraconsumo = new ArrayList<Extraconsumo>();
@@ -39,7 +37,7 @@ public class ExtraconsumoResource {
                                         "SELECT extraconsumo.id, codiceArticolo, descrizione, materialiteorici.quantita AS QtaAttuale, extraconsumo.quantita AS QtaRichiesta, udm, giustificato, dataRichiesta, costoUnitario " +
                                         " FROM ProgIngSw.materiale join ProgIngSw.materialiteorici join ProgIngSw.extraconsumo " +
                                         " ON materiale.id = Materiale_Id AND materialiteorici.id = extraconsumo.MaterialiTeorici_id " +
-                                        " WHERE Bolla_id =" + idBolla + ";");
+                                        " WHERE Bolla_id ='" + idBolla + "';");
                         if(result != null){
                                 while(result.next()) {
                                     //1-extraconsumo.id, 2-codiceArticolo, 3-descrizione, 4-materialiteorici.quantita AS QtaAttuale, 5-extraconsumo.quantita AS QtaRichiesta, 6-udm, 7-giustificato, 8-dataRichiesta

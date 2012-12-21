@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import main.MaterialeTeorico;
-import main.Um;
 import utils.DB;
 
 
@@ -22,7 +21,6 @@ public class MaterialeTeoricoResource {
 
         public MaterialeTeoricoResource() {} // E' necessario anche se vuoto
        
-        //aggiunto
         @GET
         @Path ("/search/{txtSearch}")
         @Produces(MediaType.APPLICATION_JSON)

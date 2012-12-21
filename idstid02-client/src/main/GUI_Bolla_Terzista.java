@@ -28,6 +28,7 @@ import classResources.Extraconsumo;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
+import classResources.Paia;
 import classResources.Terzista;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionListener;
@@ -53,8 +54,9 @@ public class GUI_Bolla_Terzista {
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
-        List<MaterialeDaProdurre> listaMDaProd = null; //senza join
+//        List<MaterialeDaProdurre> listaMDaProd = null; //senza join
         List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
+        List<Paia> listaPaia = null;
         List<Materiale> lista2 = null;
         List<Terzista> listaTerz = null;
         private static int[] _id1;
@@ -65,7 +67,7 @@ public class GUI_Bolla_Terzista {
         private static String[] _nomeLav;
         private static int[] _statoBol;
        
-        //TableModel per table (materiali da produrre)
+        //TableModel per tableDaProdurre (materiali da produrre)
         @SuppressWarnings("serial")
         public DefaultTableModel dmPrima = new DefaultTableModel(
                 new Object[][] {
@@ -106,6 +108,24 @@ public class GUI_Bolla_Terzista {
                     return columnEditables[column];
             }
         };
+        
+        //TableModel per dettaglio paia
+        @SuppressWarnings("serial")
+		public DefaultTableModel dmPaia = new DefaultTableModel(
+                new Object[][] {
+                },
+                new String[] {
+                		"Descrizione", "Num.36", "Num.37", "Num.38", "Num.39", "Num.40", "Num.41", "Num.42"
+                })
+        {
+            boolean[] columnEditables = new boolean[] {
+                    false, false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int row, int column) {
+                    return columnEditables[column];
+            }
+        };
+        
         private JTable tableDaProdurre;
         private JTable table_1;
         private JLabel textField_1; //textbox dell'id del terzista
@@ -188,6 +208,36 @@ public class GUI_Bolla_Terzista {
                     tableDaProdurre.getRowCount(), new Object[]{desc, qtaMat, udm, numMorti, qtaProdotta, qtaSpedita});
             }
         }
+        
+        private void loadTablePaia(int numBolla){
+            dmPaia.setRowCount(0); //pulisce la table
+           
+            listaPaia = ResourceClass.getResources(Paia.class, Global._URLPaia+numBolla);
+            System.out.println(numBolla);
+            System.out.println(listaPaia.size());
+            Iterator<Paia> it = listaPaia.iterator();
+           
+            _id1 = new int[listaPaia.size()];
+            int k = 0;
+            while(it.hasNext())
+            {                      
+                Paia paiaCl = (Paia)it.next();
+                String desc = paiaCl.getDescrizione();
+                int paia36 = paiaCl.getPaia36();
+                int paia37 = paiaCl.getPaia37();
+                int paia38 = paiaCl.getPaia38();
+                int paia39 = paiaCl.getPaia39();
+                int paia40 = paiaCl.getPaia40();
+                int paia41 = paiaCl.getPaia41();
+                int paia42 = paiaCl.getPaia42();
+                
+                _id1[k]= paiaCl.getId();
+                k++;
+                //Aggiunge i valori alla tabella
+                ((DefaultTableModel) tablePaia.getModel()).insertRow(
+                    tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+            }
+        }
 
 //        public static void main(String[] args) {
 //                EventQueue.invokeLater(new Runnable() {
@@ -213,6 +263,7 @@ public class GUI_Bolla_Terzista {
         private JLabel textField_2;
         JButton btnRichiediExtra = new JButton("Visualizza Extra");
         private JTextField txtQuantitaExtra;
+        private JTable tablePaia;
        
         //Carica JList dcon le bolle del terzista
         private void caricaJListBolle(int idTerzista){
@@ -245,6 +296,7 @@ public class GUI_Bolla_Terzista {
                  
                         loadTableMatTeo(id); //carica i materiali teorici di quella bolla
                         loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+                        loadTablePaia(id); //carica le paia della bolla
                         if (_statoBol[k] == 3 || _statoBol[k] == 4)
                         {
                                 textField_2.setText("Bolla chiusa!");
@@ -259,7 +311,7 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista = new JFrame();
             frmBolleDiLavorazioneTerzista.setResizable(false);
             frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
-            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 663, 498);
+            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 663, 607);
             frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frmBolleDiLavorazioneTerzista.getContentPane().setLayout(null);
            
@@ -268,7 +320,7 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista.getContentPane().add(lblBolleDiLavorazione);
            
             JPanel panel = new JPanel();
-            panel.setBounds(178, 11, 468, 410);
+            panel.setBounds(178, 11, 468, 521);
             frmBolleDiLavorazioneTerzista.getContentPane().add(panel);
             panel.setLayout(null);
            
@@ -294,7 +346,7 @@ public class GUI_Bolla_Terzista {
             panel.add(lblMaterialiDaProdurre);
            
             JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
-            lblMaterialiTeorici.setBounds(10, 150, 112, 14);
+            lblMaterialiTeorici.setBounds(10, 270, 112, 14);
             panel.add(lblMaterialiTeorici);
            
             JScrollPane scrollPane_1 = new JScrollPane();
@@ -307,7 +359,7 @@ public class GUI_Bolla_Terzista {
             scrollPane_1.setViewportView(tableDaProdurre);
            
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setBounds(10, 175, 448, 109);
+            scrollPane.setBounds(10, 287, 448, 109);
             panel.add(scrollPane);
             table_1 = new JTable(dm);
             table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -331,7 +383,7 @@ public class GUI_Bolla_Terzista {
                 home.frmHome.setVisible(true);
             }
             });
-            btnEsci.setBounds(557, 432, 89, 23);
+            btnEsci.setBounds(557, 543, 89, 23);
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
            
             textField_1 = new JLabel();
@@ -368,21 +420,21 @@ public class GUI_Bolla_Terzista {
 	                    }
 	                }
             });
-            btnRichiediExtra.setBounds(346, 376, 112, 23);
+            btnRichiediExtra.setBounds(346, 487, 112, 23);
             panel.add(btnRichiediExtra);
            
             textField_2 = new JLabel();
             textField_2.setForeground(Color.RED);
             textField_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-            textField_2.setBounds(10, 296, 284, 20);
+            textField_2.setBounds(10, 407, 284, 20);
             panel.add(textField_2);
             
-            lblExtra.setBounds(21, 347, 106, 14);
+            lblExtra.setBounds(21, 458, 106, 14);
             panel.add(lblExtra);
             
             txtQuantitaExtra = new JTextField();
             txtQuantitaExtra.setEditable(false);
-            txtQuantitaExtra.setBounds(126, 341, 86, 20);
+            txtQuantitaExtra.setBounds(126, 452, 86, 20);
             panel.add(txtQuantitaExtra);
             txtQuantitaExtra.setColumns(10);
             
@@ -423,11 +475,22 @@ public class GUI_Bolla_Terzista {
             		}
             	}
             });
-            btnRichiedi.setBounds(346, 341, 89, 23);
+            btnRichiedi.setBounds(346, 452, 89, 23);
             panel.add(btnRichiedi);
             
-            lblUdm.setBounds(237, 347, 46, 14);
+            lblUdm.setBounds(237, 458, 46, 14);
             panel.add(lblUdm);
+            
+            JLabel lblDettaglioMaterialiDa = new JLabel("Dettaglio materiali da produrre:");
+            lblDettaglioMaterialiDa.setBounds(10, 147, 273, 14);
+            panel.add(lblDettaglioMaterialiDa);
+            
+            JScrollPane scrollPane_2 = new JScrollPane();
+            scrollPane_2.setBounds(10, 166, 448, 93);
+            panel.add(scrollPane_2);
+            
+            tablePaia = new JTable(dmPaia);
+            scrollPane_2.setViewportView(tablePaia);
                    
             list.setBounds(10, 89, 158, 149);
             frmBolleDiLavorazioneTerzista.getContentPane().add(list);
