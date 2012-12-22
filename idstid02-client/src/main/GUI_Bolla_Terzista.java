@@ -54,7 +54,6 @@ public class GUI_Bolla_Terzista {
         List<Bolla> lista = null;
         List<Bolla> listaBTer = null; //lista bolle del terzista selezionato
         List<MaterialeTeorico> lista1 = null;
-//        List<MaterialeDaProdurre> listaMDaProd = null; //senza join
         List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
         List<Paia> listaPaia = null;
         List<Materiale> lista2 = null;
@@ -154,7 +153,6 @@ public class GUI_Bolla_Terzista {
             }
         }
         
-        //restituisce il vettore di dati dei materiali che si riferscono alla bolla selezionata nella lista
         private void loadTableMatTeo(int numBolla){
         	 dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
         	 
@@ -221,11 +219,7 @@ public class GUI_Bolla_Terzista {
             int paia40 = 0;
             int paia41 = 0;
             int paia42 = 0;
-            String desc = null;
-            String desc1 = null;
-                
-            System.out.println(numBolla);
-            System.out.println(listaPaia.size());
+            String desc = null;            
             Paia paiaCl = new Paia(listaPaia.get(0).getId(), listaPaia.get(0).getIdMatDaProd(), listaPaia.get(0).getDescrizione(), listaPaia.get(0).getnScarpa(), listaPaia.get(0).getPaia());
             
             _id1 = new int[listaPaia.size()];
@@ -235,7 +229,6 @@ public class GUI_Bolla_Terzista {
             for (int i=0 ; i< listaPaia.size();i++){
             	 paiaCl = listaPaia.get(i);
                  desc = paiaCl.getDescrizione();
-                 System.out.println("desc1: "+desc1+"  desc: "+desc);
                  if (i+1 < listaPaia.size()){
                 	 if (listaPaia.get(i).getDescrizione().equals(listaPaia.get(i+1).getDescrizione()))
                 	 {
