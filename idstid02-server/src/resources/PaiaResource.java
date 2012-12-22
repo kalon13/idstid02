@@ -30,12 +30,13 @@ public class PaiaResource {
             try {
                     statement = DB.instance.createStatement();
                     result = statement.executeQuery(
-                                    "SELECT paia.id, idMatDaProd, descrizione, paia36, paia37, paia38, paia39, paia40, paia41, paia42, quantita FROM progingsw.paia JOIN progingsw.materialidaprodurre JOIN progingsw.materiale " +
-                                    " ON materialidaprodurre.id = paia.idMatDaProd and materialidaprodurre.Materiale_id = materiale.id" +
-                                    " WHERE Bolla_id ='" + idBolla + "';");
+                                    "SELECT paia.id, idMatDaProd, descrizione, nScarpa, paia.paia FROM ProgIngSw.paia  " +
+                                    " JOIN materialidaprodurre JOIN materiale" +
+                                    " ON materialidaprodurre.id = paia.idMatDaProd AND materialidaprodurre.Materiale_id = materiale.id WHERE Bolla_id ='" + idBolla + "';");
                     if(result != null){
                      while(result.next()) {
-                    	 Paia p = new Paia(result.getInt(1), result.getInt(2), result.getString(3), result.getInt(4), result.getInt(5), result.getInt(6), result.getInt(7), result.getInt(8), result.getInt(9), result.getInt(10), result.getInt(11));
+                    	 //id idMatDaProd descr nScarpa paia
+                    	 Paia p = new Paia(result.getInt(1), result.getInt(2), result.getString(3), result.getInt(4), result.getInt(5));
                          listaPaia.add(p);
                      	}
                     }
