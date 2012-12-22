@@ -15,10 +15,20 @@ public class Paia {
 	private int idMatDaProd;
 	private String descrizione;
 	private int quantita;
+	private int nScarpa;
+	private int paia;
 	
     public Paia() {
     }
 
+    public Paia(int id, int idMatDaProd, String descrizione, int nScarpa, int paia) {
+		this.id = id;
+		this.idMatDaProd = idMatDaProd;
+		this.descrizione = descrizione;
+		this.paia = paia;
+		this.nScarpa = nScarpa;
+	}
+    
 	public Paia(int id, int idMatDaProd, String descrizione, int paia36, int paia37, int paia38, int paia39, int paia40, int paia41, int paia42, int quantita) {
 		this.id = id;
 		this.idMatDaProd = idMatDaProd;
@@ -31,6 +41,22 @@ public class Paia {
 		this.paia41 = paia41;
 		this.paia42 = paia42;
 		this.quantita = quantita;
+	}
+
+	public int getPaia() {
+		return paia;
+	}
+
+	public void setPaia(int paia) {
+		this.paia = paia;
+	}
+
+	public int getnScarpa() {
+		return nScarpa;
+	}
+
+	public void setnScarpa(int nScarpa) {
+		this.nScarpa = nScarpa;
 	}
 
 	public String getDescrizione() {

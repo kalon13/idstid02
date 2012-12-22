@@ -212,33 +212,106 @@ public class GUI_Bolla_Terzista {
         private void loadTablePaia(int numBolla){
             dmPaia.setRowCount(0); //pulisce la table
            
-            listaPaia = ResourceClass.getResources(Paia.class, Global._URLPaia+numBolla);
+            listaPaia = ResourceClass.getResources(Paia.class, Global._URLPaia + numBolla);
+                
+            int paia36 = 0;
+            int paia37 = 0;
+            int paia38 = 0;
+            int paia39 = 0;
+            int paia40 = 0;
+            int paia41 = 0;
+            int paia42 = 0;
+            String desc = null;
+            String desc1 = null;
+                
             System.out.println(numBolla);
             System.out.println(listaPaia.size());
-            Iterator<Paia> it = listaPaia.iterator();
-           
+            Paia paiaCl = new Paia(listaPaia.get(0).getId(), listaPaia.get(0).getIdMatDaProd(), listaPaia.get(0).getDescrizione(), listaPaia.get(0).getnScarpa(), listaPaia.get(0).getPaia());
+            
             _id1 = new int[listaPaia.size()];
             int k = 0;
-            while(it.hasNext())
-            {                      
-                Paia paiaCl = (Paia)it.next();
-                String desc = paiaCl.getDescrizione();
-                int paia36 = paiaCl.getPaia36();
-                int paia37 = paiaCl.getPaia37();
-                int paia38 = paiaCl.getPaia38();
-                int paia39 = paiaCl.getPaia39();
-                int paia40 = paiaCl.getPaia40();
-                int paia41 = paiaCl.getPaia41();
-                int paia42 = paiaCl.getPaia42();
-                
-                _id1[k]= paiaCl.getId();
-                k++;
-                //Aggiunge i valori alla tabella
-                ((DefaultTableModel) tablePaia.getModel()).insertRow(
-                    tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+
+            //Per ogni elemento della lista (la query mi restituisce una tabella di righe con id-idMatDaProd-Descr-nScarpa-Paia)
+            for (int i=0 ; i< listaPaia.size();i++){
+            	 paiaCl = listaPaia.get(i);
+                 desc = paiaCl.getDescrizione();
+                 System.out.println("desc1: "+desc1+"  desc: "+desc);
+                 if (i+1 < listaPaia.size()){
+                	 if (listaPaia.get(i).getDescrizione().equals(listaPaia.get(i+1).getDescrizione()))
+                	 {
+                		 int nScarpa = paiaCl.getnScarpa();
+                		 if (nScarpa == 36){
+	                     	paia36 = paiaCl.getPaia();
+	                     } else if (nScarpa == 37) {
+	                     	paia37 = paiaCl.getPaia();
+	                     } else if (nScarpa == 38) {
+	                     	paia38 = paiaCl.getPaia();
+	                     } else if (nScarpa == 39) {
+	                     	paia39 = paiaCl.getPaia();
+	                     } else if (nScarpa == 40) {
+	                     	paia40 = paiaCl.getPaia();
+	                     } else if (nScarpa == 41) {
+	                     	paia41 = paiaCl.getPaia();
+	                     } else if (nScarpa == 42) {
+	                     	paia42 = paiaCl.getPaia();
+	                     }
+                	 }
+                	 else { //la riga dopo riguarda un altro materiale da produrre
+                		 int nScarpa = paiaCl.getnScarpa();
+                         if (nScarpa == 36){
+                         	paia36 = paiaCl.getPaia();
+                         } else if (nScarpa == 37) {
+                         	paia37 = paiaCl.getPaia();
+                         } else if (nScarpa == 38) {
+                         	paia38 = paiaCl.getPaia();
+                         } else if (nScarpa == 39) {
+                         	paia39 = paiaCl.getPaia();
+                         } else if (nScarpa == 40) {
+                         	paia40 = paiaCl.getPaia();
+                         } else if (nScarpa == 41) {
+                         	paia41 = paiaCl.getPaia();
+                         } else if (nScarpa == 42) {
+                         	paia42 = paiaCl.getPaia();
+                         }
+                         //Aggiunge i valori alla tabella
+                         ((DefaultTableModel) tablePaia.getModel()).insertRow(
+                                 tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+                         //Azzero valori per il prossimo materiale dal produrre
+	                     paia36 = 0;
+	                     paia37 = 0;
+	                     paia38 = 0;
+	                     paia39 = 0;
+	                     paia40 = 0;
+	                     paia41 = 0;
+	                     paia42 = 0;  
+                	 }
+                 }
+                  else //ultimo materiale da produrre
+                 {
+                	  int nScarpa = paiaCl.getnScarpa();
+                      if (nScarpa == 36){
+                      	paia36 = paiaCl.getPaia();
+                      } else if (nScarpa == 37) {
+                      	paia37 = paiaCl.getPaia();
+                      } else if (nScarpa == 38) {
+                      	paia38 = paiaCl.getPaia();
+                      } else if (nScarpa == 39) {
+                      	paia39 = paiaCl.getPaia();
+                      } else if (nScarpa == 40) {
+                      	paia40 = paiaCl.getPaia();
+                      } else if (nScarpa == 41) {
+                      	paia41 = paiaCl.getPaia();
+                      } else if (nScarpa == 42) {
+                      	paia42 = paiaCl.getPaia();
+                      }
+                      //Aggiungo riga nella tabella
+                	  ((DefaultTableModel) tablePaia.getModel()).insertRow(
+                              tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+                 }
+                 _id1[k]= paiaCl.getId(); //id delle righe della tabella paia
+                 k++;
             }
         }
-
 //        public static void main(String[] args) {
 //                EventQueue.invokeLater(new Runnable() {
 //                        public void run() {
