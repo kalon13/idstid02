@@ -32,11 +32,11 @@ public class GUI_Extraconsumo_Azienda {
         //TableModel per table_1 (materiali extra)
         @SuppressWarnings("serial")
         public DefaultTableModel dm = new DefaultTableModel(
-                        new Object[][] { 
-                        },
-                        new String[] {
-                                        "codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
-                        })
+                new Object[][] { 
+                },
+                new String[] {
+                    	"Cod. Articolo", "Descrizione", "Q.ta Teorica", "Q.ta Richiesta", "udm", "Giustificato", "DataRichiesta"
+                })
         {
                 boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
                         false, false, false, false, false, false, false
