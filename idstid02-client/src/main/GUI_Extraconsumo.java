@@ -24,7 +24,7 @@ public class GUI_Extraconsumo {
         private JTextField textField;
         private JTable table_1;
         List<Extraconsumo> listaExtra = null; //lista materiali teorici della bolla per richiedere extra
-        private static String[] _data;
+//        private static String[] _data;
         private static int[] _id;
        
         //TableModel per table_1 (materiali extra)
@@ -33,7 +33,7 @@ public class GUI_Extraconsumo {
             new Object[][] {
             },
             new String[] {
-        		"codiceArticolo", "Desc", "QtaAttuale", "QtaRichiesta", "udm", "Giustificato", "DataRichiesta"
+        		"Cod. Articolo", "Descrizione", "Q.ta Teorica", "Q.ta Richiesta", "udm", "Giustificato", "DataRichiesta"
             })
         	{
     		@SuppressWarnings("rawtypes")
@@ -65,7 +65,6 @@ public class GUI_Extraconsumo {
                 while(it.hasNext())
                         {                      
                         Extraconsumo extraCl = (Extraconsumo)it.next();
-                                //aggiunto
                                 String codArt = String.valueOf(extraCl.getCodiceArticolo());
                                 String desc = String.valueOf(extraCl.getDescrizione());
 //                                String qtaAttu = String.valueOf(extraCl.getQtaAttuale());

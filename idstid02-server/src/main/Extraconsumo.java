@@ -2,8 +2,6 @@ package main;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
 @XmlRootElement
 public class Extraconsumo {
         private int id;

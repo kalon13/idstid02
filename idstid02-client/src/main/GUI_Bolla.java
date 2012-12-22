@@ -19,6 +19,7 @@ import classResources.Bolla;
 import classResources.Materiale;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
+import classResources.Paia;
 import classResources.Terzista;
 
 import javax.swing.event.TableModelEvent;
@@ -48,6 +49,7 @@ public class GUI_Bolla {
         List<MaterialeTeorico> lista1 = null;
         List<MaterialeDaProdurre> listaMDaProd1 = null; //con join
         List<Materiale> lista2 = null;
+        List<Paia> listaPaia = null;
         List<Terzista> listaTerz = null;
         private static String[] _data1;
         private static int[] _id1;
@@ -163,6 +165,105 @@ public class GUI_Bolla {
                                     table.getRowCount(), new Object[]{desc, qtaMat, udm, numMorti, qtaProdotta, qtaSpedita});
                         }
         }
+        
+        private void loadTablePaia(int numBolla){
+            dmPaia.setRowCount(0); //pulisce la table
+           
+            listaPaia = ResourceClass.getResources(Paia.class, Global._URLPaia + numBolla);
+                
+            int paia36 = 0;
+            int paia37 = 0;
+            int paia38 = 0;
+            int paia39 = 0;
+            int paia40 = 0;
+            int paia41 = 0;
+            int paia42 = 0;
+            String desc = null;
+            Paia paiaCl = new Paia(listaPaia.get(0).getId(), listaPaia.get(0).getIdMatDaProd(), listaPaia.get(0).getDescrizione(), listaPaia.get(0).getnScarpa(), listaPaia.get(0).getPaia());
+            
+            _id1 = new int[listaPaia.size()];
+            int k = 0;
+
+            //Per ogni elemento della lista (la query mi restituisce una tabella di righe con id-idMatDaProd-Descr-nScarpa-Paia)
+            for (int i=0 ; i< listaPaia.size();i++){
+            	 paiaCl = listaPaia.get(i);
+                 desc = paiaCl.getDescrizione();
+                 if (i+1 < listaPaia.size()){
+                	 if (listaPaia.get(i).getDescrizione().equals(listaPaia.get(i+1).getDescrizione()))
+                	 {
+                		 int nScarpa = paiaCl.getnScarpa();
+                		 if (nScarpa == 36){
+	                     	paia36 = paiaCl.getPaia();
+	                     } else if (nScarpa == 37) {
+	                     	paia37 = paiaCl.getPaia();
+	                     } else if (nScarpa == 38) {
+	                     	paia38 = paiaCl.getPaia();
+	                     } else if (nScarpa == 39) {
+	                     	paia39 = paiaCl.getPaia();
+	                     } else if (nScarpa == 40) {
+	                     	paia40 = paiaCl.getPaia();
+	                     } else if (nScarpa == 41) {
+	                     	paia41 = paiaCl.getPaia();
+	                     } else if (nScarpa == 42) {
+	                     	paia42 = paiaCl.getPaia();
+	                     }
+                	 }
+                	 else { //la riga dopo riguarda un altro materiale da produrre
+                		 int nScarpa = paiaCl.getnScarpa();
+                         if (nScarpa == 36){
+                         	paia36 = paiaCl.getPaia();
+                         } else if (nScarpa == 37) {
+                         	paia37 = paiaCl.getPaia();
+                         } else if (nScarpa == 38) {
+                         	paia38 = paiaCl.getPaia();
+                         } else if (nScarpa == 39) {
+                         	paia39 = paiaCl.getPaia();
+                         } else if (nScarpa == 40) {
+                         	paia40 = paiaCl.getPaia();
+                         } else if (nScarpa == 41) {
+                         	paia41 = paiaCl.getPaia();
+                         } else if (nScarpa == 42) {
+                         	paia42 = paiaCl.getPaia();
+                         }
+                         //Aggiunge i valori alla tabella
+                         ((DefaultTableModel) tablePaia.getModel()).insertRow(
+                                 tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+                         //Azzero valori per il prossimo materiale dal produrre
+	                     paia36 = 0;
+	                     paia37 = 0;
+	                     paia38 = 0;
+	                     paia39 = 0;
+	                     paia40 = 0;
+	                     paia41 = 0;
+	                     paia42 = 0;  
+                	 }
+                 }
+                  else //ultimo materiale da produrre
+                 {
+                	  int nScarpa = paiaCl.getnScarpa();
+                      if (nScarpa == 36){
+                      	paia36 = paiaCl.getPaia();
+                      } else if (nScarpa == 37) {
+                      	paia37 = paiaCl.getPaia();
+                      } else if (nScarpa == 38) {
+                      	paia38 = paiaCl.getPaia();
+                      } else if (nScarpa == 39) {
+                      	paia39 = paiaCl.getPaia();
+                      } else if (nScarpa == 40) {
+                      	paia40 = paiaCl.getPaia();
+                      } else if (nScarpa == 41) {
+                      	paia41 = paiaCl.getPaia();
+                      } else if (nScarpa == 42) {
+                      	paia42 = paiaCl.getPaia();
+                      }
+                      //Aggiungo riga nella tabella
+                	  ((DefaultTableModel) tablePaia.getModel()).insertRow(
+                              tablePaia.getRowCount(), new Object[]{desc, paia36, paia37, paia38, paia39, paia40, paia41, paia42});
+                 }
+                 _id1[k]= paiaCl.getId(); //id delle righe della tabella paia
+                 k++;
+            }
+        }
        
 //        public static void main(String[] args) {
 //                EventQueue.invokeLater(new Runnable() {
@@ -203,6 +304,7 @@ public class GUI_Bolla {
                         }
                 );
         private JLabel textField_1;
+        private JTable tablePaia;
        
         public GUI_Bolla() {
 
@@ -210,11 +312,28 @@ public class GUI_Bolla {
                 initialize();
         }
 
+        //TableModel per dettaglio paia
+        @SuppressWarnings("serial")
+		public DefaultTableModel dmPaia = new DefaultTableModel(
+                new Object[][] {
+                },
+                new String[] {
+                		"Descrizione", "Num.36", "Num.37", "Num.38", "Num.39", "Num.40", "Num.41", "Num.42"
+                })
+        {
+            boolean[] columnEditables = new boolean[] {
+                    false, false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int row, int column) {
+                    return columnEditables[column];
+            }
+        };
+        
         private void initialize() {    
                 frmBolleDiLavorazione = new JFrame();
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 662, 418);
+                frmBolleDiLavorazione.setBounds(100, 100, 663, 534);
                 frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
@@ -223,7 +342,7 @@ public class GUI_Bolla {
                 frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
                
                 JPanel panel = new JPanel();
-                panel.setBounds(178, 11, 468, 329);
+                panel.setBounds(178, 11, 468, 450);
                 frmBolleDiLavorazione.getContentPane().add(panel);
                 panel.setLayout(null);
                
@@ -249,8 +368,20 @@ public class GUI_Bolla {
                 panel.add(lblMaterialiDaProdurre);
                
                 JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
-                lblMaterialiTeorici.setBounds(10, 150, 112, 14);
+                lblMaterialiTeorici.setBounds(10, 270, 112, 14);
                 panel.add(lblMaterialiTeorici);
+                
+                JLabel lblDettaglioMaterialiDa = new JLabel("Dettaglio materiali da produrre:");
+                lblDettaglioMaterialiDa.setBounds(10, 147, 273, 14);
+                panel.add(lblDettaglioMaterialiDa);
+                
+                JScrollPane scrollPane_2 = new JScrollPane();
+                scrollPane_2.setBounds(10, 166, 448, 93);
+                panel.add(scrollPane_2);
+                
+                tablePaia = new JTable(dmPaia);
+                tablePaia.setEnabled(false);
+                scrollPane_2.setViewportView(tablePaia);
                
                 JScrollPane scrollPane_1 = new JScrollPane();
 
@@ -259,10 +390,11 @@ public class GUI_Bolla {
                
                 //Inizializza crea tabelle materiali
                 table = new JTable(dmPrima);
+                table.setEnabled(false);
                 scrollPane_1.setViewportView(table);
                
                 JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(10, 175, 448, 109);
+                scrollPane.setBounds(10, 295, 448, 109);
                 panel.add(scrollPane);
                 table_1 = new JTable(dm);
                 table_1.setEnabled(false);
@@ -278,7 +410,7 @@ public class GUI_Bolla {
                                 home.frmHome.setVisible(true);
                         }
                 });
-                btnEsci.setBounds(557, 352, 89, 23);
+                btnEsci.setBounds(557, 472, 89, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnEsci);
                
                 //**JList Bolle**
@@ -301,6 +433,7 @@ public class GUI_Bolla {
                                  
                                         loadTableMatTeo(id); //carica i materiali teorici di quella bolla
                                         loadTableMatDaProdurre1(id); //carica i materiali da produrre di quella bolla
+                                        loadTablePaia(id); //carica le paia della bolla
                                         if (_statoBol[k] == 3 || _statoBol[k] == 4)
                                         {
                                                 textField_1.setText("Bolla chiusa!");
@@ -333,7 +466,7 @@ public class GUI_Bolla {
                                         }
                                 }
                 });
-                btnVisualizzaExtra.setBounds(311, 295, 147, 23);
+                btnVisualizzaExtra.setBounds(311, 415, 147, 23);
                 panel.add(btnVisualizzaExtra);
                
                 textField_1 = new JLabel();
@@ -358,6 +491,7 @@ public class GUI_Bolla {
                                 {
                                         dm.setRowCount(0); //pulisce tabella
                                         dmPrima.setRowCount(0); //pulisce tabella
+                                        dmPaia.setRowCount(0); //pulisce tabella
                                         textField.setText(""); //pulisce campi testo
                                         txtNomeLav.setText("");
                                         textField_1.setText("");
@@ -385,7 +519,7 @@ public class GUI_Bolla {
                                 bolleChiuse.frmBolleChiuse.setVisible(true);
                         }
                 });
-                btnBolleChiuse.setBounds(407, 352, 140, 23);
+                btnBolleChiuse.setBounds(407, 472, 140, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update
