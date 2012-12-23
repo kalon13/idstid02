@@ -116,7 +116,6 @@ public class GUI_Magazzino {
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		textSearch = new JTextField();
-		textSearch.setText("strono");
 		textSearch.setName("searchTxt");
 		textSearch.setColumns(10);
 		
