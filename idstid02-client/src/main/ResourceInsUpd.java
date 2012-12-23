@@ -3,6 +3,7 @@ package main;
 import javax.ws.rs.core.MultivaluedMap;
 
 import classResources.Bolla;
+import classResources.Consumo;
 import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
@@ -114,6 +115,18 @@ public class ResourceInsUpd {
                 	  formData.add("nome", nome);
                 	  formData.add("ordine", ordine);
                   }
+                  //fai l'upd di magaz terz
+                  else if (className == "classResources.Consumo"){
+                	  Consumo m = (Consumo) classObj;
+                	  String idMatPrima=String.valueOf(m.getMatPrima());
+                	  String idTer=String.valueOf(m.getIdTerzista());
+                	  String qnt=String.valueOf(m.getQuantita());
+                	  
+                	  formData.add("Materiale_id", idMatPrima);
+                	  formData.add("Terzista_id", idTer);
+                	  formData.add("quantita", qnt);
+                  }
+                  
                   
                  return formData;
         }
