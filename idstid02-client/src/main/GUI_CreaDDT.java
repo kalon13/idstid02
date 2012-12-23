@@ -41,7 +41,7 @@ public class GUI_CreaDDT {
         private static Object[][] _dataNewDDT;
         private static String[] _titlesMat = {"Codice", "Descrizione", "Quantità", "UdM"};
     	private static Object[][] _dataMat;
-        private static ArrayList<Integer> _idMatDDT = new ArrayList<Integer>();
+        private static ArrayList<Integer> _idMatDDT;
         private static ArrayList<Integer> _idMat = new ArrayList<Integer>();
         private static int cntDt;
         private static String[] _comboNewDDT;
@@ -53,6 +53,7 @@ public class GUI_CreaDDT {
         private int idTerzista;
        
         public GUI_CreaDDT(int idTerz) {
+        	_idMatDDT = new ArrayList<Integer>();
         	idTerzista = idTerz;
         	loadTableDt(idTerz);
             initialize();
@@ -139,15 +140,35 @@ public class GUI_CreaDDT {
                         	   int result = JOptionPane.showConfirmDialog(frmCreaDdt, "Si vuole confermare l'invio del DDT all'azienda?");
                         	   if(JOptionPane.YES_OPTION == result){
                         		   String today = FormatDate.getToday();
-                                   DDT ddt = new DDT(today, idTerzista, true, false);
-                                   String id  = ResourceClass.addResources(Global._URLddt, ddt);
-                                   for(int row = 0; row<tableDDT.getRowCount(); row++){
-                                	   double qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+                        		   double qtaMat = 0;
+                        		   Materiale m = null;
+                        		   String id = null;
+                        		   ///check value of qnt
+                        		   boolean flg_ckqnt = false;
+                        		   for(int row = 0; row<tableDDT.getRowCount(); row++){
+                        			  int idMat = _idMatDDT.get(row);
+                        			  qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+                        		      m = ResourceClass.getResource(Materiale.class, Global._URLMag+idMat+"/"+idTerzista);
+                        		      System.out.print(m.getQuantita()+"+"+qtaMat);
+                        		      if(qtaMat < m.getQuantita()){
+                        		    	  flg_ckqnt = true;
+                        		    	  break;
+                        		    	  }
+                        		   }
+                        		   if(flg_ckqnt == false) 
+                        		   {
+                                     DDT ddt = new DDT(today, idTerzista, true, false);
+                                     id  = ResourceClass.addResources(Global._URLddt, ddt);
+                                     for(int row = 0; row<tableDDT.getRowCount(); row++){
+                                	   qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
                                 	   int idMat = _idMatDDT.get(row);
                                 	   int idDDT = Integer.valueOf(id);
                                 	   MaterialeDDT mat = new MaterialeDDT(idDDT,idMat,qtaMat, idTerzista);
                                 	   String idmD = ResourceClass.addResources(Global._URLddtInsMat, mat);
-                                   }
+                                     }
+                        		   }
+                                     else 
+                                    	 JOptionPane.showMessageDialog(frmCreaDdt, "La quantità da spedire nel DDT "+qtaMat+" supera la quantità in magazzino "+m.getQuantita());
                                    if(id != "-1")
                                 	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT è stato creato e inviato all'azienda!");
                              }

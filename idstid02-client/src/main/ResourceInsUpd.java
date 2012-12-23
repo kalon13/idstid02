@@ -3,13 +3,13 @@ package main;
 import javax.ws.rs.core.MultivaluedMap;
 
 import classResources.Bolla;
-//import classResources.DDT;
+import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
 import classResources.Fattura;
 import classResources.LavorazioneTerzista;
 import classResources.Materiale;
-//import classResources.MaterialeDDT;
+import classResources.MaterialeDDT;
 import classResources.MaterialeDaProdurre;
 import classResources.Terzista;
 import classResources.Utente;
@@ -129,27 +129,27 @@ public class ResourceInsUpd {
                                  formData.add("Terzista_id", id_terzista);
                                  formData.add("quantita", quantita);
                          }
-//                         else if (className == "classResources.DDT"){
-//                             DDT ddt = (DDT) classObj;
-//                             String id_terzista =  String.valueOf(ddt.getIdTerzista());
-//                             String dtInvio =  String.valueOf(ddt.getDataInvio());
-//                             String flAz =  String.valueOf(ddt.isFlussoAzienda());
-//                             formData.add("Terzista_id", id_terzista);
-//                             formData.add("dataInvio", dtInvio);
-//                             formData.add("flussoAzienda", flAz);
-//                             formData.add("registrato", "0") ;
-//                         }
-//                         else if (className == "classResources.MaterialeDDT"){
-//                        	 MaterialeDDT matddt = (MaterialeDDT) classObj;
-//                             String id_mat =  String.valueOf(matddt.getId_materiale());
-//                             String qnt =  String.valueOf(matddt.getQuantita());
-//                             String id_ddt =  String.valueOf(matddt.getid_DDT());
-//                             String Terzista_id =  String.valueOf(matddt.getIdTerzista());
-//                             formData.add("Materiale_id", id_mat);
-//                             formData.add("quantita", qnt);
-//                             formData.add("DDT_id", id_ddt);
-//                             formData.add("Terzista_id", Terzista_id);
-//                         }
+                         else if (className == "classResources.DDT"){
+                             DDT ddt = (DDT) classObj;
+                             String id_terzista =  String.valueOf(ddt.getIdTerzista());
+                             String dtInvio =  String.valueOf(ddt.getDataInvio());
+                             String flAz =  String.valueOf(ddt.isFlussoAzienda());
+                             formData.add("Terzista_id", id_terzista);
+                             formData.add("dataInvio", dtInvio);
+                             formData.add("flussoAzienda", flAz);
+                             formData.add("registrato", "0") ;
+                         }
+                         else if (className == "classResources.MaterialeDDT"){
+                        	 MaterialeDDT matddt = (MaterialeDDT) classObj;
+                             String id_mat =  String.valueOf(matddt.getId_materiale());
+                             String qnt =  String.valueOf(matddt.getQuantita());
+                             String id_ddt =  String.valueOf(matddt.getid_DDT());
+                             String Terzista_id =  String.valueOf(matddt.getIdTerzista());
+                             formData.add("Materiale_id", id_mat);
+                             formData.add("quantita", qnt);
+                             formData.add("DDT_id", id_ddt);
+                             formData.add("Terzista_id", Terzista_id);
+                         }
                          else if (className == "classResources.LavorazioneTerzista"){
                         	 LavorazioneTerzista m=(LavorazioneTerzista) classObj;
                         	 String prezzo = String.valueOf(m.getPrezzo());

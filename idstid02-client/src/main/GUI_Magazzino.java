@@ -37,7 +37,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 
-import com.lowagie.text.DocumentException;
 
 import java.awt.Frame;
 
