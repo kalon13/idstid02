@@ -568,13 +568,10 @@ public class GUI_Bolla_Terzista {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (statoBolla == 2) {
-                    JDialog dialog = new JDialog();
-                    JLabel label = new JLabel("Impossibile annullare una bolla in corso di lavorazione!");
-                    dialog.setLocationRelativeTo(null);
-                    dialog.setTitle("Attenzione!");
-                    dialog.getContentPane().add(label);
-                    dialog.pack();
-                    dialog.setVisible(true);
+        			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+        				    "Impossibile annullare una bolla in corso di lavorazione!",
+        				    "Attenzione!",
+        				    JOptionPane.PLAIN_MESSAGE);
                     System.out.println(statoBolla);
                 }
                 else //se la bolla non è stata ancora iniziata può essere annullata
