@@ -72,7 +72,7 @@ public class ResourceClass extends ResourceInsUpd {
                 }
         }
 
-//per visualizzare un det dato passare nella path/id del dato stesso
+        //per visualizzare un det dato passare nella path/id del dato stesso
         public static <T> T getResource(final Class<T> clazz, String path) throws UniformInterfaceException {
                 T t = null;
                 try{  

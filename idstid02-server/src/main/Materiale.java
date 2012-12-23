@@ -12,6 +12,7 @@ public class Materiale {
         private String udm;
         private int id_terzista;
         private int id_matTerz;
+        private String tipo;
    
         public Materiale() {
                 this.id = -1;
@@ -149,5 +150,13 @@ public class Materiale {
         public void setId_matTerz(int id_matTerz) {
                 this.id_matTerz = id_matTerz;
         }
+
+		public String getTipo() {
+			return tipo;
+		}
+
+		public void setTipo(String tipo) {
+			this.tipo = tipo;
+		}
 }
 

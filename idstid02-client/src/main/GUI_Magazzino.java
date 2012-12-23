@@ -37,7 +37,6 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 
-import com.lowagie.text.DocumentException;
 
 import java.awt.Frame;
 
@@ -315,6 +314,7 @@ public class GUI_Magazzino {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				System.out.print(lsDDT.size());
 				if(lsDDT.size() != 0){
 					windowRegDDT = new GUI_RegistraDDT();
 					windowRegDDT.frmRegistraDdt.setVisible(true);

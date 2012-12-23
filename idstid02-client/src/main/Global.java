@@ -5,6 +5,7 @@ public class Global {
     public static final String _URLMagSearch = "/magazzinoterzista/search/";
     public static final String _URLMagMat = "/magazzinoterzista/materiale/";
     public static final String _URLMagMatTerz = "/magazzinoterzista/matTerzista/";
+    public static final String _URLMagUpdMat = "/magazzinoterzista/updMat/";
     public static final String _URLFatt = "/fatturazione";
     public static final String _URLBolla = "/bolla";
     public static final String _URLBollaValuta = "/bolla/valuta/";
@@ -14,6 +15,7 @@ public class Global {
     public static final String _URLddtNnReg = "/DDT/DDTnnReg/";
     public static final String _URLddtTerz = "/DDT/Terzista/"; 
     public static final String _URLddtInsMat = "/MaterialeDDT";
+    public static final String _URLConsMat = "/consumo/";
     public static final String _URLTerz = "/terzista/";
     public static final String _URLUser = "/utente";
     public static final String _URLMatTeoSearch = "/matTeo/search/"; //con join
