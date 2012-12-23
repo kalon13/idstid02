@@ -228,12 +228,14 @@ public class DDTResource {
 							  @FormParam("flussoAzienda") Boolean flussoAzienda,
 							  @FormParam("registrato") Boolean registrato) {
 		
+		Statement chkst = null;
 		Statement statement = null;
 		ResultSet result = null;
 		int ok = -1;
 		int id = -1;
 		
 		try {
+			chkst = DB.instance.createStatement();
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
 					"INSERT INTO progingsw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +

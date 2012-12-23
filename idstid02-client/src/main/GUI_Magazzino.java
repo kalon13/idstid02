@@ -116,6 +116,7 @@ public class GUI_Magazzino {
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		textSearch = new JTextField();
+		textSearch.setText("strono");
 		textSearch.setName("searchTxt");
 		textSearch.setColumns(10);
 		
@@ -314,6 +315,7 @@ public class GUI_Magazzino {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
+				System.out.print(lsDDT.size());
 				if(lsDDT.size() != 0){
 					windowRegDDT = new GUI_RegistraDDT();
 					windowRegDDT.frmRegistraDdt.setVisible(true);

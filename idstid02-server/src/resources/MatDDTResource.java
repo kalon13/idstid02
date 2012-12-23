@@ -37,11 +37,8 @@ public class MatDDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			updMagTer = DB.instance.createStatement();
-			String sql= "UPDATE progingsw.materialeterzista SET quantita = (quantita - " +quantita+") " +
-					"WHERE Terzista_id ="+ Terzista_id +" and Materiale_id = "+Materiale_id;
 			ok = updMagTer.executeUpdate("UPDATE progingsw.materialeterzista SET quantita = (quantita - " +quantita+") " +
 					"WHERE Terzista_id ="+ Terzista_id +" and Materiale_id = "+Materiale_id);
-			System.out.print(ok+"-"+Materiale_id+"-"+quantita+"+"+sql);
 			ok = statement.executeUpdate(
 					"INSERT INTO progingsw.ddtmateriale(DDT_id, Materiale_id, quantita) " +
 					"VALUES(" + DDT_id + ", " + Materiale_id + ", '" + quantita + "');", 
