@@ -371,8 +371,9 @@ public class GUI_Magazzino {
 	private void loadTableDt(Boolean flgSearch, int idTerz){
 		List<Materiale> lista = null;
 		_data=null; _id = null;
-		if(flgSearch==false || textSearch.getText().equals(""))
+		if(flgSearch==false || textSearch.getText().equals("")){
 		 lista = ResourceClass.getResources(Materiale.class, Global._URLMagMatTerz+idTerz);
+		 System.out.print(idTerz);}
 		else
 		{  if(ResourceClass.getResources(Materiale.class, Global._URLMagSearch+idTerz+"/"+textSearch.getText()) != null){
 			 String searchTxt = textSearch.getText().trim().toLowerCase();
@@ -389,7 +390,7 @@ public class GUI_Magazzino {
 	      int k = 0;
 	     while(it.hasNext())
          {//[riga][colonna]
-           Materiale mtCl = it.next();
+	      Materiale mtCl = it.next();
          if(k<cntDt)
          {  _data[k][1] = mtCl.getDescrizione();
             _data[k][0] = String.valueOf(mtCl.getCodice());
@@ -473,7 +474,8 @@ public class GUI_Magazzino {
 		}
 		else
 		{loadListaTerzisti();
-		 idTerzista = Autenticazione.getSessione().getUtente().getUserId(); 
+		 Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId()); 
+		 idTerzista =  terzista.getId();
 		 loadTableDt(false, idTerzista);
 		 loadTableDDT(idTerzista);
 		}

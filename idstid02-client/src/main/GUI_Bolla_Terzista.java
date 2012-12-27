@@ -24,8 +24,10 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import classResources.Bolla;
+import classResources.Consumo;
 import classResources.Extraconsumo;
 import classResources.Materiale;
+import classResources.MaterialeDDT;
 import classResources.MaterialeDaProdurre;
 import classResources.MaterialeTeorico;
 import classResources.Paia;
@@ -47,6 +49,7 @@ public class GUI_Bolla_Terzista {
         private Terzista terzista; //id terzista
         private int statoBolla;
         public int idMatTeo;
+        private double qtpPrec;
        
         GUI_Messaggio messaggio;
         GUI_Extraconsumo extraconsumo;
@@ -58,6 +61,7 @@ public class GUI_Bolla_Terzista {
         List<Paia> listaPaia = null;
         List<Materiale> lista2 = null;
         List<Terzista> listaTerz = null;
+        List<Consumo> semLav = null;
         private static int[] _id1;
         private static String[] _data2;
         private static int[] _id2;
@@ -84,7 +88,7 @@ public class GUI_Bolla_Terzista {
     				return columnTypes[columnIndex];
     			} 
                 boolean[] columnEditables = new boolean[] { //non editabili le prime tre colonne
-                    false, false, false, true, true, true
+                    false, false, false, true, true, false
                 };
                 public boolean isCellEditable(int row, int column) {
                 	return columnEditables[column];
@@ -194,8 +198,8 @@ public class GUI_Bolla_Terzista {
                 MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
                 int qtaMat = matCl.getQuantita();
                 int numMorti = matCl.getNumeroMorti();
-                Double qtaProdotta = matCl.getQuantitaProdotta();
-                Double qtaSpedita = matCl.getQuantitaSpedita();
+                double qtaProdotta = matCl.getQuantitaProdotta();
+                double qtaSpedita = matCl.getQuantitaSpedita();
                 String desc = matCl.getDescrizione();
                 String udm = matCl.getUdm();
                 
@@ -422,6 +426,13 @@ public class GUI_Bolla_Terzista {
            
             //Inizializza crea tabelle materiali
             tableDaProdurre = new JTable(dmPrima);
+            tableDaProdurre.addMouseListener(new MouseAdapter() {
+            	@Override
+            	public void mousePressed(MouseEvent e) {
+            		qtpPrec = Double.parseDouble(dmPrima.getValueAt(tableDaProdurre.getSelectedRow(), 4).toString());
+            		System.out.println(qtpPrec);
+            	}
+            });
             scrollPane_1.setViewportView(tableDaProdurre);
            
             JScrollPane scrollPane = new JScrollPane();
@@ -580,14 +591,12 @@ public class GUI_Bolla_Terzista {
                     Bolla b = new Bolla();
                     b.setStato(0); //setto a 0 = bolla da assegnare, lo stato della bolla
                     b.setTerzistaId(-1); //setto id_terzista -1
-                    System.out.println("BollaID: " + id);
-                    System.out.println(b.getId());
-                    System.out.println(b.getTerzistaId());
                     ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                     listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
                     caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
                     dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
                     dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
+                    dmPaia.setRowCount(0); //pulisce la table
                 }
             }
             });
@@ -595,10 +604,85 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnAnnullaBolla);
            
             JButton btnChiudiParzialmente = new JButton("Chiudi Parzialmente");
+            btnChiudiParzialmente.addMouseListener(new MouseAdapter() {
+            	@Override
+            	public void mouseClicked(MouseEvent e) {
+            		int result = JOptionPane.showConfirmDialog(frmBolleDiLavorazioneTerzista, "Si vuole confermare la chiusura parziale della bolla e l'invio del DDT all'azienda?");
+              	   	if(JOptionPane.YES_OPTION == result){
+              	   		if (verificaChiusura()){
+              	   		JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+             				    "La bolla è pronta per essere chiusa! [Chiudi bolla]",
+             				    "Attenzione!",
+             				    JOptionPane.PLAIN_MESSAGE);
+              	   		}
+              	   		else{
+                          Bolla b = new Bolla();
+                          b.setStato(2); //setto a 2 lo stato della bolla
+                          b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
+                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+                          System.out.println(id);
+                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
+                          caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
+                          dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
+                          dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
+                          dmPaia.setRowCount(0); //pulisce la table
+                                  
+                          //Apre la finestra DDT
+ 	                      GUI_CreaBollaDDT windowNewDDT = new GUI_CreaBollaDDT(terzista.getId(), id);
+ 	                      windowNewDDT.frmCreaDdt.setVisible(true);      
+
+ 	                      aggiornaQtaSpedita();
+              	   		}
+ 	            	}
+             	}//if
+            });
             btnChiudiParzialmente.setBounds(10, 283, 158, 23);
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnChiudiParzialmente);
            
             JButton btnChiudiBolla = new JButton("Chiudi Bolla");
+            btnChiudiBolla.addMouseListener(new MouseAdapter() {
+            	@Override
+            	public void mouseClicked(MouseEvent e) {
+            	int result = JOptionPane.showConfirmDialog(frmBolleDiLavorazioneTerzista, "Si vuole confermare la chiusura della bolla e l'invio del DDT all'azienda?");
+             	   if(JOptionPane.YES_OPTION == result){
+            		 if (statoBolla == 3) {
+             			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+             				    "La bolla è già chiusa!",
+             				    "Attenzione!",
+             				    JOptionPane.PLAIN_MESSAGE);
+                         System.out.println(statoBolla);
+                     }
+                     else //se la bolla non è stata ancora chiusa
+                     {
+                       if(verificaChiusura()){
+                         Bolla b = new Bolla();
+                         b.setStato(3); //setto a 3 = bolla chiusa, lo stato della bolla
+                         b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
+                         ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+                         System.out.println(id);
+                         listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
+                         caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
+                         dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
+                         dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
+                         dmPaia.setRowCount(0); //pulisce la table
+                                       
+	                    //Apre la finestra DDT
+	                    GUI_CreaBollaDDT windowNewDDT = new GUI_CreaBollaDDT(terzista.getId(), id);
+	         			windowNewDDT.frmCreaDdt.setVisible(true);   
+	         			
+	         			aggiornaQtaSpedita();
+	                   }
+                       else
+                       {
+                    	   JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+                				    "La quantità prodotta deve essere uguale alla quantità totale meno i morti!",
+                				    "Attenzione!",
+                				    JOptionPane.PLAIN_MESSAGE);
+                       }
+                      }
+	            	}
+            	}//if
+	        });
             btnChiudiBolla.setBounds(10, 317, 158, 23);
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnChiudiBolla);
            
@@ -606,7 +690,7 @@ public class GUI_Bolla_Terzista {
             lblTerzisti.setBounds(10, 11, 106, 14);
             frmBolleDiLavorazioneTerzista.getContentPane().add(lblTerzisti);
            
-            //Al premere di Invio in una cella di tableDaProdurre richiama l'Update
+            //Al premere di INVIO in una cella di tableDaProdurre richiama l'Update
             dmPrima.addTableModelListener(new TableModelListener(){
             @Override
             public void tableChanged(TableModelEvent e) {
@@ -628,19 +712,72 @@ public class GUI_Bolla_Terzista {
             				    JOptionPane.PLAIN_MESSAGE);
             			loadTableMatDaProdurre1(id);
                     }
-                    else {
-                    mdp.setNumeroMorti(nm);
-                    mdp.setQuantitaProdotta(qtp);
-                    mdp.setQuantitaSpedita(qts);
-
-                    Bolla b = new Bolla();
-                    b.setStato(2); //setto lo stato della bolla selezionata a 2 = in corso di lavorazione
-                    b.setTerzistaId(terzista.getId()); //id_terzista --> DA MODIFICARE CON LA SESSIONE
-                    ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
-                    ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
-                    statoBolla = b.getStato(); //aggiorno variabile dello stato della bolla selezionata
+                    else if (qtpPrec > qtp){
+                    	JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+            				    "Campo quantità prodotta deve essere maggiore a " + qtpPrec + "!",
+            				    "Attenzione!",
+            				    JOptionPane.PLAIN_MESSAGE);
+                    	loadTableMatDaProdurre1(id);
                     }
-                }
+                    else {
+                    	mdp.setNumeroMorti(nm);
+	                    mdp.setQuantitaProdotta(qtp);
+	                    mdp.setQuantitaSpedita(qts);
+	                  
+	                    Bolla b = new Bolla();
+	                    b.setStato(2); //setto lo stato della bolla selezionata a 2 = in corso di lavorazione
+	                    b.setTerzistaId(terzista.getId()); //id_terzista
+	                    ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdurre, String.valueOf(mdp.getId()), mdp);
+	                    ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+	                    statoBolla = b.getStato(); //aggiorno variabile dello stato della bolla selezionata
+	                    
+	                    qtp = qtp - qtpPrec;
+	                    //Carico magazzino (materiali terzista) con i materiali prodotti (semilavorati o prodotti finiti)
+                     
+                        //Insert in magazzino (materiali terzista)
+                                   
+                       	 	Materiale m = new Materiale();
+                           
+//                            double qtaProdotta = mdp.getQuantitaProdotta();
+                            String idMatDaProd = String.valueOf(mdp.getId());
+                            
+                            int idMat = mdp.getId_materiale();
+                            int idTer = terzista.getId();
+                            m.setId(idMat);
+                            m.setQuantita(qtp);
+                            m.setId_terzista(idTer);
+                            //Se il materiale è presente -> modifico la quantità altimenti -> inserisco
+                            Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTer);                          
+	                         if(mat != null)
+	                         {  //update
+	                            double qnt = mat.getQuantita() + qtp;  
+	                            mat.setQuantita(qnt);
+	                                    ResourceClass.updResources(Materiale.class, Global._URLMag,
+	                                            String.valueOf(mat.getId_matTerz()), mat);
+	                             }
+	                             else{
+	                                  //Insert materiale in mag terz int id, double quantita, int id_terzista
+	                                 String id = ResourceClass.addResources(Global._URLMag, m);
+	                            }    
+	                         
+	                         
+	                         //Scarico magazzino (materie prime)
+	                         	semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
+	                         	System.out.println("idmat "+idMat);
+	                         	System.out.println(semLav);
+           		      	  		Iterator<Consumo> it1 = semLav.iterator();
+           		      	  		while(it1.hasNext())
+           		      	  		{  
+           		      	  			Consumo c = it1.next();
+           		      	  			String idMP = String.valueOf(c.getMatPrima());
+           		      	  			c.setIdTerzista(terzista.getId());
+           		      	  			double mtCons = c.getQuantita();
+           		      	  	        c.setQuantita(mtCons * qtp);
+           		      	  			ResourceClass.updResources(Consumo.class, Global._URLMagUpdMat, idMP, c);
+           		      	  		}
+                                            
+	                    }//else
+                    }
                 catch(Exception er) {
                     er.printStackTrace();
                 }                                      
@@ -669,10 +806,7 @@ public class GUI_Bolla_Terzista {
             lblExtra.setText(descrizione);
             lblUdm.setText(udm);
 
-			System.out.println("Click");
 			int idmater = _id2[table_1.getSelectedRow()];
-			System.out.println(table_1.getSelectedRow());
-			System.out.println(idmater);
 			return idmater;
 //    			List<Fase> fasi = ResourceClass.getResources(Fase.class, Global._URLFase+id_Lav.get(table.getSelectedRow()));
 //    			Iterator<Fase> listaFasi = fasi.iterator();
@@ -697,4 +831,37 @@ public class GUI_Bolla_Terzista {
 				return false;
 			}
 		}
+		
+		private boolean verificaChiusura(){
+			Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
+			boolean flg = true;
+            while(it.hasNext())
+            {                      
+                MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
+                int qta = matCl.getQuantita();
+                int numMorti = matCl.getNumeroMorti();
+                double qtaProdotta = matCl.getQuantitaProdotta();
+                if (qtaProdotta + numMorti < qta)
+                {flg = false;
+                	break;
+                }
+            }
+		      return flg;
+		}
+		
+	private void aggiornaQtaSpedita(){
+		Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
+      //Update di quantità spedita
+       while(it.hasNext())
+       {                 
+      	 Materiale m = new Materiale();
+           MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
+           double qtaProdotta = matCl.getQuantitaProdotta();
+           matCl.setQuantitaSpedita(qtaProdotta);
+           String idMatDaProd = String.valueOf(matCl.getId());
+
+           //Inserisco quantità spedita
+           ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdSped, idMatDaProd, matCl);                       
+           }
+	}
 }
