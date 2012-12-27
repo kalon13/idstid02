@@ -34,22 +34,14 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					//Settiamo lo stile windows alle screen (basta metterlo nel main)
+					//Settiamo lo stile nativo dei widget
 					try {
-						UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-					} catch (UnsupportedLookAndFeelException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
+						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
+					
+					// Avvio form autenticazione
 					windowAutenticazione = new GUI_Autenticazione();
 					windowAutenticazione.frmAutenticazione.setVisible(true);
 				} catch (Exception e) {

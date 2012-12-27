@@ -21,6 +21,15 @@ public class Autenticazione {
 		return false;
 	}
 	
+	public static Sessione getSession(String sid) {
+		for(Sessione s: sessioni) {
+			if(s.getSessionID().equals(sid)) {
+				return s;
+			}
+		}
+		return null;
+	}
+	
 	public static Sessione generateSession(Utente utente) {
 		double random = Math.random();
 		Date timestamp = new Date();
