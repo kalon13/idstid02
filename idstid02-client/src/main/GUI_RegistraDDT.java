@@ -30,79 +30,27 @@ import javax.swing.event.ListSelectionEvent;
 public class GUI_RegistraDDT {
 
         JFrame frmRegistraDdt;
-        private JTable tblMateriale;
-        private static int[] _idLsDDT = null;
-        private DefaultListModel modelLsDDT;
-        private DefaultTableModel dfm;
         private static GUI_RegistraDDT windowRegDDT;
-        private static String[][] _dataDDT;
+        
+        // TABLE MATERIALE
+        private JTable tblMateriale;
         private static int[] _idMat;
-        private static Object[] _titlesDDT={"Codice", "Descrizione", "Quantità"};
-        /**
-         * Launch the application.
-       
-        public static void main(String[] args) {
-                EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                try {
-                                        windowRegDDT = new GUI_RegistraDDT();
-                                        windowRegDDT.frmRegistraDdt.setVisible(true);
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-        }
-
-        /**
-         * Create the application.
-         */
+        private DefaultTableModel dfm;
+        
+        // TABLE DDT
+        private DefaultListModel modelLsDDT;
+        private static int[] _idLsDDT = null;
+        private static Object[] _titlesDDT={"Codice", "Descrizione", "Quantità", "UDM"};
+        private static String[][] _dataDDT;
+        
+        private int idTerz;
+      
         public GUI_RegistraDDT() {
-                loadLstDDT();
-                initialize();
+        	 idTerz = Autenticazione.getSessione().getUtente().getUserId();
+             loadLstDDT(idTerz);
+             initialize();
         }
-        private void loadLstDDT(){
-                 List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
-                 Iterator<DDT> it=lsDDT.iterator();
-                 modelLsDDT = new DefaultListModel();
-         int cntDt = lsDDT.size();
-         _idLsDDT = new int[cntDt];
-              int t = 0;
-                    while(it.hasNext())
-                {//[riga][colonna]
-                      DDT ddt = it.next();
-                      String[] dtInvio = ddt.getDataInvio().replace("-", "/").split(" ");
-                      String[] dtRicezione=ddt.getDataRicezione().replace("-", "/").split(" ");
-                  modelLsDDT.addElement(ddt.getNumDoc()+" - data invio: "+dtInvio[0]+" - data ricezione: "+dtRicezione[0]);
-                  _idLsDDT[t] = ddt.getId();
-                  t++;
-             }
-         }
-
-        private static void loadTblDDT(int id){
-                DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+id);
-                List<Materiale> lsMatDDT = ddt.getDdtMateriale();
-                if(lsMatDDT != null){
-                Iterator<Materiale> it=lsMatDDT.iterator();
-                int cntDt = lsMatDDT.size(); int cntTit=_titlesDDT.length;
-                _dataDDT = new String[cntDt][cntTit];
-                _idMat = new int[cntDt];
-             int k = 0;
-            while(it.hasNext())
-            {//[riga][colonna]
-             Materiale mt = it.next();
-             _dataDDT[k][0] = mt.getCodice();
-             _dataDDT[k][1] = mt.getDescrizione();
-             _dataDDT[k][2] = String.valueOf(mt.getQuantita());
-             _idMat[k]= mt.getId();
-         k++;
-        }
-          }
-                else _dataDDT = null;
-        }
-        /**
-         * Initialize the contents of the frame.
-         */
+       
         private void initialize() {
                 frmRegistraDdt = new JFrame();
                 frmRegistraDdt.setResizable(false);
@@ -148,6 +96,8 @@ public class GUI_RegistraDDT {
                 btnRegistra.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
+                        	if(listDDT.getSelectedIndex() != -1)
+                        	{   
                                 int i = listDDT.getSelectedIndex();
                                 int idDDT = _idLsDDT[i];
                                 DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+idDDT);
@@ -155,33 +105,36 @@ public class GUI_RegistraDDT {
                                 if(lsMatDDT != null){
                                 Iterator<Materiale> it=lsMatDDT.iterator();
                                 while(it.hasNext())
-                            {
-                             Materiale mtDDT = it.next();
-                             int idMat = mtDDT.getId();mtDDT.setId_terzista(1);
-                             Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+
-                                         "/"+mtDDT.getId_terzista());                          
-                             if(mat != null)
-                             {  //update
-                                double qnt = mat.getQuantita() + mtDDT.getQuantita();  
-                                mat.setQuantita(qnt);
-                                        ResourceClass.updResources(Materiale.class, Global._URLMag,
-                                                String.valueOf(mat.getId_matTerz()), mat);
-                                 }
-                                        else{
-                                        //TODO Insert terzista! int id, double quantita, int id_terzista
-                                        Materiale m1 = new Materiale(mtDDT.getId(),mtDDT.getQuantita(), mtDDT.getId_terzista());
-                                        String id = ResourceClass.addResources("/magazzinoterzista", m1);
-                                        m1.setId(Integer.parseInt(id));
+                                {
+		                         Materiale mtDDT = it.next();
+		                         int idMat = mtDDT.getId();
+		                         Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+
+		                                     "/"+idTerz);                          
+		                         if(mat != null)
+		                         {  //update
+		                            double qnt = mat.getQuantita() + mtDDT.getQuantita();  
+		                            mat.setQuantita(qnt);
+		                                    ResourceClass.updResources(Materiale.class, Global._URLMag,
+		                                            String.valueOf(mat.getId_matTerz()), mat);
+		                             }
+		                             else{
+		                                  //TODO Insert terzista! int id, double quantita, int id_terzista
+		                                  Materiale m1 = new Materiale(mtDDT.getId(),mtDDT.getQuantita(), idTerz);
+		                                  String id = ResourceClass.addResources("/magazzinoterzista", m1);
+		                                  m1.setId(Integer.parseInt(id));
+		                            }
                                 }
-                      }
-                        }
-                                ResourceClass.updResources(DDT.class, Global._URLddt,
-                                        String.valueOf(idDDT), ddt);
-                                loadLstDDT();
+                               }
+                                ResourceClass.updResources(DDT.class, Global._URLddt, String.valueOf(idDDT), ddt);
+                                int idTerz = Autenticazione.getSessione().getUtente().getUserId();
+                                loadLstDDT(idTerz);
                                 listDDT.setSelectedIndex(-1);
                                 deleteAllRowTable();
                                 listDDT.setModel(modelLsDDT);
-                  }
+                                JOptionPane.showMessageDialog(frmRegistraDdt , "Il DDT è stato registrato!");
+                       } 
+                        	else JOptionPane.showMessageDialog(frmRegistraDdt , "Non è stato selezionato il DDT da registrare!");
+                    }
                 });
                 btnRegistra.setBounds(195, 229, 89, 23);
                 panel.add(btnRegistra);
@@ -196,12 +149,59 @@ public class GUI_RegistraDDT {
                 btnAnnulla.setBounds(294, 230, 89, 23);
                 panel.add(btnAnnulla);
         }
+        
         private void deleteAllRowTable(){
                 int numRows = dfm.getRowCount()-1;
                 for (int i=numRows;i>=0;i--) {
                   dfm.removeRow(i);
-                  System.out.println("i"+i+"num"+numRows);
                 }
+        }
+
+        /***********Carica i dati del DDT*******/
+        private void loadLstDDT(int idTer){
+              List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddtNnReg+idTer);
+              Iterator<DDT> it=lsDDT.iterator();
+              modelLsDDT = new DefaultListModel();
+              int cntDt = lsDDT.size();
+         	  _idLsDDT = new int[cntDt];
+              int t = 0;
+              while(it.hasNext())
+                {
+                  DDT ddt = it.next();
+                  String dtInvio = FormatDate.getFormatDate(ddt.getDataInvio());
+                  modelLsDDT.addElement(ddt.getNumDoc()+" - data invio: "+dtInvio);
+                  _idLsDDT[t] = ddt.getId();
+                  t++;
+             }
+         }
+
+        /***********Carica i materiali del DDT*******/
+        private void loadTblDDT(int idDDT){
+            DDT ddt = ResourceClass.getResource(DDT.class, Global._URLddt+"/"+idDDT);
+            _dataDDT = null;
+             if(ddt!=null){
+                List<Materiale> lsMtddt = ddt.getDdtMateriale();
+              if(lsMtddt!=null){  
+            	  Iterator<Materiale> it=lsMtddt.iterator();
+        	      int cntDt = lsMtddt.size();
+        	      int cntTit = _titlesDDT.length;
+        	      _dataDDT = new String[cntDt][cntTit];
+        	      _idMat = new int[cntDt];
+        	      int k = 0;  	      
+        	     while(it.hasNext())
+                {//[riga][colonna]
+                   Materiale mtCl = it.next();
+                 if(k<cntDt)
+                 {  _dataDDT[k][0] = String.valueOf(mtCl.getCodice());
+                 	_dataDDT[k][1] = String.valueOf(mtCl.getDescrizione());
+                 	_dataDDT[k][2] = String.valueOf(mtCl.getQuantita());
+                 	_dataDDT[k][3] = String.valueOf(mtCl.getudm());
+                 	_idMat[k]= mtCl.getId();
+                    k++;
+                 }
+              }
+            }
+          }
         }
 }
 

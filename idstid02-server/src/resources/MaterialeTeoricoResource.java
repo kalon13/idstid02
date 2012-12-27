@@ -13,7 +13,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import main.MaterialeTeorico;
-import main.Um;
 import utils.DB;
 
 
@@ -22,7 +21,6 @@ public class MaterialeTeoricoResource {
 
         public MaterialeTeoricoResource() {} // E' necessario anche se vuoto
        
-        //aggiunto
         @GET
         @Path ("/search/{txtSearch}")
         @Produces(MediaType.APPLICATION_JSON)
@@ -33,14 +31,14 @@ public class MaterialeTeoricoResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                        "SELECT descrizione, costoUnitario, quantita, Bolla_id, udm " +
+                                        "SELECT materialiteorici.id, descrizione, costoUnitario, quantita, Bolla_id, udm " +
                                         " FROM ProgIngSw.materialiteorici join ProgIngSw.materiale" +
                                         " ON materiale.id = Materiale_Id WHERE Bolla_id =" + txtSearch + ";");
                         if(result != null){
                          while(result.next()) {
                                 //1-id 2-codicearticolo 3-descrizione 4-costounitario 5-id 6-quantita 7-udm 8-bolla_id 9-materiale_id
-                                //3-descrizione 4-costounitario 6-quantita 8-bolla_id
-                                MaterialeTeorico m = new MaterialeTeorico(result.getString(1), result.getDouble(2), result.getDouble(3), result.getInt(4), result.getString(5));
+                                //1-id 3-descrizione 4-costounitario 6-quantita 8-bolla_id
+                                MaterialeTeorico m = new MaterialeTeorico(result.getInt(1), result.getString(2), result.getDouble(3), result.getDouble(4), result.getInt(5), result.getString(6));
                                 listaMaterialeTeorico.add(m);
                          }
                         }

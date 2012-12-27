@@ -64,22 +64,21 @@ public class FatturazioneResource {
 		Fattura_Lavorazione fattLavorazione = null;
 		List<Fattura_Lavorazione> lsFattLav = new ArrayList<Fattura_Lavorazione>();
 		
-		
 		try {
 			statement = DB.instance.createStatement();
 			statement1 = DB.instance.createStatement();
 			//fattura
 			result = statement.executeQuery(
 					"select * from progingsw.fattura where id='" + id + "';");
-		
+			
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
-						"select fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id from progingsw.lavorazione JOIN " +
-						"(progingsw.lavorazioneterzista JOIN(progingsw.fatturabolla join" +
+						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id FROM progingsw.lavorazione JOIN " +
+						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
 						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
-						" = bolla.Terzista_id) ON lavorazione.id = bolla.Lavorazione_id where " +
-						"bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
-						"and fatturabolla.Fattura_id='" + id + "';"
+						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.Lavorazione_id where" +
+						" bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
+						" and fatturabolla.Fattura_id='" + id + "';"
 					);
 			
 			while(result1.next()) {
@@ -89,6 +88,7 @@ public class FatturazioneResource {
 				lsFattLav.add(fattLavorazione);
 			}
 			while(result.next()) {
+				if(lsFattLav.isEmpty()) lsFattLav = null;
 				 f = new Fattura(result.getInt(1), result.getInt(2),
 						result.getString(3), result.getDouble(4), lsFattLav);
 			
@@ -97,6 +97,35 @@ public class FatturazioneResource {
 			statement1.close();
 			
 			return f;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@GET
+	@Path ("/terzista/{idTerz}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Fattura> getListaFatturaTerz(@PathParam("idTerz") int idTerz){
+		Statement statement = null;
+		ResultSet result = null;
+		List<Fattura> listaFattura = new ArrayList<Fattura>();
+		
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+						"SELECT * FROM progingsw.fattura where Terzista_id = '"+idTerz+"';"
+					);
+			
+			while(result.next()) {
+				Fattura f = new Fattura(result.getInt(1), result.getInt(2),
+											result.getString(3), result.getDouble(4));
+				listaFattura.add(f);
+			}
+			statement.close();
+			
+			return listaFattura;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
