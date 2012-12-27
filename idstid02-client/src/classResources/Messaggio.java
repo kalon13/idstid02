@@ -73,5 +73,19 @@ public class Messaggio {
         public void setLetto(boolean letto) {
                 this.letto = letto;
         }
+        
+        @Override
+        public boolean equals(Object messaggio) {
+        	try {
+        		Messaggio m = (Messaggio) messaggio;
+        		if(this.getId() == m.getId()) {
+        			return true;
+        		}
+        	}
+        	catch(Exception e) {
+        		return false;
+        	}
+        	return false;
+        }
 }
 

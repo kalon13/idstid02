@@ -56,7 +56,7 @@ public class GUI_GestioneDati {
 		btnVisualizza.setBounds(115, 34, 156, 23);
 		btnVisualizza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Se è l'Operatore dell'azienda che visualizza
+				//Se ï¿½ l'Operatore dell'azienda che visualizza
 				if(Autenticazione.getSessione().getTipoUtente()==2){
 					windowScelta = new GUI_SceltaTerzista();
 					windowScelta.frmSceltaTerzista.setVisible(true);
@@ -118,7 +118,7 @@ public class GUI_GestioneDati {
 		        	if(!lavorazioneAperta){
 		        		String[] choices = {"Si", "No"};
 						int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il tuo profilo dal sistema e,\nquindi, di non" +
-								" ricevere più lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
+								" ricevere piu' lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
 						if(response==0){
 							//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
 							Bolla bDaRiassegnare=new Bolla();
@@ -126,7 +126,7 @@ public class GUI_GestioneDati {
 							//Eliminiamo proprio il terzista
 							ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
 							JOptionPane.showMessageDialog(null, "Cancellazione avvenuta correttamente.", "Attenzione", 1);
-							//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
+							//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'ï¿½ questo terzista
 							//e inviare una comunicazione all'azienda
 							//Facciamo il Logout
 							MultivaluedMap<String, String> param = new MultivaluedMapImpl();

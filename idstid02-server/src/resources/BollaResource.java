@@ -16,6 +16,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
 import utils.DB;
+import main.Autenticazione;
 import main.Bolla;
 
 @Path("/bolla")
@@ -368,7 +369,7 @@ public class BollaResource {
         @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
         @Produces(MediaType.APPLICATION_JSON)
         public String insertBolla(  @FormParam("descrizione") String descrizione,
-                                                                        @FormParam("costoUnitario") double costoUnitario) {
+                                    @FormParam("costoUnitario") double costoUnitario) {
                
                 Statement statement = null;
                 ResultSet result = null;
@@ -400,6 +401,41 @@ public class BollaResource {
                
                
         }
+        
+        @POST
+        @Path ("/notification")
+        @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+        @Produces(MediaType.APPLICATION_JSON)
+        public List<Bolla> getNew(@FormParam("sid") String sessionid,
+        							@FormParam("terzistaid") int terzistaid) {
+            Statement statement = null;
+            ResultSet result = null;
+            List<Bolla> listaBolla = new ArrayList<Bolla>();
+        	
+        	if(Autenticazione.isValid(sessionid)) {
+	            try {
+	                statement = DB.instance.createStatement();
+	                result = statement.executeQuery(
+	                                        " SELECT id FROM progingsw.bolla" +
+	                                        " WHERE stato='1'" +
+	                                        " AND Terzista_id='" + terzistaid + "';"
+	                         );
+	               
+	                if(result != null) {
+		                while(result.next()) {
+		                        Bolla m = new Bolla(result.getInt(1));
+		                        listaBolla.add(m);
+		                }
+	                }
+	                statement.close();
+	            } catch (SQLException e) {
+	                    e.printStackTrace();
+	            }
+        	}
+        	return listaBolla;
+        }
+
+        
        
 }
 
