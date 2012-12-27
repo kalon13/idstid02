@@ -20,6 +20,7 @@ import classResources.DDT;
 import classResources.Fattura;
 import classResources.Fattura_Lavorazione;
 import classResources.Materiale;
+import classResources.Terzista;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -46,7 +47,8 @@ public class GUI_RegistraDDT {
         private int idTerz;
       
         public GUI_RegistraDDT() {
-        	 idTerz = Autenticazione.getSessione().getUtente().getUserId();
+        	 Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId()); 
+        	 idTerz =  terzista.getId();
              loadLstDDT(idTerz);
              initialize();
         }
