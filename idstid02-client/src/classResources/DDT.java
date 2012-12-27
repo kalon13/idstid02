@@ -115,4 +115,18 @@ public class DDT {
 	public void setRegistrato(boolean registrato) {
 		this.registrato = registrato;
 	}
+	
+    @Override
+    public boolean equals(Object ddt) {
+    	try {
+    		DDT d = (DDT) ddt;
+    		if(this.getId() == d.getId()) {
+    			return true;
+    		}
+    	}
+    	catch(Exception e) {
+    		return false;
+    	}
+    	return false;
+    }
 }

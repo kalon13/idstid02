@@ -35,17 +35,16 @@ public class GUI_Autenticazione {
         public JFrame frmAutenticazione;
         private JTextField textUser;
         private JPasswordField textPsw;
-        
+        private JButton btnAccedi, btnEsci;
+        private EnterListener enterListener;
         static GUI_Home windowHome;
-        
-//        public static int ID=-1;
-//        public static String psw;
         
         /**
          * Create the application.
          */
         public GUI_Autenticazione() {
-                initialize();
+        	enterListener = new EnterListener();
+            initialize();
         }
 
         /**
@@ -93,21 +92,16 @@ public class GUI_Autenticazione {
                 	}
                 });
                
-                JButton btnAccedi = new JButton("Accedi");
+                btnAccedi = new JButton("Accedi");
                 btnAccedi.setMnemonic(KeyEvent.VK_ENTER);
                 
-                btnAccedi.addActionListener(new ActionListener() {
-                	
-                public void actionPerformed(ActionEvent e) {
-                	tryLogin();
-                }
-                });
+                btnAccedi.addActionListener(enterListener);
                              
-                btnAccedi.setBounds(0, 62, 89, 23);
+                btnAccedi.setBounds(108, 62, 89, 23);
                 panel.add(btnAccedi);
                 
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(108, 62, 89, 23);
+                btnEsci = new JButton("Esci");
+                btnEsci.setBounds(0, 62, 89, 23);
                 panel.add(btnEsci);
                 btnEsci.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
@@ -117,11 +111,17 @@ public class GUI_Autenticazione {
         }
         
         private void tryLogin(){
+        	textUser.setEnabled(false);
+        	textPsw.setEnabled(false);
+        	btnAccedi.setEnabled(false);
+        	btnEsci.setEnabled(false);
+        	textPsw.removeActionListener(enterListener);
         	
         	String u = textUser.getText().trim();
             String p = Autenticazione.getMD5Sum(textPsw.getPassword());
 
-            if(!u.equals("")) {
+            if(!u.equals("")) {         	
+            	
                 MultivaluedMap<String, String> param = new MultivaluedMapImpl();
                 param.add("username", u);
                 param.add("password", p);
@@ -130,39 +130,26 @@ public class GUI_Autenticazione {
                                 path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
                
                 if(session.getUtente() != null) {
-                	
                 	Autenticazione.setSessione(session);
                     windowHome = new GUI_Home();
                     windowHome.frmHome.setVisible(true);
                     frmAutenticazione.setVisible(false);
                 }
                 else {
+                	textUser.setEnabled(true);
+                	textPsw.setEnabled(true);
+                	btnAccedi.setEnabled(true);
+                	btnEsci.setEnabled(true);
+                	textPsw.removeActionListener(enterListener);
                 	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
                 }
             }
-
-            //Lasciarlo solo per le prove
-//        	List<Utente> lista = ResourceClass.getResources(Utente.class, Global._URLUser);
-//            Iterator<Utente> it=lista.iterator();
-//            Boolean flgLog = false; String usr=null; int tipo=0;
-//            while(it.hasNext())
-//            {
-//            	Utente user = it.next();
-//            	ID = user.getId();
-//            	psw = user.getPsw();
-//            	usr = user.getUser();
-//            	String psw = user.getPsw();
-//            	tipo = user.getTipo();
-//            	if((usr.equals(textUser.getText())) && (psw.equals(textPsw.getText()))){
-//            		flgLog = true; break;}                        
-//            }
-//            if(flgLog == true){
-//            	windowHome = new GUI_Home(usr, tipo);
-//            	windowHome.frmHome.setVisible(true);
-//            	frmAutenticazione.setVisible(false);
-//            }
-//            else
-//            	JOptionPane.showMessageDialog(null, "Username o password non corrette!", "Attenzione", 0);
+        }
+        
+        class EnterListener implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+            	tryLogin();
+            }
         }
         	        
         public JFrame getFrame() {	//Forse serve per il ritorno indietro!
