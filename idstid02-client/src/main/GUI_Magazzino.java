@@ -260,7 +260,7 @@ public class GUI_Magazzino {
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
-		btnRegDDT.setBounds(504, 283, 135, 23);
+		btnRegDDT.setBounds(506, 283, 135, 23);
 		panel_1.add(btnRegDDT);
 		
 		JScrollPane scrollPane_DDT = new JScrollPane();
@@ -313,8 +313,7 @@ public class GUI_Magazzino {
 		btnRegDDT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddt);
-				System.out.print(lsDDT.size());
+				List<DDT> lsDDT = ResourceClass.getResources(DDT.class, Global._URLddtNnReg+idTerzista);
 				if(lsDDT.size() != 0){
 					windowRegDDT = new GUI_RegistraDDT();
 					windowRegDDT.frmRegistraDdt.setVisible(true);

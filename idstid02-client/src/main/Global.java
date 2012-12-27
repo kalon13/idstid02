@@ -7,6 +7,7 @@ public class Global {
     public static final String _URLMagMatTerz = "/magazzinoterzista/matTerzista/";
     public static final String _URLMagUpdMat = "/magazzinoterzista/updMat/";
     public static final String _URLFatt = "/fatturazione";
+    public static final String _URLFattTerz = "/fatturazione/terzista/";
     public static final String _URLBolla = "/bolla";
     public static final String _URLBollaValuta = "/bolla/valuta/";
 //    public static final String _URLBollaTerz = "/bolla/search/";
