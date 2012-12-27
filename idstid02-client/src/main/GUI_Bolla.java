@@ -70,12 +70,12 @@ public class GUI_Bolla {
                 int k = 0;
                 while(it.hasNext())
                         {
-                                Terzista terCl = (Terzista)it.next();
-                                String id = String.valueOf(terCl.getId());
-                                String ragSoc = String.valueOf(terCl.getRagioneSociale());
-                                _data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
-                                _id2[k]= terCl.getId();
-                                k++;
+                					Terzista terCl = (Terzista)it.next();
+                					String id = String.valueOf(terCl.getId());
+                					String ragSoc = String.valueOf(terCl.getRagioneSociale());
+                					_data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
+                					_id2[k]= terCl.getId();
+                					k++;
                         }
         }
        
