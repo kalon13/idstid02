@@ -25,6 +25,7 @@ public class GUI_Home {
         static GUI_Fatturazione windowFatturazione;
         static GUI_Bolla windowBolla;
         static GUI_Bolla_Terzista windowBollaTerzista;
+        static GUI_DatiTerzistaTr windowDatiTr;
 
         
         /**
@@ -60,9 +61,17 @@ public class GUI_Home {
                 btnGestioneDati.addActionListener(new ActionListener() {
                 	
                 	public void actionPerformed(ActionEvent e) {
-                		windowGestione = new GUI_GestioneDati();
-                		windowGestione.frmGestioneDati.setVisible(true);
-                		frmHome.setVisible(false);
+                		//Se è l'Operatore dell'azienda che visualizza
+        				if(tipo==2){
+        					windowGestione = new GUI_GestioneDati();
+                    		windowGestione.frmGestioneDati.setVisible(true);
+                    		frmHome.setVisible(false);
+        				}
+        				else{
+        					windowDatiTr = new GUI_DatiTerzistaTr();
+        					windowDatiTr.frmDatiTerzistaTr.setVisible(true);
+                    		frmHome.setVisible(false);
+        				}
                 	}
                 	
                 });

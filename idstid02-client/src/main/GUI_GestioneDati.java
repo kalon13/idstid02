@@ -64,9 +64,7 @@ public class GUI_GestioneDati {
 				}
 				else
 				{
-					windowDatiTr = new GUI_DatiTerzistaTr();
-					windowDatiTr.frmDatiTerzistaTr.setVisible(true);
-					frmGestioneDati.setVisible(false);
+					
 				}
 			}
 			
