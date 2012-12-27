@@ -16,8 +16,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
 import utils.DB;
 
+import main.Autenticazione;
 import main.Fattura;
 import main.Fattura_Lavorazione;
+import main.Messaggio;
+import main.Sessione;
 
 @Path("/fatturazione")
 public class FatturazioneResource {
@@ -220,8 +223,44 @@ public class FatturazioneResource {
 			e.printStackTrace();
 			return "-1";
 		}
+	}
+	
+	@POST
+	@Path ("/notification")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Fattura> updateFattura( @PathParam("sid") String sid) {
 		
-		
+		Statement statement = null;
+        ResultSet result = null;
+        List<Fattura> listaFatture = new ArrayList<Fattura>();
+    	Sessione s = Autenticazione.getSession(sid);
+    	
+    	if(s != null) {
+            try {
+            	statement = DB.instance.createStatement();
+	                
+	                if(s.getUtente().getTipo() < 5) {
+	                
+	                	result = statement.executeQuery(
+	                			"SELECT * FROM progingsw.fattura;");
+	                }
+	                
+	                if(result != null){
+						while(result.next()) {
+							Fattura fattura = new Fattura(result.getInt(1), result.getInt(2),
+									result.getString(3), result.getDouble(4));
+							listaFatture.add(fattura);
+						}
+	                }
+	                statement.close();
+                   
+            } catch (SQLException e) {
+            	e.printStackTrace();
+                
+            }
+    	}
+    	return listaFatture;
 	}
 	
 }
