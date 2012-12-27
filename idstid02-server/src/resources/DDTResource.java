@@ -286,7 +286,7 @@ public class DDTResource {
                 else {
                 	result = statement.executeQuery(
                 			"SELECT * FROM progingsw.ddt WHERE registrato='0' " +
-                			" AND flussoAzienda='0' " +
+                			" AND flussoAzienda='1' " +
                 			" AND Terzista_id='" + tid + "';");
                 }
                 

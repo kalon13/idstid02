@@ -11,6 +11,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -117,32 +118,43 @@ public class GUI_Autenticazione {
         	btnEsci.setEnabled(false);
         	textPsw.removeActionListener(enterListener);
         	
-        	String u = textUser.getText().trim();
-            String p = Autenticazione.getMD5Sum(textPsw.getPassword());
-
-            if(!u.equals("")) {         	
-            	
-                MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-                param.add("username", u);
-                param.add("password", p);
-               
-                Sessione session = ResourceClass.getService().
-                                path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
-               
-                if(session.getUtente() != null) {
-                	Autenticazione.setSessione(session);
-                    windowHome = new GUI_Home();
-                    windowHome.frmHome.setVisible(true);
-                    frmAutenticazione.setVisible(false);
-                }
-                else {
-                	textUser.setEnabled(true);
-                	textPsw.setEnabled(true);
-                	btnAccedi.setEnabled(true);
-                	btnEsci.setEnabled(true);
-                	textPsw.removeActionListener(enterListener);
-                	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
-                }
+        	final String user = textUser.getText().trim();
+        	final char[] pass = textPsw.getPassword();
+            
+        	if(!user.equals("")) {
+	        	new Thread() {
+	        	    @Override
+	        	    public void run () {
+	                	String password = Autenticazione.getMD5Sum(pass);
+	                	
+	                    MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+	                    param.add("username", user);
+	                    param.add("password", password);
+	                   
+	                    Sessione session = ResourceClass.getService().
+	                                    path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+	                   
+	                    if(session.getUtente() != null) {
+	                    	Autenticazione.setSessione(session);
+	                        windowHome = new GUI_Home();
+	                        windowHome.frmHome.setVisible(true);
+	                        frmAutenticazione.setVisible(false);
+	                    }
+	                    else {
+	                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+	                    }
+	                    SwingUtilities.invokeLater(new Runnable(){
+	                    	@Override
+	                    	public void run() {
+	                    		textUser.setEnabled(true);
+		                    	textPsw.setEnabled(true);
+		                    	btnAccedi.setEnabled(true);
+		                    	btnEsci.setEnabled(true);
+		                    	textPsw.removeActionListener(enterListener);
+	                    	}
+	                    });
+	        	    }
+	        	  }.start();                
             }
         }
         
