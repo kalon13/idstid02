@@ -1,212 +1,267 @@
 package main;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 
-
+import classResources.Consumo;
 import classResources.DDT;
 import classResources.Materiale;
+import classResources.MaterialeDDT;
+
 import javax.swing.JButton;
 
 //import com.sun.faces.facelets.util.Resource;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 public class GUI_CreaDDT {
 
         JFrame frmCreaDdt;
-        private JTable table;
-        private static String[] _titlesNewDDT = {"Materiale", "Quantità"};
+        private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantità", "UdM"};
         private static Object[][] _dataNewDDT;
-        private static Object[] _id;
-        private static int[] _idMat;
-        private static int cntDt;
-        private static String[] _comboNewDDT;
-        List<TableCellEditor> editors ;
-        private DefaultTableModel dfm;
+        private static String[] _titlesMat = {"Codice", "Descrizione", "Quantità", "UdM"};
+    	private static Object[][] _dataMat;
+        private static ArrayList<Integer> _idMatDDT;
+        private static ArrayList<Integer> _idMat = new ArrayList<Integer>();
+        private DefaultTableModel dfmMat;
+        private DefaultTableModel dfmDDT;
+        private JTable tableMat;
+        private JTable tableDDT;
+        private int idTerzista;
        
-        /**
-         * Launch the application.
-       
-        public static void main(String[] args) {
-                EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                try {
-                                        GUI_CreaDDT window = new GUI_CreaDDT();
-                                        window.frmCreaDdt.setVisible(true);
-                                } catch (Exception e) {
-                                        e.printStackTrace();
-                                }
-                        }
-                });
-        }
-
-        /**
-         * Create the application.
-         */
-        public GUI_CreaDDT() {
-                cntDt=0;
-                loadTableDt();
-                int cnt = loadComboDDT();
-                editors = new ArrayList<TableCellEditor>(cnt);
-                initialize();
+        public GUI_CreaDDT(int idTerz) {
+        	_idMatDDT = new ArrayList<Integer>();
+        	idTerzista = idTerz;
+        	loadTableDt(idTerz);
+            initialize();
         }
        
-        private void loadTableDt(){
-                 int cntTit = _titlesNewDDT.length;
-             _dataNewDDT = new String[cntDt+1][cntTit];
-           for(int i=0; i<=cntDt; i++)
-       {//[riga][colonna]
-          _dataNewDDT[i][0] = "Seleziona materiale";
-          _dataNewDDT[i][1] = null;
-       }
-        }
-       
-        private static int loadComboDDT(){
-                List<Materiale> lsMat = ResourceClass.getResources(Materiale.class, Global._URLMag);
-                int k = 0;
-                if(lsMat != null){
-                Iterator<Materiale> it=lsMat.iterator();
-                int cntDt = lsMat.size();
-                _comboNewDDT = new String[cntDt];
-                _idMat = new int[cntDt];
-                while(it.hasNext())
-            {//[riga][colonna]
-             Materiale mt = it.next();
-             _comboNewDDT[k] = mt.getCodice()+" - "+mt.getDescrizione();;
-             _idMat[k]= mt.getId();
-         k++;
-        }
-          }
-                else _comboNewDDT = null;
-                return k;
-        }
-
-        /**
-         * Initialize the contents of the frame.
-         */
         private void initialize() {
                 frmCreaDdt = new JFrame();
-                frmCreaDdt.setTitle("Crea DDT");
-                frmCreaDdt.setBounds(100, 100, 471, 263);
+                frmCreaDdt.setTitle("Invia DDT");
+                frmCreaDdt.setBounds(100, 100, 823, 377);
                 frmCreaDdt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmCreaDdt.getContentPane().setLayout(null);
-               
-                JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(24, 11, 308, 169);
-                frmCreaDdt.getContentPane().add(scrollPane);
-               
-                JComboBox comboBoxDDT = new JComboBox( _comboNewDDT );
-        DefaultCellEditor dce = new DefaultCellEditor( comboBoxDDT );
-        editors.add( dce );
-       
-                dfm = new DefaultTableModel(_dataNewDDT, _titlesNewDDT);
-                final JTable tableMat = new JTable(dfm)
-        {
-            //  Determine editor to be used by row
-            public TableCellEditor getCellEditor(int row, int column)
-            {
-                int modelColumn = convertColumnIndexToModel( column );
-
-                if (modelColumn == 0){
-                          return editors.get(0);
-                 }
-                else
-                  return super.getCellEditor(row, column);
-            }
-        };
-                scrollPane.setViewportView(tableMat);
-               
+                
+                JPanel panel = new JPanel();
+                panel.setBounds(24, 41, 765, 289);
+                frmCreaDdt.getContentPane().add(panel);
+                panel.setLayout(null);
+                
+                /****  Modelli delle Table   ***/
+                dfmMat = new DefaultTableModel (_dataMat,_titlesMat){
+        			boolean[] columnEditables = new boolean[]{
+        			false,false,false
+        			};
+        			public boolean isCellEditable(int row, int column){
+        			    return false;	
+        			}
+        		};
+        		
+                dfmDDT = new DefaultTableModel (_dataNewDDT,_titlesNewDDT){
+        			boolean[] columnEditables = new boolean[]{
+        			false,false,true,false
+        			};
+        			public boolean isCellEditable(int row, int column){
+        			    return columnEditables[column];	
+        			}
+        		};
+                
                 JButton btnAggiungi = new JButton("Aggiungi");
-                btnAggiungi.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                cntDt++;
-                                dfm.insertRow(cntDt,new Object[]{"Seleziona materiale",null});
-                        }
-                });
-                btnAggiungi.setBounds(342, 27, 99, 23);
-                frmCreaDdt.getContentPane().add(btnAggiungi);
-               
-                JButton btnRimuovi = new JButton("Rimuovi");
-                btnRimuovi.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                int row = tableMat.getSelectedRow();
-                                if (row >= 0){
-                                dfm.removeRow(row);
-                                cntDt--;
-                                }
-                                else
-                                        JOptionPane.showMessageDialog(frmCreaDdt, "Non è stato selezionato il materiale da rimuovere dal DDT!");
-                        }
-                });
-                btnRimuovi.setBounds(342, 58, 99, 23);
-                frmCreaDdt.getContentPane().add(btnRimuovi);
-               
-                JButton btnCrea = new JButton("Crea");
-                btnCrea.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                String DATE_FORMAT = "yyyyMMdd";
-                                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-                                Calendar c1 = Calendar.getInstance(); // today
-                                String today = sdf.format(c1.getTime());
-                                //TODO idTerz
-                                int idTerzista = 1;
-//                                DDT ddt = new DDT(today, idTerzista, true, false);
-//                                String id  = ResourceClass.addResources(Global._URLddt, ddt);
-//                                CreatePDF pdf = new CreatePDF(tableMat);
-//                                String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l dal terzista Mario N. Doc "+id;
-//                                pdf.print("file.pdf", DDT);
-                        }
-                });
-                btnCrea.setBounds(246, 191, 89, 23);
-                frmCreaDdt.getContentPane().add(btnCrea);
-               
+                btnAggiungi.setBounds(328, 11, 99, 23);
+                panel.add(btnAggiungi);
+                 
+               JButton btnRimuovi = new JButton("Rimuovi");
+               btnRimuovi.setBounds(328, 42, 99, 23);
+               panel.add(btnRimuovi);
+              
+               JButton btnCrea = new JButton("Nuovo DDT");
+               btnCrea.setBounds(531, 255, 89, 23);
+               panel.add(btnCrea);
+                   
                 JButton btnAnnulla = new JButton("Annulla");
-                btnAnnulla.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmCreaDdt.dispose();
-                        }
-                });
-                btnAnnulla.setBounds(342, 191, 89, 23);
-                frmCreaDdt.getContentPane().add(btnAnnulla);
-               
-                JButton btnRimuoviTutto = new JButton("Rimuovi Tutto");
-                btnRimuoviTutto.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                deleteAllRowTable();
-                        }
-                });
-                btnRimuoviTutto.setBounds(342, 88, 99, 23);
-                frmCreaDdt.getContentPane().add(btnRimuoviTutto);
+                btnAnnulla.setBounds(630, 255, 89, 23);
+                panel.add(btnAnnulla);
+                
+                JScrollPane scrollPane = new JScrollPane();
+                scrollPane.setBounds(20, 11, 298, 233);
+                panel.add(scrollPane);
+                
+                tableMat = new JTable(dfmMat);
+                scrollPane.setViewportView(tableMat);
+                
+                JScrollPane scrollPane_1 = new JScrollPane();
+                scrollPane_1.setBounds(437, 11, 318, 233);
+                panel.add(scrollPane_1);
+                
+                tableDDT = new JTable(dfmDDT);
+                scrollPane_1.setViewportView(tableDDT);
+                     
+                 JLabel lblMaterialiDaInserire = new JLabel("Elenco Materiali:");
+                 lblMaterialiDaInserire.setBounds(25, 13, 153, 14);
+                 frmCreaDdt.getContentPane().add(lblMaterialiDaInserire);
+                     
+                     JLabel label = new JLabel("Materiali da inserire nel DDT:");
+                     label.setBounds(461, 13, 153, 14);
+                     frmCreaDdt.getContentPane().add(label);
+                    btnAnnulla.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                    frmCreaDdt.dispose();
+                            }
+                    });
+                    //TODO
+                   btnCrea.addMouseListener(new MouseAdapter() {
+                           @Override
+                           public void mouseClicked(MouseEvent e) {
+                        	   int result = JOptionPane.showConfirmDialog(frmCreaDdt, "Si vuole confermare l'invio del DDT all'azienda?");
+                        	   if(JOptionPane.YES_OPTION == result){
+                        		   String today = FormatDate.getToday();
+                        		   double qtaMat = 0; double qntupdMat = 0;
+                        		   Materiale m = null; List<Consumo> semLav = null;
+                        		   ///check value of qnt
+                        		   boolean flg_ckqnt = false;
+                        		   boolean flg_ckqntCons = false;
+                        		   boolean flg_matPrMag = true;
+                        		   for(int row = 0; row<tableDDT.getRowCount(); row++){
+                        			  int idMat = _idMatDDT.get(row);
+                        			  qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+                        			  m = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTerzista);
+                        			  qntupdMat = m.getQuantita();
+                        		     if(qntupdMat < qtaMat ){
+                        		    	  flg_ckqnt = true;
+                        		    	  break;
+                        		    	  }
+                        		     if(m.getTipo().equals("SL")){
+	   									 semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
+	   									 if(semLav != null){
+	   									  Iterator<Consumo> it=semLav.iterator();
+	   									 while(it.hasNext())
+	   							          {  Consumo c = it.next();
+	   							          	 //la quantita del consumo è unitaria la moltiplico per il valore inserite da spedire tramite DDT
+	   							             qntupdMat = c.getQuantita() * qtaMat;
+	   							             int idMatC = c.getMatPrima();
+	   							             Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMatC+"/"+idTerzista);
+	   							             if(mat != null){
+	   							               if(mat.getQuantita() < qntupdMat ){
+	   							               //metto la qnt in qtaMat per farla apparire nel messaggio nn lo faccio sopra altrimenti la prox iteraz dello while è falsata
+	   							          	   qtaMat = mat.getQuantita();
+	                        		    	   flg_ckqntCons = true;
+	                        		    	   break;
+	                        		    	  }
+	   							             }
+	   							             else{
+	   							            	flg_matPrMag = false; flg_ckqntCons = true;
+		   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non è prensente in magazzino!");
+	   							            	 break;
+	   							             }
+	   									  }
+	   									}
+	   									  else {
+	   										flg_matPrMag = false; flg_ckqntCons = true;
+	   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non ha una valore di consumo!");
+	   									}
+                        		     }
+                        		   }
+                        		   //INSERT in DDT e UPDATE in MatTerz e in DDTMat 
+                        		   if(flg_ckqnt == false && flg_ckqntCons == false) 
+                        		   {
+                                     DDT ddt = new DDT(today, idTerzista, true, false);
+                                     String id  = ResourceClass.addResources(Global._URLddt, ddt);
+                                     for(int row = 0; row<tableDDT.getRowCount(); row++){
+                                       qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+                                  	   int idMat = _idMatDDT.get(row);
+                                  	   int idDDT = Integer.valueOf(id);                                  
+                                   	   MaterialeDDT mat = new MaterialeDDT(idDDT,idMat,qtaMat, idTerzista);
+                                	   String idmD = ResourceClass.addResources(Global._URLddtInsMat, mat);
+                                	   //Se il materiale è un semilavorato scalo dal magaz anche le qnt d mat prime consumate per la sua lavorazione
+	   									if(m.getTipo().equals("SL")){
+	   									  semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
+	   							      	  Iterator<Consumo> it=semLav.iterator();
+	   									 while(it.hasNext())
+	   							          {  Consumo c = it.next();
+	   										 String idMP = String.valueOf(c.getMatPrima());
+	   										 c.setIdTerzista(idTerzista);
+	   										 ResourceClass.updResources(Consumo.class, Global._URLMagUpdMat, idMP, c);
+	   									  }
+	   									}
+                                     }
+                                     if(id != "-1")
+                                     {
+                                  	   loadTableDt(idTerzista);
+                                  	   dfmMat.setDataVector(_dataMat, _titlesMat);
+                                  	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT è stato creato e inviato all'azienda!");
+                                     }
+                        		   }
+                                     else{ 
+                                    	 if(flg_matPrMag == true)
+                                    	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantità da spedire nel DDT "+qtaMat+" supera la quantità in magazzino "+qntupdMat);
+                                    	 }
+                        		   }
+                         }
+                   });
+                  btnRimuovi.addMouseListener(new MouseAdapter() {
+                          @Override
+                          public void mouseClicked(MouseEvent e) {
+                        	  if(tableDDT.getSelectedRow() != -1){
+                           		int rowMat = tableDDT.getSelectedRow();
+                           		dfmDDT.removeRow(rowMat);
+                           		_idMatDDT.remove(rowMat);
+                               }
+                              	 else
+                                     JOptionPane.showMessageDialog(frmCreaDdt, "Non è stato selezionato il materiale da rimuovere dal DDT!");
+                               }
+                  });
+                 btnAggiungi.addMouseListener(new MouseAdapter() {
+                         @Override
+                         public void mouseClicked(MouseEvent e) {
+                          if(tableMat.getSelectedRow() != -1){
+                     		int rowMat = tableMat.getSelectedRow();
+                     		String cod = (String) tableMat.getValueAt(rowMat, 0);
+							String desc = (String) tableMat.getValueAt(rowMat, 1);
+                     		double qtaMat = 0.0;
+                     		String udm = (String) tableMat.getValueAt(rowMat, 3);
+                     		dfmDDT.insertRow(
+                     				tableDDT.getRowCount(), new Object[]{cod, desc, qtaMat, udm});
+                     		_idMatDDT.add(_idMat.get(rowMat));
+                        	 }
+                        	 else
+                               JOptionPane.showMessageDialog(frmCreaDdt, "Non è stato selezionato il materiale da aggiungere al DDT!");
+                         }
+                 });
         }
-        private void deleteAllRowTable(){
-                int numRows = dfm.getRowCount()-1;
-                for (int i=numRows;i>=0;i--) {
-                  dfm.removeRow(i);
-                }
-                cntDt = -1;
-        }
+    
+    
+     /*****Carica tabella materiali*****/
+    private void loadTableDt(int idTerz){
+    		List<Materiale> lista = null;
+    		lista = ResourceClass.getResources(Materiale.class, Global._URLMagMatTerz+idTerz);
+    		if(lista!=null){
+        	  Iterator<Materiale> it=lista.iterator();
+    	      int cntDt = lista.size();
+    	      _dataMat = new String[cntDt][4];
+    	      int k = 0;
+    	    while(it.hasNext())
+            {Materiale mtCl = it.next();
+              if(k<cntDt)
+              { _dataMat[k][1] = mtCl.getDescrizione();
+                _dataMat[k][0] = String.valueOf(mtCl.getCodice());
+                _dataMat[k][2] = String.valueOf(mtCl.getQuantita());
+                _dataMat[k][3] = String.valueOf(mtCl.getudm());
+                _idMat.add(mtCl.getId());
+                k++;
+              }
+            }
+          }
+    	}
 }
 

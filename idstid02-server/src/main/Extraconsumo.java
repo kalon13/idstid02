@@ -1,17 +1,24 @@
 package main;
 
-import java.util.Date;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Extraconsumo {
         private int id;
         private double quantita;
-        private boolean giustificato;
+        private int giustificato;
         private String dataRichiesta;
+        private int idMatTeo;
        
-        public Extraconsumo(int id, double quantita, boolean giustificato, String dataRichiesta) {
+        public int getIdMatTeo() {
+			return idMatTeo;
+		}
+
+		public void setIdMatTeo(int idMatTeo) {
+			this.idMatTeo = idMatTeo;
+		}
+
+		public Extraconsumo(int id, double quantita, int giustificato, String dataRichiesta) {
                 this.id = id;
                 this.quantita = quantita;
                 this.giustificato = giustificato;
@@ -21,7 +28,7 @@ public class Extraconsumo {
         public Extraconsumo() {
                 this.id = -1;
                 this.quantita = 0;
-                this.giustificato = false;
+                this.giustificato = 0;
                 this.dataRichiesta = "";
         }
        
@@ -33,7 +40,7 @@ public class Extraconsumo {
         private double costo;
         //1-extraconsumo.id, 2-codiceArticolo, 3-descrizione, 4-materialiteorici.quantita AS QtaAttuale
         //5-extraconsumo.quantita AS QtaRichiesta, 6-udm, 7-giustificato, 8-dataRichiesta
-        public Extraconsumo(int id, String codiceArticolo, String descrizione, double qtaAttuale, double quantita, String udm, boolean giustificato, String dataRichiesta, double costo) {
+        public Extraconsumo(int id, String codiceArticolo, String descrizione, double qtaAttuale, double quantita, String udm, int giustificato, String dataRichiesta, double costo) {
                 this.id = id;
                 this.quantita = quantita;
                 this.giustificato = giustificato;
@@ -93,11 +100,11 @@ public class Extraconsumo {
                 this.quantita = quantita;
         }
 
-        public boolean isGiustificato() {
+        public int getGiustificato() {
                 return giustificato;
         }
 
-        public void setGiustificato(boolean giustificato) {
+        public void setGiustificato(int giustificato) {
                 this.giustificato = giustificato;
         }
 

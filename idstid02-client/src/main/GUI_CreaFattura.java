@@ -33,6 +33,7 @@ public class GUI_CreaFattura {
         private JTextField txtImpTot;
         private JTable tblMatP;
         private JTable tblMatEx;
+        private int idTerzista = -1;
         private DefaultListModel dfmLs;
         //id bolle della lista da fatturare
         private ArrayList<String> _idB = new ArrayList<String>();
@@ -43,60 +44,15 @@ public class GUI_CreaFattura {
          * Create the application.
          */
         public GUI_CreaFattura() {
+        	    idTerzista = Autenticazione.getSessione().getUtente().getUserId();
                 initialize();
-        }
+            }
 
         /**
          * Initialize the contents of the frame.
          * @param <T>
          */
-         private void loadTableMatEx(String idB){
-               
-                List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
-                if(extraC != null){
-                Iterator<Extraconsumo> it = extraC.iterator();
-                tblMatEx.removeAll();
-                ((DefaultTableModel) tblMatEx.getModel()).setRowCount(0); //pulisce la table
-               
-                Iterator<Extraconsumo> itEx =extraC.iterator();
-            while(itEx.hasNext())
-            { Extraconsumo exC = itEx.next();
-                String cod = exC.getCodiceArticolo();
-                String des = exC.getDescrizione();
-                Double qnt =  exC.getQuantita();
-                String udm = exC.getUdm();
-                Double cstU =  exC.getCosto();
-                String dt = exC.getDataRichiesta();
-                String g = "Ingiustificato";
-                if(exC.isGiustificato()) g = "Giustificato";
-              //Aggiunge i valori alla tabella
-                  ((DefaultTableModel) tblMatEx.getModel()).insertRow(
-                                  tblMatEx.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});  
-            }
-           }
-        }
-         
-         private void loadTableMatP(String idB){
-                        List<MaterialeDaProdurre> lsMatP = ResourceClass.getResources(MaterialeDaProdurre.class, Global._URLMatDaProd1+idB);
-                        if(lsMatP != null){
-                        Iterator<MaterialeDaProdurre> it = lsMatP.iterator();
-                        tblMatP.removeAll();
-                        ((DefaultTableModel) tblMatP.getModel()).setRowCount(0); //pulisce la table
-                       
-                        Iterator<MaterialeDaProdurre> itP =lsMatP.iterator();
-                    while(itP.hasNext())
-                    { MaterialeDaProdurre matP = itP.next();
-                        String cod= matP.getCodArt();
-                        String des = matP.getDescrizione();
-                        Double qnt =  matP.getQuantitaProdotta();
-                        String udm = matP.getUdm();                    
-                      //Aggiunge i valori alla tabella
-                          ((DefaultTableModel) tblMatP.getModel()).insertRow(
-                                          tblMatP.getRowCount(), new Object[]{cod,des,qnt, udm});        
-                    }
-                  }
-                }
-         
+      
         private void initialize() {
                 frmCreazioneFattura = new JFrame();
                 frmCreazioneFattura.setResizable(false);
@@ -185,8 +141,7 @@ public class GUI_CreaFattura {
                                 double imp = 0;
                                 if(!txtImpTot.getText().isEmpty())
                                    imp = Double.parseDouble(txtImpTot.getText());
-                                int idT = 1;
-                                Fattura fat = new Fattura(dt, imp, idT);
+                                Fattura fat = new Fattura(dt, imp, idTerzista);
                                 String id =ResourceClass.addResources(Global._URLFatt, fat);
                                 fat.setId(Integer.valueOf(id));
                                 Iterator itFattBol =  _idFB.iterator();
@@ -237,14 +192,14 @@ public class GUI_CreaFattura {
                 listFatt.addListSelectionListener(new ListSelectionListener() {
                         public void valueChanged(ListSelectionEvent e) {
                          if(listFatt.getSelectedIndex() !=-1){
-                                int index = listFatt.getSelectedIndex();
-                                String idB = String.valueOf(_idFB.get(index));
-                        loadTableMatEx(idB);
-                        loadTableMatP(idB);
+                           int index = listFatt.getSelectedIndex();
+                           String idB = String.valueOf(_idFB.get(index));
+                           loadTableMatEx(idB);
+                           loadTableMatP(idB);
                          }
                          else
                            {tblMatEx.removeAll();
-                                tblMatP.removeAll();}
+                            tblMatP.removeAll();}
                         }
                 });
                 listFatt.setBounds(322, 36, 234, 87);
@@ -300,6 +255,54 @@ public class GUI_CreaFattura {
                 btnSn.setBounds(269, 83, 40, 40);
                 frmCreazioneFattura.getContentPane().add(btnSn);
         }
+        
+        private void loadTableMatEx(String idB){
+            
+            List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
+            if(extraC != null){
+            Iterator<Extraconsumo> it = extraC.iterator();
+            tblMatEx.removeAll();
+            ((DefaultTableModel) tblMatEx.getModel()).setRowCount(0); //pulisce la table
+           
+            Iterator<Extraconsumo> itEx =extraC.iterator();
+        while(itEx.hasNext())
+        { Extraconsumo exC = itEx.next();
+            String cod = exC.getCodiceArticolo();
+            String des = exC.getDescrizione();
+            Double qnt =  exC.getQuantita();
+            String udm = exC.getUdm();
+            Double cstU =  exC.getCosto();
+            String dt = exC.getDataRichiesta();
+            String g = "Ingiustificato";
+            if(exC.getGiustificato() == 1) g = "Giustificato";
+          //Aggiunge i valori alla tabella
+              ((DefaultTableModel) tblMatEx.getModel()).insertRow(
+                              tblMatEx.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});  
+        }
+       }
+    }
+     
+     private void loadTableMatP(String idB){
+                    List<MaterialeDaProdurre> lsMatP = ResourceClass.getResources(MaterialeDaProdurre.class, Global._URLMatDaProd1+idB);
+                    if(lsMatP != null){
+                    Iterator<MaterialeDaProdurre> it = lsMatP.iterator();
+                    tblMatP.removeAll();
+                    ((DefaultTableModel) tblMatP.getModel()).setRowCount(0); //pulisce la table
+                   
+                    Iterator<MaterialeDaProdurre> itP =lsMatP.iterator();
+                while(itP.hasNext())
+                { MaterialeDaProdurre matP = itP.next();
+                    String cod= matP.getCodArt();
+                    String des = matP.getDescrizione();
+                    Double qnt =  matP.getQuantitaProdotta();
+                    String udm = matP.getUdm();                    
+                  //Aggiunge i valori alla tabella
+                      ((DefaultTableModel) tblMatP.getModel()).insertRow(
+                                      tblMatP.getRowCount(), new Object[]{cod,des,qnt, udm});        
+                }
+              }
+            }
+     
 
 }
 

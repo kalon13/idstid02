@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class MaterialeDaProdurre {
         private int id;
-        private double quantita;
+        private int quantita;
         private double quantitaProdotta;
         private double quantitaSpedita;
         private int numeroMorti;
@@ -23,7 +23,7 @@ public class MaterialeDaProdurre {
                 this.numeroMorti = 0;
         }
        
-        public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, int id_bolla, int id_materiale) {
+        public MaterialeDaProdurre(int id, int quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, int id_bolla, int id_materiale) {
                 this.id = id;
                 this.quantita = quantita;
                 this.quantitaProdotta = quantitaProdotta;
@@ -33,7 +33,7 @@ public class MaterialeDaProdurre {
                 this.numeroMorti = numeroMorti;
         }
        
-        public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita) {
+        public MaterialeDaProdurre(int id, int quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita) {
                 this.id = id;
                 this.quantita = quantita;
                 this.quantitaProdotta = quantitaProdotta;
@@ -45,7 +45,7 @@ public class MaterialeDaProdurre {
         private double costoUnitario;
         private String udm;
         //1-quantita 2-numeromorti 3-quantitaprodotta 4-quantitaspedita 5-descrizione 6-costoUnitario
-        public MaterialeDaProdurre(int id, double quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm, String codArt) {
+        public MaterialeDaProdurre(int id, int quantita, int numeroMorti, double quantitaProdotta, double quantitaSpedita, String descrizione, double costoUnitario, String udm, String codArt) {
                 this.id = id;
                 this.quantita = quantita;
                 this.quantitaProdotta = quantitaProdotta;
@@ -95,10 +95,10 @@ public class MaterialeDaProdurre {
         public void setId(int id) {
                 this.id = id;
         }
-        public double getQuantita() {
+        public int getQuantita() {
                 return quantita;
         }
-        public void setQuantita(double quantita) {
+        public void setQuantita(int quantita) {
                 this.quantita = quantita;
         }
         public double getQuantitaProdotta() {

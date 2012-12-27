@@ -3,12 +3,14 @@ package main;
 import javax.ws.rs.core.MultivaluedMap;
 
 import classResources.Bolla;
+import classResources.Consumo;
 import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
 import classResources.Fattura;
 import classResources.LavorazioneTerzista;
 import classResources.Materiale;
+import classResources.MaterialeDDT;
 import classResources.MaterialeDaProdurre;
 import classResources.Terzista;
 import classResources.Utente;
@@ -42,7 +44,7 @@ public class ResourceInsUpd {
                   else if (className == "classResources.Extraconsumo") {
                       Extraconsumo ext = (Extraconsumo) classObj;
                       String quantita =  String.valueOf(ext.getQuantita());
-                      String giustificato =  String.valueOf(ext.isGiustificato());
+                      String giustificato =  String.valueOf(ext.getGiustificato());
                       String dataRichiesta =  String.valueOf(ext.getDataRichiesta());
                       formData.add("quantita", quantita);
                       formData.add("giustificato", giustificato);
@@ -113,12 +115,24 @@ public class ResourceInsUpd {
                 	  formData.add("nome", nome);
                 	  formData.add("ordine", ordine);
                   }
+                  //fai l'upd di magaz terz
+                  else if (className == "classResources.Consumo"){
+                	  Consumo m = (Consumo) classObj;
+                	  String idMatPrima=String.valueOf(m.getMatPrima());
+                	  String idTer=String.valueOf(m.getIdTerzista());
+                	  String qnt=String.valueOf(m.getQuantita());
+                	  
+                	  formData.add("Materiale_id", idMatPrima);
+                	  formData.add("Terzista_id", idTer);
+                	  formData.add("quantita", qnt);
+                  }
+                  
                   
                  return formData;
         }
        
     protected static <T> MultivaluedMap<String, String> multValueIns(String className, T classObj, String path){
-                         MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
+    					 MultivaluedMap<String, String> formData = new MultivaluedMapImpl();
                          if (className == "classResources.Materiale"){
                                  Materiale m = (Materiale) classObj;
                                  String id = String.valueOf(m.getId());
@@ -137,6 +151,17 @@ public class ResourceInsUpd {
                              formData.add("dataInvio", dtInvio);
                              formData.add("flussoAzienda", flAz);
                              formData.add("registrato", "0") ;
+                         }
+                         else if (className == "classResources.MaterialeDDT"){
+                        	 MaterialeDDT matddt = (MaterialeDDT) classObj;
+                             String id_mat =  String.valueOf(matddt.getId_materiale());
+                             String qnt =  String.valueOf(matddt.getQuantita());
+                             String id_ddt =  String.valueOf(matddt.getid_DDT());
+                             String Terzista_id =  String.valueOf(matddt.getIdTerzista());
+                             formData.add("Materiale_id", id_mat);
+                             formData.add("quantita", qnt);
+                             formData.add("DDT_id", id_ddt);
+                             formData.add("Terzista_id", Terzista_id);
                          }
                          else if (className == "classResources.LavorazioneTerzista"){
                         	 LavorazioneTerzista m=(LavorazioneTerzista) classObj;
@@ -174,7 +199,17 @@ public class ResourceInsUpd {
                              formData.add("Fattura_id", idF);
                              formData.add("Bolla_id", idB);
                          }
-
+                         else if (className == "classResources.Extraconsumo"){
+                             Extraconsumo ext = (Extraconsumo) classObj;
+                             String idMatTeo = String.valueOf(ext.getIdMatTeo());
+                             String quantita = String.valueOf(ext.getQuantita());
+                             String giustificato = String.valueOf(ext.getGiustificato());
+                             String dataRichiesta = String.valueOf(ext.getDataRichiesta());
+                             formData.add("MaterialiTeorici_id", idMatTeo);
+                             formData.add("quantita", quantita);
+                             formData.add("giustificato", giustificato);
+                             formData.add("dataRichiesta", dataRichiesta);
+                         }
                          return formData;
      }
     
