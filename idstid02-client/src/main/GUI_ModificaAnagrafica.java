@@ -259,8 +259,8 @@ public class GUI_ModificaAnagrafica {
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmModificaAnagrafica.setVisible(false);
-				GUI_ModificaDati windowModificaDati = new GUI_ModificaDati();
-				windowModificaDati.frmModificaDati.setVisible(true);
+				GUI_DatiTerzistaTr windowDatiTr = new GUI_DatiTerzistaTr();
+				windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 			}
 		});
 		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);

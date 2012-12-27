@@ -104,6 +104,35 @@ public class FatturazioneResource {
 		}
 	}
 	
+	@GET
+	@Path ("/terzista/{idTerz}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Fattura> getListaFatturaTerz(@PathParam("idTerz") int idTerz){
+		Statement statement = null;
+		ResultSet result = null;
+		List<Fattura> listaFattura = new ArrayList<Fattura>();
+		
+		try {
+			statement = DB.instance.createStatement();
+			result = statement.executeQuery(
+						"SELECT * FROM progingsw.fattura where Terzista_id = '"+idTerz+"';"
+					);
+			
+			while(result.next()) {
+				Fattura f = new Fattura(result.getInt(1), result.getInt(2),
+											result.getString(3), result.getDouble(4));
+				listaFattura.add(f);
+			}
+			statement.close();
+			
+			return listaFattura;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@POST
 	@Path ("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

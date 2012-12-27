@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import classResources.Bolla;
 import classResources.Fase;
 import classResources.Lavorazione;
 import classResources.LavorazioneTerzista;
@@ -13,12 +14,15 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import javax.swing.JTable;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.BorderLayout;
@@ -39,6 +43,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 
 public class GUI_DatiTerzistaTr {
 
@@ -60,6 +66,12 @@ public class GUI_DatiTerzistaTr {
 	
 	private Terzista t;
 	ArrayList id_Lav=new ArrayList();
+	private JButton btnModificaLavorazioni;
+	private JButton btnModificaAnagrafica;
+	
+	GUI_ModificaAnagrafica windowAnagrafica;
+	GUI_ModificaLavorazioni windowLavorazioni;
+	private JButton btnCancellaProfilo;
 
 	/**
 	 * Create the application.
@@ -81,52 +93,68 @@ public class GUI_DatiTerzistaTr {
 		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
+		indirizzo.setBounds(132, 37, 326, 20);
 		indirizzo.setEditable(false);
 		indirizzo.setColumns(40);
 		
 		citta = new JTextField(t.getCitta());
+		citta.setBounds(132, 63, 326, 20);
 		citta.setEditable(false);
 		citta.setColumns(40);
 		
 		prov = new JTextField(t.getProvincia());
+		prov.setBounds(132, 89, 326, 20);
 		prov.setEditable(false);
 		prov.setColumns(40);
 		
 		cap = new JTextField(t.getCap());
+		cap.setBounds(132, 115, 326, 20);
 		cap.setEditable(false);
 		cap.setColumns(40);
 		
 		telefono = new JTextField(t.getTelefono());
+		telefono.setBounds(132, 141, 326, 20);
 		telefono.setEditable(false);
 		telefono.setColumns(40);
 		
 		fax = new JTextField(t.getFax());
+		fax.setBounds(132, 167, 326, 20);
 		fax.setEditable(false);
 		fax.setColumns(40);
 		
 		email = new JTextField(t.getEmail());
+		email.setBounds(132, 193, 326, 20);
 		email.setEditable(false);
 		email.setColumns(40);
 		
 		piva = new JTextField(t.getpIva());
+		piva.setBounds(132, 219, 326, 20);
 		piva.setEditable(false);
 		piva.setColumns(40);
 		
 		JLabel lblIndirizzo = new JLabel("Indirizzo:");
+		lblIndirizzo.setBounds(10, 43, 44, 14);
 		
 		JLabel lblCitt = new JLabel("Citt\u00E0");
+		lblCitt.setBounds(10, 69, 23, 14);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
+		lblProvincia.setBounds(10, 95, 43, 14);
 		
 		JLabel lblCap = new JLabel("CAP");
+		lblCap.setBounds(10, 121, 20, 14);
 		
 		JLabel lblFax = new JLabel("Fax");
+		lblFax.setBounds(10, 173, 18, 14);
 		
 		JLabel lblEmail = new JLabel("Email");
+		lblEmail.setBounds(10, 199, 24, 14);
 		
 		JLabel lblPiva = new JLabel("P.IVA");
+		lblPiva.setBounds(10, 225, 27, 14);
 		
 		nome = new JTextField(t.getRagioneSociale());
+		nome.setBounds(132, 11, 326, 20);
 		nome.setFont(new Font("Tahoma", Font.BOLD, 11));
 		nome.setForeground(new Color(0, 0, 0));
 		nome.setEditable(false);
@@ -134,113 +162,39 @@ public class GUI_DatiTerzistaTr {
 		nome.setColumns(40);
 		
 		lblTelefono = new JLabel("Telefono");
+		lblTelefono.setBounds(10, 147, 42, 14);
 		
 		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 261, 607, 2);
 		separator.setForeground(Color.BLACK);
 		
-		JButton btnIndietro = new JButton("Indietro");
+		JButton btnIndietro = new JButton("Home");
+		btnIndietro.setBounds(481, 138, 136, 23);
 		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
 		btnIndietro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frmDatiTerzistaTr.setVisible(false);
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
-				windowGestione.frmGestioneDati.setVisible(true);
+				GUI_Home windowHome = new GUI_Home();
+				windowHome.frmHome.setVisible(true);
 			}
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 281, 602, 103);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		GroupLayout groupLayout = new GroupLayout(frmDatiTerzistaTr.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 619, GroupLayout.PREFERRED_SIZE)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-							.addComponent(lblCitt, Alignment.LEADING)
-							.addComponent(lblProvincia, Alignment.LEADING)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-									.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblIndirizzo)
-											.addGap(26))
-										.addGroup(groupLayout.createSequentialGroup()
-											.addComponent(lblCap)
-											.addGap(50)))
-									.addComponent(lblTelefono)
-									.addComponent(lblFax))
-								.addGap(52)
-								.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-									.addComponent(cap, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(citta, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(indirizzo)
-									.addComponent(prov, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(telefono, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(fax, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(email, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(piva, GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-									.addComponent(nome, 0, 0, Short.MAX_VALUE))
-								.addGap(120)))
-						.addComponent(lblEmail)
-						.addComponent(lblPiva)
-						.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
-							.addGroup(groupLayout.createSequentialGroup()
-								.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 327, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(btnIndietro))
-							.addComponent(scrollPane, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 602, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(83, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(nome, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblIndirizzo)
-						.addComponent(indirizzo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblCitt)
-						.addComponent(citta, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblProvincia)
-						.addComponent(prov, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblCap)
-						.addComponent(cap, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(telefono, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTelefono))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(fax, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFax))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblEmail)
-						.addComponent(email, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblPiva)
-						.addComponent(piva, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(22)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnIndietro))
-					.addGap(26))
-		);
+		scrollPane_1.setBounds(10, 418, 327, 71);
+		
+		btnModificaLavorazioni = new JButton("Modifica Lavorazioni");
+		btnModificaLavorazioni.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				windowLavorazioni= new GUI_ModificaLavorazioni();
+				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+				//frmDatiTerzistaTr.setVisible(false);
+			}
+		});
+		btnModificaLavorazioni.setMnemonic(KeyEvent.VK_L);
+		btnModificaLavorazioni.setBounds(481, 39, 136, 23);
 		
 		tableFase = new JTable();
 		scrollPane_1.setViewportView(tableFase);
@@ -298,7 +252,87 @@ public class GUI_DatiTerzistaTr {
 		table.getColumnModel().getColumn(3).setPreferredWidth(79);
 		table.getColumnModel().getColumn(4).setPreferredWidth(68);
 		table.setAutoCreateColumnsFromModel(false);
-		frmDatiTerzistaTr.getContentPane().setLayout(groupLayout);
+		frmDatiTerzistaTr.getContentPane().setLayout(null);
+		frmDatiTerzistaTr.getContentPane().add(btnModificaLavorazioni);
+		frmDatiTerzistaTr.getContentPane().add(separator);
+		frmDatiTerzistaTr.getContentPane().add(lblCitt);
+		frmDatiTerzistaTr.getContentPane().add(lblProvincia);
+		frmDatiTerzistaTr.getContentPane().add(lblIndirizzo);
+		frmDatiTerzistaTr.getContentPane().add(lblCap);
+		frmDatiTerzistaTr.getContentPane().add(lblTelefono);
+		frmDatiTerzistaTr.getContentPane().add(lblFax);
+		frmDatiTerzistaTr.getContentPane().add(cap);
+		frmDatiTerzistaTr.getContentPane().add(citta);
+		frmDatiTerzistaTr.getContentPane().add(indirizzo);
+		frmDatiTerzistaTr.getContentPane().add(prov);
+		frmDatiTerzistaTr.getContentPane().add(telefono);
+		frmDatiTerzistaTr.getContentPane().add(fax);
+		frmDatiTerzistaTr.getContentPane().add(email);
+		frmDatiTerzistaTr.getContentPane().add(piva);
+		frmDatiTerzistaTr.getContentPane().add(nome);
+		frmDatiTerzistaTr.getContentPane().add(lblEmail);
+		frmDatiTerzistaTr.getContentPane().add(lblPiva);
+		frmDatiTerzistaTr.getContentPane().add(scrollPane_1);
+		frmDatiTerzistaTr.getContentPane().add(btnIndietro);
+		frmDatiTerzistaTr.getContentPane().add(scrollPane);
+		
+		btnModificaAnagrafica = new JButton("Modifica Anagrafica");
+		btnModificaAnagrafica.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				windowAnagrafica = new GUI_ModificaAnagrafica();
+				windowAnagrafica.frmModificaAnagrafica.setVisible(true);
+				frmDatiTerzistaTr.setVisible(false);
+			}
+		});
+		btnModificaAnagrafica.setMnemonic(KeyEvent.VK_A);
+		btnModificaAnagrafica.setBounds(481, 10, 136, 23);
+		frmDatiTerzistaTr.getContentPane().add(btnModificaAnagrafica);
+		
+		btnCancellaProfilo = new JButton("Cancella Profilo");
+		btnCancellaProfilo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Terzista t=ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+
+						Autenticazione.getSessione().getUtente().getUserId());
+		int terzSelezionato=t.getId();
+		boolean lavorazioneAperta=false;
+		List<Bolla> listab=ResourceClass.getResources(Bolla.class, "/bolla/search/"+terzSelezionato);
+    	Iterator<Bolla> bolle = listab.iterator();
+    	while(bolle.hasNext()){
+    		Bolla b=bolle.next();
+    		if(b.getStato()==2){
+    			lavorazioneAperta=true;
+    		}
+    	}
+    	if(!lavorazioneAperta){
+    		String[] choices = {"Si", "No"};
+			int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il tuo profilo dal sistema e,\nquindi, di non" +
+					" ricevere più lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
+			if(response==0){
+				//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
+				Bolla bDaRiassegnare=new Bolla();
+				ResourceClass.updResources(Bolla.class, Global._URLBollaRiassegna, String.valueOf(terzSelezionato), bDaRiassegnare);
+				//Eliminiamo proprio il terzista
+				ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
+				JOptionPane.showMessageDialog(null, "Cancellazione avvenuta correttamente.", "Attenzione", 1);
+				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
+				//e inviare una comunicazione all'azienda
+				//Facciamo il Logout
+				MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+                param.add("sid", Autenticazione.getSessione().getSessionID());
+                ResourceClass.getService().path(Global._URLAutLogout).
+                        accept(MediaType.APPLICATION_JSON).post(String.class, param);
+                frmDatiTerzistaTr.dispose();
+                GUI_Autenticazione windowAuth = new GUI_Autenticazione();
+                windowAuth.getFrame().setVisible(true);
+			}
+    	}
+    	else
+    		JOptionPane.showMessageDialog(null, "Cancellazione negata, hai ancora delle lavorazioni in corso.", "Attenzione", 0);
+			}
+		});
+		btnCancellaProfilo.setMnemonic(KeyEvent.VK_P);
+		btnCancellaProfilo.setBounds(481, 75, 136, 23);
+		frmDatiTerzistaTr.getContentPane().add(btnCancellaProfilo);
 	}
 	
 	public void visualLavorazioni(){
