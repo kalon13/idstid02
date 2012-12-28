@@ -144,13 +144,13 @@ public class BollaResource {
                 Statement statement = null;
                 ResultSet result = null;
                 List<Bolla> listaBolla = new ArrayList<Bolla>();
-               
+
                 try {
-                        statement = DB.instance.createStatement();
-                        result = statement.executeQuery(
-                                                "SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione join ProgIngSw.lavorazioneterzista on lavorazione.id = lavorazioneterzista.Lavorazione_id " +
-                                                " and bolla.LavorazioneTerzista_id = lavorazioneterzista.id " +
-                                                " WHERE bolla.Terzista_id = '" + id_terzista + "';"
+                       statement = DB.instance.createStatement();
+                       result = statement.executeQuery(
+                                                "SELECT * FROM ProgIngSw.Bolla join ProgIngSw.lavorazione join " +
+                                                "ProgIngSw.lavorazioneterzista on lavorazione.id = lavorazioneterzista.Lavorazione_id"+ 
+                                                " and bolla.Lavorazione_id = lavorazioneterzista.id WHERE bolla.LavorazioneTerzista_id = '" + id_terzista + "';"
                                         );
                        
                         while(result.next()) {

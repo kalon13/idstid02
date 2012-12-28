@@ -136,6 +136,46 @@ public class FatturazioneResource {
 		}
 	}
 	
+	@GET
+	@Path ("/ImpFattBol/{idBolla}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Fattura getfatturaTerzBol(@PathParam("idBolla") int idBolla)
+	{
+		Statement stPrezzo = null;
+		Statement stQntPr = null;
+		ResultSet rsPrezzo = null;
+		ResultSet rsQntPr = null;
+		double importo = 0.0;
+		Fattura fattura = new Fattura();
+		
+		try {
+			stPrezzo = DB.instance.createStatement();
+			stQntPr = DB.instance.createStatement();
+			rsPrezzo = stPrezzo.executeQuery(
+						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneTerzista" +
+						" on LavorazioneTerzista_id = Terzista_id where bolla.id = '"+idBolla+"';"
+					);
+			double prezzoLav = rsPrezzo.getDouble(1);
+			rsQntPr = stPrezzo.executeQuery(
+					"SELECT quantitaProdotta FROM progingsw.bolla join progingsw.materialidaprodurre"+ 
+					" on bolla.id = Bolla_id where bolla.id = '"+idBolla+"';"
+				);
+			while(rsQntPr.next()) {
+				importo += rsPrezzo.getDouble(1) * prezzoLav;
+			}
+			stPrezzo.close();
+			stQntPr.close();
+			
+			fattura.setImporto(importo);
+			fattura.setIdBolla(idBolla);
+			return fattura;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	@POST
 	@Path ("{id}")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
