@@ -6,11 +6,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -23,6 +25,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
+import classResources.Bolla;
+import classResources.Extraconsumo;
 import classResources.Fattura;
 import classResources.Fattura_Lavorazione;
 import classResources.Terzista;
@@ -44,7 +48,7 @@ public class GUI_Fatturazione {
         private static GUI_RegistraDDT windowRegDDT;
         
         private static String[][] _dataLav;
-        private static Object[] _titlesLav={"Lavorazione", "Prezzo"};
+        private static Object[] _titlesLav={"Num. Bolla","Lavorazione", "Prezzo"};
         private DefaultTableModel dfmLav;
         
         //Lista Fatt
@@ -73,13 +77,19 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
+                frmElenco.addFocusListener(new FocusAdapter() {
+                	@Override
+                	public void focusGained(FocusEvent e) {
+                		checkTerz_DT();
+                	}
+                });
                 frmElenco.setTitle("Gestione Fatturazione");
-                frmElenco.setBounds(100, 100, 898, 368);
+                frmElenco.setBounds(100, 100, 1012, 368);
                 frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmElenco.getContentPane().setLayout(null);
                 
                 panel_Fatt = new JPanel();
-                panel_Fatt.setBounds(186, 11, 687, 308);
+                panel_Fatt.setBounds(186, 11, 810, 308);
                 frmElenco.getContentPane().add(panel_Fatt);
                 panel_Fatt.setLayout(null);
                
@@ -96,7 +106,7 @@ public class GUI_Fatturazione {
                 panel_Fatt.add(btnNewFatt);
                 
                 JPanel panel = new JPanel();
-                panel.setBounds(166, 5, 509, 268);
+                panel.setBounds(166, 5, 634, 268);
                 panel_Fatt.add(panel);
                 panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
                 panel.setLayout(null);
@@ -114,23 +124,33 @@ public class GUI_Fatturazione {
                 panel.add(lblContenutoFattura);
                     
                 JLabel lblExtraconsumi = new JLabel("Extraconsumi:");
-                lblExtraconsumi.setBounds(262, 76, 84, 14);
+                lblExtraconsumi.setBounds(215, 75, 84, 14);
                 panel.add(lblExtraconsumi);
                      
 			    JScrollPane scrollPane_1 = new JScrollPane();
-			    scrollPane_1.setBounds(10, 100, 230, 157);
+			    scrollPane_1.setBounds(10, 100, 186, 157);
 			    panel.add(scrollPane_1);
                       
                 dfmLav = new DefaultTableModel(_dataLav, _titlesLav);
                 tableLav = new JTable(dfmLav);
+                tableLav.setEnabled(false);
                 scrollPane_1.setViewportView(tableLav);
                 tableLav.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                        
                 JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(265, 102, 230, 155);
+                scrollPane.setBounds(206, 102, 418, 155);
                 panel.add(scrollPane);
                 
                 tableExtra = new JTable();
+                tableExtra.setEnabled(false);
+                tableExtra.setModel(new DefaultTableModel(
+                                new Object[][] {
+                                },
+                                new String[] {
+                                        "Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo", "Giustificato", "Data"
+                                }
+                        ));
+                tableExtra.getColumnModel().getColumn(3).setPreferredWidth(88);
                 scrollPane.setViewportView(tableExtra);
              
                 textNum = new JTextField();
@@ -146,7 +166,7 @@ public class GUI_Fatturazione {
                 textImpToT.setColumns(10);
                
                 JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(598, 285, 89, 23);
+                btnEsci.setBounds(711, 284, 89, 23);
                 panel_Fatt.add(btnEsci);
                 
                 JButton button = new JButton("Stampa fattura in PDF");
@@ -169,7 +189,7 @@ public class GUI_Fatturazione {
                   if (e.getValueIsAdjusting() == true)
                     { 
                  	 int k = listFatt.getSelectedIndex();
-                 	 loadTableLavExt(k);
+                 	 loadTableLavExt(k);                 	 
                     }
                   }
                  });
@@ -209,9 +229,11 @@ public class GUI_Fatturazione {
         btnNewFatt.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                	System.out.print("c");
-                        GUI_CreaFattura window = new GUI_CreaFattura();
+                	if (chkBollFatt())
+                	{	GUI_CreaFattura window = new GUI_CreaFattura();
                         window.frmCreazioneFattura.setVisible(true);
+                	}
+                	else JOptionPane.showMessageDialog(frmElenco, "Non ci sono bolle da fatturare!");
                 }
         });
         
@@ -220,33 +242,37 @@ public class GUI_Fatturazione {
         
         /********Carica i dati della fattura e delle lavorazioni**********/
         private void loadTableLavExt(int k){
+        	 //Pulisco la tabella extraC
+        	 tableExtra.removeAll();
+             ((DefaultTableModel) tableExtra.getModel()).setRowCount(0); 
              int id = _idFat[k];
              Fattura fatt = ResourceClass.getResource(Fattura.class, Global._URLFatt+"/"+id);
-             if(fatt.getNumFattura() != 0)
              textNum.setText(String.valueOf(fatt.getNumFattura()));
              textImpToT.setText(Double.toString(fatt.getImporto()));
-             if(fatt.getFattLavorazione() != null){
-             List<Fattura_Lavorazione> lsLav = fatt.getFattLavorazione();
-             Iterator<Fattura_Lavorazione> it=lsLav.iterator();
-             int cntDt = lsLav.size();
-             int cntTit = _titlesLav.length;
-             _dataLav = new String[cntDt][cntTit];
-             int t = 0;
-              while(it.hasNext())
-                  {
-                    Fattura_Lavorazione fattLv = it.next();
-                      if(k<cntDt){
-                       _dataLav[k][0] = fattLv.getNomeLavorazione();
-                       _dataLav[k][1] = Double.toString(fattLv.getPrezzoLavorazione());
-                       k++;
-                      }
-                    } 
-              		 System.out.print(_dataLav[0][0]);	
-                     dfmLav.setDataVector(_dataLav, _titlesLav);
-                    }
-             else 
-            	 dfmLav.setRowCount(0);
-        }
+             if(fatt.getFattLavorazione() != null)
+             {
+	             List<Fattura_Lavorazione> lsLav = fatt.getFattLavorazione();
+	             Iterator<Fattura_Lavorazione> it=lsLav.iterator();
+	             int cntDt = lsLav.size();
+	             int cntTit = _titlesLav.length;
+	             _dataLav = new String[cntDt][cntTit];
+	             int t = 0;
+	              while(it.hasNext())
+	                  {
+	                    Fattura_Lavorazione fattLv = it.next();
+	                      if(t<cntDt){
+	                       _dataLav[t][0] = fattLv.getCodBolla();
+	                       _dataLav[t][1] = fattLv.getNomeLavorazione();
+	                       _dataLav[t][2] = Double.toString(fattLv.getPrezzoLavorazione());
+	                       t++;
+	                       loadTableMatEx(String.valueOf(fattLv.getIdBolla()));
+	                      }
+	                    } 
+	                     dfmLav.setDataVector(_dataLav, _titlesLav);
+	           }
+	             else 
+	            	 dfmLav.setRowCount(0);
+      }
         
         /*****Carica Dati terzista*****/
     	private void loadListaTerzisti(){
@@ -275,13 +301,13 @@ public class GUI_Fatturazione {
              int k = 0;
              while(it.hasNext())
               {
-               Fattura fattCl = (Fattura)it.next();
- 	          String nmFatt = String.valueOf(fattCl.getNumFattura());
- 	          String date =fattCl.getDataEmissione();
- 	          date = FormatDate.getFormatDate(date);
- 	          _dataFat[k] = nmFatt+"-"+date;
- 	          _idFat[k]= fattCl.getId();
- 	          k++;
+            	  Fattura fattCl = (Fattura)it.next();
+	 	          String nmFatt = String.valueOf(fattCl.getNumFattura());
+	 	          String date =fattCl.getDataEmissione();
+	 	          date = FormatDate.getFormatDate(date);
+	 	          _dataFat[k] = nmFatt+"-"+date;
+	 	          _idFat[k]= fattCl.getId();
+	 	          k++;
  	        }
              isLoadFatt = true;
          }
@@ -295,8 +321,8 @@ public class GUI_Fatturazione {
     		else
     		{
     		  panel_terz.setVisible(false);	
-    		  panel_Fatt.setBounds(20, 11, 687, 308);
-    		  frmElenco.setBounds(100, 100, 800, 368);
+    		  panel_Fatt.setBounds(20, 11, 820, 308);
+    		  frmElenco.setBounds(100, 100, 850, 368);
     	    }
     	}
     	//caricamento dati
@@ -317,5 +343,47 @@ public class GUI_Fatturazione {
         	loadTableDt(idTerzista);
     		listFatt.setListData(_dataFat);
         }
+        
+        /**Controlla se ci sono bolle da fatturare**/
+        private boolean chkBollFatt(){
+       	 List<Bolla> lista = ResourceClass.getResources(Bolla.class, Global._URLBollaTerz+idTerzista);
+            Iterator<Bolla> it=lista.iterator();
+            boolean chkBollFatt = false;
+            
+            while(it.hasNext())
+            {
+   	             Bolla bolla = it.next();
+   		         String cdBolla = bolla.getCodice();
+   		         Fattura_Lavorazione chkFattBol = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLChkFattBol+bolla.getId());
+   		         if(!chkFattBol.isFatt()){
+   		        	chkBollFatt = true;
+   		        	break;
+   		          }
+            }
+            return chkBollFatt;
+        }
+     /**Carica Tabella Extraconsumo**/   
+     private void loadTableMatEx(String idB){
+            List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
+            System.out.print( Global._URLExtra+idB);
+            if(extraC != null){
+            Iterator<Extraconsumo> itEx =extraC.iterator();
+	        while(itEx.hasNext())
+	        {   Extraconsumo exC = itEx.next();
+	            String cod = exC.getCodiceArticolo();
+	            String des = exC.getDescrizione();
+	            Double qnt =  exC.getQuantita();
+	            String udm = exC.getUdm();
+	            Double cstU =  exC.getCosto();
+	            String dt = exC.getDataRichiesta();
+	            String g = "Ingiustificato";
+	            if(exC.getGiustificato() == 1) g = "Giustificato";
+	             //Aggiunge i valori alla tabella
+	              ((DefaultTableModel) tableExtra.getModel()).insertRow(
+	            		  tableExtra.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});  
+	        }
+       }
+    }
+     
 }
 

@@ -188,16 +188,19 @@ public class ResourceInsUpd {
                              String dt = fat.getDataEmissione();
                              String idT = String.valueOf(fat.getIdTerz());
                              String imp =  String.valueOf(fat.getImporto());
+                             System.out.println("ciao"+idT);
                              formData.add("dataEmissione", dt);
-                                 formData.add("importo", imp);
-                                 formData.add("Terzista_id", idT);
+                             formData.add("importo", imp);
+                             formData.add("Terzista_id", idT);
                          }
-                         else if (className == "classResources.Fattura" && path == Global._URLFatt+"/Bolla"){
+                         else if (className == "classResources.Fattura" && path == Global._URLFattBol){
                              Fattura fat = (Fattura) classObj;
                              String idF = String.valueOf(fat.getId());
                              String idB = String.valueOf(fat.getIdBolla());
+                             String imp = String.valueOf(fat.getImporto());
                              formData.add("Fattura_id", idF);
                              formData.add("Bolla_id", idB);
+                             formData.add("importo", imp);
                          }
                          else if (className == "classResources.Extraconsumo"){
                              Extraconsumo ext = (Extraconsumo) classObj;
