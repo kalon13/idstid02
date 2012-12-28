@@ -421,20 +421,17 @@ public class GUI_Magazzino {
               _dataDDT[k][1] = FormatDate.getFormatDate(mtCl.getDataInvio());
               _dataDDT[k][2] = FormatDate.getFormatDate(mtCl.getDataRicezione());
               if(mtCl.isFlussoAzienda())
-                { _dataDDT[k][3] = "AZIENDA";
-                  if(mtCl.isRegistrato()) _dataDDT[k][4] = "REGISTRATO";
-                  else _dataDDT[k][4] = "NON REGISTRATO";
-            	}
-              else {
-            	  _dataDDT[k][3] = "TERZISTA";
-            	  _dataDDT[k][4] = "";
-              }
+                _dataDDT[k][3] = "AZIENDA";
+                else 
+              	  _dataDDT[k][3] = "TERZISTA";
+              if(mtCl.isRegistrato()) _dataDDT[k][4] = "REGISTRATO";
+              	else _dataDDT[k][4] = "NON REGISTRATO";
+            }
               _idDDT[k] = mtCl.getId();
               k++;
            }
         }
     }
- }
 	
 	/*****Carica tabella materiali DDT*****/
     private void loadTableDDTMat(int idDDT){

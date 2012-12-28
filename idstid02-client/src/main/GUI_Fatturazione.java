@@ -87,135 +87,136 @@ public class GUI_Fatturazione {
                 lblFatture.setBounds(0, 0, 46, 14);
                 panel_Fatt.add(lblFatture);
                
-               JScrollPane scrollPane_2 = new JScrollPane();
-               scrollPane_2.setBounds(0, 21, 160, 196);
-               panel_Fatt.add(scrollPane_2);
+                JScrollPane scrollPane_2 = new JScrollPane();
+                scrollPane_2.setBounds(0, 21, 160, 196);
+                panel_Fatt.add(scrollPane_2);
                              
                 btnNewFatt = new JButton("Nuova Fattura");
                 btnNewFatt.setBounds(0, 250, 160, 23);
                 panel_Fatt.add(btnNewFatt);
                 
-                 JPanel panel = new JPanel();
-                 panel.setBounds(166, 5, 509, 268);
-                 panel_Fatt.add(panel);
-                 panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-                 panel.setLayout(null);
+                JPanel panel = new JPanel();
+                panel.setBounds(166, 5, 509, 268);
+                panel_Fatt.add(panel);
+                panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+                panel.setLayout(null);
                  
-                  JLabel lblFatturaN = new JLabel("Fattura n\u00B0:");
-                  lblFatturaN.setBounds(10, 11, 69, 14);
-                  panel.add(lblFatturaN);
+                JLabel lblFatturaN = new JLabel("Fattura n\u00B0:");
+                lblFatturaN.setBounds(10, 11, 69, 14);
+                panel.add(lblFatturaN);
                   
-                   JLabel lblImportoTotale = new JLabel("Importo Totale:");
-                   lblImportoTotale.setBounds(10, 39, 107, 14);
-                   panel.add(lblImportoTotale);
+                JLabel lblImportoTotale = new JLabel("Importo Totale:");
+                lblImportoTotale.setBounds(10, 39, 107, 14);
+                panel.add(lblImportoTotale);
                    
-                    JLabel lblContenutoFattura = new JLabel("Contenuto Fattura:");
-                    lblContenutoFattura.setBounds(10, 75, 132, 14);
-                    panel.add(lblContenutoFattura);
+                JLabel lblContenutoFattura = new JLabel("Contenuto Fattura:");
+                lblContenutoFattura.setBounds(10, 75, 132, 14);
+                panel.add(lblContenutoFattura);
                     
-                     JLabel lblExtraconsumi = new JLabel("Extraconsumi:");
-                     lblExtraconsumi.setBounds(262, 76, 84, 14);
-                     panel.add(lblExtraconsumi);
+                JLabel lblExtraconsumi = new JLabel("Extraconsumi:");
+                lblExtraconsumi.setBounds(262, 76, 84, 14);
+                panel.add(lblExtraconsumi);
                      
-                      JScrollPane scrollPane_1 = new JScrollPane();
-                      scrollPane_1.setBounds(10, 100, 230, 157);
-                      panel.add(scrollPane_1);
+			    JScrollPane scrollPane_1 = new JScrollPane();
+			    scrollPane_1.setBounds(10, 100, 230, 157);
+			    panel.add(scrollPane_1);
                       
-                      dfmLav = new DefaultTableModel(_dataLav, _titlesLav);
-                      tableLav = new JTable(dfmLav);
-                      scrollPane_1.setViewportView(tableLav);
-                      tableLav.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                dfmLav = new DefaultTableModel(_dataLav, _titlesLav);
+                tableLav = new JTable(dfmLav);
+                scrollPane_1.setViewportView(tableLav);
+                tableLav.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                        
-                        JScrollPane scrollPane = new JScrollPane();
-                        scrollPane.setBounds(265, 102, 230, 155);
-                        panel.add(scrollPane);
-                        
-                         tableExtra = new JTable();
-                         scrollPane.setViewportView(tableExtra);
-                         
-                          textNum = new JTextField();
-                          textNum.setEditable(false);
-                          textNum.setBounds(99, 8, 69, 20);
-                          panel.add(textNum);
-                          textNum.setColumns(10);
-                          
-                           textImpToT = new JTextField();
-                           textImpToT.setEditable(false);
-                           textImpToT.setBounds(99, 36, 86, 20);
-                           panel.add(textImpToT);
-                           textImpToT.setColumns(10);
-                           
-                            JButton btnEsci = new JButton("Esci");
-                            btnEsci.setBounds(598, 285, 89, 23);
-                            panel_Fatt.add(btnEsci);
-                            
-                            JButton button = new JButton("Stampa fattura in PDF");
-                            button.setBounds(0, 222, 160, 23);
-                            panel_Fatt.add(button);
-                            
-                            panel_terz = new JPanel();
-                            panel_terz.setBounds(20, 11, 156, 215);
-                            frmElenco.getContentPane().add(panel_terz);
-                            panel_terz.setLayout(null);
-                            
-                            if(isLoadFatt == false)
-                         	   listFatt = new JList();
-                            else
-                               listFatt = new JList(_dataFat);
-                            
-                            scrollPane_2.setViewportView(listFatt);
-                            listFatt.addListSelectionListener(new ListSelectionListener() {
-                              public void valueChanged(ListSelectionEvent e) {
-                              if (e.getValueIsAdjusting() == true)
-                                { 
-                             	 int k = listFatt.getSelectedIndex();
-                             	 loadTableLavExt(k);
-                                }
-                              }
-                             });
-                            
-                            
-                            JScrollPane scrollPane_terz = new JScrollPane();
-                            scrollPane_terz.setBounds(0, 21, 156, 194);
-                            panel_terz.add(scrollPane_terz);
-                            
-                        	//**JList Terzisti**
-                            list_terz = new JList(_dataTerz);
-                            list_terz.setValueIsAdjusting(true);
-                            list_terz.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                            list_terz.addListSelectionListener(new ListSelectionListener() {
-                                 public void valueChanged(ListSelectionEvent e) {
-                                    if (e.getValueIsAdjusting() == true)
-                                     { 
-                                       int k = list_terz.getSelectedIndex();
-                   	                   idTerzista = _idTerz[k]; 
-                   	                   loadDtTer(idTerzista);
-                                      }
-                                   }
-                             
-                              });
-
-                            scrollPane_terz.setViewportView(list_terz);
-                            
-                            JLabel lblTerzisti = new JLabel("Terzisti:");
-                            lblTerzisti.setBounds(0, 0, 46, 14);
-                            panel_terz.add(lblTerzisti);
-                            btnEsci.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                            frmElenco.dispose();
-                                    }
-                            });
-                btnNewFatt.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                GUI_CreaFattura window = new GUI_CreaFattura();
-                                window.frmCreazioneFattura.setVisible(true);
-                        }
-                });
+                JScrollPane scrollPane = new JScrollPane();
+                scrollPane.setBounds(265, 102, 230, 155);
+                panel.add(scrollPane);
                 
-                checkTerz_VIS();
-        }
+                tableExtra = new JTable();
+                scrollPane.setViewportView(tableExtra);
+             
+                textNum = new JTextField();
+                textNum.setEditable(false);
+                textNum.setBounds(99, 8, 69, 20);
+                panel.add(textNum);
+                textNum.setColumns(10);
+              
+                textImpToT = new JTextField();
+                textImpToT.setEditable(false);
+                textImpToT.setBounds(99, 36, 86, 20);
+                panel.add(textImpToT);
+                textImpToT.setColumns(10);
+               
+                JButton btnEsci = new JButton("Esci");
+                btnEsci.setBounds(598, 285, 89, 23);
+                panel_Fatt.add(btnEsci);
+                
+                JButton button = new JButton("Stampa fattura in PDF");
+                button.setBounds(0, 222, 160, 23);
+                panel_Fatt.add(button);
+                
+                panel_terz = new JPanel();
+                panel_terz.setBounds(20, 11, 156, 215);
+                frmElenco.getContentPane().add(panel_terz);
+                panel_terz.setLayout(null);
+                            
+                if(isLoadFatt == false)
+             	   listFatt = new JList();
+                else
+                   listFatt = new JList(_dataFat);
+                
+                scrollPane_2.setViewportView(listFatt);
+                listFatt.addListSelectionListener(new ListSelectionListener() {
+                  public void valueChanged(ListSelectionEvent e) {
+                  if (e.getValueIsAdjusting() == true)
+                    { 
+                 	 int k = listFatt.getSelectedIndex();
+                 	 loadTableLavExt(k);
+                    }
+                  }
+                 });
+                
+                    
+                    JScrollPane scrollPane_terz = new JScrollPane();
+                    scrollPane_terz.setBounds(0, 21, 156, 194);
+                    panel_terz.add(scrollPane_terz);
+                    
+                	//**JList Terzisti**
+                    list_terz = new JList(_dataTerz);
+                    list_terz.setValueIsAdjusting(true);
+                    list_terz.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    list_terz.addListSelectionListener(new ListSelectionListener() {
+                         public void valueChanged(ListSelectionEvent e) {
+                            if (e.getValueIsAdjusting() == true)
+                             { 
+                               int k = list_terz.getSelectedIndex();
+           	                   idTerzista = _idTerz[k]; 
+           	                   loadDtTer(idTerzista);
+                              }
+                           }
+                     
+                      });
+
+                    scrollPane_terz.setViewportView(list_terz);
+                    
+                    JLabel lblTerzisti = new JLabel("Terzisti:");
+                    lblTerzisti.setBounds(0, 0, 46, 14);
+                    panel_terz.add(lblTerzisti);
+                    btnEsci.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                    frmElenco.dispose();
+                            }
+                    });
+        btnNewFatt.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                	System.out.print("c");
+                        GUI_CreaFattura window = new GUI_CreaFattura();
+                        window.frmCreazioneFattura.setVisible(true);
+                }
+        });
+        
+        checkTerz_VIS();
+}
         
         /********Carica i dati della fattura e delle lavorazioni**********/
         private void loadTableLavExt(int k){
@@ -305,7 +306,8 @@ public class GUI_Fatturazione {
     		}
     		else
     		{	loadListaTerzisti();
-				idTerzista = Autenticazione.getSessione().getUtente().getUserId(); 
+    			Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId()); 
+       	 		idTerzista =  terzista.getId(); 
 				loadTableDt(idTerzista);
     		}
     	}

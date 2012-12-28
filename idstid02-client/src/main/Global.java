@@ -7,11 +7,11 @@ public class Global {
     public static final String _URLMagMatTerz = "/magazzinoterzista/matTerzista/";
     public static final String _URLMagUpdMat = "/magazzinoterzista/updMat/";
     public static final String _URLFatt = "/fatturazione";
+    public static final String _URLFattBol = "/fatturazione/BollaFatt/";
+    public static final String _URLImpFattBol = "/fatturazione/ImpFattBol/";
     public static final String _URLFattTerz = "/fatturazione/terzista/";
     public static final String _URLBolla = "/bolla";
     public static final String _URLBollaValuta = "/bolla/valuta/";
-//    public static final String _URLBollaTerz = "/bolla/search/";
-    //public static final String _URLAut = "/autenticazione";
     public static final String _URLddt = "/DDT";
     public static final String _URLddtNnReg = "/DDT/DDTnnReg/";
     public static final String _URLddtTerz = "/DDT/Terzista/"; 
