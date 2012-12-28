@@ -22,6 +22,7 @@ import classResources.MaterialeTeorico;
 import classResources.Paia;
 import classResources.Terzista;
 
+import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -39,6 +40,7 @@ public class GUI_Bolla {
         private int id; //id bolla
         private int idTerzista; //id terzista
         private JTextField txtNomeLav; //textbox del nome della lavorazione
+        private JPanel panel; 
         
         GUI_BolleChiuse bolleChiuse;
         GUI_Messaggio messaggio;
@@ -70,12 +72,12 @@ public class GUI_Bolla {
                 int k = 0;
                 while(it.hasNext())
                         {
-                                Terzista terCl = (Terzista)it.next();
-                                String id = String.valueOf(terCl.getId());
-                                String ragSoc = String.valueOf(terCl.getRagioneSociale());
-                                _data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
-                                _id2[k]= terCl.getId();
-                                k++;
+                					Terzista terCl = (Terzista)it.next();
+                					String id = String.valueOf(terCl.getId());
+                					String ragSoc = String.valueOf(terCl.getRagioneSociale());
+                					_data2[k] = id + "-" + ragSoc; //idTerz + ragioneSociale
+                					_id2[k]= terCl.getId();
+                					k++;
                         }
         }
        
@@ -333,7 +335,7 @@ public class GUI_Bolla {
                 frmBolleDiLavorazione = new JFrame();
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 663, 534);
+                frmBolleDiLavorazione.setBounds(100, 100, 663, 581);
                 frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
@@ -341,42 +343,43 @@ public class GUI_Bolla {
                 lblBolleDiLavorazione.setBounds(10, 172, 106, 14);
                 frmBolleDiLavorazione.getContentPane().add(lblBolleDiLavorazione);
                
-                JPanel panel = new JPanel();
-                panel.setBounds(178, 11, 468, 450);
+                panel = new JPanel();
+                panel.setBorder(new TitledBorder(null, "Dettagli bolla selezionata", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+                panel.setBounds(178, 11, 468, 493);
                 frmBolleDiLavorazione.getContentPane().add(panel);
                 panel.setLayout(null);
                
                 JLabel lblNewLabel = new JLabel("Numero bolla:");
-                lblNewLabel.setBounds(10, 11, 87, 14);
+                lblNewLabel.setBounds(10, 27, 87, 14);
                 panel.add(lblNewLabel);
                
                 //**textField**
                 textField = new JTextField();
                 textField.setEditable(false);
-                textField.setBounds(107, 8, 44, 20);
+                textField.setBounds(107, 24, 44, 20);
                 panel.add(textField);
                 textField.setColumns(10);
                
                 txtNomeLav = new JTextField();
                 txtNomeLav.setEditable(false);
-                txtNomeLav.setBounds(161, 8, 140, 20);
+                txtNomeLav.setBounds(161, 24, 140, 20);
                 panel.add(txtNomeLav);
                 txtNomeLav.setColumns(10);
                
                 JLabel lblMaterialiDaProdurre = new JLabel("Materiali da produrre:");
-                lblMaterialiDaProdurre.setBounds(10, 28, 141, 14);
+                lblMaterialiDaProdurre.setBounds(10, 55, 141, 14);
                 panel.add(lblMaterialiDaProdurre);
                
                 JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
-                lblMaterialiTeorici.setBounds(10, 270, 112, 14);
+                lblMaterialiTeorici.setBounds(10, 297, 112, 14);
                 panel.add(lblMaterialiTeorici);
                 
                 JLabel lblDettaglioMaterialiDa = new JLabel("Dettaglio materiali da produrre:");
-                lblDettaglioMaterialiDa.setBounds(10, 147, 273, 14);
+                lblDettaglioMaterialiDa.setBounds(10, 174, 273, 14);
                 panel.add(lblDettaglioMaterialiDa);
                 
                 JScrollPane scrollPane_2 = new JScrollPane();
-                scrollPane_2.setBounds(10, 166, 448, 93);
+                scrollPane_2.setBounds(10, 193, 448, 93);
                 panel.add(scrollPane_2);
                 
                 tablePaia = new JTable(dmPaia);
@@ -385,7 +388,7 @@ public class GUI_Bolla {
                
                 JScrollPane scrollPane_1 = new JScrollPane();
 
-                scrollPane_1.setBounds(10, 46, 448, 93);
+                scrollPane_1.setBounds(10, 73, 448, 93);
                 panel.add(scrollPane_1);
                
                 //Inizializza crea tabelle materiali
@@ -394,7 +397,7 @@ public class GUI_Bolla {
                 scrollPane_1.setViewportView(table);
                
                 JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(10, 295, 448, 109);
+                scrollPane.setBounds(10, 315, 448, 109);
                 panel.add(scrollPane);
                 table_1 = new JTable(dm);
                 table_1.setEnabled(false);
@@ -410,7 +413,7 @@ public class GUI_Bolla {
                                 home.frmHome.setVisible(true);
                         }
                 });
-                btnEsci.setBounds(557, 472, 89, 23);
+                btnEsci.setBounds(558, 515, 89, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnEsci);
                
                 //**JList Bolle**
@@ -452,7 +455,7 @@ public class GUI_Bolla {
                                 messaggio.frmMessaggi.setVisible(true);
                         }
                 });
-                btnVisualizzaNote.setBounds(311, 7, 147, 23);
+                btnVisualizzaNote.setBounds(311, 23, 147, 23);
                 panel.add(btnVisualizzaNote);
                
                 //**btnRichiediExtra**
@@ -466,7 +469,7 @@ public class GUI_Bolla {
                                         }
                                 }
                 });
-                btnVisualizzaExtra.setBounds(311, 415, 147, 23);
+                btnVisualizzaExtra.setBounds(311, 459, 147, 23);
                 panel.add(btnVisualizzaExtra);
                
                 textField_1 = new JLabel();
@@ -519,7 +522,7 @@ public class GUI_Bolla {
                                 bolleChiuse.frmBolleChiuse.setVisible(true);
                         }
                 });
-                btnBolleChiuse.setBounds(407, 472, 140, 23);
+                btnBolleChiuse.setBounds(408, 515, 140, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update

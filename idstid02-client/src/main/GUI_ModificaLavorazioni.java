@@ -145,15 +145,10 @@ public class GUI_ModificaLavorazioni {
 		List<Lavorazione> lista = ResourceClass.getResources(Lavorazione.class, Global._URLLavoraz);
 		Iterator<Lavorazione> lavoraz = lista.iterator();
 		index.clear();
-		short checkPrimaVolta=1;
 		while (lavoraz.hasNext()){
 			Lavorazione lavorazione=lavoraz.next();
-			if(checkPrimaVolta!=1){
-				cmbTipoLavorazioni.addItem(lavorazione.getNome());
-				index.add(lavorazione.getId());
-			}
-			else
-				checkPrimaVolta++;
+			cmbTipoLavorazioni.addItem(lavorazione.getNome());
+			index.add(lavorazione.getId());
 		}
 		
 		final JPanel panel_2 = new JPanel();

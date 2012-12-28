@@ -39,5 +39,7 @@ public class Global {
     public static final String _URLExtraPost = "/extraconsumo"; //Giorgia (Post di Extraconsumo)
     public static final String _URLExtraIns = "/extraconsumo"; //Giorgia (Insert di Extraconsumo)
     public static final String _URLPaia = "/paia/idBolla/"; //Giorgia
+    public static final String _URLBollaRiassegna = "/bolla/riassegna/";
+    public static final String _URLMatDaProdSped = "/matDaProdurre/spedita/";
 }
 
