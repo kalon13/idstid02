@@ -32,7 +32,7 @@ public class ResourceInsUpd {
                   else if (className == "classResources.DDT"){
                                 formData.add("registrato", "1") ;
                   }
-                  else if (className == "classResources.MaterialeDaProdurre") {
+                  else if (className == "classResources.MaterialeDaProdurre" && path == Global._URLMatDaProdurre) {
                       MaterialeDaProdurre m = (MaterialeDaProdurre) classObj;
                       String quantitaProdotta =  String.valueOf(m.getQuantitaProdotta());
                       String quantitaSpedita =  String.valueOf(m.getQuantitaSpedita());
@@ -40,6 +40,11 @@ public class ResourceInsUpd {
                       formData.add("quantitaProdotta", quantitaProdotta);
                       formData.add("quantitaSpedita", quantitaSpedita);
                       formData.add("numeroMorti", numeroMorti);
+                  }
+                  else if (className == "classResources.MaterialeDaProdurre" && path == Global._URLMatDaProdSped) {
+                      MaterialeDaProdurre m = (MaterialeDaProdurre) classObj;
+                      String quantitaSpedita =  String.valueOf(m.getQuantitaSpedita());
+                      formData.add("quantitaSpedita", quantitaSpedita);
                   }
                   else if (className == "classResources.Extraconsumo") {
                       Extraconsumo ext = (Extraconsumo) classObj;

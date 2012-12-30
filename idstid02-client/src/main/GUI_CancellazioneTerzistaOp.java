@@ -43,27 +43,22 @@ public class GUI_CancellazioneTerzistaOp {
     	List<Terzista> listat=ResourceClass.getResources(Terzista.class, Global._URLTerz);
     	Iterator<Terzista> terz = listat.iterator();
     	terz_id.clear();
-    	short checkPrimaVolta=1;
     	
     	while(terz.hasNext()){
     		Terzista t=terz.next();
-    		if(checkPrimaVolta!=1){
-	    		boolean lavorazioneAperta=false;
-	        	List<Bolla> listab=ResourceClass.getResources(Bolla.class, "/bolla/search/"+t.getId());
-	        	Iterator<Bolla> bolle = listab.iterator();
-	        	while(bolle.hasNext()){
-	        		Bolla b=bolle.next();
-	        		if(b.getStato()==2){
-	        			lavorazioneAperta=true;
-	        		}
-	        	}
-	        	if(!lavorazioneAperta){
-	        		terz_id.add(t.getId());
-	        		listaTerzisti.add(t.getRagioneSociale());
-	        	}
-    		}
-    		else
-    			checkPrimaVolta++;
+    		boolean lavorazioneAperta=false;
+        	List<Bolla> listab=ResourceClass.getResources(Bolla.class, "/bolla/search/"+t.getId());
+        	Iterator<Bolla> bolle = listab.iterator();
+        	while(bolle.hasNext()){
+        		Bolla b=bolle.next();
+        		if(b.getStato()==2){
+        			lavorazioneAperta=true;
+        		}
+        	}
+        	if(!lavorazioneAperta){
+        		terz_id.add(t.getId());
+        		listaTerzisti.add(t.getRagioneSociale());
+        	}
     	}
     	
     	listTerzisti.setListData(listaTerzisti.toArray());

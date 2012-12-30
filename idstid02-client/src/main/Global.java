@@ -23,9 +23,6 @@ public class Global {
     public static final String _URLMatTeoSearch = "/matTeo/search/"; //con join
     public static final String _URLMatId = "/materiale";
     public static final String _URLMatDaProdurre = "/matDaProdurre";
-    //public static final String _URLMatDaProd1 = "/matDaProdurre/search1/"; //con join
-    //public static final String _URLExtra = "/extraconsumo/search/";
-    //public static final String _URLExtraPost = "/extraconsumo"; //Post di Extraconsumo
     public static final String _URLAutLogin = "/autenticazione/login";
     public static final String _URLAutLogout = "/autenticazione/logout";
     public static final String _URLMess = "/messaggio";
@@ -42,5 +39,7 @@ public class Global {
     public static final String _URLExtraPost = "/extraconsumo"; //Giorgia (Post di Extraconsumo)
     public static final String _URLExtraIns = "/extraconsumo"; //Giorgia (Insert di Extraconsumo)
     public static final String _URLPaia = "/paia/idBolla/"; //Giorgia
+    public static final String _URLBollaRiassegna = "/bolla/riassegna/";
+    public static final String _URLMatDaProdSped = "/matDaProdurre/spedita/";
 }
 
