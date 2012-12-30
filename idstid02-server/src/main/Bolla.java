@@ -7,6 +7,7 @@ public class Bolla {
 	private int id;
 	private String codice;
 	private String data;
+	private String url;
 	private int stato;
 	private int valutata;
 	private int terzistaId;
@@ -26,6 +27,12 @@ public class Bolla {
         this.nomeLavorazione = nomeLavorazione;
     }
     
+    //Aggiunto Marco, per l'immagine
+    public Bolla(int id, String url) {
+        this.id = id;
+        this.url = url;
+    }
+    
     public Bolla(int id, String codice, int stato, String data, int terzista_id, int lavorazione_id, String nomeLavorazione, String ragSociale) {
         this.id = id;
         this.codice =codice;
@@ -37,10 +44,18 @@ public class Bolla {
         this.ragSociale = ragSociale;
     }
     
+    public String getImageUrl() {
+        return url;
+    }
+    
     public String getNomeLavorazione() {
         return nomeLavorazione;
     }
 
+    public void setImageUrl(String url) {
+        this.url = url;
+    }
+    
     public void setNomeLavorazione(String nomeLavorazione) {
         this.nomeLavorazione = nomeLavorazione;
     }

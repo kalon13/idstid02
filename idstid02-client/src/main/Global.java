@@ -10,6 +10,7 @@ public class Global {
     public static final String _URLFattTerz = "/fatturazione/terzista/";
     public static final String _URLBolla = "/bolla";
     public static final String _URLBollaValuta = "/bolla/valuta/";
+    public static final String _URLBollaImage = "/bolla/image/";
 //    public static final String _URLBollaTerz = "/bolla/search/";
     //public static final String _URLAut = "/autenticazione";
     public static final String _URLddt = "/DDT";
@@ -36,6 +37,7 @@ public class Global {
     public static final String _URLBollaTerz = "/bolla/terzista/"; //Giorgia
     public static final String _URLBollaStato = "/bolla/stato/"; //Giorgia Post
     public static final String _URLBollaCM = "/bolla/statoCM/"; //Giorgia (Bolla Chiusa o con Morto)
+    public static final String _URLBollaRiassegna = "/bolla/riassegna/";
     public static final String _URLExtra = "/extraconsumo/idBolla/"; //Giorgia
     public static final String _URLExtraPost = "/extraconsumo"; //Giorgia (Post di Extraconsumo)
     public static final String _URLExtraIns = "/extraconsumo"; //Giorgia (Insert di Extraconsumo)
