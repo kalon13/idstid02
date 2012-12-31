@@ -806,6 +806,7 @@ public class GUI_Bolla_Terzista {
         });
             /*********************Aggiunto menu*************************************/
     		menu app = new menu(frmBolleDiLavorazioneTerzista, "Bolla");
+    		frmBolleDiLavorazioneTerzista.setVisible(true);
     }
       
     public int selezionaRiga(){

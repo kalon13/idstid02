@@ -561,8 +561,10 @@ public class GUI_Bolla {
                                 }
                         }
                 });
+
+                /*********************Aggiunto menu*************************************/
+        		menu app = new menu(frmBolleDiLavorazione, "Bolla");
+        		frmBolleDiLavorazione.setVisible(true);
         }
-        /*********************Aggiunto menu*************************************/
-		menu app = new menu(frmBolleDiLavorazione, "Bolla");
 }
 

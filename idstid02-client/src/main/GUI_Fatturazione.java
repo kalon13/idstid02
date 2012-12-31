@@ -84,7 +84,7 @@ public class GUI_Fatturazione {
                 	}
                 });
                 frmElenco.setTitle("Gestione Fatturazione");
-                frmElenco.setBounds(100, 100, 1012, 368);
+                frmElenco.setBounds(100, 100, 1014, 395);
                 frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmElenco.getContentPane().setLayout(null);
                 
@@ -322,8 +322,8 @@ public class GUI_Fatturazione {
     		else
     		{
     		  panel_terz.setVisible(false);	
-    		  panel_Fatt.setBounds(20, 11, 820, 308);
-    		  frmElenco.setBounds(100, 100, 850, 368);
+    		  panel_Fatt.setBounds(20, 11, 820, 400);
+    		  frmElenco.setBounds(100, 100, 850, 405);
     	    }
     	}
     	//caricamento dati
