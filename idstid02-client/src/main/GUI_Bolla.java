@@ -477,6 +477,18 @@ public class GUI_Bolla {
                 textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
                 textField_1.setBounds(11, 295, 284, 20);
                 panel.add(textField_1);
+                
+                JButton btnNewButton = new JButton("Modello Scarpa");
+                btnNewButton.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		//id contiene l'id della bolla
+                		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
+                		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
+                		path.frmModelloScarpa.setVisible(true);
+                	}
+                });
+                btnNewButton.setBounds(161, 415, 140, 23);
+                panel.add(btnNewButton);
                
                 list.setBounds(10, 197, 158, 143);
                 frmBolleDiLavorazione.getContentPane().add(list);

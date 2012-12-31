@@ -90,7 +90,7 @@ public class GUI_DatiTerzistaTr {
 		frmDatiTerzistaTr = new JFrame();
 		frmDatiTerzistaTr.setTitle("Dati Terzista");
 		frmDatiTerzistaTr.setBounds(100, 100, 643, 553);
-		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
 		indirizzo.setBounds(132, 37, 326, 20);
@@ -190,7 +190,7 @@ public class GUI_DatiTerzistaTr {
 			public void actionPerformed(ActionEvent e) {
 				windowLavorazioni= new GUI_ModificaLavorazioni();
 				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
-				//frmDatiTerzistaTr.setVisible(false);
+				frmDatiTerzistaTr.setEnabled(false);
 			}
 		});
 		btnModificaLavorazioni.setMnemonic(KeyEvent.VK_L);
@@ -281,7 +281,7 @@ public class GUI_DatiTerzistaTr {
 			public void actionPerformed(ActionEvent e) {
 				windowAnagrafica = new GUI_ModificaAnagrafica();
 				windowAnagrafica.frmModificaAnagrafica.setVisible(true);
-				frmDatiTerzistaTr.setVisible(false);
+				frmDatiTerzistaTr.setEnabled(false);
 			}
 		});
 		btnModificaAnagrafica.setMnemonic(KeyEvent.VK_A);
