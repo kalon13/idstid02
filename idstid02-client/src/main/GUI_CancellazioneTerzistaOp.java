@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.KeyEvent;
 
 public class GUI_CancellazioneTerzistaOp {
 
@@ -66,6 +69,12 @@ public class GUI_CancellazioneTerzistaOp {
 	 */
 	private void initialize() {
 		frmCancellazioneTerzista = new JFrame();
+		frmCancellazioneTerzista.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowScelta.frmSceltaTerzista.setEnabled(true);
+			}
+		});
 		frmCancellazioneTerzista.setTitle("Cancellazione Terzista");
 		frmCancellazioneTerzista.setBounds(100, 100, 288, 242);
 		frmCancellazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -106,6 +115,7 @@ public class GUI_CancellazioneTerzistaOp {
 		listTerzisti.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		
 		JButton btnRimuovi = new JButton("Rimuovi");
+		btnRimuovi.setMnemonic(KeyEvent.VK_ENTER);
 		btnRimuovi.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Rimozione
@@ -136,17 +146,6 @@ public class GUI_CancellazioneTerzistaOp {
 		});
 		btnRimuovi.setBounds(181, 176, 89, 23);
 		panel.add(btnRimuovi);
-		
-		JButton btnIndietro = new JButton("Indietro");
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
-				windowGestione.frmGestioneDati.setVisible(true);
-				frmCancellazioneTerzista.setVisible(false);
-			}
-		});
-		btnIndietro.setBounds(82, 176, 89, 23);
-		panel.add(btnIndietro);
 	}
 
 }
