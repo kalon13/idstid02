@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
 import java.util.List;
+import javax.swing.JDesktopPane;
+import javax.swing.JInternalFrame;
 
 public class GUI_Home {
 
@@ -51,7 +53,7 @@ public class GUI_Home {
                 frmHome = new JFrame();
                 frmHome.setResizable(false);
                 frmHome.setTitle("Home");
-                frmHome.setBounds(100, 100, 405, 168);
+                frmHome.setBounds(100, 100, 405, 314);
                 frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frmHome.getContentPane().setLayout(new BorderLayout(10, 10));
                 
@@ -59,7 +61,7 @@ public class GUI_Home {
                 frmHome.getContentPane().add(label, BorderLayout.NORTH);
                 
                 JPanel panel = new JPanel();
-                frmHome.getContentPane().add(panel, BorderLayout.CENTER);
+                frmHome.getContentPane().add(panel, BorderLayout.NORTH);
                 panel.setLayout(new GridLayout(0, 2, 10, 10));
                 
                 JButton btnGestioneDati = new JButton("Gestione Dati Terzista");
@@ -67,7 +69,7 @@ public class GUI_Home {
                 btnGestioneDati.addActionListener(new ActionListener() {
                 	
                 	public void actionPerformed(ActionEvent e) {
-                		//Se è l'Operatore dell'azienda che visualizza
+                		//Se ï¿½ l'Operatore dell'azienda che visualizza
         				if(tipo==1 || tipo==2 || tipo==3 || tipo==4){
         					windowScelta = new GUI_SceltaTerzista();
         					windowScelta.frmSceltaTerzista.setVisible(true);
@@ -127,20 +129,7 @@ public class GUI_Home {
                 panel.add(label_1);
                 
                 JButton btnLogout = new JButton("Logout");
-                btnLogout.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent arg0) {
-						MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-						param.add("sid", Autenticazione.getSessione().getSessionID());
-						   
-						ResourceClass.getService().path(Global._URLAutLogout).
-						            accept(MediaType.APPLICATION_JSON).post(String.class, param);
-						   
-						 Notification.stop();
-						 frmHome.dispose();
-						 GUI_Autenticazione windowAuth = new GUI_Autenticazione();
-						 windowAuth.getFrame().setVisible(true);
-                	}
-                });
+                btnLogout.addActionListener(new LogoutListener());
                 panel.add(btnLogout);
                 
                 JLabel lblNewLabel = new JLabel("");
@@ -151,6 +140,28 @@ public class GUI_Home {
                 
                 JLabel lblNewLabel_2 = new JLabel("");
                 frmHome.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
+                
+                JDesktopPane desktopPane = new JDesktopPane();
+                frmHome.getContentPane().add(desktopPane, BorderLayout.CENTER);
+
+        }
+        
+        private class LogoutListener implements ActionListener{
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+				param.add("sid", Autenticazione.getSessione().getSessionID());
+				   
+				ResourceClass.getService().path(Global._URLAutLogout).
+				            accept(MediaType.APPLICATION_JSON).post(String.class, param);
+				   
+				 Notification.stop();
+				 frmHome.dispose();
+				 GUI_Autenticazione windowAuth = new GUI_Autenticazione();
+				 windowAuth.getFrame().setVisible(true);
+			}
+        	
         }
 }
 
