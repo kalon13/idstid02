@@ -31,6 +31,8 @@ import classResources.Bolla;
 import classResources.Lavorazione;
 import classResources.LavorazioneTerzista;
 import classResources.Terzista;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_Valutazione {
 
@@ -52,9 +54,15 @@ public class GUI_Valutazione {
 	 */
 	private void initialize() {
 		frmValutazione = new JFrame();
-		frmValutazione.setTitle("Valutazione");
-		frmValutazione.setBounds(100, 100, 705, 307);
 		frmValutazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmValutazione.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowScelta.frmSceltaTerzista.setEnabled(true);
+			}
+		});
+		frmValutazione.setTitle("Valutazione");
+		frmValutazione.setBounds(100, 100, 705, 272);
 		
 		JPanel panel = new JPanel();
 		panel.setMinimumSize(new Dimension(0, 0));
@@ -130,18 +138,6 @@ public class GUI_Valutazione {
             	}
             }
         });
-		
-		JButton btnIndietro = new JButton("Indietro");
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GUI_GestioneDati windowGestione = new GUI_GestioneDati();
-				windowGestione.frmGestioneDati.setVisible(true);
-				frmValutazione.setVisible(false);
-			}
-		});
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.setBounds(608, 235, 71, 23);
-		panel.add(btnIndietro);
 		
 		JTextArea txtrPerOgniRiga = new JTextArea();
 		txtrPerOgniRiga.setEditable(false);
