@@ -10,7 +10,7 @@ public class menu{
 		private int tipo = Autenticazione.getSessione().getUtente().getTipo();
 		
 		public menu(final JFrame frame, String menu)
-		{			
+		{	
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.setPreferredSize(new Dimension(0, 25));
 			menuBar.setMinimumSize(new Dimension(0, 4));

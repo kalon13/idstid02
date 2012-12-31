@@ -236,7 +236,8 @@ public class GUI_Fatturazione {
                 	else JOptionPane.showMessageDialog(frmElenco, "Non ci sono bolle da fatturare!");
                 }
         });
-        
+        /*********************Aggiunto menu*************************************/
+		menu app = new menu(frmElenco, "Fat");
         checkTerz_VIS();
 }
         
