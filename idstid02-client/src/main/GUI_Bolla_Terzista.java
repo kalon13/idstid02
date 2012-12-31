@@ -804,6 +804,8 @@ public class GUI_Bolla_Terzista {
             }
         }
         });
+            /*********************Aggiunto menu*************************************/
+    		menu app = new menu(frmBolleDiLavorazioneTerzista, "Bolla");
     }
       
     public int selezionaRiga(){
@@ -867,4 +869,5 @@ public class GUI_Bolla_Terzista {
       	 	ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdSped, idMatDaProd, matCl);                       
        }
 	}
+	
 }
