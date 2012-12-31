@@ -44,6 +44,8 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.Component;
 import javax.swing.JTextArea;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_ModificaLavorazioni {
 
@@ -74,6 +76,12 @@ public class GUI_ModificaLavorazioni {
 	 */
 	private void initialize() {
 		frmModificaLavorazioni = new JFrame();
+		frmModificaLavorazioni.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setEnabled(true);
+			}
+		});
 		frmModificaLavorazioni.setTitle("Modifica Lavorazioni");
 		frmModificaLavorazioni.setBounds(100, 100, 578, 307);
 		frmModificaLavorazioni.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -145,15 +153,10 @@ public class GUI_ModificaLavorazioni {
 		List<Lavorazione> lista = ResourceClass.getResources(Lavorazione.class, Global._URLLavoraz);
 		Iterator<Lavorazione> lavoraz = lista.iterator();
 		index.clear();
-		short checkPrimaVolta=1;
 		while (lavoraz.hasNext()){
 			Lavorazione lavorazione=lavoraz.next();
-			if(checkPrimaVolta!=1){
-				cmbTipoLavorazioni.addItem(lavorazione.getNome());
-				index.add(lavorazione.getId());
-			}
-			else
-				checkPrimaVolta++;
+			cmbTipoLavorazioni.addItem(lavorazione.getNome());
+			index.add(lavorazione.getId());
 		}
 		
 		final JPanel panel_2 = new JPanel();

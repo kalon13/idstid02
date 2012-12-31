@@ -26,6 +26,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_ModificaAnagrafica {
 
@@ -66,6 +68,12 @@ public class GUI_ModificaAnagrafica {
 	 */
 	private void initialize() {
 		frmModificaAnagrafica = new JFrame();
+		frmModificaAnagrafica.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setEnabled(true);
+			}
+		});
 		frmModificaAnagrafica.setTitle("Modifica Anagrafica");
 		frmModificaAnagrafica.setBounds(100, 100, 483, 426);
 		frmModificaAnagrafica.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -254,18 +262,6 @@ public class GUI_ModificaAnagrafica {
 		btnModifica.setMnemonic(KeyEvent.VK_ENTER);
 		btnModifica.setBounds(369, 354, 89, 23);
 		panel.add(btnModifica);
-		
-		JButton btnIndietro = new JButton("Indietro");
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmModificaAnagrafica.setVisible(false);
-				GUI_DatiTerzistaTr windowDatiTr = new GUI_DatiTerzistaTr();
-				windowDatiTr.frmDatiTerzistaTr.setVisible(true);
-			}
-		});
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.setBounds(270, 354, 89, 23);
-		panel.add(btnIndietro);
 		
 		pass = new JPasswordField();
 		pass.setColumns(30);

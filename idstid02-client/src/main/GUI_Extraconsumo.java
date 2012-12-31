@@ -142,10 +142,6 @@ public class GUI_Extraconsumo {
                 lblMaterialiTeorici.setBounds(7, 31, 105, 14);
                 frmExtraconsumo.getContentPane().add(lblMaterialiTeorici);
                
-                JButton btnRichiedi = new JButton("Richiedi");
-                btnRichiedi.setBounds(350, 206, 90, 23);
-                frmExtraconsumo.getContentPane().add(btnRichiedi);
-               
                 //**btnEsci**
                 JButton btnEsci = new JButton("Esci");
                 btnEsci.addMouseListener(new MouseAdapter() {

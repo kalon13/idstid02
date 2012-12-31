@@ -31,8 +31,7 @@ import java.util.List;
 public class GUI_GestioneDati {
 
 	public JFrame frmGestioneDati;
-//	private String user;
-//	private int tipo;
+	private int tipo;
 
 	public static GUI_SceltaTerzista windowScelta;
 	public static GUI_DatiTerzistaTr windowDatiTr;
@@ -41,6 +40,7 @@ public class GUI_GestioneDati {
 	public static GUI_CancellazioneTerzistaOp windowCanc;
 	
 	public GUI_GestioneDati() {
+		tipo=Autenticazione.getSessione().getTipoUtente();
 		initialize();
 	}
 
@@ -57,10 +57,8 @@ public class GUI_GestioneDati {
 		btnVisualizza.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Se � l'Operatore dell'azienda che visualizza
-				if(Autenticazione.getSessione().getTipoUtente()==2){
-					windowScelta = new GUI_SceltaTerzista();
-					windowScelta.frmSceltaTerzista.setVisible(true);
-					frmGestioneDati.setVisible(false);
+				if(tipo==1 || tipo==2 || tipo==3 || tipo==4){
+
 				}
 				else
 				{
@@ -74,11 +72,11 @@ public class GUI_GestioneDati {
 		frmGestioneDati.getContentPane().add(btnVisualizza);
 		
 		JButton btnModificaValuta = new JButton();
-		if(Autenticazione.getSessione().getUtente().getTipo()==2) btnModificaValuta.setText("Valuta Bolle Chiuse");
+		if(tipo==1 || tipo==2 || tipo==3 || tipo==4) btnModificaValuta.setText("Valuta Bolle Chiuse");
 		else btnModificaValuta.setText("Modifica Dati");
 		btnModificaValuta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Autenticazione.getSessione().getTipoUtente()==1){
+				if(tipo==5){
 					windowModificaDati = new GUI_ModificaDati();
 					windowModificaDati.frmModificaDati.setVisible(true);
 					frmGestioneDati.setVisible(false);
@@ -96,11 +94,11 @@ public class GUI_GestioneDati {
 		frmGestioneDati.getContentPane().add(btnModificaValuta);
 		
 		JButton btnElimina = new JButton();
-		if(Autenticazione.getSessione().getUtente().getTipo()==2) btnElimina.setText("Rimuovi Terzisti");
+		if(tipo==1 || tipo==2 || tipo==3 || tipo==4) btnElimina.setText("Rimuovi Terzisti");
 		else btnElimina.setText("Cancella Profilo");
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Autenticazione.getSessione().getTipoUtente()==1){//E' il terzista
+				if(tipo==5){//E' il terzista
 					Terzista t=ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+
 									Autenticazione.getSessione().getUtente().getUserId());
 					int terzSelezionato=t.getId();

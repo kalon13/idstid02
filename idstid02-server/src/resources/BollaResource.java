@@ -106,6 +106,33 @@ public class BollaResource {
                         return null;
                 }
         }
+        
+        @GET
+        @Path ("/image/{id}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Bolla getBollaImage(@PathParam("id") int id) {
+                Statement statement = null;
+                ResultSet result = null;
+                Bolla bolla = null;
+               
+                try {
+                        statement = DB.instance.createStatement();
+                        result = statement.executeQuery(
+                                                "SELECT * FROM ProgIngSw.bolla WHERE id='" + id + "';"
+                                        );
+                       
+                        while(result.next()) {
+                                bolla = new Bolla(result.getInt(1), result.getString(8));
+                        }
+                        statement.close();
+                       
+                        return bolla;
+                       
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                }
+        }
        
         @GET
         @Path ("/search/{id_terzista}")
@@ -436,6 +463,8 @@ public class BollaResource {
         }
 
         
+        
+
        
 }
 
