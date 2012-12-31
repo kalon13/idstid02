@@ -21,8 +21,11 @@ import classResources.Terzista;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
@@ -39,6 +42,20 @@ import javax.swing.ListSelectionModel;
 
 
 import java.awt.Frame;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import java.awt.Component;
+import javax.swing.JRadioButtonMenuItem;
+import java.awt.Cursor;
+import javax.swing.event.MenuListener;
+import javax.swing.event.MenuEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import javax.swing.event.MenuKeyListener;
+import javax.swing.event.MenuKeyEvent;
+
 
 
 public class GUI_Magazzino {
@@ -84,6 +101,9 @@ public class GUI_Magazzino {
     private JLabel lblTerzisti;
     private JScrollPane scrollPane_Terz; 
     private JPanel panelMag; 
+//    private JMenu mnGestioneBolle;
+//    private JMenu mnGestioneFatturazione;
+//    private JMenu mnGestioneTerzista;
     
     public GUI_Magazzino() {
 		checkTerz_DT();
@@ -92,6 +112,7 @@ public class GUI_Magazzino {
 
 	private void initialize() {
 		frmGestioneMagazzino = new JFrame();
+		frmGestioneMagazzino.setAlwaysOnTop(true);
 		frmGestioneMagazzino.setTitle("Gestione Magazzino");
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
@@ -108,8 +129,8 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
 		panelMag = new JPanel();
+		panelMag.setBounds(236, 11, 774, 278);
 		panelMag.setBorder(new TitledBorder(null, "Gestione Magazzino", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelMag.setBounds(240, 10, 742, 278);
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
 		JLabel lblNewLabel = new JLabel("Ricerca materiale:");
@@ -221,11 +242,11 @@ public class GUI_Magazzino {
 		
 		/************lista Terzisti*************************/
 		 lblTerzisti = new JLabel("Terzisti:");
-         lblTerzisti.setBounds(10, 11, 46, 14);
+		 lblTerzisti.setBounds(11, 12, 38, 14);
          frmGestioneMagazzino.getContentPane().add(lblTerzisti);
                
         scrollPane_Terz = new JScrollPane();
-        scrollPane_Terz.setBounds(28, 36, 196, 242);
+        scrollPane_Terz.setBounds(11, 37, 214, 252);
         frmGestioneMagazzino.getContentPane().add(scrollPane_Terz);
         
         	//**JList Terzisti**
@@ -244,8 +265,9 @@ public class GUI_Magazzino {
               
 		/*****Crea DDT*****/		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(11, 294, 999, 321);
+		panel_1.setAutoscrolls(true);
 		panel_1.setBorder(new TitledBorder(null, "Gestione DDT", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(17, 293, 968, 321);
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
@@ -310,6 +332,7 @@ public class GUI_Magazzino {
 		});
 		btnStampaDdtIn.setBounds(806, 283, 135, 23);
 		panel_1.add(btnStampaDdtIn);
+		
 		btnRegDDT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -333,19 +356,22 @@ public class GUI_Magazzino {
 		
 		/*****Chiudi*****/
 		JButton btnChiudi = new JButton("Chiudi");
+		btnChiudi.setBounds(875, 629, 135, 23);
 		btnChiudi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			  frmGestioneMagazzino.dispose();
 			}
 		});
-		btnChiudi.setBounds(879, 631, 135, 23);
 		frmGestioneMagazzino.getContentPane().add(btnChiudi);
 		
 		JLabel label = new JLabel("Elenco DDT:");
-		label.setBounds(500, 57, 153, 14);
+		label.setBounds(591, 37, 58, 14);
 		frmGestioneMagazzino.getContentPane().add(label);
-		checkTerz_VIS();
+		/*********************Aggiunto menu*************************************/
+		menu app = new menu(frmGestioneMagazzino, "Mag");
+		frmGestioneMagazzino.setVisible(true);
+	    checkTerz_VIS();
 	}
 	
 	/*****Carica Dati terzista*****/
