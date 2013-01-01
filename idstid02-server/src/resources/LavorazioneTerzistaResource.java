@@ -66,7 +66,7 @@ public class LavorazioneTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.lavorazioneterzista WHERE Lavorazione_id='" + id + "';"
+						"SELECT * FROM progingsw.lavorazioneterzista WHERE Lavorazione_id='" + id + "';"
 					);
 			
 			while(result.next()) {
@@ -123,7 +123,7 @@ public class LavorazioneTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.lavorazioneterzista WHERE Terzista_id='" + id + "';"
+						"SELECT * FROM progingsw.lavorazioneterzista WHERE Terzista_id='" + id + "';"
 					);
 			
 			while(result.next()) {
@@ -163,7 +163,7 @@ public class LavorazioneTerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.lavorazioneterzista (prezzo,qualita,capacitaProduzione,numeroVotazioni,Lavorazione_id,Terzista_id) " +
+					"INSERT INTO progingsw.lavorazioneterzista (prezzo,qualita,capacitaProduzione,numeroVotazioni,Lavorazione_id,Terzista_id) " +
 					"VALUES ('" + prezzo + "', '" + quality + "', '" + capacitaProduzione + "', '" + numeroVotazioni + "', '" + Lavorazione_id + "', '" + Terzista_id + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
