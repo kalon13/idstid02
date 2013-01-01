@@ -33,7 +33,7 @@ public class UtenteResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                                "SELECT * FROM ProgIngSw.utente;"
+                                                "SELECT * FROM progingsw.utente;"
                                         );
                        
                         while(result.next()) {
@@ -62,7 +62,7 @@ public class UtenteResource {
                 try {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
-                                                "SELECT * FROM ProgIngSw.utente WHERE id='" + id + "';"
+                                                "SELECT * FROM progingsw.utente WHERE id='" + id + "';"
                                         );
                        
                         while(result.next()) {
@@ -94,7 +94,7 @@ public class UtenteResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE ProgIngSw.utente SET user ='" + user + "', psw ='" + psw + "', tipo='" + tipo + "' WHERE id='" + id + "';");
+                                        "UPDATE progingsw.utente SET user ='" + user + "', psw ='" + psw + "', tipo='" + tipo + "' WHERE id='" + id + "';");
                         statement.close();
 
                         return String.valueOf(ok);
@@ -116,7 +116,7 @@ public class UtenteResource {
 //                try {
 //                        statement = DB.instance.createStatement();
 //                        ok = statement.executeUpdate(
-//                                        "DELETE FROM ProgIngSw.Utente WHERE id='" + id + "';"
+//                                        "DELETE FROM progingsw.Utente WHERE id='" + id + "';"
 //                                        );
 //                        statement.close();
 //
@@ -143,7 +143,7 @@ public class UtenteResource {
 //                try {
 //                        statement = DB.instance.createStatement();
 //                        ok = statement.executeUpdate(
-//                                        "INSERT INTO ProgIngSw.Utente(username, password, tipo) " +
+//                                        "INSERT INTO progingsw.Utente(username, password, tipo) " +
 //                                        "VALUES('" + username + "', '" + password + "', '" + tipo + "');",
 //                                        Statement.RETURN_GENERATED_KEYS);
 //                       
