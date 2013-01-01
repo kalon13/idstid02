@@ -36,7 +36,6 @@ public class Global {
     public static final String _URLBollaTerz = "/bolla/terzista/"; //Giorgia
     public static final String _URLBollaStato = "/bolla/stato/"; //Giorgia Post
     public static final String _URLBollaCM = "/bolla/statoCM/"; //Giorgia (Bolla Chiusa o con Morto)
-    public static final String _URLBollaRiassegna = "/bolla/riassegna/";
     public static final String _URLExtra = "/extraconsumo/idBolla/"; //Giorgia
     public static final String _URLExtraPost = "/extraconsumo"; //Giorgia (Post di Extraconsumo)
     public static final String _URLExtraIns = "/extraconsumo"; //Giorgia (Insert di Extraconsumo)

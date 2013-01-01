@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -17,18 +15,12 @@ import javax.ws.rs.core.MultivaluedMap;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import classResources.Utente;
-
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
-import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 
 
 public class GUI_Autenticazione {
@@ -57,115 +49,123 @@ public class GUI_Autenticazione {
                 frmAutenticazione.setTitle("Autenticazione");
                 frmAutenticazione.setBounds(100, 100, 268, 159);
                 frmAutenticazione.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frmAutenticazione.getContentPane().setLayout(null);
+                frmAutenticazione.getContentPane().setLayout(new BorderLayout(16, 16));
                
                 JPanel panel = new JPanel();
-                panel.setBounds(35, 25, 198, 85);
                 frmAutenticazione.getContentPane().add(panel);
-                panel.setLayout(null);
-               
-                JLabel lblNewLabel = new JLabel("Password:");
-                lblNewLabel.setBounds(0, 30, 71, 14);
-                panel.add(lblNewLabel);
-                lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+                panel.setLayout(new GridLayout(0, 2, 16, 16));
                
                 JLabel label = new JLabel("Username:");
-                label.setBounds(0, 3, 71, 14);
                 panel.add(label);
-                label.setFont(new Font("Tahoma", Font.BOLD, 11));
                
                 textUser = new JTextField();
-                textUser.setBounds(80, 0, 117, 20);
                 panel.add(textUser);
                 textUser.setColumns(10);
+                
+                JLabel lblNewLabel = new JLabel("Password:");
+                panel.add(lblNewLabel);
                
                 textPsw = new JPasswordField();
-                textPsw.setBounds(80, 27, 117, 20);
                 panel.add(textPsw);
                 textPsw.setColumns(10);
-                textPsw.addKeyListener(new KeyAdapter() {
-                	@Override
-                	public void keyPressed(KeyEvent e) {
-                		if(e.getKeyCode() == KeyEvent.VK_ENTER){
-                			//Occorre cmq spostarsi sopra il bottone con il tasto tab
-                			tryLogin();
-                		}
-                	}
-                });
-               
-                btnAccedi = new JButton("Accedi");
-                btnAccedi.setMnemonic(KeyEvent.VK_ENTER);
+                 
+				btnEsci = new JButton("Esci");
+				panel.add(btnEsci);
+				btnEsci.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						frmAutenticazione.dispose();
+					}
+				});
+				btnAccedi = new JButton("Accedi");
+				panel.add(btnAccedi);
+				
+				JLabel lblNewLabel_1 = new JLabel("");
+				frmAutenticazione.getContentPane().add(lblNewLabel_1, BorderLayout.NORTH);
+				
+				JLabel lblNewLabel_2 = new JLabel("");
+				frmAutenticazione.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
+				
+				JLabel lblNewLabel_3 = new JLabel("");
+				frmAutenticazione.getContentPane().add(lblNewLabel_3, BorderLayout.WEST);
+				
+				JLabel lblNewLabel_4 = new JLabel("");
+				frmAutenticazione.getContentPane().add(lblNewLabel_4, BorderLayout.EAST);
                 
                 btnAccedi.addActionListener(enterListener);
-                             
-                btnAccedi.setBounds(108, 62, 89, 23);
-                panel.add(btnAccedi);
-                
-                btnEsci = new JButton("Esci");
-                btnEsci.setBounds(0, 62, 89, 23);
-                panel.add(btnEsci);
-                btnEsci.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent e) {
-                		frmAutenticazione.dispose();
-                	}
-                });
+                textPsw.addKeyListener(enterListener);
         }
         
         private void tryLogin(){
-        	textUser.setEnabled(false);
-        	textPsw.setEnabled(false);
-        	btnAccedi.setEnabled(false);
-        	btnEsci.setEnabled(false);
-        	textPsw.removeActionListener(enterListener);
-        	
+       	
         	final String user = textUser.getText().trim();
         	final char[] pass = textPsw.getPassword();
             
         	if(!user.equals("")) {
+            	textUser.setEnabled(false);
+            	textPsw.setEnabled(false);
+            	btnAccedi.setEnabled(false);
+            	btnEsci.setEnabled(false);
+            	btnAccedi.removeActionListener(enterListener);
+            	textPsw.removeActionListener(enterListener);
+        		
 	        	new Thread() {
 	        	    @Override
 	        	    public void run () {
-	                	String password = Autenticazione.getMD5Sum(pass);
-	                	
-	                    MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-	                    param.add("username", user);
-	                    param.add("password", password);
-	                   
-	                    Sessione session = ResourceClass.getService().
-	                                    path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
-	                   
-	                    if(session.getUtente() != null) {
-	                    	Autenticazione.setSessione(session);
-	                        windowHome = new GUI_Home();
-	                        windowHome.frmHome.setVisible(true);
-	                        frmAutenticazione.setVisible(false);
-	                    }
-	                    else {
-	                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
-	                    }
-	                    SwingUtilities.invokeLater(new Runnable(){
-	                    	@Override
-	                    	public void run() {
-	                    		textUser.setEnabled(true);
-		                    	textPsw.setEnabled(true);
-		                    	btnAccedi.setEnabled(true);
-		                    	btnEsci.setEnabled(true);
-		                    	textPsw.removeActionListener(enterListener);
-	                    	}
-	                    });
+	        	    	try {
+		                	String password = Autenticazione.getMD5Sum(pass);
+		                	
+		                    MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+		                    param.add("username", user);
+		                    param.add("password", password);
+		                   
+		                    Sessione session = ResourceClass.getService().
+		                                    path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+		                   
+		                    if(session.getUtente() != null) {
+		                    	Autenticazione.setSessione(session);
+		                        windowHome = new GUI_Home();
+		                        windowHome.frmHome.setVisible(true);
+		                        frmAutenticazione.setVisible(false);
+		                    }
+		                    else {
+		                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+		                    }
+		        	    }
+		        	    catch(Exception ex) {
+		        	    	ex.printStackTrace();
+		        	    }
+		        	    finally {
+		                    SwingUtilities.invokeLater(new Runnable(){
+		                    	@Override
+		                    	public void run() {
+		                    		textUser.setEnabled(true);
+			                    	textPsw.setEnabled(true);
+			                    	btnAccedi.setEnabled(true);
+			                    	btnEsci.setEnabled(true);
+			                    	btnAccedi.addActionListener(enterListener);
+			                    	textPsw.addActionListener(enterListener);
+		                    	}
+		                    });
+		        	    }
 	        	    }
 	        	  }.start();                
             }
         }
         
-        class EnterListener implements ActionListener {
+        class EnterListener extends KeyAdapter implements ActionListener {
             public void actionPerformed(ActionEvent e) {
             	tryLogin();
             }
+            
+            @Override
+        	public void keyPressed(KeyEvent e) {
+        		if(e.getKeyCode() == KeyEvent.VK_ENTER){
+        			tryLogin();
+        		}
+        	}
         }
         	        
         public JFrame getFrame() {	//Forse serve per il ritorno indietro!
             return frmAutenticazione;
         }
-
 }
