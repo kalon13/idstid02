@@ -39,20 +39,20 @@ public class ResourceClass extends ResourceInsUpd {
         //per visualizzare tutti i dati della select
         public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException {
                 ParameterizedType genericType = new ParameterizedType() {
-                        @Override
-                        public Type[] getActualTypeArguments() {
-                                return new Type[] {clazz};
-                        }
+						@Override
+						public Type[] getActualTypeArguments() {
+						        return new Type[] {clazz};
+						}
 
-           @Override
-           public Type getRawType() {
-               return List.class;
-           }
-
-           @Override
-           public Type getOwnerType() {
-               return List.class;
-           }
+						@Override
+						public Type getRawType() {
+							return List.class;
+						}
+						
+						@Override
+						public Type getOwnerType() {
+							return List.class;
+						}
                 };
                
                 try {

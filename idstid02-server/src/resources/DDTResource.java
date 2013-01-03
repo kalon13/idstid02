@@ -18,11 +18,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.*;
 import utils.DB;
+import main.Autenticazione;
 import main.Bolla;
 import main.DDT;
 import main.Fattura;
 import main.Fattura_Lavorazione;
 import main.Materiale;
+import main.Messaggio;
+import main.Sessione;
 import main.Um;
 
 @Path("/DDT")
@@ -259,5 +262,46 @@ public class DDTResource {
 		}
 		
 		
+	}
+	
+	@POST
+	@Path ("/notification")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<DDT> getNew( 	@FormParam("sid") String sid,
+								@FormParam("terzistaid") String tid) {
+		Statement statement = null;
+        ResultSet result = null;
+        List<DDT> listaDDT = new ArrayList<DDT>();
+        
+        Sessione s = Autenticazione.getSession(sid);
+    	if(s != null) {
+	        try {
+                statement = DB.instance.createStatement();
+                
+                if(s.getUtente().getTipo() < 5) {
+                	result = statement.executeQuery(
+                                "SELECT * FROM progingsw.ddt WHERE registrato='0' AND flussoAzienda='0';");
+                }
+                else {
+                	result = statement.executeQuery(
+                			"SELECT * FROM progingsw.ddt WHERE registrato='0' " +
+                			" AND flussoAzienda='1' " +
+                			" AND Terzista_id='" + tid + "';");
+                }
+                
+                if(result != null){
+					while(result.next()) {
+						DDT ddt = new DDT(result.getInt(1), result.getInt(2), result.getString(3),
+								result.getString(4),result.getInt(5), result.getBoolean(6), result.getBoolean(7));
+						listaDDT.add(ddt);
+					}
+                }
+                statement.close();
+	        } catch (SQLException e) {
+	        	e.printStackTrace();
+	        }
+		}
+		return listaDDT;
 	}
 }

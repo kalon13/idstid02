@@ -32,7 +32,7 @@ public class ResourceInsUpd {
                   else if (className == "classResources.DDT"){
                                 formData.add("registrato", "1") ;
                   }
-                  else if (className == "classResources.MaterialeDaProdurre") {
+                  else if (className == "classResources.MaterialeDaProdurre" && path == Global._URLMatDaProdurre) {
                       MaterialeDaProdurre m = (MaterialeDaProdurre) classObj;
                       String quantitaProdotta =  String.valueOf(m.getQuantitaProdotta());
                       String quantitaSpedita =  String.valueOf(m.getQuantitaSpedita());
@@ -40,6 +40,11 @@ public class ResourceInsUpd {
                       formData.add("quantitaProdotta", quantitaProdotta);
                       formData.add("quantitaSpedita", quantitaSpedita);
                       formData.add("numeroMorti", numeroMorti);
+                  }
+                  else if (className == "classResources.MaterialeDaProdurre" && path == Global._URLMatDaProdSped) {
+                      MaterialeDaProdurre m = (MaterialeDaProdurre) classObj;
+                      String quantitaSpedita =  String.valueOf(m.getQuantitaSpedita());
+                      formData.add("quantitaSpedita", quantitaSpedita);
                   }
                   else if (className == "classResources.Extraconsumo") {
                       Extraconsumo ext = (Extraconsumo) classObj;
@@ -188,16 +193,19 @@ public class ResourceInsUpd {
                              String dt = fat.getDataEmissione();
                              String idT = String.valueOf(fat.getIdTerz());
                              String imp =  String.valueOf(fat.getImporto());
+                             System.out.println("ciao"+idT);
                              formData.add("dataEmissione", dt);
-                                 formData.add("importo", imp);
-                                 formData.add("Terzista_id", idT);
+                             formData.add("importo", imp);
+                             formData.add("Terzista_id", idT);
                          }
-                         else if (className == "classResources.Fattura" && path == Global._URLFatt+"/Bolla"){
+                         else if (className == "classResources.Fattura" && path == Global._URLFattBol){
                              Fattura fat = (Fattura) classObj;
                              String idF = String.valueOf(fat.getId());
                              String idB = String.valueOf(fat.getIdBolla());
+                             String imp = String.valueOf(fat.getImporto());
                              formData.add("Fattura_id", idF);
                              formData.add("Bolla_id", idB);
+                             formData.add("importo", imp);
                          }
                          else if (className == "classResources.Extraconsumo"){
                              Extraconsumo ext = (Extraconsumo) classObj;
