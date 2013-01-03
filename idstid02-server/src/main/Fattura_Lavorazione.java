@@ -9,9 +9,9 @@ public class Fattura_Lavorazione {
         private int idFattura;
         private int idBolla;
         private int idTerzista;
-        //TODO: aggiungere terzista_Utente_Id
-        //TODO: aggiungere terzista_Id
-
+        private boolean isFatt;
+        private String CodBolla;
+        
         public Fattura_Lavorazione() {
         }
        
@@ -68,5 +68,21 @@ public class Fattura_Lavorazione {
         public void setIdFattura(int idFattura) {
                 this.idFattura = idFattura;
         }
+
+		public boolean isFatt() {
+			return isFatt;
+		}
+
+		public void setFatt(boolean isFatt) {
+			this.isFatt = isFatt;
+		}
+
+		public String getCodBolla() {
+			return CodBolla;
+		}
+
+		public void setCodBolla(String codBolla) {
+			CodBolla = codBolla;
+		}
 
 }

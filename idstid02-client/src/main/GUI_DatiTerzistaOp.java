@@ -202,6 +202,10 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.getContentPane().add(nome);
 		frmDatiTerzistaOp.getContentPane().add(lblEmail);
 		frmDatiTerzistaOp.getContentPane().add(lblPiva);
+		
+        /*********************Aggiunto menu*************************************/
+		menu app = new menu(frmDatiTerzistaOp, "Bolla");
+		frmDatiTerzistaOp.setVisible(true);
 	}
 	
 	public void visualLavorazioni(){

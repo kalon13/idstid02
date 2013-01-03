@@ -153,4 +153,16 @@ public class Bolla {
 	public void setCodice(String codice) {
 		this.codice = codice;
 	}
+	
+	public boolean equals(Object bolla) {
+		try {
+			Bolla b = (Bolla) bolla;
+			if(this.getId() == b.getId())
+				return true;
+		}
+		catch(Exception e) {
+			return false;
+		}
+		return false;
+	}
 }

@@ -7,6 +7,9 @@ import javax.swing.JLabel;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
+import classResources.DDT;
+
+import com.sun.jersey.api.client.GenericType;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import java.awt.event.MouseAdapter;
@@ -14,6 +17,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import java.util.List;
 
 public class GUI_Home {
 
@@ -34,6 +41,9 @@ public class GUI_Home {
         public GUI_Home() {
                 this.user = Autenticazione.getSessione().getUtente().getUser();
                 this.tipo = Autenticazione.getSessione().getUtente().getTipo();
+                
+                Notification.start(Autenticazione.getSessione());
+                
                 initialize();
         }
 
@@ -43,13 +53,15 @@ public class GUI_Home {
                 frmHome.setTitle("Home");
                 frmHome.setBounds(100, 100, 405, 168);
                 frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frmHome.getContentPane().setLayout(null);
-               
+                frmHome.getContentPane().setLayout(new BorderLayout(10, 10));
+                
+                JLabel label = new JLabel("Benvenuto " + user);
+                frmHome.getContentPane().add(label, BorderLayout.NORTH);
+                
                 JPanel panel = new JPanel();
-                panel.setBounds(10, 26, 379, 105);
-                frmHome.getContentPane().add(panel);
-                panel.setLayout(null);
-               
+                frmHome.getContentPane().add(panel, BorderLayout.CENTER);
+                panel.setLayout(new GridLayout(0, 2, 10, 10));
+                
                 JButton btnGestioneDati = new JButton("Gestione Dati Terzista");
                 btnGestioneDati.setMnemonic(KeyEvent.VK_D);
                 btnGestioneDati.addActionListener(new ActionListener() {
@@ -69,9 +81,8 @@ public class GUI_Home {
                 	}
                 	
                 });
-                btnGestioneDati.setBounds(0, 0, 177, 25);
                 panel.add(btnGestioneDati);
-               
+                
                 JButton btnGestioneMagazzino = new JButton("Gestione Magazzino");
                 btnGestioneMagazzino.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
@@ -80,12 +91,10 @@ public class GUI_Home {
                         frmHome.setVisible(false);
                 	}
                 });
-
-                btnGestioneMagazzino.setBounds(192, 0, 177, 25);
                 panel.add(btnGestioneMagazzino);
-               
-                JButton btnGestioneBolleDi = new JButton("Gestione Bolle di lavorazione");
-                btnGestioneBolleDi.addActionListener(new ActionListener() {
+                
+                JButton btnGestioneBolle = new JButton("Gestione Bolle di lavorazione");
+                btnGestioneBolle.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		if (tipo < 5) //operatore azienda
                 		{
@@ -102,10 +111,8 @@ public class GUI_Home {
                 		 
                 	}
                 });
-
-                btnGestioneBolleDi.setBounds(0, 34, 177, 25);
-                panel.add(btnGestioneBolleDi);
-               
+                panel.add(btnGestioneBolle);
+                
                 JButton btnGestioneFatture = new JButton("Gestione Fatture");
                 btnGestioneFatture.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
@@ -114,37 +121,36 @@ public class GUI_Home {
                          frmHome.setVisible(false);
                 	}
                 });
-
-                btnGestioneFatture.setBounds(192, 34, 179, 25);
                 panel.add(btnGestioneFatture);
-               
+                
+                JLabel label_1 = new JLabel("");
+                panel.add(label_1);
+                
                 JButton btnLogout = new JButton("Logout");
                 btnLogout.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent arg0) {
-                           
-                            MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-                            param.add("sid", Autenticazione.getSessione().getSessionID());
-                           
-                            ResourceClass.getService().path(Global._URLAutLogout).
-                                    accept(MediaType.APPLICATION_JSON).post(String.class, param);
-                           
-                            frmHome.dispose();
-                            GUI_Autenticazione windowAuth = new GUI_Autenticazione();
-                            windowAuth.getFrame().setVisible(true);
-                    }
+                	public void actionPerformed(ActionEvent arg0) {
+						MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+						param.add("sid", Autenticazione.getSessione().getSessionID());
+						   
+						ResourceClass.getService().path(Global._URLAutLogout).
+						            accept(MediaType.APPLICATION_JSON).post(String.class, param);
+						   
+						 Notification.stop();
+						 frmHome.dispose();
+						 GUI_Autenticazione windowAuth = new GUI_Autenticazione();
+						 windowAuth.getFrame().setVisible(true);
+                	}
                 });
-
-                btnLogout.setBounds(238, 80, 110, 25);
                 panel.add(btnLogout);
-               
-                JLabel lblBenvenuto = new JLabel("Benvenuto");
-                lblBenvenuto.setBounds(10, 5, 79, 14);
-                frmHome.getContentPane().add(lblBenvenuto);
-               
-                JLabel labelUser = new JLabel(user);
-                labelUser.setBounds(124, 5, 161, 14);
-                frmHome.getContentPane().add(labelUser);
+                
+                JLabel lblNewLabel = new JLabel("");
+                frmHome.getContentPane().add(lblNewLabel, BorderLayout.WEST);
+                
+                JLabel lblNewLabel_1 = new JLabel("");
+                frmHome.getContentPane().add(lblNewLabel_1, BorderLayout.EAST);
+                
+                JLabel lblNewLabel_2 = new JLabel("");
+                frmHome.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
         }
-
 }
 

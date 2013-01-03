@@ -334,6 +334,11 @@ public class GUI_DatiTerzistaTr {
 		btnCancellaProfilo.setMnemonic(KeyEvent.VK_P);
 		btnCancellaProfilo.setBounds(481, 75, 136, 23);
 		frmDatiTerzistaTr.getContentPane().add(btnCancellaProfilo);
+		
+	    /*********************Aggiunto menu*************************************/
+		menu app = new menu(frmDatiTerzistaTr, "Bolla");
+		frmDatiTerzistaTr.setVisible(true);
+
 	}
 	
 	public void visualLavorazioni(){
