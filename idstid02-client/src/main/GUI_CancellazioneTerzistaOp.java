@@ -74,6 +74,7 @@ public class GUI_CancellazioneTerzistaOp {
 	 */
 	private void initialize() {
 		frmCancellazioneTerzista = new JFrame();
+		frmCancellazioneTerzista.setResizable(false);
 		frmCancellazioneTerzista.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -140,16 +141,17 @@ public class GUI_CancellazioneTerzistaOp {
 						//Eliminiamo proprio il terzista
 						ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
 						JOptionPane.showMessageDialog(null, "Terzista eliminato correttamente.\nTutte le bolle a lui assegnate sono state\nimpostate da riassegnare.", "Attenzione", 1);
-						GUI_Home windowHome = new GUI_Home();
-						windowHome.frmHome.setVisible(true);
-						frmCancellazioneTerzista.setVisible(false);
+						frmCancellazioneTerzista.dispose();
+						GUI_Home.windowScelta.frmSceltaTerzista.dispose();
+						GUI_Home.windowScelta = new GUI_SceltaTerzista();
+						GUI_Home.windowScelta.frmSceltaTerzista.setVisible(true);
 					}
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Selezionare prima un Terzista.", "Attenzione", 0);
 			}
 		});
-		btnRimuovi.setBounds(181, 176, 89, 23);
+		btnRimuovi.setBounds(183, 180, 89, 23);
 		panel.add(btnRimuovi);
 	}
 
