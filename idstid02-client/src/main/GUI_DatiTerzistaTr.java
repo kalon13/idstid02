@@ -88,9 +88,10 @@ public class GUI_DatiTerzistaTr {
 	 */
 	private void initialize() {
 		frmDatiTerzistaTr = new JFrame();
+		frmDatiTerzistaTr.setResizable(false);
 		frmDatiTerzistaTr.setTitle("Dati Terzista");
 		frmDatiTerzistaTr.setBounds(100, 100, 643, 553);
-		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
 		indirizzo.setBounds(132, 37, 326, 20);
@@ -190,7 +191,7 @@ public class GUI_DatiTerzistaTr {
 			public void actionPerformed(ActionEvent e) {
 				windowLavorazioni= new GUI_ModificaLavorazioni();
 				windowLavorazioni.frmModificaLavorazioni.setVisible(true);
-				//frmDatiTerzistaTr.setVisible(false);
+				frmDatiTerzistaTr.setEnabled(false);
 			}
 		});
 		btnModificaLavorazioni.setMnemonic(KeyEvent.VK_L);
@@ -281,7 +282,7 @@ public class GUI_DatiTerzistaTr {
 			public void actionPerformed(ActionEvent e) {
 				windowAnagrafica = new GUI_ModificaAnagrafica();
 				windowAnagrafica.frmModificaAnagrafica.setVisible(true);
-				frmDatiTerzistaTr.setVisible(false);
+				frmDatiTerzistaTr.setEnabled(false);
 			}
 		});
 		btnModificaAnagrafica.setMnemonic(KeyEvent.VK_A);
@@ -333,6 +334,11 @@ public class GUI_DatiTerzistaTr {
 		btnCancellaProfilo.setMnemonic(KeyEvent.VK_P);
 		btnCancellaProfilo.setBounds(481, 75, 136, 23);
 		frmDatiTerzistaTr.getContentPane().add(btnCancellaProfilo);
+		
+	    /*********************Aggiunto menu*************************************/
+		menu app = new menu(frmDatiTerzistaTr, "Bolla");
+		frmDatiTerzistaTr.setVisible(true);
+
 	}
 	
 	public void visualLavorazioni(){

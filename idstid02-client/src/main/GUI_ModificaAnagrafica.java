@@ -26,6 +26,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_ModificaAnagrafica {
 
@@ -66,8 +68,17 @@ public class GUI_ModificaAnagrafica {
 	 */
 	private void initialize() {
 		frmModificaAnagrafica = new JFrame();
+		frmModificaAnagrafica.setResizable(false);
+		frmModificaAnagrafica.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+				GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
+			}
+		});
 		frmModificaAnagrafica.setTitle("Modifica Anagrafica");
-		frmModificaAnagrafica.setBounds(100, 100, 483, 426);
+		frmModificaAnagrafica.setBounds(100, 100, 475, 426);
 		frmModificaAnagrafica.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -252,20 +263,8 @@ public class GUI_ModificaAnagrafica {
 			}
 		});
 		btnModifica.setMnemonic(KeyEvent.VK_ENTER);
-		btnModifica.setBounds(369, 354, 89, 23);
+		btnModifica.setBounds(369, 364, 89, 23);
 		panel.add(btnModifica);
-		
-		JButton btnIndietro = new JButton("Indietro");
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmModificaAnagrafica.setVisible(false);
-				GUI_DatiTerzistaTr windowDatiTr = new GUI_DatiTerzistaTr();
-				windowDatiTr.frmDatiTerzistaTr.setVisible(true);
-			}
-		});
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.setBounds(270, 354, 89, 23);
-		panel.add(btnIndietro);
 		
 		pass = new JPasswordField();
 		pass.setColumns(30);
@@ -297,9 +296,12 @@ public class GUI_ModificaAnagrafica {
 						Autenticazione.getSessione().getUtente().getTipo());
 				ResourceClass.updResources(Utente.class, Global._URLUser+"/", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()), updUtente);
 				JOptionPane.showMessageDialog(null, "Dati modificati correttamente.", "Attenzione", 1);
-				GUI_Home windowHome=new GUI_Home();
-				windowHome.frmHome.setVisible(true);
-				frmModificaAnagrafica.setVisible(false);
+				//GUI_Home windowHome=new GUI_Home();
+				//windowHome.frmHome.setVisible(true);
+				frmModificaAnagrafica.dispose();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+				GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Impossibile impostare password vuota!", "Attenzione", 1);

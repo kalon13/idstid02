@@ -28,7 +28,7 @@ public class GUI_Home {
         private String user;
         private int tipo;
         static GUI_Magazzino windowMagazzino;
-        static GUI_GestioneDati windowGestione;
+        static GUI_SceltaTerzista windowScelta;
         static GUI_Fatturazione windowFatturazione;
         static GUI_Bolla windowBolla;
         static GUI_Bolla_Terzista windowBollaTerzista;
@@ -68,9 +68,9 @@ public class GUI_Home {
                 	
                 	public void actionPerformed(ActionEvent e) {
                 		//Se è l'Operatore dell'azienda che visualizza
-        				if(tipo==2){
-        					windowGestione = new GUI_GestioneDati();
-                    		windowGestione.frmGestioneDati.setVisible(true);
+        				if(tipo==1 || tipo==2 || tipo==3 || tipo==4){
+        					windowScelta = new GUI_SceltaTerzista();
+        					windowScelta.frmSceltaTerzista.setVisible(true);
                     		frmHome.setVisible(false);
         				}
         				else{

@@ -35,12 +35,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_DatiTerzistaOp {
 
 	public JFrame frmDatiTerzistaOp;
 	private String user;
-	private int tipo;
 	
 	private JTextField indirizzo;
 	private JTextField citta;
@@ -75,9 +76,16 @@ public class GUI_DatiTerzistaOp {
 	 */
 	private void initialize() {
 		frmDatiTerzistaOp = new JFrame();
-		frmDatiTerzistaOp.setTitle("Dati Terzista");
-		frmDatiTerzistaOp.setBounds(100, 100, 603, 406);
+		frmDatiTerzistaOp.setResizable(false);
 		frmDatiTerzistaOp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmDatiTerzistaOp.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home.windowScelta.frmSceltaTerzista.setEnabled(true);
+			}
+		});
+		frmDatiTerzistaOp.setTitle("Dati Terzista");
+		frmDatiTerzistaOp.setBounds(100, 100, 510, 445);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
 		indirizzo.setBounds(132, 37, 349, 20);
@@ -152,28 +160,13 @@ public class GUI_DatiTerzistaOp {
 		lblTelefono.setBounds(10, 147, 112, 14);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(10, 257, 559, 2);
+		separator.setBounds(10, 257, 477, 2);
 		separator.setForeground(Color.BLACK);
-		
-		JButton btnIndietro = new JButton("Indietro");
-		btnIndietro.setBounds(491, 334, 87, 23);
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				frmDatiTerzistaOp.setVisible(false);
-				//Porca come si torna indietro??? Solo così???
-				GUI_SceltaTerzista windowScelta=new GUI_SceltaTerzista();
-				windowScelta.frmSceltaTerzista.setVisible(true);
-			}
-			
-		});
 		frmDatiTerzistaOp.getContentPane().setLayout(null);
-		frmDatiTerzistaOp.getContentPane().add(btnIndietro);
 		frmDatiTerzistaOp.getContentPane().add(separator);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 290, 471, 67);
+		scrollPane.setBounds(10, 290, 471, 106);
 		frmDatiTerzistaOp.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -209,6 +202,10 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.getContentPane().add(nome);
 		frmDatiTerzistaOp.getContentPane().add(lblEmail);
 		frmDatiTerzistaOp.getContentPane().add(lblPiva);
+		
+        /*********************Aggiunto menu*************************************/
+		menu app = new menu(frmDatiTerzistaOp, "Bolla");
+		frmDatiTerzistaOp.setVisible(true);
 	}
 	
 	public void visualLavorazioni(){
