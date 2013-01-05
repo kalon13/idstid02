@@ -122,7 +122,7 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 720);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 710);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
@@ -324,8 +324,8 @@ public class GUI_Magazzino {
 						String cod = (String) tableDDT.getValueAt(row, 0);
 						String dtinv =" Data Invio:"+(String) tableDDT.getValueAt(row, 1);
 						Terzista t = getTerz2Id();
-						String mitt = t.getRagioneSociale() +",  PIVA " +t.getpIva();
-						new CreatePDF(_dataMat, _titlesMat, cod, dtinv, mitt);
+						String mitt = t.getRagioneSociale();
+						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt);
 					}
 					else
 						JOptionPane.showMessageDialog(frmGestioneMagazzino , "Il DDT non è stato invitato dal Terzista!!");

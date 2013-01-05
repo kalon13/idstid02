@@ -8,6 +8,7 @@ import classResources.DDT;
 import classResources.Extraconsumo;
 import classResources.Fase;
 import classResources.Fattura;
+import classResources.Fattura_Lavorazione;
 import classResources.LavorazioneTerzista;
 import classResources.Materiale;
 import classResources.MaterialeDDT;
@@ -188,7 +189,7 @@ public class ResourceInsUpd {
                         	 formData.add("ordine", ordine);
                         	 formData.add("LavorazioneTerzista_id", lavId);
                          }
-                         else if (className == "classResources.Fattura" && path == Global._URLFatt){
+                         else if (className == "classResources.Fattura"){
                              Fattura fat = (Fattura) classObj;
                              String dt = fat.getDataEmissione();
                              String idT = String.valueOf(fat.getIdTerz());
@@ -198,11 +199,12 @@ public class ResourceInsUpd {
                              formData.add("importo", imp);
                              formData.add("Terzista_id", idT);
                          }
-                         else if (className == "classResources.Fattura" && path == Global._URLFattBol){
-                             Fattura fat = (Fattura) classObj;
-                             String idF = String.valueOf(fat.getId());
+                         else if (className == "classResources.Fattura_Lavorazione"){
+                             Fattura_Lavorazione fat = (Fattura_Lavorazione) classObj;
+                             String idF = String.valueOf(fat.getIdFattura());
                              String idB = String.valueOf(fat.getIdBolla());
-                             String imp = String.valueOf(fat.getImporto());
+                             String imp = String.valueOf(fat.getTotImp2Bol());
+                             System.out.print(idF+"e"+idB+"f"+imp);
                              formData.add("Fattura_id", idF);
                              formData.add("Bolla_id", idB);
                              formData.add("importo", imp);
