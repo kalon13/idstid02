@@ -101,9 +101,7 @@ public class GUI_Magazzino {
     private JLabel lblTerzisti;
     private JScrollPane scrollPane_Terz; 
     private JPanel panelMag; 
-//    private JMenu mnGestioneBolle;
-//    private JMenu mnGestioneFatturazione;
-//    private JMenu mnGestioneTerzista;
+    
     
     public GUI_Magazzino() {
 		checkTerz_DT();
@@ -124,7 +122,7 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 701);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 720);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
@@ -322,10 +320,15 @@ public class GUI_Magazzino {
 			public void mouseClicked(MouseEvent e) {
 				if(tableDDT.getSelectedRow() != -1){
 					int row = tableDDT.getSelectedRow();
-					String cod = (String) tableDDT.getValueAt(row, 0);
-					CreatePDF pdf = new CreatePDF(tableDDTMat);
-					String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l da "+Autenticazione.getSessione().getUtente().getUser().toString()+" N. Doc "+cod;
-					pdf.print("urlDDT.pdf", DDT);
+					if (((String) tableDDT.getValueAt(row, 3)).equals("TERZISTA")){
+						String cod = (String) tableDDT.getValueAt(row, 0);
+						String dtinv =" Data Invio:"+(String) tableDDT.getValueAt(row, 1);
+						Terzista t = getTerz2Id();
+						String mitt = t.getRagioneSociale() +",  PIVA " +t.getpIva();
+						new CreatePDF(_dataMat, _titlesMat, cod, dtinv, mitt);
+					}
+					else
+						JOptionPane.showMessageDialog(frmGestioneMagazzino , "Il DDT non è stato invitato dal Terzista!!");
 				}
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
@@ -520,6 +523,10 @@ public class GUI_Magazzino {
 		}
 	}
 	
+	private Terzista getTerz2Id(){
+		Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+idTerzista); 
+		return terzista;
+	}
 		
 	/**Carica dati quando clicco i terzisti nella lista**/
     private void loadDtTer(int idT){

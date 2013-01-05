@@ -204,7 +204,7 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.getContentPane().add(lblPiva);
 		
         /*********************Aggiunto menu*************************************/
-		menu app = new menu(frmDatiTerzistaOp, "Bolla");
+		menu app = new menu(frmDatiTerzistaOp, "Terz");
 		frmDatiTerzistaOp.setVisible(true);
 	}
 	
