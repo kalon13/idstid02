@@ -16,31 +16,31 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 
-public class CreatePDF{
+public class CreateDDTPDF{
 
   private static String FILE = "DDT.pdf";
-  private static Font catFont = new Font(Font.TIMES_ROMAN, 18,
+  private static Font catFont = new Font(Font.TIMES_ROMAN, 13,
       Font.BOLD);
   private static Font redFont = new Font(Font.TIMES_ROMAN, 12,
       Font.NORMAL, Color.RED);
-  private static Font subFont = new Font(Font.TIMES_ROMAN, 16,
+  private static Font subFont = new Font(Font.TIMES_ROMAN, 15,
       Font.BOLD);
   private static Font Norm = new Font(Font.TIMES_ROMAN, 10,
       Font.NORMAL);
   
   private Object[][] data;
   private Object[] tit;
-  private String nwTitle = "DDT Numero: ";
+  private String ddt = "DDT Numero: ";
   private String dtInv;
   private String mitt;
   
-  public CreatePDF(Object[][] data, Object[] tit, String codDDT, String dtInv, String mitt) {
+  public CreateDDTPDF(Object[][] data, Object[] tit, String codDDT, String dtInv, String mitt) {
 	  this.data = data;
 	  this.tit = tit;
-	  this.nwTitle += codDDT;
+	  this.ddt += codDDT;
 	  this.dtInv = dtInv;
 	  this.mitt = mitt;
-
+	  
 	try {
 	      Document document = new Document();
 	      FILE = codDDT + FILE;
@@ -61,7 +61,7 @@ public class CreatePDF{
 	    document.add( Chunk.NEWLINE );
 	    document.add( Chunk.NEWLINE );
 	    
-	    title.add(new Paragraph(nwTitle, catFont));
+	    title.add(new Paragraph(mitt, catFont));
 
 	    document.add( Chunk.NEWLINE );
 	    document.add( Chunk.NEWLINE );	
@@ -69,13 +69,13 @@ public class CreatePDF{
 	    document.add( Chunk.NEWLINE );
 	    
 	    Paragraph prefaceM = new Paragraph();
-	    prefaceM.add(new Paragraph(Chunk.NEWLINE+"Mittente: "+ mitt,
+	    prefaceM.add(new Paragraph(Chunk.NEWLINE+ddt,
 	        Norm));
 
 	    document.add( Chunk.NEWLINE );
 	    document.add( Chunk.NEWLINE );
 	    Paragraph preface = new Paragraph();
-	    preface.add(new Paragraph(dtInv+Chunk.NEWLINE+Chunk.NEWLINE+"Destinatario: Azienda Casa Madre,"+Chunk.NEWLINE+" PIVA XXXXXXXXXX"+Chunk.NEWLINE+" Tel 0734902558  Fax 0734902625"+Chunk.NEWLINE+" CAP 63821 Via 20 Settembre n.23",
+	    preface.add(new Paragraph(Chunk.NEWLINE+"Destinatario: Azienda Casa Madre,"+Chunk.NEWLINE+"63821 Via 20 Settembre n.23"+Chunk.NEWLINE+" PIVA XXXXXXXXXX"+Chunk.NEWLINE+" Tel 0734902558  Fax 0734902625"+Chunk.NEWLINE+Chunk.NEWLINE+dtInv,
 	    		Norm));
 	    preface.setIndentationLeft(360);
 	    document.add(title);

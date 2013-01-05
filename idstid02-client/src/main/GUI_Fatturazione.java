@@ -36,6 +36,10 @@ import java.awt.event.MouseEvent;
 import java.awt.SystemColor;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 
 public class GUI_Fatturazione {
@@ -47,8 +51,10 @@ public class GUI_Fatturazione {
         private JTextField textImpToT;
         private static GUI_RegistraDDT windowRegDDT;
         
-        private static String[][] _dataLav;
-        private static Object[] _titlesLav={"Num. Bolla","Lavorazione", "Prezzo"};
+        private static Object[][] _dataLav;
+        private static Object[] _titlesLav={"Num. Bolla","Articolo", "Lavorazione", "Paia", "Costo Unit", "Tot"};
+        private static Object[][] _dataExt;
+        private static Object[] _titlesExt={"Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Giustificato", "Data"};
         private DefaultTableModel dfmLav;
         
         //Lista Fatt
@@ -77,19 +83,21 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
-                frmElenco.addFocusListener(new FocusAdapter() {
-                	@Override
-                	public void focusGained(FocusEvent e) {
-                		checkTerz_DT();
-                	}
-                });
                 frmElenco.setTitle("Gestione Fatturazione");
-                frmElenco.setBounds(100, 100, 1014, 395);
+                frmElenco.addWindowFocusListener(new WindowFocusListener() {
+        			public void windowGainedFocus(WindowEvent e) {
+        				loadTableDt(idTerzista);
+        				listFatt.setListData(_dataFat);
+        			}
+        			public void windowLostFocus(WindowEvent e) {
+        			}
+        		});
+                frmElenco.setBounds(100, 100, 1011, 645);
                 frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmElenco.getContentPane().setLayout(null);
                 
                 panel_Fatt = new JPanel();
-                panel_Fatt.setBounds(186, 11, 810, 308);
+                panel_Fatt.setBounds(186, 11, 784, 567);
                 frmElenco.getContentPane().add(panel_Fatt);
                 panel_Fatt.setLayout(null);
                
@@ -98,15 +106,15 @@ public class GUI_Fatturazione {
                 panel_Fatt.add(lblFatture);
                
                 JScrollPane scrollPane_2 = new JScrollPane();
-                scrollPane_2.setBounds(0, 21, 160, 196);
+                scrollPane_2.setBounds(0, 21, 160, 430);
                 panel_Fatt.add(scrollPane_2);
                              
                 btnNewFatt = new JButton("Nuova Fattura");
-                btnNewFatt.setBounds(0, 250, 160, 23);
+                btnNewFatt.setBounds(0, 486, 160, 23);
                 panel_Fatt.add(btnNewFatt);
                 
                 JPanel panel = new JPanel();
-                panel.setBounds(166, 5, 634, 268);
+                panel.setBounds(166, 5, 611, 504);
                 panel_Fatt.add(panel);
                 panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
                 panel.setLayout(null);
@@ -124,11 +132,11 @@ public class GUI_Fatturazione {
                 panel.add(lblContenutoFattura);
                     
                 JLabel lblExtraconsumi = new JLabel("Extraconsumi:");
-                lblExtraconsumi.setBounds(215, 75, 84, 14);
+                lblExtraconsumi.setBounds(10, 289, 84, 14);
                 panel.add(lblExtraconsumi);
                      
 			    JScrollPane scrollPane_1 = new JScrollPane();
-			    scrollPane_1.setBounds(10, 100, 186, 157);
+			    scrollPane_1.setBounds(36, 100, 563, 178);
 			    panel.add(scrollPane_1);
                       
                 dfmLav = new DefaultTableModel(_dataLav, _titlesLav);
@@ -138,7 +146,7 @@ public class GUI_Fatturazione {
                 tableLav.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                        
                 JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(206, 102, 418, 155);
+                scrollPane.setBounds(36, 314, 563, 150);
                 panel.add(scrollPane);
                 
                 tableExtra = new JTable();
@@ -147,7 +155,7 @@ public class GUI_Fatturazione {
                                 new Object[][] {
                                 },
                                 new String[] {
-                                        "Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo", "Giustificato", "Data"
+                                        "Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Giustificato", "Data"
                                 }
                         ));
                 tableExtra.getColumnModel().getColumn(3).setPreferredWidth(88);
@@ -166,11 +174,32 @@ public class GUI_Fatturazione {
                 textImpToT.setColumns(10);
                
                 JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(711, 284, 89, 23);
+                btnEsci.setBounds(678, 533, 89, 23);
                 panel_Fatt.add(btnEsci);
                 
                 JButton button = new JButton("Stampa fattura in PDF");
-                button.setBounds(0, 222, 160, 23);
+                button.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent e) {
+                		if(listFatt.getSelectedIndex() != -1){
+        					int row = listFatt.getSelectedIndex();
+        					String nmFat = textNum.getText();
+        					String[] lsFt = _dataFat[row].split("-");
+        					String dtEm =" Data Emissione: "+lsFt[1];
+        					String imp = textImpToT.getText();
+        					Terzista t = getTerz2Id();
+        					String mitt = t.getRagioneSociale();
+        					CreateFatPDF fat = new CreateFatPDF(nmFat, dtEm, mitt, imp);
+        					fat.setDataLav(_dataLav);
+        					fat.setTitLav(_titlesLav);
+        					//System.out.println(_dataExt[0][1] );
+        					fat.setDataExt(_dataExt);
+        					fat.setTitExt(_titlesExt);
+        					fat.wrtPDF();
+        				  }
+        					else JOptionPane.showMessageDialog(frmElenco , "Non è stata selezionata la Fattura!");
+                	}
+                });
+                button.setBounds(0, 462, 160, 23);
                 panel_Fatt.add(button);
                 
                 panel_terz = new JPanel();
@@ -263,8 +292,11 @@ public class GUI_Fatturazione {
 	                    Fattura_Lavorazione fattLv = it.next();
 	                      if(t<cntDt){
 	                       _dataLav[t][0] = fattLv.getCodBolla();
-	                       _dataLav[t][1] = fattLv.getNomeLavorazione();
-	                       _dataLav[t][2] = Double.toString(fattLv.getPrezzoLavorazione());
+	                       _dataLav[t][2] = fattLv.getNomeLavorazione();
+	                       _dataLav[t][1] = String.valueOf(fattLv.getCodProdotto());
+	                       _dataLav[t][3] = String.valueOf(fattLv.getQntProd());
+	                       _dataLav[t][4] = String.valueOf(fattLv.getCostoUnit());
+	                       _dataLav[t][5] = String.valueOf(fattLv.getPrezzoLavorazione());
 	                       t++;
 	                       loadTableMatEx(String.valueOf(fattLv.getIdBolla()));
 	                      }
@@ -322,8 +354,8 @@ public class GUI_Fatturazione {
     		else
     		{
     		  panel_terz.setVisible(false);	
-    		  panel_Fatt.setBounds(20, 11, 820, 400);
-    		  frmElenco.setBounds(100, 100, 850, 405);
+    		  panel_Fatt.setBounds(20, 11, 880, 620);
+    		  frmElenco.setBounds(100, 100, 890, 651);
     	    }
     	}
     	//caricamento dati
@@ -363,27 +395,43 @@ public class GUI_Fatturazione {
             }
             return chkBollFatt;
         }
+        
+    
+    private Terzista getTerz2Id(){
+    		Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+idTerzista); 
+    		return terzista;
+     }
+    		
      /**Carica Tabella Extraconsumo**/   
      private void loadTableMatEx(String idB){
             List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
-            System.out.print( Global._URLExtra+idB);
             if(extraC != null){
-            Iterator<Extraconsumo> itEx =extraC.iterator();
-	        while(itEx.hasNext())
-	        {   Extraconsumo exC = itEx.next();
-	            String cod = exC.getCodiceArticolo();
-	            String des = exC.getDescrizione();
-	            Double qnt =  exC.getQuantita();
-	            String udm = exC.getUdm();
-	            Double cstU =  exC.getCosto();
-	            String dt = exC.getDataRichiesta();
-	            String g = "Ingiustificato";
-	            if(exC.getGiustificato() == 1) g = "Giustificato";
-	             //Aggiunge i valori alla tabella
-	              ((DefaultTableModel) tableExtra.getModel()).insertRow(
-	            		  tableExtra.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});  
-	        }
-       }
+	            Iterator<Extraconsumo> itEx =extraC.iterator();
+	            _dataExt = new String[extraC.size()][_titlesExt.length];
+	            int k = 0;
+		        while(itEx.hasNext())
+		        {   Extraconsumo exC = itEx.next();
+		            String cod = exC.getCodiceArticolo();
+		            String des = exC.getDescrizione();
+		            Double qnt =  exC.getQuantita();
+		            String udm = exC.getUdm();
+		            Double cstU =  exC.getCosto();
+		            String dt = FormatDate.getFormatDate(exC.getDataRichiesta());
+		            String g = "Ingiustificato";
+		            if(exC.getGiustificato() == 1) g = "Giustificato";
+		             _dataExt[k][0] = des;
+		             _dataExt[k][1] = String.valueOf(qnt);
+		             _dataExt[k][2] = udm;
+		             _dataExt[k][3] = String.valueOf(cstU);
+		             _dataExt[k][4] = dt;
+		             _dataExt[k][5] = g;
+		            
+		             //Aggiunge i valori alla tabella
+		              ((DefaultTableModel) tableExtra.getModel()).insertRow(
+		            		  tableExtra.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});
+		              k++;
+		         }
+           }
     }
      
 }
