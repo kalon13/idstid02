@@ -10,7 +10,13 @@ public class Fattura_Lavorazione {
         private int idBolla;
         private int idTerzista;
         private boolean isFatt;
-        private String CodBolla;
+        private String codBolla;
+        private double costoUnit;
+        private double qntProd;
+        private double totImp2Bol;
+        private String codProdotto;
+        private String udm;
+        private String descProdotto;
         
         public Fattura_Lavorazione() {
         }
@@ -78,11 +84,59 @@ public class Fattura_Lavorazione {
 		}
 
 		public String getCodBolla() {
-			return CodBolla;
+			return codBolla;
 		}
 
 		public void setCodBolla(String codBolla) {
-			CodBolla = codBolla;
+			this.codBolla = codBolla;
+		}
+
+		public double getCostoUnit() {
+			return costoUnit;
+		}
+
+		public void setCostoUnit(double costoUnit) {
+			this.costoUnit = costoUnit;
+		}
+
+		public double getQntProd() {
+			return qntProd;
+		}
+
+		public void setQntProd(double qntProd) {
+			this.qntProd = qntProd;
+		}
+
+		public double getTotImp2Bol() {
+			return totImp2Bol;
+		}
+
+		public void setTotImp2Bol(double totImp2Bol) {
+			this.totImp2Bol = totImp2Bol;
+		}
+
+		public String getCodProdotto() {
+			return codProdotto;
+		}
+
+		public void setCodProdotto(String codProdotto) {
+			this.codProdotto = codProdotto;
+		}
+
+		public String getUdm() {
+			return udm;
+		}
+
+		public void setUdm(String udm) {
+			this.udm = udm;
+		}
+
+		public String getDescProdotto() {
+			return descProdotto;
+		}
+
+		public void setDescProdotto(String descProdotto) {
+			this.descProdotto = descProdotto;
 		}
 
 }

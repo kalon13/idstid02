@@ -336,7 +336,7 @@ public class GUI_DatiTerzistaTr {
 		frmDatiTerzistaTr.getContentPane().add(btnCancellaProfilo);
 		
 	    /*********************Aggiunto menu*************************************/
-		menu app = new menu(frmDatiTerzistaTr, "Bolla");
+		menu app = new menu(frmDatiTerzistaTr, "Terz");
 		frmDatiTerzistaTr.setVisible(true);
 
 	}

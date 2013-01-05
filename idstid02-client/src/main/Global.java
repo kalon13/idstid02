@@ -10,7 +10,6 @@ public class Global {
     public static final String _URLFattBol = "/fatturazione/BollaFatt/";
     public static final String _URLImpFattBol = "/fatturazione/ImpFattBol/";
     public static final String _URLChkFattBol ="/fatturazione/chkFattBol/";
-    public static final String _URLBollaRiassegna="/bolla/riassegna/";
     public static final String _URLFattTerz = "/fatturazione/terzista/";
     public static final String _URLBolla = "/bolla";
     public static final String _URLBollaValuta = "/bolla/valuta/";
