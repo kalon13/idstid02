@@ -91,7 +91,11 @@ public class CreateFatPDF{
 	    createTable(prefaceM, dataLav, titLav);
 	    document.add( Chunk.NEWLINE );
 	    document.add(prefaceM);
+	    document.add( Chunk.NEWLINE );
+	    document.add( Chunk.NEWLINE );
 	    Paragraph ext = new Paragraph();
+	    ext.add(new Paragraph("Extraconsumo:"+Chunk.NEWLINE,
+	    		Norm));
 	    createTable(ext, dataExt, titExt);
 	    //System.out.println(dataExt[0][0]);
 	    document.add(ext);

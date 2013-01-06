@@ -12,7 +12,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.JScrollPane;
 
 import classResources.DDT;
@@ -21,41 +20,19 @@ import classResources.Terzista;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 
+import com.lowagie.text.Chunk;
 
-import java.awt.Frame;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
-import java.awt.Component;
-import javax.swing.JRadioButtonMenuItem;
-import java.awt.Cursor;
-import javax.swing.event.MenuListener;
-import javax.swing.event.MenuEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import javax.swing.event.MenuKeyListener;
-import javax.swing.event.MenuKeyEvent;
-
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
 
 
 public class GUI_Magazzino {
@@ -100,7 +77,7 @@ public class GUI_Magazzino {
     List<Terzista> listaTerz = null;
     private JLabel lblTerzisti;
     private JScrollPane scrollPane_Terz; 
-    private JPanel panelMag; 
+    private JPanel panelMag;
     
     
     public GUI_Magazzino() {
@@ -110,7 +87,7 @@ public class GUI_Magazzino {
 
 	private void initialize() {
 		frmGestioneMagazzino = new JFrame();
-		frmGestioneMagazzino.setAlwaysOnTop(true);
+		frmGestioneMagazzino.setResizable(false);
 		frmGestioneMagazzino.setTitle("Gestione Magazzino");
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
@@ -122,7 +99,7 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 710);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 722);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
@@ -132,13 +109,16 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
 		JLabel lblNewLabel = new JLabel("Ricerca materiale:");
+		lblNewLabel.setBounds(30, 23, 97, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		textSearch = new JTextField();
+		textSearch.setBounds(137, 21, 86, 20);
 		textSearch.setName("searchTxt");
 		textSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(56, 54, 639, 170);
 		scrollPane.setFocusTraversalKeysEnabled(false);
 		scrollPane.setEnabled(false);
 		
@@ -167,6 +147,7 @@ public class GUI_Magazzino {
 		};
 	         
         JButton button = new JButton("Ricerca");
+        button.setBounds(233, 20, 123, 23);
         button.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -179,6 +160,7 @@ public class GUI_Magazzino {
         });
         button.setName("searchBtn");
         btnUpdMat = new JButton("Aggiorna materiale");
+        btnUpdMat.setBounds(511, 234, 123, 23);
         btnUpdMat.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -203,40 +185,12 @@ public class GUI_Magazzino {
         	}
         });
         btnUpdMat.setName("btnUpdMat");
-        GroupLayout gl_panelMag = new GroupLayout(panelMag);
-        gl_panelMag.setHorizontalGroup(
-        	gl_panelMag.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(24)
-        			.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(textSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(button, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(50)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 639, GroupLayout.PREFERRED_SIZE))
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(505)
-        			.addComponent(btnUpdMat))
-        );
-        gl_panelMag.setVerticalGroup(
-        	gl_panelMag.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGroup(gl_panelMag.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_panelMag.createSequentialGroup()
-        					.addGap(3)
-        					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(gl_panelMag.createSequentialGroup()
-        					.addGap(1)
-        					.addComponent(textSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(button))
-        			.addGap(11)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(btnUpdMat))
-        );
-        panelMag.setLayout(gl_panelMag);
+        panelMag.setLayout(null);
+        panelMag.add(lblNewLabel);
+        panelMag.add(textSearch);
+        panelMag.add(button);
+        panelMag.add(scrollPane);
+        panelMag.add(btnUpdMat);
 		
 		/************lista Terzisti*************************/
 		 lblTerzisti = new JLabel("Terzisti:");
@@ -269,7 +223,7 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
-		btnNewDDT.setBounds(652, 283, 135, 23);
+		btnNewDDT.setBounds(661, 270, 135, 23);
 		panel_1.add(btnNewDDT);
 		
 		JScrollPane scrollPane_DDTMat = new JScrollPane();
@@ -280,7 +234,7 @@ public class GUI_Magazzino {
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
-		btnRegDDT.setBounds(506, 283, 135, 23);
+		btnRegDDT.setBounds(806, 270, 135, 23);
 		panel_1.add(btnRegDDT);
 		
 		JScrollPane scrollPane_DDT = new JScrollPane();
@@ -320,20 +274,19 @@ public class GUI_Magazzino {
 			public void mouseClicked(MouseEvent e) {
 				if(tableDDT.getSelectedRow() != -1){
 					int row = tableDDT.getSelectedRow();
-					if (((String) tableDDT.getValueAt(row, 3)).equals("TERZISTA")){
+					boolean isAz2Ter = false;
+					if (((String) tableDDT.getValueAt(row, 3)).equals("AZIENDA"))
+						isAz2Ter = true;
 						String cod = (String) tableDDT.getValueAt(row, 0);
 						String dtinv =" Data Invio:"+(String) tableDDT.getValueAt(row, 1);
 						Terzista t = getTerz2Id();
-						String mitt = t.getRagioneSociale();
-						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt);
-					}
-					else
-						JOptionPane.showMessageDialog(frmGestioneMagazzino , "Il DDT non è stato invitato dal Terzista!!");
-				}
+						String mitt = t.getRagioneSociale()+", "+Chunk.NEWLINE+t.getIndirizzo()+Chunk.NEWLINE+"PIVA "+t.getpIva()+Chunk.NEWLINE+"Tel. "+t.getTelefono()+" Fax "+t.getFax();
+						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt, isAz2Ter);
+				 }
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
 		});
-		btnStampaDdtIn.setBounds(806, 283, 135, 23);
+		btnStampaDdtIn.setBounds(276, 270, 135, 23);
 		panel_1.add(btnStampaDdtIn);
 		
 		btnRegDDT.addMouseListener(new MouseAdapter() {
@@ -351,8 +304,7 @@ public class GUI_Magazzino {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				windowNewDDT = new GUI_CreaDDT(idTerzista);
-				windowNewDDT.frmCreaDdt.setVisible(true);
-			}
+				windowNewDDT.frmCreaDdt.setVisible(true);}
 		});
 		
 		
