@@ -105,7 +105,7 @@ public class GUI_SceltaTerzista {
 		frmSceltaTerzista = new JFrame();
 		frmSceltaTerzista.setTitle("Scelta Terzista - Valutazione Lavorazioni - Cancellazione Terzista");
 		frmSceltaTerzista.setResizable(false);
-		frmSceltaTerzista.setBounds(100, 100, 466, 244);
+		frmSceltaTerzista.setBounds(100, 100, 475, 244);
 		frmSceltaTerzista.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
