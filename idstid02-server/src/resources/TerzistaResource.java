@@ -35,7 +35,7 @@ public class TerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.terzista where id>0;"
+						"SELECT * FROM progingsw.terzista WHERE id>0;"
 					);
 			
 			while(result.next()) {
