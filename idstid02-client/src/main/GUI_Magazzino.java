@@ -28,6 +28,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ListSelectionModel;
+
+import com.lowagie.text.Chunk;
+
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 
@@ -271,16 +274,15 @@ public class GUI_Magazzino {
 			public void mouseClicked(MouseEvent e) {
 				if(tableDDT.getSelectedRow() != -1){
 					int row = tableDDT.getSelectedRow();
-					if (((String) tableDDT.getValueAt(row, 3)).equals("TERZISTA")){
+					boolean isAz2Ter = false;
+					if (((String) tableDDT.getValueAt(row, 3)).equals("AZIENDA"))
+						isAz2Ter = true;
 						String cod = (String) tableDDT.getValueAt(row, 0);
 						String dtinv =" Data Invio:"+(String) tableDDT.getValueAt(row, 1);
 						Terzista t = getTerz2Id();
-						String mitt = t.getRagioneSociale();
-						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt);
-					}
-					else
-						JOptionPane.showMessageDialog(frmGestioneMagazzino , "Il DDT non è stato invitato dal Terzista!!");
-				}
+						String mitt = t.getRagioneSociale()+", "+Chunk.NEWLINE+t.getIndirizzo()+Chunk.NEWLINE+"PIVA "+t.getpIva()+Chunk.NEWLINE+"Tel. "+t.getTelefono()+" Fax "+t.getFax();
+						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt, isAz2Ter);
+				 }
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
 		});

@@ -33,13 +33,23 @@ public class CreateDDTPDF{
   private String ddt = "DDT Numero: ";
   private String dtInv;
   private String mitt;
+  private String dest;
+  private String azienda ="Azienda Casa Madre,"+Chunk.NEWLINE+"63821 Via 20 Settembre n.23"+Chunk.NEWLINE+" PIVA XXXXXXXXXX"+Chunk.NEWLINE+" Tel 0734902558  Fax 0734902625";
   
-  public CreateDDTPDF(Object[][] data, Object[] tit, String codDDT, String dtInv, String mitt) {
+  public CreateDDTPDF(Object[][] data, Object[] tit, String codDDT, String dtInv, String mittDest, boolean isAz2Ter) {
 	  this.data = data;
 	  this.tit = tit;
 	  this.ddt += codDDT;
 	  this.dtInv = dtInv;
-	  this.mitt = mitt;
+	  if(isAz2Ter== false){
+		  mitt = mittDest;
+		  dest = azienda;  
+	  }
+	  else{
+		  dest = mittDest;
+		  mitt = azienda; 
+	  }
+	  
 	  
 	try {
 	      Document document = new Document();
@@ -75,7 +85,7 @@ public class CreateDDTPDF{
 	    document.add( Chunk.NEWLINE );
 	    document.add( Chunk.NEWLINE );
 	    Paragraph preface = new Paragraph();
-	    preface.add(new Paragraph(Chunk.NEWLINE+"Destinatario: Azienda Casa Madre,"+Chunk.NEWLINE+"63821 Via 20 Settembre n.23"+Chunk.NEWLINE+" PIVA XXXXXXXXXX"+Chunk.NEWLINE+" Tel 0734902558  Fax 0734902625"+Chunk.NEWLINE+Chunk.NEWLINE+dtInv,
+	    preface.add(new Paragraph(Chunk.NEWLINE+dest+Chunk.NEWLINE+Chunk.NEWLINE+dtInv,
 	    		Norm));
 	    preface.setIndentationLeft(360);
 	    document.add(title);
