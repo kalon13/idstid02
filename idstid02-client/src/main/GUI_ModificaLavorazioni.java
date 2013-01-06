@@ -486,6 +486,7 @@ public class GUI_ModificaLavorazioni {
             	//Il vettore delle righe è idLav_2
             	int faseSelezionata=(Integer) id_Lav2.get(table_3.getSelectedRow());
             	ResourceClass.delResources(Global._URLFase, String.valueOf(faseSelezionata));
+            	JOptionPane.showMessageDialog(null, "Fase eliminata correttamente.", "Attenzione", 1);
             	//Refresh della screen
 				frmModificaLavorazioni.setVisible(false);
 				GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
