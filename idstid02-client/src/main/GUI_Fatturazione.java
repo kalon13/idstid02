@@ -51,10 +51,10 @@ public class GUI_Fatturazione {
         private JTextField textImpToT;
         private static GUI_RegistraDDT windowRegDDT;
         
-        private static Object[][] _dataLav;
-        private static Object[] _titlesLav={"Num. Bolla","Articolo", "Lavorazione", "Paia", "Costo Unit", "Tot"};
-        private static Object[][] _dataExt;
-        private static Object[] _titlesExt={"Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Giustificato", "Data"};
+        private Object[][] _dataLav;
+        private Object[] _titlesLav={"Num. Bolla","Articolo", "Lavorazione", "Paia", "Costo Unit", "Tot"};
+        private Object[][] _dataExt;
+        private Object[] _titlesExt={"Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Giustificato", "Data"};
         private DefaultTableModel dfmLav;
         
         //Lista Fatt
@@ -83,6 +83,7 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
+                frmElenco.setResizable(false);
                 frmElenco.setTitle("Gestione Fatturazione");
                 frmElenco.addWindowFocusListener(new WindowFocusListener() {
         			public void windowGainedFocus(WindowEvent e) {
@@ -191,7 +192,7 @@ public class GUI_Fatturazione {
         					CreateFatPDF fat = new CreateFatPDF(nmFat, dtEm, mitt, imp);
         					fat.setDataLav(_dataLav);
         					fat.setTitLav(_titlesLav);
-        					//System.out.println(_dataExt[0][1] );
+        					System.out.println(_dataExt[0][0] );
         					fat.setDataExt(_dataExt);
         					fat.setTitExt(_titlesExt);
         					fat.wrtPDF();
@@ -405,9 +406,10 @@ public class GUI_Fatturazione {
      /**Carica Tabella Extraconsumo**/   
      private void loadTableMatEx(String idB){
             List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
-            if(extraC != null){
+            if(extraC.size() > 0){
 	            Iterator<Extraconsumo> itEx =extraC.iterator();
-	            _dataExt = new String[extraC.size()][_titlesExt.length];
+	            _dataExt = new String[extraC.size()][7];
+	            System.out.println(extraC.size());
 	            int k = 0;
 		        while(itEx.hasNext())
 		        {   Extraconsumo exC = itEx.next();
@@ -419,12 +421,13 @@ public class GUI_Fatturazione {
 		            String dt = FormatDate.getFormatDate(exC.getDataRichiesta());
 		            String g = "Ingiustificato";
 		            if(exC.getGiustificato() == 1) g = "Giustificato";
-		             _dataExt[k][0] = des;
-		             _dataExt[k][1] = String.valueOf(qnt);
-		             _dataExt[k][2] = udm;
-		             _dataExt[k][3] = String.valueOf(cstU);
-		             _dataExt[k][4] = dt;
-		             _dataExt[k][5] = g;
+		             _dataExt[k][0] = String.valueOf(cod);
+		             _dataExt[k][1] = des;
+		             _dataExt[k][2] = String.valueOf(qnt);
+		             _dataExt[k][3] = udm;
+		             _dataExt[k][4] = String.valueOf(cstU);
+		             _dataExt[k][5] = dt;
+		             _dataExt[k][6] = g;
 		            
 		             //Aggiunge i valori alla tabella
 		              ((DefaultTableModel) tableExtra.getModel()).insertRow(
