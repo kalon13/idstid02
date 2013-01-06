@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
+import javax.swing.JScrollPane;
 
 public class GUI_Image {
 
@@ -26,8 +27,10 @@ public class GUI_Image {
 
 	private void initialize() {
 		frmModelloScarpa = new JFrame();
+		frmModelloScarpa.setResizable(false);
+		frmModelloScarpa.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmModelloScarpa.setTitle("Modello Scarpa");
-		frmModelloScarpa.setBounds(100, 100, 507, 357);
+		frmModelloScarpa.setBounds(100, 100, 689, 541);
 		frmModelloScarpa.getContentPane().setLayout(null);
 		
 		try {
@@ -38,9 +41,12 @@ public class GUI_Image {
 	    }
 		
 		ImageIcon img=new ImageIcon(image);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 11, 663, 491);
+		frmModelloScarpa.getContentPane().add(scrollPane);
 		lblImage = new JLabel(img);
+		scrollPane.setViewportView(lblImage);
 		lblImage.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		lblImage.setBounds(10, 11, 471, 297);
-		frmModelloScarpa.getContentPane().add(lblImage);
 	}
 }

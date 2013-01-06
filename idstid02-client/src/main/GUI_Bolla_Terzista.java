@@ -600,6 +600,18 @@ public class GUI_Bolla_Terzista {
             
             tablePaia = new JTable(dmPaia);
             scrollPane_2.setViewportView(tablePaia);
+            
+            JButton btnModelloScarpa = new JButton("Modello Scarpa");
+            btnModelloScarpa.addActionListener(new ActionListener() {
+            	public void actionPerformed(ActionEvent e) {
+            		//id contiene l'id della bolla
+            		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
+            		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
+            		path.frmModelloScarpa.setVisible(true);
+            	}
+            });
+            btnModelloScarpa.setBounds(224, 487, 112, 23);
+            panel.add(btnModelloScarpa);
                    
             list.setBounds(10, 89, 158, 149);
             frmBolleDiLavorazioneTerzista.getContentPane().add(list);

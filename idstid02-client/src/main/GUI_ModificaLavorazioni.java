@@ -76,10 +76,14 @@ public class GUI_ModificaLavorazioni {
 	 */
 	private void initialize() {
 		frmModificaLavorazioni = new JFrame();
+		frmModificaLavorazioni.setResizable(false);
 		frmModificaLavorazioni.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setEnabled(true);
+				//GUI_Home.windowDatiTr.frmDatiTerzistaTr.setEnabled(true);
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+				GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 			}
 		});
 		frmModificaLavorazioni.setTitle("Modifica Lavorazioni");
@@ -136,14 +140,27 @@ public class GUI_ModificaLavorazioni {
 					Terzista t = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+id);
 					int lavorazSelezionata=cmbTipoLavorazioni.getSelectedIndex();
 					lavorazSelezionata=(Integer) index.get(lavorazSelezionata);
-					LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
-							0,lavorazSelezionata,t.getId());
-					String id = ResourceClass.addResources("/lavorazioneterzista/", l);
-					JOptionPane.showMessageDialog(null, "Lavorazione inserita correttamente", "Attenzione", 1);
-					//m1.setId(Integer.parseInt(id));
-					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
-					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					
+					//Verifichiamo che il terzista non abbia già questa lavorazione
+					boolean presente=false;
+					List<LavorazioneTerzista> listalt = ResourceClass.getResources(LavorazioneTerzista.class, Global._URLLavorazTerzista+"idTerzista/"+t.getId());
+					Iterator<LavorazioneTerzista> lavT = listalt.iterator();
+					while (lavT.hasNext()){
+						LavorazioneTerzista lavTerz=lavT.next();
+						if(lavTerz.getLavorazioneID() == lavorazSelezionata) presente=true;
+					}
+					if(!presente){//Non ha già questa lavorazione
+						LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
+								0,lavorazSelezionata,t.getId());
+						String id = ResourceClass.addResources("/lavorazioneterzista/", l);
+						JOptionPane.showMessageDialog(null, "Lavorazione inserita correttamente", "Attenzione", 1);
+						//m1.setId(Integer.parseInt(id));
+						frmModificaLavorazioni.setVisible(false); //Se metto .dispose() crea due GUI_DatiTerzistaTr
+						GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
+						windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Inserimento negato. Hai già questa lavorazione.", "Attenzione", 0);
 				}
 			}
 		});
