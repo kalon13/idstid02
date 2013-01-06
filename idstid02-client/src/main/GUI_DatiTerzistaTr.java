@@ -88,6 +88,7 @@ public class GUI_DatiTerzistaTr {
 	 */
 	private void initialize() {
 		frmDatiTerzistaTr = new JFrame();
+		frmDatiTerzistaTr.setResizable(false);
 		frmDatiTerzistaTr.setTitle("Dati Terzista");
 		frmDatiTerzistaTr.setBounds(100, 100, 643, 553);
 		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -335,7 +336,7 @@ public class GUI_DatiTerzistaTr {
 		frmDatiTerzistaTr.getContentPane().add(btnCancellaProfilo);
 		
 	    /*********************Aggiunto menu*************************************/
-		menu app = new menu(frmDatiTerzistaTr, "Bolla");
+		menu app = new menu(frmDatiTerzistaTr, "Terz");
 		frmDatiTerzistaTr.setVisible(true);
 
 	}

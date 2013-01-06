@@ -68,14 +68,17 @@ public class GUI_ModificaAnagrafica {
 	 */
 	private void initialize() {
 		frmModificaAnagrafica = new JFrame();
+		frmModificaAnagrafica.setResizable(false);
 		frmModificaAnagrafica.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setEnabled(true);
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+				GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 			}
 		});
 		frmModificaAnagrafica.setTitle("Modifica Anagrafica");
-		frmModificaAnagrafica.setBounds(100, 100, 483, 426);
+		frmModificaAnagrafica.setBounds(100, 100, 475, 426);
 		frmModificaAnagrafica.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -260,7 +263,7 @@ public class GUI_ModificaAnagrafica {
 			}
 		});
 		btnModifica.setMnemonic(KeyEvent.VK_ENTER);
-		btnModifica.setBounds(369, 354, 89, 23);
+		btnModifica.setBounds(369, 364, 89, 23);
 		panel.add(btnModifica);
 		
 		pass = new JPasswordField();
@@ -293,9 +296,12 @@ public class GUI_ModificaAnagrafica {
 						Autenticazione.getSessione().getUtente().getTipo());
 				ResourceClass.updResources(Utente.class, Global._URLUser+"/", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()), updUtente);
 				JOptionPane.showMessageDialog(null, "Dati modificati correttamente.", "Attenzione", 1);
-				GUI_Home windowHome=new GUI_Home();
-				windowHome.frmHome.setVisible(true);
-				frmModificaAnagrafica.setVisible(false);
+				//GUI_Home windowHome=new GUI_Home();
+				//windowHome.frmHome.setVisible(true);
+				frmModificaAnagrafica.dispose();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+				GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+				GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 			}
 			else {
 				JOptionPane.showMessageDialog(null, "Impossibile impostare password vuota!", "Attenzione", 1);

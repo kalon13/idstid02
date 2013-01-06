@@ -66,35 +66,51 @@ public class FatturazioneResource {
 	public Fattura getFattura(@PathParam("id") int id) {
 		Statement statement = null;
 		Statement statement1 = null;
+		Statement stQntPr = null;
 		ResultSet result = null;
 		ResultSet result1 = null;
+		ResultSet rsQntPr = null;
 		Fattura f = null;
+		Double qntProd = 0.0;
 		Fattura_Lavorazione fattLavorazione = null;
 		List<Fattura_Lavorazione> lsFattLav = new ArrayList<Fattura_Lavorazione>();
 		
 		try {
 			statement = DB.instance.createStatement();
 			statement1 = DB.instance.createStatement();
+			stQntPr = DB.instance.createStatement();
 			//fattura
 			result = statement.executeQuery(
 					"select * from progingsw.fattura where id='" + id + "';");
 			
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
-						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.Numero FROM progingsw.lavorazione JOIN " +
+						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.Numero, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
 						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
 						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
 						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.Lavorazione_id where" +
 						" bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
 						" and fatturabolla.Fattura_id='" + id + "';"
 					);
-			
+				
 			while(result1.next()) {
 				//int id, int numFattura, String dataEmissione, double importo
 				fattLavorazione = new Fattura_Lavorazione(result1.getInt(1), result1.getString(2), 
 						result1.getDouble(3),result1.getInt(4),result1.getInt(5));
 				fattLavorazione.setCodBolla(result1.getString(6));
-				lsFattLav.add(fattLavorazione);
+				fattLavorazione.setCostoUnit(result1.getDouble(7));
+				
+				//Calcolo della quantita prodotta tramite l'id bolla 
+				qntProd = 0.0;
+				rsQntPr = stQntPr.executeQuery(
+						"SELECT codiceArticolo, quantitaProdotta FROM progingsw.bolla join progingsw.materialidaprodurre"+ 
+						" on bolla.id = Bolla_id join progingsw.materiale on materiale.id = Materiale_id where bolla.id = '"+result1.getInt(4)+"';"
+					);
+			 while(rsQntPr.next()) {
+				fattLavorazione.setCodProdotto(rsQntPr.getString(1));
+				fattLavorazione.setQntProd(rsQntPr.getDouble(2));
+			  }
+			 lsFattLav.add(fattLavorazione);
 			}
 			while(result.next()) {
 				if(lsFattLav.isEmpty()) lsFattLav = null;
@@ -104,6 +120,7 @@ public class FatturazioneResource {
 		    }
 			statement.close();
 			statement1.close();
+			stQntPr.close();
 			
 			return f;
 			
@@ -149,20 +166,36 @@ public class FatturazioneResource {
 	public Fattura_Lavorazione getFattBoll(@PathParam("idBolla") int idBolla){
 		Statement statement = null;
 		ResultSet result = null;
+		Statement statementSt = null;
+		ResultSet resultSt = null;
+		int stato = 0;
 		Fattura_Lavorazione chkBolFat = new Fattura_Lavorazione();
 		chkBolFat.setFatt(false);
 		chkBolFat.setIdBolla(idBolla);
-		try {
-			statement = DB.instance.createStatement();
-			result = statement.executeQuery(
-						"SELECT * FROM progingsw.fatturabolla where Bolla_id = '"+idBolla+"' LIMIT 1;"
-					);
-			result.last();
-			int numberRow = result.getRow();
-			if(numberRow != 0) {
-				chkBolFat.setFatt(true);
+		
+		try { System.out.print(idBolla);
+				statement = DB.instance.createStatement();
+				result = statement.executeQuery(
+							"SELECT * FROM progingsw.fatturabolla where Bolla_id = '"+idBolla+"' LIMIT 1;"
+						);
+				result.last();
+				int numberRow = result.getRow();
+				statement.close();
+				if(numberRow != 0) {
+					//Vedo se la bolla è chiusa
+//					statementSt = DB.instance.createStatement();
+//					resultSt = statementSt.executeQuery(
+//								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
+//							);
+//					while(resultSt.next()) {
+//						stato = resultSt.getInt(0);
+//					}
+//					if(stato == 3)
+					chkBolFat.setFatt(true);
+					System.out.print("ciao2");
 			}
-			statement.close();
+//			statementSt.close();
+			
 			
 			} catch (SQLException e) {
 						e.printStackTrace();
@@ -173,7 +206,7 @@ public class FatturazioneResource {
 	@GET
 	@Path ("/ImpFattBol/{idBolla}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Fattura getfatturaTerzBol(@PathParam("idBolla") int idBolla)
+	public Fattura_Lavorazione getfatturaTerzBol(@PathParam("idBolla") int idBolla)
 	{
 		Statement stPrezzo = null;
 		Statement stQntPr = null;
@@ -181,7 +214,8 @@ public class FatturazioneResource {
 		ResultSet rsQntPr = null;
 		double importo = 0.0;
 		double prezzoLav=0.0;
-		Fattura fattura = new Fattura();
+		double qntProd = 0.0;
+		Fattura_Lavorazione  fattLav = new Fattura_Lavorazione();
 		
 		try {
 			stPrezzo = DB.instance.createStatement();
@@ -201,14 +235,19 @@ public class FatturazioneResource {
 				);
 			
 			while(rsQntPr.next()) {
-				importo += rsQntPr.getDouble(1) * prezzoLav;
+				qntProd += rsQntPr.getDouble(1);				
 			}
+			
+			importo += qntProd * prezzoLav;
+			
 			stPrezzo.close();
 			stQntPr.close();
 
-			fattura.setImporto(importo);
-			fattura.setIdBolla(idBolla);
-			return fattura;
+			fattLav.setTotImp2Bol(importo);
+			fattLav.setIdBolla(idBolla);
+			fattLav.setQntProd(qntProd);
+			fattLav.setCostoUnit(prezzoLav);
+			return fattLav;
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -265,6 +304,7 @@ public class FatturazioneResource {
 		int ok = -1;
 		int id = -1;
 		try {
+			System.out.print( fattura_id + "', '" + importo + "', '" + bolla_id);
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
 					"INSERT INTO progingsw.fatturabolla(Fattura_id, importo, Bolla_id) " +

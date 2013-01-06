@@ -67,8 +67,8 @@ public class GUI_CreaFattura {
                 lblDaFatturare.setBounds(322, 11, 115, 14);
                 frmCreazioneFattura.getContentPane().add(lblDaFatturare);
                
-                JLabel lblImportoTotale = new JLabel("Importo Totale:");
-                lblImportoTotale.setBounds(567, 36, 85, 14);
+                JLabel lblImportoTotale = new JLabel("Importo Totale con IVA al 21%:");
+                lblImportoTotale.setBounds(567, 36, 152, 14);
                 frmCreazioneFattura.getContentPane().add(lblImportoTotale);
                
                 JPanel panel = new JPanel();
@@ -141,7 +141,7 @@ public class GUI_CreaFattura {
                            String dt = FormatDate.getToday();
                             double imp = 0;
                             String id = "-1";
-                            if(!txtImpTot.getText().isEmpty() || txtImpTot.getText() != "0.0")
+                            if(!txtImpTot.getText().isEmpty() && !txtImpTot.getText().equals("0.0"))
                             {
                                 imp = Double.parseDouble(txtImpTot.getText());
 	                            Fattura fat = new Fattura();
@@ -149,19 +149,20 @@ public class GUI_CreaFattura {
 	                            fat.setImporto(imp);
 	                            fat.setDataEmissione(dt);
 	                            id = ResourceClass.addResources(Global._URLFatt, fat);
-	                            fat.setId(Integer.valueOf(id));
 	                            Iterator<String> itFattBol =  _idFB.iterator();
+	                            //Per ogni fattura registro le bolle d lavorazione
 	                            while(itFattBol.hasNext())
 	                            {   int idBolla = Integer.valueOf((String) itFattBol.next());
-	                                fat.setIdBolla(idBolla);
-	                                Fattura fatt = ResourceClass.getResource(Fattura.class, Global._URLImpFattBol+idBolla);
-	                                double importo = fatt.getImporto();
-	                                fat.setImporto(importo);
-	                                ResourceClass.addResources(Global._URLFattBol, fat);
+	                            	Fattura_Lavorazione fatLavBol = new Fattura_Lavorazione();
+	                            	fatLavBol = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLImpFattBol+idBolla);
+	                            	fatLavBol.setIdBolla(idBolla);
+	                            	fatLavBol.setIdFattura(Integer.valueOf(id));
+	                                ResourceClass.addResources(Global._URLFattBol, fatLavBol);
 	                            }
 	                            if(id != "-1")
 	                            	JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura è stata creata!");
                             }
+                             else JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura ha importo nullo!");
                       	  }
                             else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non sono state selezionate le bolle da fatturare!");
                        	}
@@ -330,24 +331,31 @@ public class GUI_CreaFattura {
          }
      }
      private void calcolaImp(String idBolla){
-    	 Fattura fatt = ResourceClass.getResource(Fattura.class, Global._URLImpFattBol+idBolla);
-         double imp = fatt.getImporto();
+    	 Fattura_Lavorazione fatt = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLImpFattBol+idBolla);
+         double imp = fatt.getTotImp2Bol();
          if(mapIngImp.containsKey(idBolla))
         	 imp += mapIngImp.get(idBolla);
          txtImpTot.setText("0.0");
+         System.out.print(ImpFattBol);
+         imp = calcolaIVA(imp);
          ImpFattBol += imp + Double.parseDouble(txtImpTot.getText());
          txtImpTot.setText(String.valueOf(ImpFattBol));
      }
      
      private void updCalcolaImp(String idBolla){
-    	 Fattura fatt = ResourceClass.getResource(Fattura.class, Global._URLImpFattBol+idBolla);
-         double imp = fatt.getImporto();
+    	 Fattura_Lavorazione fatt = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLImpFattBol+idBolla);
+         double imp = fatt.getTotImp2Bol();
          if(mapIngImp.containsKey(idBolla))
         	 imp += mapIngImp.get(idBolla);
+         imp = calcolaIVA(imp);
          ImpFattBol = ImpFattBol - imp;
          txtImpTot.setText(String.valueOf(ImpFattBol));
      }
      
+     private double calcolaIVA(double imp){
+    	 imp = imp * 1.21;
+    	 return imp;
+     }
 
 }
 
