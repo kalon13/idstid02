@@ -18,6 +18,8 @@ import javax.swing.JButton;
 
 //import com.sun.faces.facelets.util.Resource;
 
+import java.awt.event.InputMethodEvent;
+import java.awt.event.InputMethodListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
@@ -27,9 +29,9 @@ public class GUI_CreaDDT {
 
         JFrame frmCreaDdt;
         private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantità", "UdM"};
-        private static Object[][] _dataNewDDT;
+        private static String[][] _dataNewDDT;
         private static String[] _titlesMat = {"Codice", "Descrizione", "Quantità", "UdM"};
-    	private static Object[][] _dataMat;
+    	private static String[][] _dataMat;
         private static ArrayList<Integer> _idMatDDT;
         private static ArrayList<Integer> _idMat = new ArrayList<Integer>();
         private DefaultTableModel dfmMat;
@@ -68,11 +70,17 @@ public class GUI_CreaDDT {
         		};
         		
                 dfmDDT = new DefaultTableModel (_dataNewDDT,_titlesNewDDT){
-        			boolean[] columnEditables = new boolean[]{
-        			false,false,true,false
+                	Class[] columnTypes = new Class[] {
+                			Object.class, Object.class, Double.class, Object.class
+            			};
+                	public Class getColumnClass(int columnIndex) {
+            				return columnTypes[columnIndex];
+            			}
+            		boolean[] columnEditables = new boolean[]{
+            				false,false,true,false
         			};
         			public boolean isCellEditable(int row, int column){
-        			    return columnEditables[column];	
+        					return columnEditables[column];	
         			}
         		};
                 
@@ -123,91 +131,98 @@ public class GUI_CreaDDT {
                    btnCrea.addMouseListener(new MouseAdapter() {
                            @Override
                            public void mouseClicked(MouseEvent e) {
-                        	   int result = JOptionPane.showConfirmDialog(frmCreaDdt, "Si vuole confermare l'invio del DDT all'azienda?");
-                        	   if(JOptionPane.YES_OPTION == result){
-                        		   String today = FormatDate.getToday();
-                        		   double qtaMat = 0; double qntupdMat = 0;
-                        		   Materiale m = null; List<Consumo> semLav = null;
-                        		   ///check value of qnt
-                        		   boolean flg_ckqnt = false;
-                        		   boolean flg_ckqntCons = false;
-                        		   boolean flg_matPrMag = true;
-                        		   for(int row = 0; row<tableDDT.getRowCount(); row++){
-                        			  int idMat = _idMatDDT.get(row);
-                        			  qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
-                        			  m = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTerzista);
-                        			  qntupdMat = m.getQuantita();
-                        		     if(qntupdMat < qtaMat ){
-                        		    	  flg_ckqnt = true;
-                        		    	  break;
-                        		    	  }
-                        		     if(m.getTipo().equals("SL")){
-	   									 semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
-	   									 if(semLav != null){
-	   									  Iterator<Consumo> it=semLav.iterator();
-	   									 while(it.hasNext())
-	   							          {  Consumo c = it.next();
-	   							          	 //la quantita del consumo è unitaria la moltiplico per il valore inserite da spedire tramite DDT
-	   							             qntupdMat = c.getQuantita() * qtaMat;
-	   							             int idMatC = c.getMatPrima();
-	   							             Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMatC+"/"+idTerzista);
-	   							             if(mat != null){
-	   							               if(mat.getQuantita() < qntupdMat ){
-	   							               //metto la qnt in qtaMat per farla apparire nel messaggio nn lo faccio sopra altrimenti la prox iteraz dello while è falsata
-	   							          	   qtaMat = mat.getQuantita();
-	                        		    	   flg_ckqntCons = true;
-	                        		    	   break;
+                        	 if (isQntDDTPositive()){
+	                        	   int result = JOptionPane.showConfirmDialog(frmCreaDdt, "Si vuole confermare l'invio del DDT all'azienda?");
+	                        	   if(JOptionPane.YES_OPTION == result){
+	                        		   String today = FormatDate.getToday();
+	                        		   double qtaMat = 0; double qntupdMat = 0;
+	                        		   Materiale m = null; List<Consumo> semLav = null;
+	                        		   ///check value of qnt
+	                        		   boolean flg_ckqnt = false;
+	                        		   boolean flg_ckqntCons = false;
+	                        		   boolean flg_matPrMag = true;
+	                        		   for(int row = 0; row<tableDDT.getRowCount(); row++){
+	                        			  int idMat = _idMatDDT.get(row);
+	                        			  qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+	                        			  m = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTerzista);
+	                        			  qntupdMat = m.getQuantita();
+	                        			  //check qnt da inviare è min di quella in mag
+	                        		     if(qntupdMat < qtaMat ){
+	                        		    	  flg_ckqnt = true;
+	                        		    	  break;
 	                        		    	  }
-	   							             }
-	   							             else{
-	   							            	flg_matPrMag = false; flg_ckqntCons = true;
-		   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non è prensente in magazzino!");
-	   							            	 break;
-	   							             }
-	   									  }
-	   									}
-	   									  else {
-	   										flg_matPrMag = false; flg_ckqntCons = true;
-	   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non ha una valore di consumo!");
-	   									}
-                        		     }
-                        		   }
-                        		   //INSERT in DDT e UPDATE in MatTerz e in DDTMat 
-                        		   if(flg_ckqnt == false && flg_ckqntCons == false) 
-                        		   {
-                                     DDT ddt = new DDT(today, idTerzista, true, false);
-                                     String id  = ResourceClass.addResources(Global._URLddt, ddt);
-                                     for(int row = 0; row<tableDDT.getRowCount(); row++){
-                                       qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
-                                  	   int idMat = _idMatDDT.get(row);
-                                  	   int idDDT = Integer.valueOf(id);                                  
-                                   	   MaterialeDDT mat = new MaterialeDDT(idDDT,idMat,qtaMat, idTerzista);
-                                	   String idmD = ResourceClass.addResources(Global._URLddtInsMat, mat);
-                                	   //Se il materiale è un semilavorato scalo dal magaz anche le qnt d mat prime consumate per la sua lavorazione
-	   									if(m.getTipo().equals("SL")){
-	   									  semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
-	   							      	  Iterator<Consumo> it=semLav.iterator();
-	   									 while(it.hasNext())
-	   							          {  Consumo c = it.next();
-	   										 String idMP = String.valueOf(c.getMatPrima());
-	   										 c.setIdTerzista(idTerzista);
-	   										 ResourceClass.updResources(Consumo.class, Global._URLMagUpdMat, idMP, c);
-	   									  }
-	   									}
-                                     }
-                                     if(id != "-1")
-                                     {
-                                  	   loadTableDt(idTerzista);
-                                  	   dfmMat.setDataVector(_dataMat, _titlesMat);
-                                  	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT è stato creato e inviato all'azienda!");
-                                     }
-                        		   }
-                                     else{ 
-                                    	 if(flg_matPrMag == true)
-                                    	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantità da spedire nel DDT "+qtaMat+" supera la quantità in magazzino "+qntupdMat);
-                                    	 }
-                        		   }
-                         }
+	                        		     //check se il tipo di mat da inv è un semil in caso verifico che le mat prime consumate nella lav siano in mag
+	                        		     if(m.getTipo().equals("SL")){
+		   									 semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
+		   									 if(semLav != null){
+		   									  Iterator<Consumo> it=semLav.iterator();
+		   									 while(it.hasNext())
+		   							          {  Consumo c = it.next();
+		   							          	 //la quantita del consumo è unitaria la moltiplico per il valore inserite da spedire tramite DDT
+		   							             qntupdMat = c.getQuantita() * qtaMat;
+		   							             int idMatC = c.getMatPrima();
+		   							             Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMatC+"/"+idTerzista);
+		   							             if(mat != null){
+		   							               if(mat.getQuantita() < qntupdMat ){
+		   							               //metto la qnt in qtaMat per farla apparire nel messaggio nn lo faccio sopra altrimenti la prox iteraz dello while è falsata
+		   							          	   qtaMat = mat.getQuantita();
+		                        		    	   flg_ckqntCons = true;
+		                        		    	   break;
+		                        		    	  }
+		   							             }
+		   							             else{
+		   							            	flg_matPrMag = false; flg_ckqntCons = true;
+			   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non è prensente in magazzino!");
+		   							            	 break;
+		   							             }
+		   									  }
+		   									}
+		   									  else {
+		   										flg_matPrMag = false; flg_ckqntCons = true;
+		   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non ha una valore di consumo!");
+		   									}
+	                        		     }
+	                        		   }
+	                        		   //INSERT in DDT e UPDATE in MatTerz e in DDTMat 
+	                        		   if(flg_ckqnt == false && flg_ckqntCons == false) 
+	                        		   {
+	                                     DDT ddt = new DDT(today, idTerzista, true, false);
+	                                     String id  = ResourceClass.addResources(Global._URLddt, ddt);
+	                                     for(int row = 0; row<tableDDT.getRowCount(); row++){
+	                                       qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
+	                                  	   int idMat = _idMatDDT.get(row);
+	                                  	   int idDDT = Integer.valueOf(id);                                  
+	                                   	   MaterialeDDT mat = new MaterialeDDT(idDDT,idMat,qtaMat, idTerzista);
+	                                	   String idmD = ResourceClass.addResources(Global._URLddtInsMat, mat);
+	                                	   //Se il materiale è un semilavorato scalo dal magaz anche le qnt d mat prime consumate per la sua lavorazione
+		   									if(m.getTipo().equals("SL")){
+		   									  semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
+		   							      	  Iterator<Consumo> it=semLav.iterator();
+		   									 while(it.hasNext())
+		   							          {  Consumo c = it.next();
+		   										 String idMP = String.valueOf(c.getMatPrima());
+		   										 c.setIdTerzista(idTerzista);
+		   										 ResourceClass.updResources(Consumo.class, Global._URLMagUpdMat, idMP, c);
+		   									  }
+		   									}
+	                                     }
+	                                     if(id != "-1")
+	                                     {
+	                                  	   loadTableDt(idTerzista);
+	                                  	   dfmMat.setDataVector(_dataMat, _titlesMat);
+	                                  	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT è stato creato e inviato all'azienda!");
+	                                     }
+	                        		   }
+	                                     else{ 
+	                                    	 if(flg_matPrMag == true)
+	                                    	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantità da spedire nel DDT "+qtaMat+" supera la quantità in magazzino "+qntupdMat);
+	                                    	 }
+	                        		 
+	                         }
+                           }
+                           else
+                   			JOptionPane.showMessageDialog(frmCreaDdt, "La quantita inserita non è corretta!");
+                       }
                    });
                   btnRimuovi.addMouseListener(new MouseAdapter() {
                           @Override
@@ -263,5 +278,13 @@ public class GUI_CreaDDT {
             }
           }
     	}
+    private boolean isQntDDTPositive(){
+    	for(int row =0; row<= tableDDT.getRowCount(); row++){
+    	if(Double.parseDouble(String.valueOf(tableDDT.getValueAt(row, 2))) <= 0){
+    		return false;
+    		}
+    	}
+    	return true;
+    }
 }
 
