@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import classResources.Consumo;
@@ -49,6 +50,7 @@ public class GUI_CreaDDT {
        
         private void initialize() {
                 frmCreaDdt = new JFrame();
+                frmCreaDdt.setResizable(false);
                 frmCreaDdt.setTitle("Invia DDT");
                 frmCreaDdt.setBounds(100, 100, 823, 377);
                 frmCreaDdt.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -105,6 +107,7 @@ public class GUI_CreaDDT {
                 panel.add(scrollPane);
                 
                 tableMat = new JTable(dfmMat);
+                tableMat.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
                 scrollPane.setViewportView(tableMat);
                 
                 JScrollPane scrollPane_1 = new JScrollPane();
@@ -112,6 +115,8 @@ public class GUI_CreaDDT {
                 panel.add(scrollPane_1);
                 
                 tableDDT = new JTable(dfmDDT);
+                tableDDT.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+
                 scrollPane_1.setViewportView(tableDDT);
                      
                  JLabel lblMaterialiDaInserire = new JLabel("Elenco Materiali:");

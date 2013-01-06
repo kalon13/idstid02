@@ -83,6 +83,7 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
+                frmElenco.setResizable(false);
                 frmElenco.setTitle("Gestione Fatturazione");
                 frmElenco.addWindowFocusListener(new WindowFocusListener() {
         			public void windowGainedFocus(WindowEvent e) {
