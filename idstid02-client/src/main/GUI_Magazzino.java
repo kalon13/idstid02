@@ -220,7 +220,7 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
-		btnNewDDT.setBounds(652, 283, 135, 23);
+		btnNewDDT.setBounds(661, 270, 135, 23);
 		panel_1.add(btnNewDDT);
 		
 		JScrollPane scrollPane_DDTMat = new JScrollPane();
@@ -231,7 +231,7 @@ public class GUI_Magazzino {
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
-		btnRegDDT.setBounds(506, 283, 135, 23);
+		btnRegDDT.setBounds(806, 270, 135, 23);
 		panel_1.add(btnRegDDT);
 		
 		JScrollPane scrollPane_DDT = new JScrollPane();
@@ -284,7 +284,7 @@ public class GUI_Magazzino {
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
 		});
-		btnStampaDdtIn.setBounds(806, 283, 135, 23);
+		btnStampaDdtIn.setBounds(276, 270, 135, 23);
 		panel_1.add(btnStampaDdtIn);
 		
 		btnRegDDT.addMouseListener(new MouseAdapter() {
