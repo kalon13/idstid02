@@ -68,9 +68,11 @@ public class GUI_UpdMagazzino {
                 btnSave.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
+                        	if(verificaQntIns(textQnt.getText())){
                                 Materiale m = new Materiale(idMatTer, Double.parseDouble(textQnt.getText()));
                                 ResourceClass.updResources(Materiale.class, Global._URLMag, String.valueOf(idMatTer), m);
                                 frameUpdMat.dispose();
+                        	}
                         }
                 });
                 btnSave.setBounds(45, 133, 89, 23);
@@ -98,5 +100,21 @@ public class GUI_UpdMagazzino {
                 lblQuantit.setBounds(59, 93, 46, 14);
                 frameUpdMat.getContentPane().add(lblQuantit);
         }
+        
+        public boolean verificaQntIns(String qnt){
+    		try{
+    			Double qt = Double.parseDouble(qnt);
+    			if(qt<0){
+    				JOptionPane.showMessageDialog(null, "La Quantità non può essere negativa!", "Attenzione", 0);
+    				return false;
+    			}
+    			else
+    				return true;
+    		}
+    		catch(Exception ex){
+    			JOptionPane.showMessageDialog(null, "Quantità non corretta!", "Attenzione", 0);
+    			return false;
+    		}
+    	}
 
 }
