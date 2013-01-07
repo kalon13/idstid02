@@ -32,7 +32,7 @@ public class MaterialeTeoricoResource {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
                                         "SELECT materialiteorici.id, descrizione, costoUnitario, quantita, Bolla_id, udm " +
-                                        " FROM ProgIngSw.materialiteorici join ProgIngSw.materiale" +
+                                        " FROM progingsw.materialiteorici join progingsw.materiale" +
                                         " ON materiale.id = Materiale_Id WHERE Bolla_id =" + txtSearch + ";");
                         if(result != null){
                          while(result.next()) {

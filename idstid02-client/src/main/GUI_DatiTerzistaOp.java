@@ -76,6 +76,7 @@ public class GUI_DatiTerzistaOp {
 	 */
 	private void initialize() {
 		frmDatiTerzistaOp = new JFrame();
+		frmDatiTerzistaOp.setResizable(false);
 		frmDatiTerzistaOp.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmDatiTerzistaOp.addWindowListener(new WindowAdapter() {
 			@Override
@@ -201,6 +202,10 @@ public class GUI_DatiTerzistaOp {
 		frmDatiTerzistaOp.getContentPane().add(nome);
 		frmDatiTerzistaOp.getContentPane().add(lblEmail);
 		frmDatiTerzistaOp.getContentPane().add(lblPiva);
+		
+        /*********************Aggiunto menu*************************************/
+		//menu app = new menu(frmDatiTerzistaOp, "Bolla");
+		//frmDatiTerzistaOp.setVisible(true);
 	}
 	
 	public void visualLavorazioni(){

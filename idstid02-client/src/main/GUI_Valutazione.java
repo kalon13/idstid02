@@ -54,6 +54,7 @@ public class GUI_Valutazione {
 	 */
 	private void initialize() {
 		frmValutazione = new JFrame();
+		frmValutazione.setResizable(false);
 		frmValutazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmValutazione.addWindowListener(new WindowAdapter() {
 			@Override
@@ -126,7 +127,7 @@ public class GUI_Valutazione {
             			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista+"valuta/", String.valueOf(lavorazSelezionata), lUpd);
             			JOptionPane.showMessageDialog(null, "Bolla valutata correttamente.", "Attenzione", 1);
             			//Refresh della screen
-            			frmValutazione.setVisible(false);
+            			frmValutazione.dispose();
             			GUI_Valutazione windowValutazione=new GUI_Valutazione();
             			windowValutazione.frmValutazione.setVisible(true);
             		}
