@@ -33,7 +33,7 @@ public class MaterialeResource {
                                 statement = DB.instance.createStatement();
                                 result = statement.executeQuery(
                                                 "SELECT * " +
-                                                " FROM ProgIngSw.materiale" +
+                                                " FROM progingsw.materiale" +
                                                 " WHERE id=" + id + ";");
                                 if(result != null){
                                  while(result.next()) {

@@ -478,8 +478,8 @@ public class GUI_Bolla {
                 textField_1.setBounds(11, 295, 284, 20);
                 panel.add(textField_1);
                 
-                JButton btnNewButton = new JButton("Modello Scarpa");
-                btnNewButton.addActionListener(new ActionListener() {
+                JButton btnModelloScarpa = new JButton("Modello Scarpa");
+                btnModelloScarpa.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		//id contiene l'id della bolla
                 		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
@@ -487,8 +487,8 @@ public class GUI_Bolla {
                 		path.frmModelloScarpa.setVisible(true);
                 	}
                 });
-                btnNewButton.setBounds(161, 415, 140, 23);
-                panel.add(btnNewButton);
+                btnModelloScarpa.setBounds(161, 415, 140, 23);
+                panel.add(btnModelloScarpa);
                
                 list.setBounds(10, 197, 158, 143);
                 frmBolleDiLavorazione.getContentPane().add(list);
@@ -496,35 +496,37 @@ public class GUI_Bolla {
                 JLabel lblTerzisti = new JLabel("Terzisti:");
                 lblTerzisti.setBounds(10, 11, 46, 14);
                 frmBolleDiLavorazione.getContentPane().add(lblTerzisti);
-               
-                //**JList Terzisti**
-                final JList list_2 = new JList(_data2);
-                //Se clicco in un terzista della lista mi visualizza solo le bolle a lui assegnate
-                list_2.addListSelectionListener(new ListSelectionListener() {
-                        public void valueChanged(ListSelectionEvent e) {
-                                if (e.getValueIsAdjusting() == true)
-                                {
-                                        dm.setRowCount(0); //pulisce tabella
-                                        dmPrima.setRowCount(0); //pulisce tabella
-                                        dmPaia.setRowCount(0); //pulisce tabella
-                                        textField.setText(""); //pulisce campi testo
-                                        txtNomeLav.setText("");
-                                        textField_1.setText("");
-                                       
-                                        int k = list_2.getSelectedIndex();
-                                        idTerzista = _id2[k]; //id terzista
-                               
-                                        System.out.println(idTerzista);
-                               
-                                        listModel.removeAllElements();
-                                        loadListaBolleTerzista(idTerzista);
-                                        for (int i = 0; i<_data3.length; i++)
-                                                listModel.addElement(_data3[i]); }
-                        }
-                });
-                               
-                list_2.setBounds(10, 36, 158, 125);
-                frmBolleDiLavorazione.getContentPane().add(list_2);
+                
+                JScrollPane scrollPane_3 = new JScrollPane();
+                scrollPane_3.setBounds(10, 36, 158, 125);
+                frmBolleDiLavorazione.getContentPane().add(scrollPane_3);
+                
+                 //**JList Terzisti**
+                 final JList list_2 = new JList(_data2);
+                 scrollPane_3.setViewportView(list_2);
+                 //Se clicco in un terzista della lista mi visualizza solo le bolle a lui assegnate
+                 list_2.addListSelectionListener(new ListSelectionListener() {
+                         public void valueChanged(ListSelectionEvent e) {
+                                 if (e.getValueIsAdjusting() == true)
+                                 {
+                                         dm.setRowCount(0); //pulisce tabella
+                                         dmPrima.setRowCount(0); //pulisce tabella
+                                         dmPaia.setRowCount(0); //pulisce tabella
+                                         textField.setText(""); //pulisce campi testo
+                                         txtNomeLav.setText("");
+                                         textField_1.setText("");
+                                        
+                                         int k = list_2.getSelectedIndex();
+                                         idTerzista = _id2[k]; //id terzista
+                                
+                                         System.out.println(idTerzista);
+                                
+                                         listModel.removeAllElements();
+                                         loadListaBolleTerzista(idTerzista);
+                                         for (int i = 0; i<_data3.length; i++)
+                                                 listModel.addElement(_data3[i]); }
+                         }
+                 });
                
                 JButton btnBolleChiuse = new JButton("Bolle Chiuse");
                 btnBolleChiuse.addMouseListener(new MouseAdapter() {
@@ -561,6 +563,10 @@ public class GUI_Bolla {
                                 }
                         }
                 });
+
+                /*********************Aggiunto menu*************************************/
+        		menu app = new menu(frmBolleDiLavorazione, "Bolla");
+        		frmBolleDiLavorazione.setVisible(true);
         }
 }
 

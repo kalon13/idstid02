@@ -35,7 +35,7 @@ public class TerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.terzista where id>0;"
+						"SELECT * FROM progingsw.terzista WHERE id>0;"
 					);
 			
 			while(result.next()) {
@@ -96,7 +96,7 @@ public class TerzistaResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.terzista WHERE Utente_id='" + id + "';"
+						"SELECT * FROM progingsw.terzista WHERE Utente_id='" + id + "';"
 					);
 			while(result.next()) {
 				terzista = new Terzista(result.getInt(1), result.getString(2),
@@ -137,7 +137,7 @@ public class TerzistaResource {
 			statement = DB.instance.createStatement();
 			
 			//Per i numeri solo + num + ?
-			ok = statement.executeUpdate("UPDATE ProgIngSw.terzista SET email = '" + email + "', pIva = '" + pIva + "', ragSociale = '" + ragSoc + "', indirizzo = '" + indirizzo + "', cap = '" + cap + "', provincia = '" + provincia + "', citta = '" + citta + "', telefono = '" + telefono + "', fax = '" + fax + "' WHERE id='" + id + "';");
+			ok = statement.executeUpdate("UPDATE progingsw.terzista SET email = '" + email + "', pIva = '" + pIva + "', ragSociale = '" + ragSoc + "', indirizzo = '" + indirizzo + "', cap = '" + cap + "', provincia = '" + provincia + "', citta = '" + citta + "', telefono = '" + telefono + "', fax = '" + fax + "' WHERE id='" + id + "';");
 			
 			statement.close();
 
@@ -185,7 +185,7 @@ public class TerzistaResource {
 //		try {
 //			statement = DB.instance.createStatement();
 //			ok = statement.executeUpdate(
-//					"INSERT INTO ProgIngSw.Materiale(descrizione, costoUnitario) " +
+//					"INSERT INTO progingsw.Materiale(descrizione, costoUnitario) " +
 //					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
 //					Statement.RETURN_GENERATED_KEYS);
 //			

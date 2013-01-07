@@ -33,6 +33,7 @@ public class GUI_ModificaDati {
 	 */
 	private void initialize() {
 		frmModificaDati = new JFrame();
+		frmModificaDati.setResizable(false);
 		frmModificaDati.setTitle("Modifica Dati");
 		frmModificaDati.setBounds(100, 100, 292, 216);
 		frmModificaDati.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

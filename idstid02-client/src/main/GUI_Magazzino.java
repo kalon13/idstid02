@@ -12,7 +12,6 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.JScrollPane;
 
 import classResources.DDT;
@@ -21,24 +20,19 @@ import classResources.Terzista;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JMenu;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.TableModel;
 import javax.swing.ListSelectionModel;
 
+import com.lowagie.text.Chunk;
 
-import java.awt.Frame;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
 
 
 public class GUI_Magazzino {
@@ -83,7 +77,8 @@ public class GUI_Magazzino {
     List<Terzista> listaTerz = null;
     private JLabel lblTerzisti;
     private JScrollPane scrollPane_Terz; 
-    private JPanel panelMag; 
+    private JPanel panelMag;
+    
     
     public GUI_Magazzino() {
 		checkTerz_DT();
@@ -92,6 +87,7 @@ public class GUI_Magazzino {
 
 	private void initialize() {
 		frmGestioneMagazzino = new JFrame();
+		frmGestioneMagazzino.setResizable(false);
 		frmGestioneMagazzino.setTitle("Gestione Magazzino");
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
 			public void windowGainedFocus(WindowEvent e) {
@@ -103,23 +99,26 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 701);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 722);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
 		panelMag = new JPanel();
+		panelMag.setBounds(236, 11, 774, 278);
 		panelMag.setBorder(new TitledBorder(null, "Gestione Magazzino", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelMag.setBounds(240, 10, 742, 278);
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
 		JLabel lblNewLabel = new JLabel("Ricerca materiale:");
+		lblNewLabel.setBounds(30, 23, 97, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		textSearch = new JTextField();
+		textSearch.setBounds(137, 21, 86, 20);
 		textSearch.setName("searchTxt");
 		textSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(56, 54, 639, 170);
 		scrollPane.setFocusTraversalKeysEnabled(false);
 		scrollPane.setEnabled(false);
 		
@@ -148,6 +147,7 @@ public class GUI_Magazzino {
 		};
 	         
         JButton button = new JButton("Ricerca");
+        button.setBounds(233, 20, 123, 23);
         button.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -160,6 +160,7 @@ public class GUI_Magazzino {
         });
         button.setName("searchBtn");
         btnUpdMat = new JButton("Aggiorna materiale");
+        btnUpdMat.setBounds(511, 234, 123, 23);
         btnUpdMat.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -184,48 +185,20 @@ public class GUI_Magazzino {
         	}
         });
         btnUpdMat.setName("btnUpdMat");
-        GroupLayout gl_panelMag = new GroupLayout(panelMag);
-        gl_panelMag.setHorizontalGroup(
-        	gl_panelMag.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(24)
-        			.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(textSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(button, GroupLayout.PREFERRED_SIZE, 123, GroupLayout.PREFERRED_SIZE))
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(50)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 639, GroupLayout.PREFERRED_SIZE))
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGap(505)
-        			.addComponent(btnUpdMat))
-        );
-        gl_panelMag.setVerticalGroup(
-        	gl_panelMag.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_panelMag.createSequentialGroup()
-        			.addGroup(gl_panelMag.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_panelMag.createSequentialGroup()
-        					.addGap(3)
-        					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(gl_panelMag.createSequentialGroup()
-        					.addGap(1)
-        					.addComponent(textSearch, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-        				.addComponent(button))
-        			.addGap(11)
-        			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
-        			.addGap(10)
-        			.addComponent(btnUpdMat))
-        );
-        panelMag.setLayout(gl_panelMag);
+        panelMag.setLayout(null);
+        panelMag.add(lblNewLabel);
+        panelMag.add(textSearch);
+        panelMag.add(button);
+        panelMag.add(scrollPane);
+        panelMag.add(btnUpdMat);
 		
 		/************lista Terzisti*************************/
 		 lblTerzisti = new JLabel("Terzisti:");
-         lblTerzisti.setBounds(10, 11, 46, 14);
+		 lblTerzisti.setBounds(11, 12, 38, 14);
          frmGestioneMagazzino.getContentPane().add(lblTerzisti);
                
         scrollPane_Terz = new JScrollPane();
-        scrollPane_Terz.setBounds(28, 36, 196, 242);
+        scrollPane_Terz.setBounds(11, 37, 214, 252);
         frmGestioneMagazzino.getContentPane().add(scrollPane_Terz);
         
         	//**JList Terzisti**
@@ -244,12 +217,13 @@ public class GUI_Magazzino {
               
 		/*****Crea DDT*****/		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(11, 294, 999, 321);
+		panel_1.setAutoscrolls(true);
 		panel_1.setBorder(new TitledBorder(null, "Gestione DDT", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(17, 293, 968, 321);
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
-		btnNewDDT.setBounds(652, 283, 135, 23);
+		btnNewDDT.setBounds(661, 270, 135, 23);
 		panel_1.add(btnNewDDT);
 		
 		JScrollPane scrollPane_DDTMat = new JScrollPane();
@@ -260,7 +234,7 @@ public class GUI_Magazzino {
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
-		btnRegDDT.setBounds(506, 283, 135, 23);
+		btnRegDDT.setBounds(806, 270, 135, 23);
 		panel_1.add(btnRegDDT);
 		
 		JScrollPane scrollPane_DDT = new JScrollPane();
@@ -300,16 +274,21 @@ public class GUI_Magazzino {
 			public void mouseClicked(MouseEvent e) {
 				if(tableDDT.getSelectedRow() != -1){
 					int row = tableDDT.getSelectedRow();
-					String cod = (String) tableDDT.getValueAt(row, 0);
-					CreatePDF pdf = new CreatePDF(tableDDTMat);
-					String DDT = "DDT inviato all'azienda SCARPE FASHION s.r.l da "+Autenticazione.getSessione().getUtente().getUser().toString()+" N. Doc "+cod;
-					pdf.print("urlDDT.pdf", DDT);
-				}
+					boolean isAz2Ter = false;
+					if (((String) tableDDT.getValueAt(row, 3)).equals("AZIENDA"))
+						isAz2Ter = true;
+						String cod = (String) tableDDT.getValueAt(row, 0);
+						String dtinv =" Data Invio:"+(String) tableDDT.getValueAt(row, 1);
+						Terzista t = getTerz2Id();
+						String mitt = t.getRagioneSociale()+", "+Chunk.NEWLINE+t.getIndirizzo()+Chunk.NEWLINE+"PIVA "+t.getpIva()+Chunk.NEWLINE+"Tel. "+t.getTelefono()+" Fax "+t.getFax();
+						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt, isAz2Ter);
+				 }
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
 		});
-		btnStampaDdtIn.setBounds(806, 283, 135, 23);
+		btnStampaDdtIn.setBounds(276, 270, 135, 23);
 		panel_1.add(btnStampaDdtIn);
+		
 		btnRegDDT.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -325,27 +304,29 @@ public class GUI_Magazzino {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				windowNewDDT = new GUI_CreaDDT(idTerzista);
-				windowNewDDT.frmCreaDdt.setVisible(true);
-			}
+				windowNewDDT.frmCreaDdt.setVisible(true);}
 		});
 		
 		
 		
 		/*****Chiudi*****/
 		JButton btnChiudi = new JButton("Chiudi");
+		btnChiudi.setBounds(875, 629, 135, 23);
 		btnChiudi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 			  frmGestioneMagazzino.dispose();
 			}
 		});
-		btnChiudi.setBounds(879, 631, 135, 23);
 		frmGestioneMagazzino.getContentPane().add(btnChiudi);
 		
 		JLabel label = new JLabel("Elenco DDT:");
-		label.setBounds(500, 57, 153, 14);
+		label.setBounds(591, 37, 58, 14);
 		frmGestioneMagazzino.getContentPane().add(label);
-		checkTerz_VIS();
+		/*********************Aggiunto menu*************************************/
+		menu app = new menu(frmGestioneMagazzino, "Mag");
+		frmGestioneMagazzino.setVisible(true);
+	    checkTerz_VIS();
 	}
 	
 	/*****Carica Dati terzista*****/
@@ -422,20 +403,17 @@ public class GUI_Magazzino {
               _dataDDT[k][1] = FormatDate.getFormatDate(mtCl.getDataInvio());
               _dataDDT[k][2] = FormatDate.getFormatDate(mtCl.getDataRicezione());
               if(mtCl.isFlussoAzienda())
-                { _dataDDT[k][3] = "AZIENDA";
-                  if(mtCl.isRegistrato()) _dataDDT[k][4] = "REGISTRATO";
-                  else _dataDDT[k][4] = "NON REGISTRATO";
-            	}
-              else {
-            	  _dataDDT[k][3] = "TERZISTA";
-            	  _dataDDT[k][4] = "";
-              }
+                _dataDDT[k][3] = "AZIENDA";
+                else 
+              	  _dataDDT[k][3] = "TERZISTA";
+              if(mtCl.isRegistrato()) _dataDDT[k][4] = "REGISTRATO";
+              	else _dataDDT[k][4] = "NON REGISTRATO";
+            }
               _idDDT[k] = mtCl.getId();
               k++;
            }
         }
     }
- }
 	
 	/*****Carica tabella materiali DDT*****/
     private void loadTableDDTMat(int idDDT){
@@ -497,6 +475,10 @@ public class GUI_Magazzino {
 		}
 	}
 	
+	private Terzista getTerz2Id(){
+		Terzista terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+idTerzista); 
+		return terzista;
+	}
 		
 	/**Carica dati quando clicco i terzisti nella lista**/
     private void loadDtTer(int idT){

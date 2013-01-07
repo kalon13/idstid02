@@ -11,7 +11,7 @@ public class FormatDate {
         public static String getToday()
         {
           Date date = Calendar.getInstance().getTime();
-          SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
           return sdf.format(date);
         }
        //Con l'ora
