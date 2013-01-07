@@ -34,7 +34,7 @@ public class LavorazioneResource {
 		
 		try {
 			statement = DB.instance.createStatement();
-			result = statement.executeQuery("SELECT * FROM ProgIngSw.lavorazione;");
+			result = statement.executeQuery("SELECT * FROM progingsw.lavorazione WHERE id>0;");
 			while(result.next()) {
 				Lavorazione m = new Lavorazione(result.getString(2), result.getInt(1));
 				lavorazione.add(m);
@@ -60,7 +60,7 @@ public class LavorazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Lavorazione WHERE id='" + id + "';"
+						"SELECT * FROM progingsw.Lavorazione WHERE id='" + id + "';"
 					);
 			
 			while(result.next()) {
