@@ -53,7 +53,7 @@ public class GUI_Home {
                 frmHome = new JFrame();
                 frmHome.setResizable(false);
                 frmHome.setTitle("Home");
-                frmHome.setBounds(100, 100, 405, 314);
+                frmHome.setBounds(100, 100, 405, 201);
                 frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frmHome.getContentPane().setLayout(new BorderLayout(10, 10));
                 
@@ -61,7 +61,7 @@ public class GUI_Home {
                 frmHome.getContentPane().add(label, BorderLayout.NORTH);
                 
                 JPanel panel = new JPanel();
-                frmHome.getContentPane().add(panel, BorderLayout.NORTH);
+                frmHome.getContentPane().add(panel, BorderLayout.CENTER);
                 panel.setLayout(new GridLayout(0, 2, 10, 10));
                 
                 JButton btnGestioneDati = new JButton("Gestione Dati Terzista");
@@ -140,9 +140,6 @@ public class GUI_Home {
                 
                 JLabel lblNewLabel_2 = new JLabel("");
                 frmHome.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
-                
-                JDesktopPane desktopPane = new JDesktopPane();
-                frmHome.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
         }
         
@@ -164,7 +161,7 @@ public class GUI_Home {
         	
                 
                 /*********************Aggiunto menu*************************************/
-//        		menu app = new menu(frmHome, "Home");
+        		menu app = new menu(frmHome, "Home");
                 
         }
 }
