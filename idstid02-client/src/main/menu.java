@@ -105,7 +105,7 @@ public class menu{
 				menuBar.add(mnGestioneMagazzino);
 			}
 			
-			/***********Home***********/
+			/***********Home***********
 			if(!menu.equals("Home")){
 				JMenu mnHome = new JMenu("Home");
 				mnHome.addMouseListener(new MouseAdapter() {
@@ -119,7 +119,7 @@ public class menu{
 				});
 				mnHome.setFont(mnHome.getFont().deriveFont(mnHome.getFont().getStyle() & ~Font.BOLD & ~Font.ITALIC));
 				menuBar.add(mnHome);
-			}
+			}***/
 			
 		}
 }

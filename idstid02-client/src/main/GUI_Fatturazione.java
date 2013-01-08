@@ -25,6 +25,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
+import com.sun.tools.ws.processor.model.Model;
+
 import classResources.Bolla;
 import classResources.Extraconsumo;
 import classResources.Fattura;
@@ -219,6 +221,16 @@ public class GUI_Fatturazione {
              	   listFatt = new JList();
                 else
                    listFatt = new JList(_dataFat);
+                listFatt.addFocusListener(new FocusAdapter() {
+	              	@Override
+	             	public void focusLost(FocusEvent e) {
+	              		dfmLav.setRowCount(0);
+	              		DefaultTableModel dfmEx = (DefaultTableModel) tableExtra.getModel();
+	              		dfmEx.setRowCount(0);
+	              		textNum.setText(null);
+	              		textImpToT.setText(null);
+	              	}
+              	});
                 
                 scrollPane_2.setViewportView(listFatt);
                 listFatt.addListSelectionListener(new ListSelectionListener() {

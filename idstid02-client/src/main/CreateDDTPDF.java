@@ -30,7 +30,7 @@ public class CreateDDTPDF{
   
   private Object[][] data;
   private Object[] tit;
-  private String ddt = "DDT Numero: ";
+  private String ddt;
   private String dtInv;
   private String mitt;
   private String dest;
@@ -39,7 +39,7 @@ public class CreateDDTPDF{
   public CreateDDTPDF(Object[][] data, Object[] tit, String codDDT, String dtInv, String mittDest, boolean isAz2Ter) {
 	  this.data = data;
 	  this.tit = tit;
-	  this.ddt += codDDT;
+	  this.ddt = "DDT Numero: "+codDDT;
 	  this.dtInv = dtInv;
 	  if(isAz2Ter== false){
 		  mitt = mittDest;
@@ -59,7 +59,8 @@ public class CreateDDTPDF{
 	      addDDTPage(document);
 	      document.close();
 	      File flPdf = new File(FILE);
-	        java.awt.Desktop.getDesktop().open(flPdf);
+	      java.awt.Desktop.getDesktop().open(flPdf);
+	      flPdf.deleteOnExit();
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	    }

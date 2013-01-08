@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_Bolla {
 
@@ -335,10 +337,17 @@ public class GUI_Bolla {
         
         private void initialize() {    
                 frmBolleDiLavorazione = new JFrame();
+                frmBolleDiLavorazione.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		GUI_Home wndHome = new GUI_Home();
+        				wndHome.frmHome.setVisible(true);
+                	}
+                });
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 717, 596);
-                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                frmBolleDiLavorazione.setBounds(100, 100, 747, 596);
+                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
                 JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
@@ -529,7 +538,7 @@ public class GUI_Bolla {
                                 bolleChiuse.frmBolleChiuse.setVisible(true);
                         }
                 });
-                btnBolleChiuse.setBounds(561, 501, 140, 23);
+                btnBolleChiuse.setBounds(559, 501, 140, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update

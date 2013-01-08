@@ -39,6 +39,8 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_Bolla_Terzista {
 
@@ -397,6 +399,13 @@ public class GUI_Bolla_Terzista {
        
         private void initialize() {
             frmBolleDiLavorazioneTerzista = new JFrame();
+            frmBolleDiLavorazioneTerzista.addWindowListener(new WindowAdapter() {
+            	@Override
+            	public void windowClosing(WindowEvent e) {
+            		GUI_Home wndHome = new GUI_Home();
+    				wndHome.frmHome.setVisible(true);
+            	}
+            });
             frmBolleDiLavorazioneTerzista.setResizable(false);
             frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
             frmBolleDiLavorazioneTerzista.setBounds(100, 100, 717, 662);
@@ -884,5 +893,4 @@ public class GUI_Bolla_Terzista {
       	 	ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdSped, idMatDaProd, matCl);                       
        }
 	}
-	
 }

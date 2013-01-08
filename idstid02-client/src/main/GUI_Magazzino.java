@@ -33,7 +33,10 @@ import com.lowagie.text.Chunk;
 
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 
 public class GUI_Magazzino {
@@ -155,6 +158,7 @@ public class GUI_Magazzino {
 		};
 	         
         JButton button = new JButton("Ricerca");
+        button.setToolTipText("Ricerca tramite la descrizione del materiale.");
         button.setBounds(233, 20, 123, 23);
         button.addMouseListener(new MouseAdapter() {
         	@Override
@@ -168,6 +172,7 @@ public class GUI_Magazzino {
         });
         button.setName("searchBtn");
         btnUpdMat = new JButton("Aggiorna materiale");
+        btnUpdMat.setToolTipText("Seleziona il materiale da modificare.");
         btnUpdMat.setBounds(506, 212, 123, 23);
         btnUpdMat.addMouseListener(new MouseAdapter() {
         	@Override
@@ -211,6 +216,14 @@ public class GUI_Magazzino {
         
         	//**JList Terzisti**
          list_terz = new JList(_dataTerz);
+         list_terz.addFocusListener(new FocusAdapter() {
+         	@Override
+         	public void focusLost(FocusEvent e) {
+         		dfmDDTMat.setRowCount(0);
+         		dfmDDT.setRowCount(0);
+         		dfm.setRowCount(0);
+         	}
+         });
          scrollPane_Terz.setViewportView(list_terz);
          
            list_terz.addListSelectionListener(new ListSelectionListener() {
@@ -231,6 +244,7 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
+		btnNewDDT.setToolTipText("Per creare un nuovo DDT.");
 		btnNewDDT.setBounds(656, 222, 135, 23);
 		panel_1.add(btnNewDDT);
 		
@@ -242,6 +256,7 @@ public class GUI_Magazzino {
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
+		btnRegDDT.setToolTipText("Visualizza solo i DDT che non sono registrati.");
 		btnRegDDT.setBounds(801, 222, 135, 23);
 		panel_1.add(btnRegDDT);
 		
@@ -277,6 +292,7 @@ public class GUI_Magazzino {
 		panel_1.add(label_2);
 		
 		JButton btnStampaDdtIn = new JButton("Stampa DDT in PDF");
+		btnStampaDdtIn.setToolTipText("Seleziona il DDT stampare.");
 		btnStampaDdtIn.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

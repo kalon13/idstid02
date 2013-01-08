@@ -18,7 +18,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class CreateFatPDF{
 
-  private static String FILE = "Fatt.pdf";
+  private static String FILE;
   private static Font catFont = new Font(Font.TIMES_ROMAN, 18,
       Font.BOLD);
   private static Font redFont = new Font(Font.TIMES_ROMAN, 12,
@@ -51,13 +51,14 @@ public class CreateFatPDF{
 	  
 	try {
 	      Document document = new Document();
-	      FILE = codDDT + FILE;
+	      FILE = codDDT +"Fatt.pdf";
 	      PdfWriter.getInstance(document, new FileOutputStream(FILE));
 	      document.open();
 	      addDDTPage(document);
 	      document.close();
 	      File flPdf = new File(FILE);
-	        java.awt.Desktop.getDesktop().open(flPdf);
+	      java.awt.Desktop.getDesktop().open(flPdf);
+	      flPdf.deleteOnExit();
 	    } catch (Exception e) {
 	      e.printStackTrace();
 	    }

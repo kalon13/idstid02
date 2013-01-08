@@ -45,6 +45,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_DatiTerzistaTr {
 
@@ -88,10 +90,17 @@ public class GUI_DatiTerzistaTr {
 	 */
 	private void initialize() {
 		frmDatiTerzistaTr = new JFrame();
+		frmDatiTerzistaTr.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home wndHome = new GUI_Home();
+				wndHome.frmHome.setVisible(true);
+			}
+		});
 		frmDatiTerzistaTr.setResizable(false);
 		frmDatiTerzistaTr.setTitle("Dati Terzista");
 		frmDatiTerzistaTr.setBounds(100, 100, 643, 553);
-		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
 		indirizzo.setBounds(132, 37, 326, 20);
