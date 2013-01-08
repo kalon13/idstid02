@@ -40,6 +40,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowAdapter;
 
 
 public class GUI_Fatturazione {
@@ -83,6 +84,13 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
+                frmElenco.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		GUI_Home wndHome = new GUI_Home();
+        				wndHome.frmHome.setVisible(true);
+                	}
+                });
                 frmElenco.setResizable(false);
                 frmElenco.setTitle("Gestione Fatturazione");
                 frmElenco.addWindowFocusListener(new WindowFocusListener() {
@@ -174,7 +182,7 @@ public class GUI_Fatturazione {
                 panel.add(textImpToT);
                 textImpToT.setColumns(10);
                
-                JButton btnEsci = new JButton("Esci");
+                JButton btnEsci = new JButton("Chiudi");
                 btnEsci.setBounds(678, 533, 89, 23);
                 panel_Fatt.add(btnEsci);
                 
@@ -192,7 +200,6 @@ public class GUI_Fatturazione {
         					CreateFatPDF fat = new CreateFatPDF(nmFat, dtEm, mitt, imp);
         					fat.setDataLav(_dataLav);
         					fat.setTitLav(_titlesLav);
-        					System.out.println(_dataExt[0][0] );
         					fat.setDataExt(_dataExt);
         					fat.setTitExt(_titlesExt);
         					fat.wrtPDF();
@@ -253,7 +260,9 @@ public class GUI_Fatturazione {
                     btnEsci.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                    frmElenco.dispose();
+                            	GUI_Home wndHome = new GUI_Home();
+                				wndHome.frmHome.setVisible(true);
+                                frmElenco.dispose();
                             }
                     });
         btnNewFatt.addMouseListener(new MouseAdapter() {
@@ -406,10 +415,9 @@ public class GUI_Fatturazione {
      /**Carica Tabella Extraconsumo**/   
      private void loadTableMatEx(String idB){
             List<Extraconsumo> extraC = ResourceClass.getResources(Extraconsumo.class, Global._URLExtra+idB);
+            _dataExt = new String[extraC.size()][7];
             if(extraC.size() > 0){
 	            Iterator<Extraconsumo> itEx =extraC.iterator();
-	            _dataExt = new String[extraC.size()][7];
-	            System.out.println(extraC.size());
 	            int k = 0;
 		        while(itEx.hasNext())
 		        {   Extraconsumo exC = itEx.next();

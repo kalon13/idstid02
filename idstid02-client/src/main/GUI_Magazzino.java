@@ -33,6 +33,7 @@ import com.lowagie.text.Chunk;
 
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.awt.event.WindowAdapter;
 
 
 public class GUI_Magazzino {
@@ -87,6 +88,13 @@ public class GUI_Magazzino {
 
 	private void initialize() {
 		frmGestioneMagazzino = new JFrame();
+		frmGestioneMagazzino.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home wndHome = new GUI_Home();
+				wndHome.frmHome.setVisible(true);
+			}
+		});
 		frmGestioneMagazzino.setResizable(false);
 		frmGestioneMagazzino.setTitle("Gestione Magazzino");
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
@@ -99,12 +107,12 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 722);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 640);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
 		panelMag = new JPanel();
-		panelMag.setBounds(236, 11, 774, 278);
+		panelMag.setBounds(236, 11, 774, 252);
 		panelMag.setBorder(new TitledBorder(null, "Gestione Magazzino", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
@@ -118,7 +126,7 @@ public class GUI_Magazzino {
 		textSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(56, 54, 639, 170);
+		scrollPane.setBounds(56, 54, 639, 147);
 		scrollPane.setFocusTraversalKeysEnabled(false);
 		scrollPane.setEnabled(false);
 		
@@ -160,7 +168,7 @@ public class GUI_Magazzino {
         });
         button.setName("searchBtn");
         btnUpdMat = new JButton("Aggiorna materiale");
-        btnUpdMat.setBounds(511, 234, 123, 23);
+        btnUpdMat.setBounds(506, 212, 123, 23);
         btnUpdMat.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
@@ -194,11 +202,11 @@ public class GUI_Magazzino {
 		
 		/************lista Terzisti*************************/
 		 lblTerzisti = new JLabel("Terzisti:");
-		 lblTerzisti.setBounds(11, 12, 38, 14);
+		 lblTerzisti.setBounds(50, 12, 38, 14);
          frmGestioneMagazzino.getContentPane().add(lblTerzisti);
                
         scrollPane_Terz = new JScrollPane();
-        scrollPane_Terz.setBounds(11, 37, 214, 252);
+        scrollPane_Terz.setBounds(60, 30, 166, 223);
         frmGestioneMagazzino.getContentPane().add(scrollPane_Terz);
         
         	//**JList Terzisti**
@@ -217,28 +225,28 @@ public class GUI_Magazzino {
               
 		/*****Crea DDT*****/		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(11, 294, 999, 321);
+		panel_1.setBounds(11, 272, 999, 267);
 		panel_1.setAutoscrolls(true);
 		panel_1.setBorder(new TitledBorder(null, "Gestione DDT", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmGestioneMagazzino.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		btnNewDDT = new JButton("Nuovo DDT");
-		btnNewDDT.setBounds(661, 270, 135, 23);
+		btnNewDDT.setBounds(656, 222, 135, 23);
 		panel_1.add(btnNewDDT);
 		
 		JScrollPane scrollPane_DDTMat = new JScrollPane();
-		scrollPane_DDTMat.setBounds(446, 45, 495, 214);
+		scrollPane_DDTMat.setBounds(446, 45, 495, 166);
 		panel_1.add(scrollPane_DDTMat);
 		
 		tableDDTMat = new JTable(dfmDDTMat);
 		tableDDTMat.setEnabled(false);
 		scrollPane_DDTMat.setViewportView(tableDDTMat);
 		btnRegDDT = new JButton("Registra DDT");
-		btnRegDDT.setBounds(806, 270, 135, 23);
+		btnRegDDT.setBounds(801, 222, 135, 23);
 		panel_1.add(btnRegDDT);
 		
 		JScrollPane scrollPane_DDT = new JScrollPane();
-		scrollPane_DDT.setBounds(20, 45, 391, 214);
+		scrollPane_DDT.setBounds(20, 45, 391, 166);
 		panel_1.add(scrollPane_DDT);
 		
 		tableDDT = new JTable(dfmDDT);
@@ -286,7 +294,7 @@ public class GUI_Magazzino {
 				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non è stato selezionato il DDT!");
 			}
 		});
-		btnStampaDdtIn.setBounds(276, 270, 135, 23);
+		btnStampaDdtIn.setBounds(275, 222, 135, 23);
 		panel_1.add(btnStampaDdtIn);
 		
 		btnRegDDT.addMouseListener(new MouseAdapter() {
@@ -311,10 +319,12 @@ public class GUI_Magazzino {
 		
 		/*****Chiudi*****/
 		JButton btnChiudi = new JButton("Chiudi");
-		btnChiudi.setBounds(875, 629, 135, 23);
+		btnChiudi.setBounds(875, 549, 135, 23);
 		btnChiudi.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+			  GUI_Home wndHome = new GUI_Home();
+			  wndHome.frmHome.setVisible(true);
 			  frmGestioneMagazzino.dispose();
 			}
 		});
