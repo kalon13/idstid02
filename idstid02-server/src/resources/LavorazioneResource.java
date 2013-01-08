@@ -60,7 +60,7 @@ public class LavorazioneResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.Lavorazione WHERE id='" + id + "';"
+						"SELECT * FROM progingsw.Lavorazione WHERE id='" + id + "';"
 					);
 			
 			while(result.next()) {

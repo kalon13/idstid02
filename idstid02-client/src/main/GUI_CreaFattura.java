@@ -164,7 +164,6 @@ public class GUI_CreaFattura {
                             }
                              else JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura ha importo nullo!");
                       	  }
-                            else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non sono state selezionate le bolle da fatturare!");
                        	}
                 });
                 btnCrea.setBounds(567, 86, 95, 23);

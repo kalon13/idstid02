@@ -30,7 +30,7 @@ public class PaiaResource {
             try {
                     statement = DB.instance.createStatement();
                     result = statement.executeQuery(
-                                    "SELECT paia.id, idMatDaProd, descrizione, nScarpa, paia.paia FROM ProgIngSw.paia  " +
+                                    "SELECT paia.id, idMatDaProd, descrizione, nScarpa, paia.paia FROM progingsw.paia  " +
                                     " JOIN materialidaprodurre JOIN materiale" +
                                     " ON materialidaprodurre.id = paia.idMatDaProd AND materialidaprodurre.Materiale_id = materiale.id WHERE Bolla_id ='" + idBolla + "';");
                     if(result != null){
