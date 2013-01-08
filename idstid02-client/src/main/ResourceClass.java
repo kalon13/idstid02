@@ -29,47 +29,48 @@ public class ResourceClass extends ResourceInsUpd {
        
         private static Client client = null;  
         private static WebResource service = null;
+        private static String serverUri = "http://localhost:8080/idstid02-server";
        
         private static void Config() {
-                ClientConfig config = new DefaultClientConfig();
-                client = Client.create(config);
-                service = client.resource(getBaseURI());
+            ClientConfig config = new DefaultClientConfig();
+            client = Client.create(config);
+            service = client.resource(getBaseURI());
         }
        
         //per visualizzare tutti i dati della select
         public static <T> List<T> getResources(final Class<T> clazz, String path) throws UniformInterfaceException {
-                ParameterizedType genericType = new ParameterizedType() {
-						@Override
-						public Type[] getActualTypeArguments() {
-						        return new Type[] {clazz};
-						}
-
-						@Override
-						public Type getRawType() {
-							return List.class;
-						}
-						
-						@Override
-						public Type getOwnerType() {
-							return List.class;
-						}
-                };
-               
-                try {
-                        if (service == null && client == null) Config();
-                        GenericType<List<T>> type = new GenericType<List< T >>(genericType) {};
-                        return service.path(path).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(type);
-                }
-                catch(UniformInterfaceException ex) {
-                        final int status = ex.getResponse().getStatus();
-                        if(204 == status) {
-                                JOptionPane.showMessageDialog(null, "La tabella e' vuota!", "Attenzione", 0);
-                        }
-                        else if (404 == status) {
-                                JOptionPane.showMessageDialog(null, "Problema di connessione!", "Attenzione", 0);
-                        }
-                        return null;
-                }
+		    ParameterizedType genericType = new ParameterizedType() {
+				@Override
+				public Type[] getActualTypeArguments() {
+					return new Type[] {clazz};
+				}
+	
+				@Override
+				public Type getRawType() {
+					return List.class;
+				}
+				
+				@Override
+				public Type getOwnerType() {
+					return List.class;
+				}
+		    };
+		   
+		    try {
+		            if (service == null && client == null) Config();
+		            GenericType<List<T>> type = new GenericType<List< T >>(genericType) {};
+		            return service.path(path).accept(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(type);
+		    }
+		    catch(UniformInterfaceException ex) {
+	            final int status = ex.getResponse().getStatus();
+	            if(204 == status) {
+	            	JOptionPane.showMessageDialog(null, "La tabella e' vuota!", "Attenzione", 0);
+		        }
+		        else if (404 == status) {
+		        	JOptionPane.showMessageDialog(null, "Problema di connessione!", "Attenzione", 0);
+		        }
+		        return null;
+		    }
         }
 
         //per visualizzare un det dato passare nella path/id del dato stesso
@@ -117,17 +118,20 @@ public class ResourceClass extends ResourceInsUpd {
 
         // Elimino una risorsa          
         public static void delResources(String path, String id) throws UniformInterfaceException {
-                if (service == null && client == null) Config();
+            if (service == null && client == null) Config();
             service.path(path).path(id).accept(MediaType.APPLICATION_JSON).delete(String.class);
         }
        
+        public static void setUri(String newUri) {
+        	serverUri = newUri;
+        }
        
         public static URI getBaseURI() {
-                return UriBuilder.fromUri("http://localhost:8080/idstid02-server").build();
+        	return UriBuilder.fromUri(serverUri).build();
         }
        
-        public static WebResource getService() {
-                if (service == null) Config();
-                return service;
-        }
+		public static WebResource getService() {
+	        if (service == null) Config();
+	        return service;
+		}
 }
