@@ -38,7 +38,7 @@ public class MessaggioResource {
                                                 "FROM progingsw.Messaggio;");
                         while(result.next()) {
                                 Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
-                                                                                        result.getString(3), result.getBoolean(4));
+                                                            result.getString(3), result.getBoolean(4));
                                 listaMessaggio.add(m);
                         }
                         statement.close();
@@ -61,26 +61,63 @@ public class MessaggioResource {
             List<Messaggio> listaMessaggio = new ArrayList<Messaggio>();
             //TODO da aggiungere se si entra con un det profilo terzista: and terzista_id = "";
             try {
-                    statement = DB.instance.createStatement();
-                    result = statement.executeQuery(
-                                    "SELECT id, data, testo, letto, Bolla_id" +
-                                    " FROM progingsw.Messaggio" +
-                                    " WHERE Bolla_id=" + txtSearch + ";");
-                    if(result != null){
-                     while(result.next()) {
-                             Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
-                                            result.getString(3), result.getBoolean(4), result.getString(5));
-                            listaMessaggio.add(m);
-                     }
-                    }
-                    else return null;
-                    statement.close();
-                   
-                    return listaMessaggio;
+                statement = DB.instance.createStatement();
+                result = statement.executeQuery(
+                                "SELECT id, data, testo, letto, Bolla_id" +
+                                " FROM progingsw.Messaggio" +
+                                " WHERE Bolla_id=" + txtSearch + ";");
+                if(result != null){
+                 while(result.next()) {
+                         Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
+                                        result.getString(3), result.getBoolean(4), result.getString(5));
+                        listaMessaggio.add(m);
+                 }
+                }
+                else return null;
+                statement.close();
+               
+                return listaMessaggio;
                    
             } catch (SQLException e) {
-                    e.printStackTrace();
-                    return null;
+                e.printStackTrace();
+                return null;
+            }
+        }
+        
+        @POST
+        @Path("/insert")
+    	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    	@Produces(MediaType.APPLICATION_JSON)
+        public String sendMessage(@FormParam("sid") String sid, 
+        							@FormParam("utenteid") int uid,
+        							@FormParam("bollaid") int bid,
+        							@FormParam("message") String message) {
+            Statement statement = null;
+            ResultSet result = null;
+            int ok = -1;
+            int id = -1;
+           
+            try {
+                statement = DB.instance.createStatement();
+                ok = statement.executeUpdate(
+                                "INSERT INTO progingsw.messaggio(Utente_id, Bolla_id, testo, data, letto) " +
+                                "VALUES('" + uid + "', '" + bid + "', '" + bid + "', NOW(), '0');",
+                                Statement.RETURN_GENERATED_KEYS);
+               
+                if(ok == 1) { // Inserimento ok
+                        result = statement.getGeneratedKeys();
+                if (result.next()){
+                        id = result.getInt(1);
+                }
+                result.close();
+                }
+                statement.close();
+
+                return String.valueOf(id);
+           
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return "-1";
             }
         }
         
