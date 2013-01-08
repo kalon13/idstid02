@@ -72,6 +72,7 @@ public class GUI_Bolla_Terzista {
         private static int[] _id3;
         private static String[] _nomeLav;
         private static int[] _statoBol;
+        private int numMorti = 0;
        
         GUI_Messaggio messaggio;
         GUI_Extraconsumo extraconsumo;
@@ -398,8 +399,8 @@ public class GUI_Bolla_Terzista {
             frmBolleDiLavorazioneTerzista = new JFrame();
             frmBolleDiLavorazioneTerzista.setResizable(false);
             frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
-            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 663, 659);
-            frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            frmBolleDiLavorazioneTerzista.setBounds(100, 100, 717, 662);
+            frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             frmBolleDiLavorazioneTerzista.getContentPane().setLayout(null);
             
             //Disabilito tasti
@@ -412,7 +413,7 @@ public class GUI_Bolla_Terzista {
             
             JPanel panel_1 = new JPanel();
             panel_1.setBorder(new TitledBorder(null, "Gestione Extraconsumo", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-            panel_1.setBounds(178, 490, 469, 95);
+            panel_1.setBounds(178, 490, 523, 95);
             frmBolleDiLavorazioneTerzista.getContentPane().add(panel_1);
             panel_1.setLayout(null);
             lblExtra.setBounds(10, 29, 106, 20);
@@ -426,9 +427,9 @@ public class GUI_Bolla_Terzista {
             lblUdm.setBounds(207, 29, 46, 20);
             panel_1.add(lblUdm);
             
-            btnRichiedi.setBounds(370, 28, 89, 23);
+            btnRichiedi.setBounds(424, 29, 89, 23);
             panel_1.add(btnRichiedi);
-            btnVisualizzaExtra.setBounds(347, 61, 112, 23);
+            btnVisualizzaExtra.setBounds(401, 61, 112, 23);
             panel_1.add(btnVisualizzaExtra);
             
              //**btnVisualizzaExtra**
@@ -485,7 +486,7 @@ public class GUI_Bolla_Terzista {
            
             JPanel panel = new JPanel();
             panel.setBorder(new TitledBorder(null, "Dettagli bolla selezionata", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-            panel.setBounds(178, 11, 468, 468);
+            panel.setBounds(178, 11, 523, 468);
             frmBolleDiLavorazioneTerzista.getContentPane().add(panel);
             panel.setLayout(null);
            
@@ -516,7 +517,7 @@ public class GUI_Bolla_Terzista {
            
             JScrollPane scrollPane_1 = new JScrollPane();
 
-            scrollPane_1.setBounds(10, 76, 448, 93);
+            scrollPane_1.setBounds(10, 76, 503, 93);
             panel.add(scrollPane_1);
            
             //Inizializza crea tabelle materiali
@@ -532,7 +533,7 @@ public class GUI_Bolla_Terzista {
             scrollPane_1.setViewportView(tableDaProdurre);
            
             JScrollPane scrollPane = new JScrollPane();
-            scrollPane.setBounds(10, 317, 448, 109);
+            scrollPane.setBounds(10, 317, 503, 109);
             panel.add(scrollPane);
             table_1 = new JTable(dm);
             table_1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -547,19 +548,6 @@ public class GUI_Bolla_Terzista {
     			}
     		});
             scrollPane.setViewportView(table_1);
-           
-            //**btnEsci**
-            JButton btnEsci = new JButton("Esci");
-            btnEsci.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                frmBolleDiLavorazioneTerzista.setVisible(false);
-                home = new GUI_Home();
-                home.frmHome.setVisible(true);
-            }
-            });
-            btnEsci.setBounds(558, 593, 89, 23);
-            frmBolleDiLavorazioneTerzista.getContentPane().add(btnEsci);
            
             textField_1 = new JLabel();
             terzista = ResourceClass.getResource(Terzista.class, Global._URLTerz+"utenteId/"+Autenticazione.getSessione().getUtente().getUserId());
@@ -595,23 +583,27 @@ public class GUI_Bolla_Terzista {
             panel.add(lblDettaglioMaterialiDa);
             
             JScrollPane scrollPane_2 = new JScrollPane();
-            scrollPane_2.setBounds(10, 196, 448, 93);
+            scrollPane_2.setBounds(10, 196, 503, 93);
             panel.add(scrollPane_2);
             
             tablePaia = new JTable(dmPaia);
             scrollPane_2.setViewportView(tablePaia);
             
             JButton btnModelloScarpa = new JButton("Modello Scarpa");
+            btnModelloScarpa.setBounds(401, 437, 112, 23);
+            panel.add(btnModelloScarpa);
             btnModelloScarpa.addActionListener(new ActionListener() {
             	public void actionPerformed(ActionEvent e) {
             		//id contiene l'id della bolla
-            		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
-            		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
-            		path.frmModelloScarpa.setVisible(true);
+            		if(id>0){
+	            		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
+	            		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
+	            		path.frmModelloScarpa.setVisible(true);
+            		}
+            		else
+            			JOptionPane.showMessageDialog(null, "Bolla non selezionata.", "Attenzione", 0);
             	}
             });
-            btnModelloScarpa.setBounds(224, 487, 112, 23);
-            panel.add(btnModelloScarpa);
                    
             list.setBounds(10, 89, 158, 149);
             frmBolleDiLavorazioneTerzista.getContentPane().add(list);
@@ -696,7 +688,15 @@ public class GUI_Bolla_Terzista {
                      {
                        if(verificaChiusura()){
                          Bolla b = new Bolla();
-                         b.setStato(3); //setto a 3 = bolla chiusa, lo stato della bolla
+                         if (numMorti != 0)
+                         {
+                        	 b.setStato(4); 
+                         }
+                         else
+                         {
+                        	 b.setStato(3); //setto a 3 = bolla chiusa, lo stato della bolla
+                         }
+                         
                          b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
@@ -850,6 +850,8 @@ public class GUI_Bolla_Terzista {
 			}
 		}
 		
+		
+		
 		private boolean verificaChiusura(){ //quando chiudo la bolla verifico che la quantità totale corrisponda alla quantità prodotta + numero dei morti
 			Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
 			boolean flg = true;
@@ -857,7 +859,7 @@ public class GUI_Bolla_Terzista {
             {                      
                 MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
                 int qta = matCl.getQuantita();
-                int numMorti = matCl.getNumeroMorti();
+                numMorti = matCl.getNumeroMorti();
                 double qtaProdotta = matCl.getQuantitaProdotta();
                 if (qtaProdotta + numMorti < qta)
                 {flg = false;

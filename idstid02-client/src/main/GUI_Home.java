@@ -151,6 +151,10 @@ public class GUI_Home {
                 
                 JLabel lblNewLabel_2 = new JLabel("");
                 frmHome.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
+                
+                /*********************Aggiunto menu*************************************/
+//        		menu app = new menu(frmHome, "Home");
+                
         }
 }
 

@@ -196,19 +196,9 @@ public class GUI_BolleChiuse {
         private void initialize() {
                 frmBolleChiuse = new JFrame();
                 frmBolleChiuse.setTitle("Bolle Chiuse");
-                frmBolleChiuse.setBounds(100, 100, 554, 436);
-                frmBolleChiuse.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frmBolleChiuse.setBounds(100, 100, 554, 423);
+                frmBolleChiuse.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleChiuse.getContentPane().setLayout(null);
-               
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmBolleChiuse.dispose();
-                        }
-                });
-                btnEsci.setBounds(441, 363, 89, 23);
-                frmBolleChiuse.getContentPane().add(btnEsci);
                
                 JPanel panel = new JPanel();
                 panel.setBounds(10, 11, 520, 165);

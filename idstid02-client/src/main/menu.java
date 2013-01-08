@@ -13,10 +13,11 @@ public class menu{
 		{	
 			JMenuBar menuBar = new JMenuBar();
 			menuBar.setPreferredSize(new Dimension(0, 25));
-			menuBar.setMinimumSize(new Dimension(0, 4));
-			menuBar.setMaximumSize(new Dimension(0, 5));			
+			menuBar.setMinimumSize(new Dimension(0, 5));
+			menuBar.setMaximumSize(new Dimension(0, 6));			
 			
 			frame.setJMenuBar(menuBar);
+			
 			/***********Gestione Bolle***********/
 			if(!menu.equals("Bolla")){
 				JMenu mnGestioneBolle = new JMenu("Gestione Bolle");
@@ -65,13 +66,21 @@ public class menu{
 					public void mouseClicked(MouseEvent e) {
 						//Se è l'Operatore dell'azienda che visualizza
 	    				if(tipo != 5){
-	    					GUI_GestioneDati windowGestione = new GUI_GestioneDati();
-	                		windowGestione.frmGestioneDati.setVisible(true);
+	    					try{
+	    						GUI_Home.windowScelta.frmSceltaTerzista.dispose();
+	    					}
+	    					catch(Exception ex){}
+	    					GUI_Home.windowScelta = new GUI_SceltaTerzista();
+	    					GUI_Home.windowScelta.frmSceltaTerzista.setVisible(true);
 	                		frame.setVisible(false);
 	    				}
 	    				else{
-	    					GUI_DatiTerzistaTr windowDatiTr = new GUI_DatiTerzistaTr();
-	    					windowDatiTr.frmDatiTerzistaTr.setVisible(true);
+	    					try{
+	    						GUI_Home.windowDatiTr.frmDatiTerzistaTr.dispose();
+	    					}
+	    					catch(Exception ex){}
+	    					GUI_Home.windowDatiTr = new GUI_DatiTerzistaTr();
+	    					GUI_Home.windowDatiTr.frmDatiTerzistaTr.setVisible(true);
 	    					frame.setVisible(false);
 	    				}
 					}
@@ -95,5 +104,22 @@ public class menu{
 				mnGestioneMagazzino.setFont(mnGestioneMagazzino.getFont().deriveFont(mnGestioneMagazzino.getFont().getStyle() & ~Font.BOLD & ~Font.ITALIC));
 				menuBar.add(mnGestioneMagazzino);
 			}
+			
+			/***********Home***********/
+			if(!menu.equals("Home")){
+				JMenu mnHome = new JMenu("Home");
+				mnHome.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						
+						GUI_Home windowHome = new GUI_Home();
+	                    windowHome.frmHome.setVisible(true);
+	                    frame.setVisible(false);
+					}
+				});
+				mnHome.setFont(mnHome.getFont().deriveFont(mnHome.getFont().getStyle() & ~Font.BOLD & ~Font.ITALIC));
+				menuBar.add(mnHome);
+			}
+			
 		}
 }

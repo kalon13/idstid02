@@ -3,6 +3,7 @@ package main;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -305,6 +306,7 @@ public class GUI_Bolla {
                                         "Desc", "Quantità", "udm", "CostoUnit",
                         }
                 );
+        
         private JLabel textField_1;
         private JTable tablePaia;
        
@@ -335,8 +337,8 @@ public class GUI_Bolla {
                 frmBolleDiLavorazione = new JFrame();
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 663, 581);
-                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frmBolleDiLavorazione.setBounds(100, 100, 717, 596);
+                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
                 JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");
@@ -345,7 +347,7 @@ public class GUI_Bolla {
                
                 panel = new JPanel();
                 panel.setBorder(new TitledBorder(null, "Dettagli bolla selezionata", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-                panel.setBounds(178, 11, 468, 493);
+                panel.setBounds(178, 11, 523, 479);
                 frmBolleDiLavorazione.getContentPane().add(panel);
                 panel.setLayout(null);
                
@@ -379,7 +381,7 @@ public class GUI_Bolla {
                 panel.add(lblDettaglioMaterialiDa);
                 
                 JScrollPane scrollPane_2 = new JScrollPane();
-                scrollPane_2.setBounds(10, 193, 448, 93);
+                scrollPane_2.setBounds(10, 193, 503, 93);
                 panel.add(scrollPane_2);
                 
                 tablePaia = new JTable(dmPaia);
@@ -388,7 +390,7 @@ public class GUI_Bolla {
                
                 JScrollPane scrollPane_1 = new JScrollPane();
 
-                scrollPane_1.setBounds(10, 73, 448, 93);
+                scrollPane_1.setBounds(10, 73, 503, 93);
                 panel.add(scrollPane_1);
                
                 //Inizializza crea tabelle materiali
@@ -397,24 +399,11 @@ public class GUI_Bolla {
                 scrollPane_1.setViewportView(table);
                
                 JScrollPane scrollPane = new JScrollPane();
-                scrollPane.setBounds(10, 315, 448, 109);
+                scrollPane.setBounds(10, 315, 503, 109);
                 panel.add(scrollPane);
                 table_1 = new JTable(dm);
                 table_1.setEnabled(false);
                 scrollPane.setViewportView(table_1);
-               
-                //**btnEsci**
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmBolleDiLavorazione.setVisible(false);
-                                home = new GUI_Home();
-                                home.frmHome.setVisible(true);
-                        }
-                });
-                btnEsci.setBounds(558, 515, 89, 23);
-                frmBolleDiLavorazione.getContentPane().add(btnEsci);
                
                 //**JList Bolle**
                 final DefaultListModel listModel = new DefaultListModel();
@@ -455,7 +444,7 @@ public class GUI_Bolla {
                                 messaggio.frmMessaggi.setVisible(true);
                         }
                 });
-                btnVisualizzaNote.setBounds(311, 23, 147, 23);
+                btnVisualizzaNote.setBounds(366, 23, 147, 23);
                 panel.add(btnVisualizzaNote);
                
                 //**btnRichiediExtra**
@@ -469,25 +458,29 @@ public class GUI_Bolla {
                                         }
                                 }
                 });
-                btnVisualizzaExtra.setBounds(311, 459, 147, 23);
+                btnVisualizzaExtra.setBounds(366, 435, 147, 23);
                 panel.add(btnVisualizzaExtra);
                
                 textField_1 = new JLabel();
                 textField_1.setForeground(Color.RED);
                 textField_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-                textField_1.setBounds(11, 295, 284, 20);
+                textField_1.setBounds(10, 438, 196, 20);
                 panel.add(textField_1);
                 
                 JButton btnModelloScarpa = new JButton("Modello Scarpa");
                 btnModelloScarpa.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		//id contiene l'id della bolla
-                		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
-                		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
-                		path.frmModelloScarpa.setVisible(true);
+                		if(id>0){
+	                		Bolla bollaImageUrl=ResourceClass.getResource(Bolla.class, Global._URLBollaImage+id);
+	                		GUI_Image path = new GUI_Image(bollaImageUrl.getImageUrl());
+	                		path.frmModelloScarpa.setVisible(true);
+                		}
+                		else
+                			JOptionPane.showMessageDialog(null, "Bolla non selezionata.", "Attenzione", 0);
                 	}
                 });
-                btnModelloScarpa.setBounds(161, 415, 140, 23);
+                btnModelloScarpa.setBounds(216, 435, 140, 23);
                 panel.add(btnModelloScarpa);
                
                 list.setBounds(10, 197, 158, 143);
@@ -519,10 +512,10 @@ public class GUI_Bolla {
                                          int k = list_2.getSelectedIndex();
                                          idTerzista = _id2[k]; //id terzista
                                 
-                                         System.out.println(idTerzista);
-                                
                                          listModel.removeAllElements();
                                          loadListaBolleTerzista(idTerzista);
+                                         //azzero id della bolla altrimenti mi rimane in memoria e visual l'immagine anche se non clicco una bolla
+                                         id=0;
                                          for (int i = 0; i<_data3.length; i++)
                                                  listModel.addElement(_data3[i]); }
                          }
@@ -536,7 +529,7 @@ public class GUI_Bolla {
                                 bolleChiuse.frmBolleChiuse.setVisible(true);
                         }
                 });
-                btnBolleChiuse.setBounds(408, 515, 140, 23);
+                btnBolleChiuse.setBounds(561, 501, 140, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update
