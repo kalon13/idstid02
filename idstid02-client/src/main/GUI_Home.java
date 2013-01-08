@@ -162,6 +162,10 @@ public class GUI_Home {
 				 windowAuth.getFrame().setVisible(true);
 			}
         	
+                
+                /*********************Aggiunto menu*************************************/
+//        		menu app = new menu(frmHome, "Home");
+                
         }
 }
 

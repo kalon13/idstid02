@@ -34,7 +34,7 @@ public class GUI_GestioneDati {
 	private int tipo;
 
 	public static GUI_SceltaTerzista windowScelta;
-	public static GUI_DatiTerzistaTr windowDatiTr;
+	//public static GUI_DatiTerzistaTr windowDatiTr;
 	public static GUI_ModificaDati windowModificaDati;
 	public static GUI_Valutazione windowValutazione;
 	public static GUI_CancellazioneTerzistaOp windowCanc;

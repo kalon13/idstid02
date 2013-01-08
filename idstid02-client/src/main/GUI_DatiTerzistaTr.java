@@ -169,16 +169,16 @@ public class GUI_DatiTerzistaTr {
 		separator.setBounds(10, 261, 607, 2);
 		separator.setForeground(Color.BLACK);
 		
-		JButton btnIndietro = new JButton("Home");
-		btnIndietro.setBounds(481, 138, 136, 23);
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmDatiTerzistaTr.setVisible(false);
-				GUI_Home windowHome = new GUI_Home();
-				windowHome.frmHome.setVisible(true);
-			}
-		});
+//		JButton btnIndietro = new JButton("Home");
+//		btnIndietro.setBounds(481, 138, 136, 23);
+//		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
+//		btnIndietro.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frmDatiTerzistaTr.setVisible(false);
+//				GUI_Home windowHome = new GUI_Home();
+//				windowHome.frmHome.setVisible(true);
+//			}
+//		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(10, 281, 602, 103);
@@ -274,7 +274,7 @@ public class GUI_DatiTerzistaTr {
 		frmDatiTerzistaTr.getContentPane().add(lblEmail);
 		frmDatiTerzistaTr.getContentPane().add(lblPiva);
 		frmDatiTerzistaTr.getContentPane().add(scrollPane_1);
-		frmDatiTerzistaTr.getContentPane().add(btnIndietro);
+//		frmDatiTerzistaTr.getContentPane().add(btnIndietro);
 		frmDatiTerzistaTr.getContentPane().add(scrollPane);
 		
 		btnModificaAnagrafica = new JButton("Modifica Anagrafica");
@@ -337,7 +337,7 @@ public class GUI_DatiTerzistaTr {
 		
 	    /*********************Aggiunto menu*************************************/
 		menu app = new menu(frmDatiTerzistaTr, "Terz");
-		frmDatiTerzistaTr.setVisible(true);
+		//frmDatiTerzistaTr.setVisible(true);	Funziona anche senza
 
 	}
 	

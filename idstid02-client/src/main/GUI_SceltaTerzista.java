@@ -105,7 +105,7 @@ public class GUI_SceltaTerzista {
 		frmSceltaTerzista = new JFrame();
 		frmSceltaTerzista.setTitle("Scelta Terzista - Valutazione Lavorazioni - Cancellazione Terzista");
 		frmSceltaTerzista.setResizable(false);
-		frmSceltaTerzista.setBounds(100, 100, 475, 244);
+		frmSceltaTerzista.setBounds(100, 100, 516, 362);
 		frmSceltaTerzista.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
@@ -113,12 +113,12 @@ public class GUI_SceltaTerzista {
 		panel.setLayout(null);
 		
 		JLabel lblSelezionaIlTipo = new JLabel("Seleziona il tipo di lavorazione:");
-		lblSelezionaIlTipo.setBounds(10, 54, 170, 14);
-		lblSelezionaIlTipo.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		lblSelezionaIlTipo.setBounds(31, 40, 231, 14);
+		lblSelezionaIlTipo.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		panel.add(lblSelezionaIlTipo);
 		
 		cmbTipoLavorazione = new JComboBox();
-		cmbTipoLavorazione.setBounds(164, 51, 143, 20);
+		cmbTipoLavorazione.setBounds(31, 66, 231, 20);
 		cmbTipoLavorazione.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				lblTipoLavorazione.setText(cmbTipoLavorazione.getSelectedItem().toString());
@@ -130,18 +130,19 @@ public class GUI_SceltaTerzista {
 		panel.add(cmbTipoLavorazione);
 		
 		JLabel lblTerzistiCheEffettuano = new JLabel("Terzisti che effettuano:");
-		lblTerzistiCheEffettuano.setBounds(10, 97, 170, 14);
+		lblTerzistiCheEffettuano.setBounds(31, 97, 231, 14);
 		panel.add(lblTerzistiCheEffettuano);
 		
 		lblTipoLavorazione = new JLabel("");
-		lblTipoLavorazione.setBounds(164, 97, 143, 14);
+		lblTipoLavorazione.setBounds(31, 122, 231, 14);
 		lblTipoLavorazione.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		lblTipoLavorazione.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblTipoLavorazione.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(lblTipoLavorazione);
 		
 		JButton btnAvanti = new JButton("Visualizza Dati Terzista");
-		btnAvanti.setBounds(164, 179, 143, 23);
+		btnAvanti.setToolTipText("Visualizza i dati del terzista selezionato");
+		btnAvanti.setBounds(31, 252, 231, 23);
 		btnAvanti.setMnemonic(KeyEvent.VK_ENTER);
 		btnAvanti.addActionListener(new ActionListener() {
 			
@@ -161,19 +162,20 @@ public class GUI_SceltaTerzista {
 		});
 		panel.add(btnAvanti);
 		
-		JButton btnIndietro = new JButton("Home");
-		btnIndietro.setBounds(307, -2, 153, 23);
-		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
-		btnIndietro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frmSceltaTerzista.setVisible(false);
-				GUI_Home windowHome=new GUI_Home();
-				windowHome.frmHome.setVisible(true);
-			}
-		});
-		panel.add(btnIndietro);
+//		JButton btnIndietro = new JButton("Home");
+//		btnIndietro.setBounds(307, -2, 153, 23);
+//		btnIndietro.setMnemonic(KeyEvent.VK_BACK_SPACE);
+//		btnIndietro.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				frmSceltaTerzista.setVisible(false);
+//				GUI_Home windowHome=new GUI_Home();
+//				windowHome.frmHome.setVisible(true);
+//			}
+//		});
+//		panel.add(btnIndietro);
 		
 		JButton btnModificaValuta = new JButton("Valuta Bolle Chiuse");
+		btnModificaValuta.setToolTipText("Valuta le bolle di tutti i terzisti");
 		btnModificaValuta.setMnemonic(KeyEvent.VK_V);
 		btnModificaValuta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -183,10 +185,11 @@ public class GUI_SceltaTerzista {
 				frmSceltaTerzista.setEnabled(false);
 			}
 		});
-		btnModificaValuta.setBounds(0, -2, 155, 23);
+		btnModificaValuta.setBounds(335, 218, 143, 23);
 		panel.add(btnModificaValuta);
 		
 		JButton btnElimina = new JButton("Rimuovi Terzisti");
+		btnElimina.setToolTipText("Scegli il terzista da rimuovere");
 		btnElimina.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				windowCanc = new GUI_CancellazioneTerzistaOp();
@@ -195,21 +198,24 @@ public class GUI_SceltaTerzista {
 			}
 		});
 		btnElimina.setMnemonic(KeyEvent.VK_R);
-		btnElimina.setBounds(154, -2, 155, 23);
+		btnElimina.setBounds(335, 252, 143, 23);
 		panel.add(btnElimina);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(164, 121, 143, 47);
+		scrollPane.setBounds(31, 147, 231, 95);
 		panel.add(scrollPane);
 		
 		listTerzisti = new JList();
-		scrollPane.setColumnHeaderView(listTerzisti);
+		scrollPane.setViewportView(listTerzisti);
 		listTerzisti.setVisibleRowCount(5);
 		listTerzisti.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listTerzisti.setSelectionForeground(Color.WHITE);
 		listTerzisti.setForeground(Color.BLUE);
 		listTerzisti.setBackground(Color.WHITE);
 		listTerzisti.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		
+		/*********************Aggiunto menu*************************************/
+		menu app = new menu(frmSceltaTerzista, "Terz");
 		
 	}
 }

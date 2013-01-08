@@ -118,7 +118,7 @@ public class GUI_Extraconsumo_Azienda {
                 frmExtraconsumo = new JFrame();
                 frmExtraconsumo.setTitle("Valuta Extraconsumo");
                 frmExtraconsumo.setBounds(100, 100, 558, 270);
-                frmExtraconsumo.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frmExtraconsumo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                
                 final JLabel lblBollaN = new JLabel("Bolla n\u00B0:");
                 lblBollaN.setBounds(7, 7, 94, 20);
@@ -135,17 +135,6 @@ public class GUI_Extraconsumo_Azienda {
                 JLabel lblMaterialiTeorici = new JLabel("Materiali teorici:");
                 lblMaterialiTeorici.setBounds(7, 31, 105, 14);
                 frmExtraconsumo.getContentPane().add(lblMaterialiTeorici);
-               
-                //**btnEsci**
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmExtraconsumo.dispose();
-                        }
-                });
-                btnEsci.setBounds(450, 206, 90, 23);
-                frmExtraconsumo.getContentPane().add(btnEsci);
 
                 JScrollPane scrollPane = new JScrollPane();
                 scrollPane.setBounds(7, 56, 533, 139);

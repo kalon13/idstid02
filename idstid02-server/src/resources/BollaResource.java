@@ -177,13 +177,13 @@ public class BollaResource {
                        result = statement.executeQuery(
                                                 "SELECT * FROM progingsw.Bolla join progingsw.lavorazione join " +
                                                 "progingsw.lavorazioneterzista on lavorazione.id = lavorazioneterzista.Lavorazione_id"+ 
-                                                " and bolla.Lavorazione_id = lavorazioneterzista.id WHERE bolla.LavorazioneTerzista_id = '" + id_terzista + "';"
+                                                " and bolla.LavorazioneTerzista_id = lavorazioneterzista.id WHERE bolla.Terzista_id = '" + id_terzista + "';"
                                         );
                        
                         while(result.next()) {
                         	//int id, String codice, int stato, String data, String nomeLavorazione
                                 Bolla m = new Bolla(result.getInt(1), result.getString(2), result.getInt(3),
-                                                                                        result.getString(4), result.getString(9));
+                                                                                        result.getString(4), result.getString(10));
                                 listaBolla.add(m);
                         }
                         statement.close();
