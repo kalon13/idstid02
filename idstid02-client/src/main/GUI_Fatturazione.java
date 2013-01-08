@@ -54,7 +54,7 @@ public class GUI_Fatturazione {
         private Object[][] _dataLav;
         private Object[] _titlesLav={"Num. Bolla","Articolo", "Lavorazione", "Paia", "Costo Unit", "Tot"};
         private Object[][] _dataExt;
-        private Object[] _titlesExt={"Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Giustificato", "Data"};
+        private Object[] _titlesExt={"Articolo", "Materiale", "Quantit\u00E0", "Udm", "Costo Unit", "Data"};
         private DefaultTableModel dfmLav;
         
         //Lista Fatt
@@ -427,8 +427,7 @@ public class GUI_Fatturazione {
 		             _dataExt[k][3] = udm;
 		             _dataExt[k][4] = String.valueOf(cstU);
 		             _dataExt[k][5] = dt;
-		             _dataExt[k][6] = g;
-		            
+		        		            
 		             //Aggiunge i valori alla tabella
 		              ((DefaultTableModel) tableExtra.getModel()).insertRow(
 		            		  tableExtra.getRowCount(), new Object[]{cod,des,qnt, udm, cstU, g, dt});

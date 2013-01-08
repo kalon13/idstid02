@@ -38,7 +38,7 @@ public class FaseResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM ProgIngSw.fase WHERE LavorazioneTerzista_id='" + id + "';"
+						"SELECT * FROM progingsw.fase WHERE LavorazioneTerzista_id='" + id + "';"
 					);
 			
 			while(result.next()) {
@@ -70,11 +70,11 @@ public class FaseResource {
 		short order;
 		
 		try {
-			//Visto che nel DB il campo è Smallint
+			//Visto che nel DB il campo ï¿½ Smallint
 			order=(short) ordine;
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO ProgIngSw.fase (nome, ordine, LavorazioneTerzista_id) VALUES ('" + nome + "', '" + order + "', '" + LavorazioneTerzista_id + "');", 
+					"INSERT INTO progingsw.fase (nome, ordine, LavorazioneTerzista_id) VALUES ('" + nome + "', '" + order + "', '" + LavorazioneTerzista_id + "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
 			if(ok == 1) { // Inserimento ok

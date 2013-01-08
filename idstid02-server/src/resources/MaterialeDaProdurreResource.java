@@ -72,7 +72,7 @@ public class MaterialeDaProdurreResource {
                         try {
                                 statement = DB.instance.createStatement();
                                 ok = statement.executeUpdate(
-                                                "UPDATE ProgIngSw.materialidaprodurre SET numeroMorti = " + numeroMorti + ", quantitaProdotta=" + quantitaProdotta + ", quantitaSpedita=" + quantitaSpedita + " WHERE id=" + id + ";"
+                                                "UPDATE progingsw.materialidaprodurre SET numeroMorti = " + numeroMorti + ", quantitaProdotta=" + quantitaProdotta + ", quantitaSpedita=" + quantitaSpedita + " WHERE id=" + id + ";"
                                                 );
                                 statement.close();
 
@@ -97,7 +97,7 @@ public class MaterialeDaProdurreResource {
                         try {
                                 statement = DB.instance.createStatement();
                                 ok = statement.executeUpdate(
-                                                "UPDATE ProgIngSw.materialidaprodurre SET quantitaSpedita=" + quantitaSpedita + " WHERE id=" + id + ";"
+                                                "UPDATE progingsw.materialidaprodurre SET quantitaSpedita=" + quantitaSpedita + " WHERE id=" + id + ";"
                                                 );
                                 statement.close();
 

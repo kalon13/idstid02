@@ -35,7 +35,7 @@ public class ExtraconsumoResource {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
                                         "SELECT extraconsumo.id, codiceArticolo, descrizione, materialiteorici.quantita AS QtaAttuale, extraconsumo.quantita AS QtaRichiesta, udm, giustificato, dataRichiesta, costoUnitario " +
-                                        " FROM ProgIngSw.materiale join ProgIngSw.materialiteorici join ProgIngSw.extraconsumo " +
+                                        " FROM progingsw.materiale join progingsw.materialiteorici join progingsw.extraconsumo " +
                                         " ON materiale.id = Materiale_Id AND materialiteorici.id = extraconsumo.MaterialiTeorici_id " +
                                         " WHERE Bolla_id ='" + idBolla + "';");
                         if(result != null){
@@ -71,7 +71,7 @@ public class ExtraconsumoResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE ProgIngSw.extraconsumo SET quantita = " + quantita + ", giustificato=" + giustificato + ", dataRichiesta ='" + dataRichiesta + "' WHERE id=" + id + ";"
+                                        "UPDATE progingsw.extraconsumo SET quantita = " + quantita + ", giustificato=" + giustificato + ", dataRichiesta ='" + dataRichiesta + "' WHERE id=" + id + ";"
                                         );
                         statement.close();
                         return String.valueOf(ok);
