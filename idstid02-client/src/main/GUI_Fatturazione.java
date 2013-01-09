@@ -89,8 +89,8 @@ public class GUI_Fatturazione {
                 frmElenco.addWindowListener(new WindowAdapter() {
                 	@Override
                 	public void windowClosing(WindowEvent e) {
-                		GUI_Home wndHome = new GUI_Home();
-        				wndHome.frmHome.setVisible(true);
+                		GUI_Home windowHome = new GUI_Home();
+                        windowHome.frmHome.setVisible(true);
                 	}
                 });
                 frmElenco.setResizable(false);
@@ -183,7 +183,7 @@ public class GUI_Fatturazione {
                 textImpToT.setBounds(99, 36, 86, 20);
                 panel.add(textImpToT);
                 textImpToT.setColumns(10);
-               
+                
                 JButton btnEsci = new JButton("Chiudi");
                 btnEsci.setBounds(678, 533, 89, 23);
                 panel_Fatt.add(btnEsci);

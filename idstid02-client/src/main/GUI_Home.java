@@ -161,7 +161,7 @@ public class GUI_Home {
         	
                 
                 /*********************Aggiunto menu*************************************/
-        		menu app = new menu(frmHome, "Home");
+//        		menu app = new menu(frmHome, "Home");
                 
         }
 }

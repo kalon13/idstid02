@@ -340,13 +340,13 @@ public class GUI_Bolla {
                 frmBolleDiLavorazione.addWindowListener(new WindowAdapter() {
                 	@Override
                 	public void windowClosing(WindowEvent e) {
-                		GUI_Home wndHome = new GUI_Home();
-        				wndHome.frmHome.setVisible(true);
+                		GUI_Home windowHome = new GUI_Home();
+                        windowHome.frmHome.setVisible(true);
                 	}
                 });
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
-                frmBolleDiLavorazione.setBounds(100, 100, 747, 596);
+                frmBolleDiLavorazione.setBounds(100, 100, 717, 596);
                 frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
@@ -538,7 +538,7 @@ public class GUI_Bolla {
                                 bolleChiuse.frmBolleChiuse.setVisible(true);
                         }
                 });
-                btnBolleChiuse.setBounds(559, 501, 140, 23);
+                btnBolleChiuse.setBounds(561, 501, 140, 23);
                 frmBolleDiLavorazione.getContentPane().add(btnBolleChiuse);
                
                 //Al premere di Invio in una cella di table_1 richiama l'Update

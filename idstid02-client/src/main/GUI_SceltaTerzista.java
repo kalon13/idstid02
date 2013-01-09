@@ -108,8 +108,8 @@ public class GUI_SceltaTerzista {
 		frmSceltaTerzista.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI_Home wndHome = new GUI_Home();
-				wndHome.frmHome.setVisible(true);
+				GUI_Home windowHome = new GUI_Home();
+                windowHome.frmHome.setVisible(true);
 			}
 		});
 		frmSceltaTerzista.setTitle("Scelta Terzista - Valutazione Lavorazioni - Cancellazione Terzista");

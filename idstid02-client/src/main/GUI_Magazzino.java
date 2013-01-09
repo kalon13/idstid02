@@ -94,8 +94,8 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI_Home wndHome = new GUI_Home();
-				wndHome.frmHome.setVisible(true);
+				GUI_Home windowHome = new GUI_Home();
+                windowHome.frmHome.setVisible(true);
 			}
 		});
 		frmGestioneMagazzino.setResizable(false);
@@ -110,12 +110,12 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 640);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 672);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
 		panelMag = new JPanel();
-		panelMag.setBounds(236, 11, 774, 252);
+		panelMag.setBounds(236, 11, 774, 278);
 		panelMag.setBorder(new TitledBorder(null, "Gestione Magazzino", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
@@ -129,7 +129,7 @@ public class GUI_Magazzino {
 		textSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(56, 54, 639, 147);
+		scrollPane.setBounds(56, 54, 639, 170);
 		scrollPane.setFocusTraversalKeysEnabled(false);
 		scrollPane.setEnabled(false);
 		
