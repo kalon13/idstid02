@@ -138,18 +138,8 @@ public class GUI_RegistraDDT {
                         	else JOptionPane.showMessageDialog(frmRegistraDdt , "Non è stato selezionato il DDT da registrare!");
                     }
                 });
-                btnRegistra.setBounds(195, 229, 89, 23);
+                btnRegistra.setBounds(290, 234, 89, 23);
                 panel.add(btnRegistra);
-               
-                JButton btnAnnulla = new JButton("Annulla");
-                btnAnnulla.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmRegistraDdt.dispose();
-                        }
-                });
-                btnAnnulla.setBounds(294, 230, 89, 23);
-                panel.add(btnAnnulla);
         }
         
         private void deleteAllRowTable(){
