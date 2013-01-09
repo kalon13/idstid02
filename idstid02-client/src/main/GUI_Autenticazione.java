@@ -124,24 +124,29 @@ public class GUI_Autenticazione {
 	        	    @Override
 	        	    public void run () {
 	        	    	try {
-	                	String password = Autenticazione.getMD5Sum(pass);
-	                	
-	                    MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-	                    param.add("username", user);
-	                    param.add("password", password);
-	                   
-	                    Sessione session = ResourceClass.getService().
-	                                    path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
-	                   
-	                    if(session.getUtente() != null) {
-	                    	Autenticazione.setSessione(session);
-	                        windowHome = new GUI_Home();
-	                        windowHome.frmHome.setVisible(true);
-	                        frmAutenticazione.setVisible(false);
-	                    }
-	                    else {
-	                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
-	                    }
+		                	String password = Autenticazione.getMD5Sum(pass);
+		                	
+		                    MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+		                    param.add("username", user);
+		                    param.add("password", password);
+		                   
+		                    try{
+			                    Sessione session = ResourceClass.getService().
+			                                    path(Global._URLAutLogin).accept(MediaType.APPLICATION_JSON).post(Sessione.class, param);
+			                    
+			                    if(session.getUtente() != null) {
+			                    	Autenticazione.setSessione(session);
+			                        windowHome = new GUI_Home();
+			                        windowHome.frmHome.setVisible(true);
+			                        frmAutenticazione.setVisible(false);
+			                    }
+			                    else {
+			                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+			                    }
+		                    }
+		                    catch(Exception ex){
+		                    	JOptionPane.showMessageDialog(null, "Impossibile connettersi al server!", "Attenzione", 0);
+		                    }
 	        	    	}
 	        	    	catch(Exception ex) {
 	        	    		ex.printStackTrace();
@@ -161,6 +166,8 @@ public class GUI_Autenticazione {
 	        	    }
 	        	  }.start();                
             }
+        	else
+        		JOptionPane.showMessageDialog(null, "Dati mancanti!", "Attenzione", 0);
         }
         
         private class EnterListener extends KeyAdapter implements ActionListener  {
