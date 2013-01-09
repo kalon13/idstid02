@@ -31,6 +31,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_Bolla {
 
@@ -335,10 +337,17 @@ public class GUI_Bolla {
         
         private void initialize() {    
                 frmBolleDiLavorazione = new JFrame();
+                frmBolleDiLavorazione.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		GUI_Home windowHome = new GUI_Home();
+                        windowHome.frmHome.setVisible(true);
+                	}
+                });
                 frmBolleDiLavorazione.setResizable(false);
                 frmBolleDiLavorazione.setTitle("Bolle di Lavorazione");
                 frmBolleDiLavorazione.setBounds(100, 100, 717, 596);
-                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+                frmBolleDiLavorazione.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmBolleDiLavorazione.getContentPane().setLayout(null);
                
                 JLabel lblBolleDiLavorazione = new JLabel("Bolle assegnate:");

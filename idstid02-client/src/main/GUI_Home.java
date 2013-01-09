@@ -53,7 +53,7 @@ public class GUI_Home {
                 frmHome = new JFrame();
                 frmHome.setResizable(false);
                 frmHome.setTitle("Home");
-                frmHome.setBounds(100, 100, 405, 314);
+                frmHome.setBounds(100, 100, 405, 124);
                 frmHome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frmHome.getContentPane().setLayout(new BorderLayout(10, 10));
                 
@@ -140,9 +140,6 @@ public class GUI_Home {
                 
                 JLabel lblNewLabel_2 = new JLabel("");
                 frmHome.getContentPane().add(lblNewLabel_2, BorderLayout.SOUTH);
-                
-                JDesktopPane desktopPane = new JDesktopPane();
-                frmHome.getContentPane().add(desktopPane, BorderLayout.CENTER);
 
         }
         
