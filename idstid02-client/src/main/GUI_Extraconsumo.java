@@ -122,7 +122,7 @@ public class GUI_Extraconsumo {
          */
         private void initialize(final int id) {
                 frmExtraconsumo = new JFrame();
-                frmExtraconsumo.setTitle("Richiedi Extraconsumo");
+                frmExtraconsumo.setTitle("Extraconsumi richiesti");
                 frmExtraconsumo.setBounds(100, 100, 558, 270);
                 frmExtraconsumo.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                
