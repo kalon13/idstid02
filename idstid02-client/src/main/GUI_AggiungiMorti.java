@@ -85,10 +85,6 @@ public class GUI_AggiungiMorti {
                 txtMortiProdotti.setBounds(119, 44, 114, 20);
                 panel.add(txtMortiProdotti);
                 txtMortiProdotti.setColumns(10);
-               
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(164, 201, 89, 23);
-                frmAggiungiMorti.getContentPane().add(btnEsci);
         }
 }
 

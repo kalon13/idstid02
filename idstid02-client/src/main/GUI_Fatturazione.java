@@ -40,6 +40,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowAdapter;
 
 
 public class GUI_Fatturazione {
@@ -83,6 +84,13 @@ public class GUI_Fatturazione {
 
         private void initialize() {
                 frmElenco = new JFrame();
+                frmElenco.addWindowListener(new WindowAdapter() {
+                	@Override
+                	public void windowClosing(WindowEvent e) {
+                		GUI_Home windowHome = new GUI_Home();
+                        windowHome.frmHome.setVisible(true);
+                	}
+                });
                 frmElenco.setResizable(false);
                 frmElenco.setTitle("Gestione Fatturazione");
                 frmElenco.addWindowFocusListener(new WindowFocusListener() {
@@ -93,7 +101,7 @@ public class GUI_Fatturazione {
         			public void windowLostFocus(WindowEvent e) {
         			}
         		});
-                frmElenco.setBounds(100, 100, 1011, 645);
+                frmElenco.setBounds(100, 100, 1011, 626);
                 frmElenco.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmElenco.getContentPane().setLayout(null);
                 
@@ -173,10 +181,6 @@ public class GUI_Fatturazione {
                 textImpToT.setBounds(99, 36, 86, 20);
                 panel.add(textImpToT);
                 textImpToT.setColumns(10);
-               
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(678, 533, 89, 23);
-                panel_Fatt.add(btnEsci);
                 
                 JButton button = new JButton("Stampa fattura in PDF");
                 button.addActionListener(new ActionListener() {
@@ -250,12 +254,6 @@ public class GUI_Fatturazione {
                     JLabel lblTerzisti = new JLabel("Terzisti:");
                     lblTerzisti.setBounds(0, 0, 46, 14);
                     panel_terz.add(lblTerzisti);
-                    btnEsci.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                    frmElenco.dispose();
-                            }
-                    });
         btnNewFatt.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {

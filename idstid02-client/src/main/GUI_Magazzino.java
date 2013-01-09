@@ -33,6 +33,7 @@ import com.lowagie.text.Chunk;
 
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
+import java.awt.event.WindowAdapter;
 
 
 public class GUI_Magazzino {
@@ -87,6 +88,13 @@ public class GUI_Magazzino {
 
 	private void initialize() {
 		frmGestioneMagazzino = new JFrame();
+		frmGestioneMagazzino.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home windowHome = new GUI_Home();
+                windowHome.frmHome.setVisible(true);
+			}
+		});
 		frmGestioneMagazzino.setResizable(false);
 		frmGestioneMagazzino.setTitle("Gestione Magazzino");
 		frmGestioneMagazzino.addWindowFocusListener(new WindowFocusListener() {
@@ -99,7 +107,7 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 722);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 672);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
@@ -306,19 +314,6 @@ public class GUI_Magazzino {
 				windowNewDDT = new GUI_CreaDDT(idTerzista);
 				windowNewDDT.frmCreaDdt.setVisible(true);}
 		});
-		
-		
-		
-		/*****Chiudi*****/
-		JButton btnChiudi = new JButton("Chiudi");
-		btnChiudi.setBounds(875, 629, 135, 23);
-		btnChiudi.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-			  frmGestioneMagazzino.dispose();
-			}
-		});
-		frmGestioneMagazzino.getContentPane().add(btnChiudi);
 		
 		JLabel label = new JLabel("Elenco DDT:");
 		label.setBounds(591, 37, 58, 14);

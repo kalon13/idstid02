@@ -39,6 +39,8 @@ import javax.swing.event.ListSelectionEvent;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ListSelectionModel;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_Bolla_Terzista {
 
@@ -397,10 +399,17 @@ public class GUI_Bolla_Terzista {
        
         private void initialize() {
             frmBolleDiLavorazioneTerzista = new JFrame();
+            frmBolleDiLavorazioneTerzista.addWindowListener(new WindowAdapter() {
+            	@Override
+            	public void windowClosing(WindowEvent e) {
+            		GUI_Home windowHome = new GUI_Home();
+                    windowHome.frmHome.setVisible(true);
+            	}
+            });
             frmBolleDiLavorazioneTerzista.setResizable(false);
             frmBolleDiLavorazioneTerzista.setTitle("Bolle di Lavorazione");
             frmBolleDiLavorazioneTerzista.setBounds(100, 100, 717, 662);
-            frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            frmBolleDiLavorazioneTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frmBolleDiLavorazioneTerzista.getContentPane().setLayout(null);
             
             //Disabilito tasti

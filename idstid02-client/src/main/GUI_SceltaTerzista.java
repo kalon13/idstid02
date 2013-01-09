@@ -35,6 +35,8 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class GUI_SceltaTerzista {
 
@@ -103,10 +105,17 @@ public class GUI_SceltaTerzista {
 	 */
 	private void initialize() {
 		frmSceltaTerzista = new JFrame();
+		frmSceltaTerzista.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				GUI_Home windowHome = new GUI_Home();
+                windowHome.frmHome.setVisible(true);
+			}
+		});
 		frmSceltaTerzista.setTitle("Scelta Terzista - Valutazione Lavorazioni - Cancellazione Terzista");
 		frmSceltaTerzista.setResizable(false);
 		frmSceltaTerzista.setBounds(100, 100, 516, 362);
-		frmSceltaTerzista.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frmSceltaTerzista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		JPanel panel = new JPanel();
 		frmSceltaTerzista.getContentPane().add(panel, BorderLayout.CENTER);

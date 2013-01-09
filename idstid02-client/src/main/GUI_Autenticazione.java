@@ -90,6 +90,7 @@ public class GUI_Autenticazione {
                 btnEsci.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent e) {
                 		frmAutenticazione.dispose();
+                		System.exit(0);
                 	}
                 });
                 panel.add(btnAccedi);

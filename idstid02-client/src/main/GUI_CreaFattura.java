@@ -55,7 +55,7 @@ public class GUI_CreaFattura {
                 frmCreazioneFattura = new JFrame();
                 frmCreazioneFattura.setResizable(false);
                 frmCreazioneFattura.setTitle("Creazione Fattura");
-                frmCreazioneFattura.setBounds(100, 100, 914, 475);
+                frmCreazioneFattura.setBounds(100, 100, 914, 452);
                 frmCreazioneFattura.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmCreazioneFattura.getContentPane().setLayout(null);
                
@@ -121,16 +121,6 @@ public class GUI_CreaFattura {
                         ));
                 tblMatEx.getColumnModel().getColumn(3).setPreferredWidth(88);
                 scrollPane_1.setViewportView(tblMatEx);
-               
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmCreazioneFattura.dispose();
-                        }
-                });
-                btnEsci.setBounds(761, 412, 95, 23);
-                frmCreazioneFattura.getContentPane().add(btnEsci);
                
                 JButton btnCrea = new JButton("Crea");
                 btnCrea.addMouseListener(new MouseAdapter() {

@@ -93,10 +93,6 @@ public class GUI_AggiornaStatoBolla {
                 tblUtilizzati = new JTable();
                 tblUtilizzati.setBounds(10, 28, 252, 97);
                 panel_1.add(tblUtilizzati);
-               
-                JButton btnEsci = new JButton("Esci");
-                btnEsci.setBounds(193, 374, 89, 23);
-                frmAggiornaStatoBolla.getContentPane().add(btnEsci);
         }
 
 }
