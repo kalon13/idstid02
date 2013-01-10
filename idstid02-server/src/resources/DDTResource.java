@@ -43,7 +43,7 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM progingsw.ddt where registrato <> 0 and flussoAzienda = 1 ORDER BY dataInvio;"
+						"SELECT * FROM progingsw.ddt WHERE registrato <> 0 AND flussoAzienda = 1 ORDER BY dataInvio;"
 					);
 			
 			while(result.next()) {
