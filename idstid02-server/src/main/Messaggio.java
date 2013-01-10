@@ -8,9 +8,8 @@ public class Messaggio {
         private String data;
         private String testo;
         private boolean letto;
-        private String bolla_Id; //aggiunto
-        //TODO: aggiungere utente_Id
-        //TODO: aggiungere bolla_Id
+        private String bolla_Id; 
+        private int utente_Id;
        
         public Messaggio(int id, String data, String testo, boolean letto) {
                 this.id = id;
@@ -19,14 +18,20 @@ public class Messaggio {
                 this.letto = letto;
         }
        
-        //aggiunto
         public Messaggio(int id, String data, String testo, boolean letto, String bolla_Id) {
                 this.id = id;
                 this.data = data;
                 this.testo = testo;
                 this.letto = letto;
         }
-        //aggiunto
+        public Messaggio(int id, String data, String testo, boolean letto, String bolla_Id, int mittente) {
+            this.id = id;
+            this.data = data;
+            this.testo = testo;
+            this.letto = letto;
+            this.utente_Id = mittente;
+        }
+
         public String getBolla_Id() {
                 return bolla_Id;
         }
@@ -40,6 +45,7 @@ public class Messaggio {
                 this.data = "";
                 this.testo = "";
                 this.letto = false;
+                this.utente_Id = -1;
         }
 
         public int getId() {
@@ -72,6 +78,14 @@ public class Messaggio {
 
         public void setLetto(boolean letto) {
                 this.letto = letto;
+        }
+        
+        public int getUtenteId() {
+        	return utente_Id;
+        }
+        
+        public void setUtenteId(int utente_id) {
+        	this.utente_Id = utente_id;
         }
         
         @Override

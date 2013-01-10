@@ -18,28 +18,37 @@ import classResources.Materiale;
 import classResources.Messaggio;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import javax.swing.JScrollBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.JScrollPane;
 
 public class GUI_Messaggio {
 
         public GUI_Messaggio(int numeroBolla, String codiceBolla)
         {
-                if (numeroBolla != 0)
-                {
-                        System.out.println(numeroBolla);
-                        loadTableDt(numeroBolla); //carica la lista con i messaggi
-                        initialize(numeroBolla, codiceBolla);
-                }
-                else
-                {
-                        System.out.println("no num bolla");
-                }
+            if (numeroBolla != 0)
+            {
+            	this.numeroBolla = numeroBolla;
+                loadTableDt(numeroBolla); //carica la lista con i messaggi
+                initialize(numeroBolla, codiceBolla);
+            }
+            else
+            {
+                 System.out.println("no num bolla");
+            }
         }
        
         public JFrame frmMessaggi;
         private JTextField textField;
-        private static String[] _data;
-        private static int[] _id;
+        public JList listMessaggi;
+        private String[] _data;
+        private int[] _id;
         List<Messaggio> lista = null;
+        private int numeroBolla;
        
         private void loadTableDt(int numeroBolla){
                 //Load lista messaggi  
@@ -59,44 +68,25 @@ public class GUI_Messaggio {
                 _id = new int[lista.size()];
                 int k = 0;
                 while(it.hasNext())
-                        {
-                                Messaggio messCl = (Messaggio)it.next();
-                                String nmMess = String.valueOf(messCl.getId());
-                                String[] dtMess = messCl.getData().replace("-", "/").split(" ");
-                                _data[k] = nmMess + "-" + dtMess[0]; //id del mess + data del mess
-                                _id[k]= messCl.getId();
-                                k++;
+                {
+                        Messaggio messCl = (Messaggio)it.next();
+                        String nmMess = String.valueOf(messCl.getId());
+                        String[] dtMess = messCl.getData().replace("-", "/").split(" ");
+                        String preview = messCl.getTesto();
+                        if(messCl.getTesto().length() > 17) {
+                        	preview = messCl.getTesto().substring(0, 17) + "...";
                         }
+                        _data[k] = dtMess[0] + " - " + preview; //id del mess + data del mess
+                        _id[k]= messCl.getId();
+                        k++;
+                }
         }
-       
-        /**
-         * Launch the application.
-         */
-//      public static void main(String[] args) {
-//              EventQueue.invokeLater(new Runnable() {
-//                      public void run() {
-//                              try {
-//                                      GUI_Messaggio window = new GUI_Messaggio();
-//                                      window.frmMessaggi.setVisible(true);
-//                              } catch (Exception e) {
-//                                      e.printStackTrace();
-//                              }
-//                      }
-//              });
-//      }
-
-        /**
-         * Create the application.
-         */
-//      public GUI_Messaggio() {
-//              loadTableDt();
-//              initialize();
-//      }
 
         /**
          * Initialize the contents of the frame.
+         * @wbp.parser.entryPoint
          */
-        private void initialize(int numeroBolla, String codiceBolla) {
+        private void initialize(final int numeroBolla, String codiceBolla) {
                 frmMessaggi = new JFrame();
                 frmMessaggi.setTitle("Messaggi");
                 frmMessaggi.setResizable(false);
@@ -107,21 +97,48 @@ public class GUI_Messaggio {
                 JLabel lblMessaggi = new JLabel("Numero Bolla:");
                 lblMessaggi.setBounds(10, 11, 125, 14);
                 frmMessaggi.getContentPane().add(lblMessaggi);
+                
+                JScrollPane scrollPane_2 = new JScrollPane();
+                scrollPane_2.setBounds(230, 36, 204, 77);
+                frmMessaggi.getContentPane().add(scrollPane_2);
                                
                 final JTextPane textPaneMessaggio = new JTextPane();
-                textPaneMessaggio.setBounds(230, 36, 204, 77);
-                frmMessaggi.getContentPane().add(textPaneMessaggio);
+                scrollPane_2.setViewportView(textPaneMessaggio);
+                
+                JScrollPane scrollPane_1 = new JScrollPane();
+                scrollPane_1.setBounds(10, 124, 424, 99);
+                frmMessaggi.getContentPane().add(scrollPane_1);
                
-                JTextPane textPaneNuovoMess = new JTextPane();
-                textPaneNuovoMess.setBounds(10, 124, 424, 99);
-                frmMessaggi.getContentPane().add(textPaneNuovoMess);
+                final JTextPane textPaneNuovoMess = new JTextPane();
+                scrollPane_1.setViewportView(textPaneNuovoMess);
                
                 JButton btnInvia = new JButton("Invia");
-                btnInvia.setBounds(246, 234, 89, 23);
+                btnInvia.setBounds(347, 237, 89, 23);
+                btnInvia.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                    	String messageText = textPaneNuovoMess.getText().trim();
+                    	if(messageText != "") {
+                        	MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+		                    param.add("utenteid", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()));
+		                    param.add("bollaid", String.valueOf(numeroBolla));
+		                    param.add("message", messageText);
+    	                    String ret = ResourceClass.getService().path(Global._URLMess).path("insert")
+    	                    		.accept(MediaType.APPLICATION_JSON).put(String.class, param);
+    	                    if(ret!="-1") {
+    	                    	textPaneNuovoMess.setText("");
+    	                    	refresh(numeroBolla);
+    	                    }
+    	                    else {
+    	                    	textPaneNuovoMess.selectAll();
+    	                    }
+                    	}
+                    }
+				});
                 frmMessaggi.getContentPane().add(btnInvia);
                
                 JButton btnEsci = new JButton("Chiudi");
-                btnEsci.setBounds(345, 234, 89, 23);
+                btnEsci.setBounds(12, 237, 89, 23);
                 btnEsci.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -138,20 +155,41 @@ public class GUI_Messaggio {
                 frmMessaggi.getContentPane().add(textField);
                 textField.setColumns(10);
                
-                textField.setText(codiceBolla); //numeroBolla che è stato passato dalla GUI_Bolla
-               
-                final JList listMessaggi = new JList(_data);
-                listMessaggi.addListSelectionListener(new ListSelectionListener() {
-                        //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
-                        public void valueChanged(ListSelectionEvent e) {
-                                int indice = listMessaggi.getSelectedIndex();
-                                Messaggio m = lista.get(indice);
-                                String testo = m.getTesto();
-                                textPaneMessaggio.setText(testo);
-                        }
-                });
-                listMessaggi.setBounds(10, 36, 210, 77);
-                frmMessaggi.getContentPane().add(listMessaggi);
+                textField.setText(codiceBolla);
+                 
+                 JScrollPane scrollPane = new JScrollPane();
+                 scrollPane.setBounds(10, 36, 210, 77);
+                 frmMessaggi.getContentPane().add(scrollPane);
+                 
+                  listMessaggi = new JList(_data);
+                  scrollPane.setViewportView(listMessaggi);
+                  listMessaggi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                  listMessaggi.addListSelectionListener(new ListSelectionListener() {
+                      //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
+                      public void valueChanged(ListSelectionEvent e) {
+                          int indice = listMessaggi.getSelectedIndex();
+                          if(indice > -1) {
+	                            Messaggio m = lista.get(indice);
+	                            String testo = m.getTesto();
+	                            textPaneMessaggio.setText(testo);
+	                            System.out.println(m.isLetto());
+	                            if(m.getUtenteId() != Autenticazione.getSessione().getUtente().getUserId()) {
+	                            	ResourceClass.getService().path(Global._URLMessLetto).path(String.valueOf(m.getId()))
+	                            		.accept(MediaType.APPLICATION_JSON).post(String.class);
+	                            }
+	                            System.out.println(m.isLetto());
+                          }
+                          else {
+                          	textPaneMessaggio.setText("");
+                          }
+                      }
+                  });
+        }
+        
+        
+        private void refresh(int numBolla) {
+        	loadTableDt(numeroBolla);
+        	listMessaggi.setListData(_data);
         }
 }
 

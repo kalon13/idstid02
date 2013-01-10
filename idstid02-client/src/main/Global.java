@@ -28,6 +28,7 @@ public class Global {
     public static final String _URLAutLogout = "/autenticazione/logout";
     public static final String _URLMess = "/messaggio";
     public static final String _URLMessSearch = "/messaggio/search/";
+    public static final String _URLMessLetto = "/messaggio/letto/";
     public static final String _URLLavoraz = "/lavorazione/";
     public static final String _URLLavorazTerzista = "/lavorazioneterzista/";
     public static final String _URLFase = "/fase/";
