@@ -241,7 +241,7 @@ public class DDTResource {
 			chkst = DB.instance.createStatement();
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO progingsw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +
+					"INSERT INTO progingsw.ddt(Terzista_id, dataInvio, flussoAzienda, registrato) " +
 					"VALUES('" + Terzista_id + "', '" + dataInvio + "', '" + 0 + "', '" + 0+ "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			

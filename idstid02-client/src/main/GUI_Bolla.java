@@ -99,7 +99,7 @@ public class GUI_Bolla {
                                 Bolla bollaCl = (Bolla)it.next();
                                 String codBol = String.valueOf(bollaCl.getCodice());
 //                              int statoBol = bollaCl.getStato();
-//                              if (statoBol != 3 && statoBol !=4) //se la bolla non è chiusa o chiusa con morti
+//                              if (statoBol != 3 && statoBol !=4) //se la bolla non ï¿½ chiusa o chiusa con morti
 //                              {
                                         String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
                                         _data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
@@ -305,7 +305,7 @@ public class GUI_Bolla {
                         new Object[][] {
                         },
                         new String[] {
-                                        "Desc", "Quantità", "udm", "CostoUnit",
+                                        "Desc", "Quantitï¿½", "udm", "CostoUnit",
                         }
                 );
         
@@ -449,8 +449,13 @@ public class GUI_Bolla {
                 btnVisualizzaNote.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                                 String numeroBolla = textField.getText();
-                                messaggio = new GUI_Messaggio(id, numeroBolla);
-                                messaggio.frmMessaggi.setVisible(true);
+                                if(numeroBolla!="") {
+	                                messaggio = new GUI_Messaggio(id, numeroBolla);
+	                                messaggio.frmMessaggi.setVisible(true);
+                                }
+                                else {
+                                	JOptionPane.showMessageDialog(null, "Bolla non selezionata.", "Attenzione", 0);
+                                }
                         }
                 });
                 btnVisualizzaNote.setBounds(366, 23, 147, 23);
@@ -460,7 +465,7 @@ public class GUI_Bolla {
                 JButton btnVisualizzaExtra = new JButton("Visualizza Extra");
                 btnVisualizzaExtra.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                                if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
+                                if (list.getSelectedIndex() != -1){ //se un elemento della lista ï¿½ selezionato
                                         //Passo codice bolla nella text box e id della bolla per la query
                                         extraconsumo = new GUI_Extraconsumo_Azienda(textField.getText(), id);
                                         extraconsumo.frmExtraconsumo.setVisible(true);

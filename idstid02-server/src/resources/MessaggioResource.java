@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -34,11 +35,13 @@ public class MessaggioResource {
                         statement = DB.instance.createStatement();
                         //int id, String data, String testo, boolean letto
                         result = statement.executeQuery(
-                                                "SELECT id, data, testo, letto "+
-                                                "FROM progingsw.Messaggio;");
+                                                "SELECT id, data, testo, letto, Bolla_id, Utente_id "+
+                                                "FROM progingsw.messaggio " +
+                                                " ORDER BY data DESC;");
                         while(result.next()) {
                                 Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
-                                                            result.getString(3), result.getBoolean(4));
+                                                            result.getString(3), result.getBoolean(4), 
+                                                            String.valueOf(result.getInt(5)), result.getInt(6));
                                 listaMessaggio.add(m);
                         }
                         statement.close();
@@ -63,13 +66,14 @@ public class MessaggioResource {
             try {
                 statement = DB.instance.createStatement();
                 result = statement.executeQuery(
-                                "SELECT id, data, testo, letto, Bolla_id" +
-                                " FROM progingsw.Messaggio" +
-                                " WHERE Bolla_id=" + txtSearch + ";");
+                                "SELECT id, data, testo, letto, Bolla_id, Utente_id" +
+                                " FROM progingsw.messaggio" +
+                                " WHERE Bolla_id='" + txtSearch + "'" +
+                                " ORDER BY data DESC;");
                 if(result != null){
                  while(result.next()) {
                          Messaggio m = new Messaggio(result.getInt(1), result.getString(2),
-                                        result.getString(3), result.getBoolean(4), result.getString(5));
+                                        result.getString(3), result.getBoolean(4), result.getString(5), result.getInt(6));
                         listaMessaggio.add(m);
                  }
                 }
@@ -85,11 +89,32 @@ public class MessaggioResource {
         }
         
         @POST
+        @Path("/letto/{id}")
+    	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    	@Produces(MediaType.APPLICATION_JSON)
+        public String sendMessage(@PathParam("id") int id) {
+        	Statement statement = null;
+            int ok = -1;
+           
+            try {
+                    statement = DB.instance.createStatement();
+                    ok = statement.executeUpdate(
+                                    "UPDATE progingsw.messaggio SET letto = '1' WHERE id='" + id + "';"
+                                    );
+                    statement.close();
+
+                    return String.valueOf(ok);
+            } catch (SQLException e) {
+                    e.printStackTrace();
+                    return "-1";
+            }
+        }
+        
+        @PUT
         @Path("/insert")
     	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     	@Produces(MediaType.APPLICATION_JSON)
-        public String sendMessage(@FormParam("sid") String sid, 
-        							@FormParam("utenteid") int uid,
+        public String sendMessage(@FormParam("utenteid") int uid,
         							@FormParam("bollaid") int bid,
         							@FormParam("message") String message) {
             Statement statement = null;
@@ -101,7 +126,7 @@ public class MessaggioResource {
                 statement = DB.instance.createStatement();
                 ok = statement.executeUpdate(
                                 "INSERT INTO progingsw.messaggio(Utente_id, Bolla_id, testo, data, letto) " +
-                                "VALUES('" + uid + "', '" + bid + "', '" + bid + "', NOW(), '0');",
+                                "VALUES('" + uid + "', '" + bid + "', '" + message + "', NOW(), '0');",
                                 Statement.RETURN_GENERATED_KEYS);
                
                 if(ok == 1) { // Inserimento ok
@@ -140,16 +165,16 @@ public class MessaggioResource {
 		                
 		                	result = statement.executeQuery(
 		                                "SELECT id, data, testo, letto, Bolla_id" +
-		                                " FROM progingsw.Messaggio JOIN progingsw.Utente ON Messaggio.Utente_id=Utente.id " +
+		                                " FROM progingsw.messaggio JOIN progingsw.utente ON messaggio.Utente_id=Utente.id " +
 		                                " WHERE Utente.tipo='5' AND Messaggio.letto='0';");
 		                }
 		                else {
 		                	result = statement.executeQuery(
 	                                "SELECT id, data, testo, letto, Bolla_id" +
-	                                " FROM progingsw.Messaggio JOIN progingsw.Bolla ON Messaggio.Bolla_id=Bolla.id " +
+	                                " FROM progingsw.messaggio JOIN progingsw.bolla ON messaggio.Bolla_id=Bolla.id " +
 	                                " WHERE Bolla.Terzista_id='" + tid + "' " +
-	                                	" AND Messaggio.Utente_id<>'" + s.getUtente().getUserId() + "' " +
-	                                	" AND Messaggio.letto='0';");
+	                                	" AND messaggio.Utente_id<>'" + s.getUtente().getUserId() + "' " +
+	                                	" AND messaggio.letto='0';");
 		                }
 		                
 		                if(result != null){
