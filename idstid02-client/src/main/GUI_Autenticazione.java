@@ -142,6 +142,7 @@ public class GUI_Autenticazione {
 			                    }
 			                    else {
 			                    	JOptionPane.showMessageDialog(null, "Username o password non corretti!", "Attenzione", 0);
+			                    	textPsw.selectAll();
 			                    }
 		                    }
 		                    catch(Exception ex){

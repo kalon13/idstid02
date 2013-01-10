@@ -164,16 +164,16 @@ public class MessaggioResource {
 		                if(s.getUtente().getTipo() < 5) {
 		                
 		                	result = statement.executeQuery(
-		                                "SELECT id, data, testo, letto, Bolla_id" +
-		                                " FROM progingsw.messaggio JOIN progingsw.utente ON messaggio.Utente_id=Utente.id " +
-		                                " WHERE Utente.tipo='5' AND Messaggio.letto='0';");
+		                                "SELECT messaggio.id, data, testo, letto, Bolla_id" +
+		                                " FROM progingsw.messaggio JOIN progingsw.utente ON messaggio.Utente_id=utente.id " +
+		                                " WHERE utente.tipo='5' AND messaggio.letto='0';");
 		                }
 		                else {
 		                	result = statement.executeQuery(
-	                                "SELECT id, data, testo, letto, Bolla_id" +
-	                                " FROM progingsw.messaggio JOIN progingsw.bolla ON messaggio.Bolla_id=Bolla.id " +
-	                                " WHERE Bolla.Terzista_id='" + tid + "' " +
-	                                	" AND messaggio.Utente_id<>'" + s.getUtente().getUserId() + "' " +
+	                                "SELECT messaggio.id, messaggio.data, testo, letto, Bolla_id" +
+	                                " FROM progingsw.messaggio JOIN progingsw.bolla ON messaggio.Bolla_id=bolla.id " +
+	                                " WHERE bolla.Terzista_id='" + tid + "' " +
+	                                	" AND messaggio.Utente_id <> '" + s.getUtente().getUserId() + "' " +
 	                                	" AND messaggio.letto='0';");
 		                }
 		                
