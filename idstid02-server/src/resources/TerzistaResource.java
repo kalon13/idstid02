@@ -185,7 +185,7 @@ public class TerzistaResource {
 //		try {
 //			statement = DB.instance.createStatement();
 //			ok = statement.executeUpdate(
-//					"INSERT INTO progingsw.Materiale(descrizione, costoUnitario) " +
+//					"INSERT INTO progingsw.materiale(descrizione, costoUnitario) " +
 //					"VALUES('" + descrizione + "', '" + costoUnitario + "');", 
 //					Statement.RETURN_GENERATED_KEYS);
 //			

@@ -175,7 +175,7 @@ public class BollaResource {
                 try {
                        statement = DB.instance.createStatement();
                        result = statement.executeQuery(
-                                                "SELECT * FROM progingsw.Bolla join progingsw.lavorazione join " +
+                                                "SELECT * FROM progingsw.bolla join progingsw.lavorazione join " +
                                                 "progingsw.lavorazioneterzista on lavorazione.id = lavorazioneterzista.Lavorazione_id"+ 
                                                 " and bolla.LavorazioneTerzista_id = lavorazioneterzista.id WHERE bolla.Terzista_id = '" + id_terzista + "';"
                                         );
@@ -209,7 +209,7 @@ public class BollaResource {
                         statement = DB.instance.createStatement();
                         result = statement.executeQuery(
                         		"SELECT bolla.id, codice, stato, data, bolla.Terzista_id, Lavorazione_id, nome, ragSociale " +
-                        		" FROM progingsw.Bolla JOIN progingsw.lavorazione JOIN progingsw.terzista JOIN progingsw.lavorazioneterzista " +
+                        		" FROM progingsw.bolla JOIN progingsw.lavorazione JOIN progingsw.terzista JOIN progingsw.lavorazioneterzista " +
                         		" ON lavorazione.id = lavorazioneterzista.Lavorazione_id " +
                         		" AND bolla.LavorazioneTerzista_id = lavorazioneterzista.id " +
                         		" AND bolla.Terzista_id = terzista.id WHERE stato ='" + stato + "';"
@@ -277,7 +277,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE progingsw.Bolla SET descrizione = '" + descrizione +"'," +
+                                        "UPDATE progingsw.bolla SET descrizione = '" + descrizione +"'," +
                                         "costoUnitario = " + costoUnitario + " WHERE id='" + id + "';"
                                         );
                         statement.close();
@@ -304,7 +304,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "UPDATE progingsw.Bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = " + id + ";"
+                                        "UPDATE progingsw.bolla SET stato = " + stato + ", Terzista_id = " + terzista_id + " WHERE id = " + id + ";"
                                         );
                         statement.close();
 
@@ -381,7 +381,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "DELETE FROM progingsw.Bolla WHERE id='" + id + "';"
+                                        "DELETE FROM progingsw.bolla WHERE id='" + id + "';"
                                         );
                         statement.close();
 
@@ -406,7 +406,7 @@ public class BollaResource {
                 try {
                         statement = DB.instance.createStatement();
                         ok = statement.executeUpdate(
-                                        "INSERT INTO progingsw.Bolla(descrizione, costoUnitario) " +
+                                        "INSERT INTO progingsw.bolla(descrizione, costoUnitario) " +
                                         "VALUES('" + descrizione + "', '" + costoUnitario + "');",
                                         Statement.RETURN_GENERATED_KEYS);
                        
