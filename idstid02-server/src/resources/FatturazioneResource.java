@@ -173,7 +173,7 @@ public class FatturazioneResource {
 		chkBolFat.setFatt(false);
 		chkBolFat.setIdBolla(idBolla);
 		
-		try { System.out.print(idBolla);
+		try {
 				statement = DB.instance.createStatement();
 				result = statement.executeQuery(
 							"SELECT * FROM progingsw.fatturabolla where Bolla_id = '"+idBolla+"' LIMIT 1;"
@@ -181,8 +181,12 @@ public class FatturazioneResource {
 				result.last();
 				int numberRow = result.getRow();
 				statement.close();
-				if(numberRow != 0) {
-					//Vedo se la bolla ï¿½ chiusa
+				//Se è fatturata
+				if(numberRow != 0) 
+					chkBolFat.setFatt(true);
+				//altrimenti vedo se è chiusa
+				else{
+					//Vedo se la bolla è chiusa
 					statementSt = DB.instance.createStatement();
 					resultSt = statementSt.executeQuery(
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
@@ -190,12 +194,13 @@ public class FatturazioneResource {
 					while(resultSt.next()) {
 						stato = resultSt.getInt(0);
 					}
-					if(stato == 3)
-					chkBolFat.setFatt(true);
-			}
-//			statementSt.close();
-			
-			
+					if(stato != 3)
+						chkBolFat.setFatt(true);
+					
+					statementSt.close();
+				}
+				
+				
 			} catch (SQLException e) {
 						e.printStackTrace();
 					}
