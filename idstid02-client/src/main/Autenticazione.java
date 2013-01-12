@@ -6,15 +6,15 @@ public class Autenticazione {
         private static Sessione sessione;
 
         public Autenticazione() {
-                sessione = null;
+        	sessione = null;
         }
        
         public static Sessione getSessione() {
-                return sessione;
+        	return sessione;
         }
 
         public static void setSessione(Sessione session) {
-                sessione = session;
+        	sessione = session;
         }
        
         public static String getMD5Sum(char[] password) {

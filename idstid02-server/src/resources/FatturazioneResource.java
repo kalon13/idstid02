@@ -182,7 +182,7 @@ public class FatturazioneResource {
 				int numberRow = result.getRow();
 				statement.close();
 				if(numberRow != 0) {
-					//Vedo se la bolla è chiusa
+					//Vedo se la bolla ï¿½ chiusa
 					statementSt = DB.instance.createStatement();
 					resultSt = statementSt.executeQuery(
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
@@ -220,8 +220,8 @@ public class FatturazioneResource {
 			stPrezzo = DB.instance.createStatement();
 			stQntPr = DB.instance.createStatement();
 			rsPrezzo = stPrezzo.executeQuery(
-						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneTerzista" +
-						" on LavorazioneTerzista_id = Terzista_id where bolla.id = '"+idBolla+"';"
+						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneterzista" +
+						" on LavorazioneTerzista_id = bolla.Terzista_id where bolla.id = '"+idBolla+"';"
 					);
 			
 			while(rsPrezzo.next()) {
