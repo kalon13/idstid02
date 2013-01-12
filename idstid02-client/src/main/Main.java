@@ -1,5 +1,8 @@
 package main;
 
+
+import gui.GUI_Autenticazione;
+
 import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
@@ -18,8 +21,8 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
-import classResources.Materiale;
-import classResources.Utente;
+import utils.ResourceClass;
+
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

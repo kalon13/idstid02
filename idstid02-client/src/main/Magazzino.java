@@ -6,7 +6,6 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.ws.rs.core.MediaType;
 
-import classResources.Materiale;
 
 import com.sun.jersey.api.client.GenericType;
 
@@ -26,6 +25,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import java.awt.ComponentOrientation;
 import javax.swing.SwingConstants;
+
+import utils.ResourceClass;
 
 
 public class Magazzino {

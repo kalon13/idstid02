@@ -43,7 +43,7 @@ public class DDTResource {
 		try {
 			statement = DB.instance.createStatement();
 			result = statement.executeQuery(
-						"SELECT * FROM progingsw.ddt where registrato <> 0 and flussoAzienda = 1 ORDER BY dataInvio;"
+						"SELECT * FROM progingsw.ddt WHERE registrato <> 0 AND flussoAzienda = 1 ORDER BY dataInvio;"
 					);
 			
 			while(result.next()) {
@@ -241,7 +241,7 @@ public class DDTResource {
 			chkst = DB.instance.createStatement();
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
-					"INSERT INTO progingsw.DDT(Terzista_id, dataInvio, flussoAzienda, registrato) " +
+					"INSERT INTO progingsw.ddt(Terzista_id, dataInvio, flussoAzienda, registrato) " +
 					"VALUES('" + Terzista_id + "', '" + dataInvio + "', '" + 0 + "', '" + 0+ "');", 
 					Statement.RETURN_GENERATED_KEYS);
 			
