@@ -216,14 +216,7 @@ public class GUI_Magazzino {
         
         	//**JList Terzisti**
          list_terz = new JList(_dataTerz);
-         list_terz.addFocusListener(new FocusAdapter() {
-         	@Override
-         	public void focusLost(FocusEvent e) {
-         		dfmDDTMat.setRowCount(0);
-         		dfmDDT.setRowCount(0);
-         		dfm.setRowCount(0);
-         	}
-         });
+         
          scrollPane_Terz.setViewportView(list_terz);
          
            list_terz.addListSelectionListener(new ListSelectionListener() {

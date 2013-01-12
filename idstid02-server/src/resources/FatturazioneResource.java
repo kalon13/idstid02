@@ -183,16 +183,15 @@ public class FatturazioneResource {
 				statement.close();
 				if(numberRow != 0) {
 					//Vedo se la bolla è chiusa
-//					statementSt = DB.instance.createStatement();
-//					resultSt = statementSt.executeQuery(
-//								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
-//							);
-//					while(resultSt.next()) {
-//						stato = resultSt.getInt(0);
-//					}
-//					if(stato == 3)
+					statementSt = DB.instance.createStatement();
+					resultSt = statementSt.executeQuery(
+								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
+							);
+					while(resultSt.next()) {
+						stato = resultSt.getInt(0);
+					}
+					if(stato == 3)
 					chkBolFat.setFatt(true);
-					System.out.print("ciao2");
 			}
 //			statementSt.close();
 			
