@@ -32,10 +32,9 @@ import utils.FormatDate;
 import utils.Global;
 import utils.ResourceClass;
 
-
 public class GUI_RegistraDDT {
 
-        JFrame frmRegistraDdt;
+        public JFrame frmRegistraDdt;
         private static GUI_RegistraDDT windowRegDDT;
         
         // TABLE MATERIALE
