@@ -34,7 +34,7 @@ import utils.ResourceClass;
 
 public class GUI_CreaDDT {
 
-        JFrame frmCreaDdt;
+        public JFrame frmCreaDdt;
         private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantitï¿½", "UdM"};
         private static String[][] _dataNewDDT;
         private static String[] _titlesMat = {"Codice", "Descrizione", "Quantitï¿½", "UdM"};
@@ -262,7 +262,7 @@ public class GUI_CreaDDT {
 	                     		_idMatDDT.add(_idMat.get(rowMat));
                      		}
                      		else
-                     			JOptionPane.showMessageDialog(frmCreaDdt, "Il materiale è già stato inserito nel DDT!");
+                     			JOptionPane.showMessageDialog(frmCreaDdt, "Il materiale ï¿½ giï¿½ stato inserito nel DDT!");
                         	 }
                         	 else
                                JOptionPane.showMessageDialog(frmCreaDdt, "Non ï¿½ stato selezionato il materiale da aggiungere al DDT!");

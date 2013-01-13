@@ -21,7 +21,7 @@ import java.awt.ComponentOrientation;
 
 public class GUI_UpdMagazzino {
 
-        JFrame frameUpdMat;
+        public JFrame frameUpdMat;
         private JTextField textCod;
         private JTextField textDesc;
         private JTextField textQnt;
