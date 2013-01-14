@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.DefaultListModel;
@@ -19,6 +18,8 @@ import java.awt.Color;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 
+import main.*;
+import utils.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -32,14 +33,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
-
-import main.Lavorazione;
-import main.LavorazioneTerzista;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

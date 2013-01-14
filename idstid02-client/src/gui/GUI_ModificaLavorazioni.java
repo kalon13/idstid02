@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -36,22 +35,12 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import main.*;
+import utils.*;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.Component;
 import javax.swing.JTextArea;
-
-import main.Autenticazione;
-import main.Bolla;
-import main.Fase;
-import main.Lavorazione;
-import main.LavorazioneTerzista;
-import main.Terzista;
-
-import utils.Global;
-import utils.LimitDocument;
-import utils.ResourceClass;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -149,7 +138,7 @@ public class GUI_ModificaLavorazioni {
 					int lavorazSelezionata=cmbTipoLavorazioni.getSelectedIndex();
 					lavorazSelezionata=(Integer) index.get(lavorazSelezionata);
 					
-					//Verifichiamo che il terzista non abbia giï¿½ questa lavorazione
+					//Verifichiamo che il terzista non abbia già questa lavorazione
 					boolean presente=false;
 					List<LavorazioneTerzista> listalt = ResourceClass.getResources(LavorazioneTerzista.class, Global._URLLavorazTerzista+"idTerzista/"+t.getId());
 					Iterator<LavorazioneTerzista> lavT = listalt.iterator();
@@ -157,7 +146,7 @@ public class GUI_ModificaLavorazioni {
 						LavorazioneTerzista lavTerz=lavT.next();
 						if(lavTerz.getLavorazioneID() == lavorazSelezionata) presente=true;
 					}
-					if(!presente){//Non ha giï¿½ questa lavorazione
+					if(!presente){//Non ha già questa lavorazione
 						LavorazioneTerzista l = new LavorazioneTerzista(Double.parseDouble(txtPrezzo.getText()),0.0,Float.parseFloat(txtCapacita.getText()),
 								0,lavorazSelezionata,t.getId());
 						String id = ResourceClass.addResources("/lavorazioneterzista/", l);
@@ -168,7 +157,7 @@ public class GUI_ModificaLavorazioni {
 						windowLavorazioni.frmModificaLavorazioni.setVisible(true);
 					}
 					else
-						JOptionPane.showMessageDialog(null, "Inserimento negato. Hai giï¿½ questa lavorazione.", "Attenzione", 0);
+						JOptionPane.showMessageDialog(null, "Inserimento negato. Hai già questa lavorazione.", "Attenzione", 0);
 				}
 			}
 		});
@@ -401,7 +390,7 @@ public class GUI_ModificaLavorazioni {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 //UPDATE LAVORAZIONE
-            	//Il vettore delle righe ï¿½ idLav_1
+            	//Il vettore delle righe è idLav_1
             	int lavorazSelezionata=(Integer) id_Lav1.get(table_2.getSelectedRow()); //ID della Lavorazione terzista
             	//Occorre il controllo che non ci siano lavorazioni in corso
             	boolean lavorazioneAperta=false;
@@ -417,12 +406,16 @@ public class GUI_ModificaLavorazioni {
             		String p=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 1));
             		String c=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 2));
             		if(table_2.getValueAt(table_2.getSelectedRow(), 1)!=null && table_2.getValueAt(table_2.getSelectedRow(), 2)!=null){
-            			LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
-            			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
-                    	//Refresh della screen
-                		frmModificaLavorazioni.setVisible(false);
-                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
-                		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+            			if(Double.parseDouble(p)>0 && Float.parseFloat(c)>0){
+	            			LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
+	            			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
+	                    	//Refresh della screen
+	                		frmModificaLavorazioni.setVisible(false);
+	                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
+	                		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+            			}
+            			else
+            				JOptionPane.showMessageDialog(null, "Prezzo o capacità non corretti.", "Attenzione", 0);
             		}
             		else
             			JOptionPane.showMessageDialog(null, "Impossibile lasciare i campi vuoti.", "Attenzione", 0);
@@ -470,17 +463,21 @@ public class GUI_ModificaLavorazioni {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 //UPDATE FASE
-            	//Il vettore delle righe ï¿½ idLav_2
+            	//Il vettore delle righe è idLav_2
             	int faseSelezionata=(Integer) id_Lav2.get(table_3.getSelectedRow());
 				String n=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 0));
 				String o=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 1));
 				if(!n.trim().isEmpty() && table_3.getValueAt(table_3.getSelectedRow(), 1)!=null && n.length()<=30){
-					Fase f1 = new Fase(n,Integer.parseInt(o));
-					ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
-					//Refresh della screen
-					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
-					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					if(Short.parseShort(o)>0){
+						Fase f1 = new Fase(n,Integer.parseInt(o));
+						ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
+						//Refresh della screen
+						frmModificaLavorazioni.setVisible(false);
+						GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
+						windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Ordine non corretto.", "Attenzione", 0);
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Campi vuoti o nome fase troppo lungo.", "Attenzione", 0);
@@ -491,7 +488,7 @@ public class GUI_ModificaLavorazioni {
             @Override
             public void actionPerformed(ActionEvent evt) {
             	//DELETE FASE
-            	//Il vettore delle righe ï¿½ idLav_2
+            	//Il vettore delle righe è idLav_2
             	int faseSelezionata=(Integer) id_Lav2.get(table_3.getSelectedRow());
             	ResourceClass.delResources(Global._URLFase, String.valueOf(faseSelezionata));
             	JOptionPane.showMessageDialog(null, "Fase eliminata correttamente.", "Attenzione", 1);
@@ -562,7 +559,10 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaPrezzoIns(String p){
 		try{
 			Double.parseDouble(p);
-			return true;
+			if(Double.parseDouble(p)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Prezzo non corretto!", "Attenzione", 0);
@@ -573,10 +573,13 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaCapacitaIns(String c){
 		try{
 			Float.parseFloat(c);
-			return true;
+			if(Float.parseFloat(c)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
-			JOptionPane.showMessageDialog(null, "Capacitï¿½ non corretta!", "Attenzione", 0);
+			JOptionPane.showMessageDialog(null, "Capacità non corretta!", "Attenzione", 0);
 			return false;
 		}
 	}
@@ -584,7 +587,10 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaOrdineIns(String o){
 		try{
 			Short.parseShort(o);
-			return true;
+			if(Short.parseShort(o)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Ordine non corretto!", "Attenzione", 0);

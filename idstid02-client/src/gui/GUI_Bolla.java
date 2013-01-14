@@ -1,6 +1,5 @@
 package gui;
 
-
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
+import main.*;
+import utils.*;
 
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
@@ -24,17 +25,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-
-import main.Bolla;
-import main.Materiale;
-import main.MaterialeDaProdurre;
-import main.MaterialeTeorico;
-import main.Paia;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
 import java.awt.Font;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
@@ -416,7 +406,13 @@ public class GUI_Bolla {
                 JScrollPane scrollPane = new JScrollPane();
                 scrollPane.setBounds(10, 315, 503, 109);
                 panel.add(scrollPane);
-                table_1 = new JTable(dm);
+                table_1 = new JTable(new DefaultTableModel(
+                	new Object[][] {
+                	},
+                	new String[] {
+                		"Desc", "Quantit\u00E0", "udm", "CostoUnit"
+                	}
+                ));
                 table_1.setEnabled(false);
                 scrollPane.setViewportView(table_1);
                
@@ -455,7 +451,7 @@ public class GUI_Bolla {
                 btnVisualizzaNote.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                                 String numeroBolla = textField.getText();
-                                if(numeroBolla!="") {
+                                if(!numeroBolla.equals("")) {
 	                                messaggio = new GUI_Messaggio(id, numeroBolla);
 	                                messaggio.frmMessaggi.setVisible(true);
                                 }
