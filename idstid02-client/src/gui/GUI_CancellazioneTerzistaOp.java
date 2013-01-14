@@ -151,9 +151,3 @@ public class GUI_CancellazioneTerzistaOp {
 	}
 
 }
-		});
-		btnRimuovi.setBounds(183, 180, 89, 23);
-		panel.add(btnRimuovi);
-	}
-
-}
