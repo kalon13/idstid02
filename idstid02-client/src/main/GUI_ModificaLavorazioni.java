@@ -409,12 +409,16 @@ public class GUI_ModificaLavorazioni {
             		String p=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 1));
             		String c=String.valueOf(table_2.getValueAt(table_2.getSelectedRow(), 2));
             		if(table_2.getValueAt(table_2.getSelectedRow(), 1)!=null && table_2.getValueAt(table_2.getSelectedRow(), 2)!=null){
-            			LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
-            			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
-                    	//Refresh della screen
-                		frmModificaLavorazioni.setVisible(false);
-                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
-                		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+            			if(Double.parseDouble(p)>0 && Float.parseFloat(c)>0){
+	            			LavorazioneTerzista l1 = new LavorazioneTerzista(Double.parseDouble(p),Float.parseFloat(c),lavorazSelezionata,t1.getId());
+	            			ResourceClass.updResources(LavorazioneTerzista.class, Global._URLLavorazTerzista, String.valueOf(lavorazSelezionata), l1);
+	                    	//Refresh della screen
+	                		frmModificaLavorazioni.setVisible(false);
+	                		GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
+	                		windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+            			}
+            			else
+            				JOptionPane.showMessageDialog(null, "Prezzo o capacità non corretti.", "Attenzione", 0);
             		}
             		else
             			JOptionPane.showMessageDialog(null, "Impossibile lasciare i campi vuoti.", "Attenzione", 0);
@@ -467,12 +471,16 @@ public class GUI_ModificaLavorazioni {
 				String n=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 0));
 				String o=String.valueOf(table_3.getValueAt(table_3.getSelectedRow(), 1));
 				if(!n.trim().isEmpty() && table_3.getValueAt(table_3.getSelectedRow(), 1)!=null && n.length()<=30){
-					Fase f1 = new Fase(n,Integer.parseInt(o));
-					ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
-					//Refresh della screen
-					frmModificaLavorazioni.setVisible(false);
-					GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
-					windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					if(Short.parseShort(o)>0){
+						Fase f1 = new Fase(n,Integer.parseInt(o));
+						ResourceClass.updResources(Fase.class, Global._URLFase, String.valueOf(faseSelezionata), f1);
+						//Refresh della screen
+						frmModificaLavorazioni.setVisible(false);
+						GUI_ModificaLavorazioni windowLavorazioni=new GUI_ModificaLavorazioni();
+						windowLavorazioni.frmModificaLavorazioni.setVisible(true);
+					}
+					else
+						JOptionPane.showMessageDialog(null, "Ordine non corretto.", "Attenzione", 0);
 				}
 				else
 					JOptionPane.showMessageDialog(null, "Campi vuoti o nome fase troppo lungo.", "Attenzione", 0);
@@ -554,7 +562,10 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaPrezzoIns(String p){
 		try{
 			Double.parseDouble(p);
-			return true;
+			if(Double.parseDouble(p)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Prezzo non corretto!", "Attenzione", 0);
@@ -565,7 +576,10 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaCapacitaIns(String c){
 		try{
 			Float.parseFloat(c);
-			return true;
+			if(Float.parseFloat(c)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Capacità non corretta!", "Attenzione", 0);
@@ -576,7 +590,10 @@ public class GUI_ModificaLavorazioni {
 	public boolean verificaOrdineIns(String o){
 		try{
 			Short.parseShort(o);
-			return true;
+			if(Short.parseShort(o)>0)
+				return true;
+			else
+				throw new Exception();
 		}
 		catch(Exception ex){
 			JOptionPane.showMessageDialog(null, "Ordine non corretto!", "Attenzione", 0);

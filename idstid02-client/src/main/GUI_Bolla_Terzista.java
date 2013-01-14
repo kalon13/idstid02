@@ -61,6 +61,7 @@ public class GUI_Bolla_Terzista {
         JButton btnVisualizzaNote = new JButton("Visualizza Note");
         private JTextField txtQuantitaExtra;
         private JTable tablePaia;
+        private boolean cp=false;
         
         private int id; //id bolla
         private Terzista terzista; //id terzista
@@ -534,8 +535,11 @@ public class GUI_Bolla_Terzista {
             tableDaProdurre.addMouseListener(new MouseAdapter() {
             	@Override
             	public void mousePressed(MouseEvent e) {
-            		if (statoBolla != 3){
-            			qtpPrec = Double.parseDouble(dmPrima.getValueAt(tableDaProdurre.getSelectedRow(), 4).toString());
+            		if ((statoBolla != 3) && (statoBolla != 4)){
+            			try{
+            				qtpPrec = Double.parseDouble(dmPrima.getValueAt(tableDaProdurre.getSelectedRow(), 4).toString());
+            			}
+            			catch(Exception ex){}
             		}
             	}
             });
@@ -651,33 +655,51 @@ public class GUI_Bolla_Terzista {
             btnChiudiParzialmente.addActionListener(new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
-            		int result = JOptionPane.showConfirmDialog(frmBolleDiLavorazioneTerzista, "Si vuole confermare la chiusura parziale della bolla e l'invio del DDT all'azienda?");
-              	   	if(JOptionPane.YES_OPTION == result){
-              	   		if (verificaChiusura()){
-              	   		JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-             				    "La bolla è pronta per essere chiusa! [Chiudi bolla]",
-             				    "Attenzione!",
-             				    JOptionPane.PLAIN_MESSAGE);
-              	   		}
-              	   		else{
-                          Bolla b = new Bolla();
-                          b.setStato(2); //setto a 2 lo stato della bolla
-                          b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
-                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
-                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
-                          caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
-                          dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
-                          dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
-                          dmPaia.setRowCount(0); //pulisce la table
-                                  
-                          //Apre la finestra DDT
- 	                      GUI_CreaBollaDDT windowNewDDT = new GUI_CreaBollaDDT(terzista.getId(), id);
- 	                      windowNewDDT.frmCreaDdt.setVisible(true);      
-
- 	                      aggiornaQtaSpedita();
-              	   		}
- 	            	}
-             	}//if
+            		Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
+            		while(it.hasNext())
+            		{ 
+	            		MaterialeDaProdurre matCl = (MaterialeDaProdurre)it.next();
+	            		double qtaProdotta = matCl.getQuantitaProdotta();
+	            		if (qtaProdotta != 0)
+	            		{
+	            			cp = true;
+	            		}
+	            		else
+	            		{
+	            			cp = false;
+	            		}
+            		}
+            		if(cp){
+	            		int result = JOptionPane.showConfirmDialog(frmBolleDiLavorazioneTerzista, "Si vuole confermare la chiusura parziale della bolla e l'invio del DDT all'azienda?");
+	              	   	if(JOptionPane.YES_OPTION == result){
+	              	   		if (verificaChiusura()){
+	              	   		JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+	             				    "La bolla è pronta per essere chiusa! [Chiudi bolla]",
+	             				    "Attenzione!",
+	             				    JOptionPane.PLAIN_MESSAGE);
+	              	   		}
+	              	   		else{
+	                          Bolla b = new Bolla();
+	                          b.setStato(2); //setto a 2 lo stato della bolla
+	                          b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
+	                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
+	                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
+	                          caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
+	                          dm.setRowCount(0); //pulisce la table_1 (dm = datamodel della table_1)
+	                          dmPrima.setRowCount(0); //pulisce la table (dmPrima = datamodel della table)
+	                          dmPaia.setRowCount(0); //pulisce la table
+	                                  
+	                          //Apre la finestra DDT
+	 	                      GUI_CreaBollaDDT windowNewDDT = new GUI_CreaBollaDDT(terzista.getId(), id);
+	 	                      windowNewDDT.frmCreaDdt.setVisible(true);      
+	
+	 	                      aggiornaQtaSpedita();
+	              	   		}
+	 	            	}
+	             	}//if
+            		else
+            			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista, "Non è stato prodotto alcun materiale!", "Attenzione!", 0);
+            	}
             });
             btnChiudiParzialmente.setBounds(10, 283, 158, 23);
             frmBolleDiLavorazioneTerzista.getContentPane().add(btnChiudiParzialmente);

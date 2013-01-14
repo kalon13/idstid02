@@ -410,7 +410,13 @@ public class GUI_Bolla {
                 JScrollPane scrollPane = new JScrollPane();
                 scrollPane.setBounds(10, 315, 503, 109);
                 panel.add(scrollPane);
-                table_1 = new JTable(dm);
+                table_1 = new JTable(new DefaultTableModel(
+                	new Object[][] {
+                	},
+                	new String[] {
+                		"Desc", "Quantit\u00E0", "udm", "CostoUnit"
+                	}
+                ));
                 table_1.setEnabled(false);
                 scrollPane.setViewportView(table_1);
                
@@ -449,7 +455,7 @@ public class GUI_Bolla {
                 btnVisualizzaNote.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                                 String numeroBolla = textField.getText();
-                                if(numeroBolla!="") {
+                                if(!numeroBolla.equals("")) {
 	                                messaggio = new GUI_Messaggio(id, numeroBolla);
 	                                messaggio.frmMessaggi.setVisible(true);
                                 }

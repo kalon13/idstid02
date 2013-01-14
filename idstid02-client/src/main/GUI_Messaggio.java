@@ -25,6 +25,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import javax.swing.JScrollBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
+import java.awt.event.KeyEvent;
 
 public class GUI_Messaggio {
 
@@ -49,6 +50,7 @@ public class GUI_Messaggio {
         private int[] _id;
         List<Messaggio> lista = null;
         private int numeroBolla;
+        JTextPane textPaneNuovoMess;
        
         private void loadTableDt(int numeroBolla){
                 //Load lista messaggi  
@@ -90,30 +92,17 @@ public class GUI_Messaggio {
                 frmMessaggi = new JFrame();
                 frmMessaggi.setTitle("Messaggi");
                 frmMessaggi.setResizable(false);
-                frmMessaggi.setBounds(100, 100, 450, 300);
+                frmMessaggi.setBounds(100, 100, 450, 356);
                 frmMessaggi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                 frmMessaggi.getContentPane().setLayout(null);
                
                 JLabel lblMessaggi = new JLabel("Numero Bolla:");
                 lblMessaggi.setBounds(10, 11, 125, 14);
                 frmMessaggi.getContentPane().add(lblMessaggi);
-                
-                JScrollPane scrollPane_2 = new JScrollPane();
-                scrollPane_2.setBounds(230, 36, 204, 77);
-                frmMessaggi.getContentPane().add(scrollPane_2);
-                               
-                final JTextPane textPaneMessaggio = new JTextPane();
-                scrollPane_2.setViewportView(textPaneMessaggio);
-                
-                JScrollPane scrollPane_1 = new JScrollPane();
-                scrollPane_1.setBounds(10, 124, 424, 99);
-                frmMessaggi.getContentPane().add(scrollPane_1);
-               
-                final JTextPane textPaneNuovoMess = new JTextPane();
-                scrollPane_1.setViewportView(textPaneNuovoMess);
                
                 JButton btnInvia = new JButton("Invia");
-                btnInvia.setBounds(347, 237, 89, 23);
+                btnInvia.setMnemonic(KeyEvent.VK_ENTER);
+                btnInvia.setBounds(345, 294, 89, 23);
                 btnInvia.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
@@ -138,7 +127,7 @@ public class GUI_Messaggio {
                 frmMessaggi.getContentPane().add(btnInvia);
                
                 JButton btnEsci = new JButton("Chiudi");
-                btnEsci.setBounds(12, 237, 89, 23);
+                btnEsci.setBounds(10, 294, 89, 23);
                 btnEsci.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
@@ -156,14 +145,40 @@ public class GUI_Messaggio {
                 textField.setColumns(10);
                
                 textField.setText(codiceBolla);
-                 
-                 JScrollPane scrollPane = new JScrollPane();
-                 scrollPane.setBounds(10, 36, 210, 77);
-                 frmMessaggi.getContentPane().add(scrollPane);
-                 
-                  listMessaggi = new JList(_data);
-                  scrollPane.setViewportView(listMessaggi);
-                  listMessaggi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                   
+                   JScrollPane scrollPane_1 = new JScrollPane();
+                   scrollPane_1.setBounds(12, 179, 422, 97);
+                   frmMessaggi.getContentPane().add(scrollPane_1);
+                  
+                   textPaneNuovoMess = new JTextPane();
+                   scrollPane_1.setViewportView(textPaneNuovoMess);
+                    
+                    JScrollPane scrollPane = new JScrollPane();
+                    scrollPane.setBounds(10, 67, 208, 75);
+                    frmMessaggi.getContentPane().add(scrollPane);
+                   
+                    listMessaggi = new JList(_data);
+                    scrollPane.setViewportView(listMessaggi);
+                    listMessaggi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                
+                JScrollPane scrollPane_2 = new JScrollPane();
+                scrollPane_2.setBounds(232, 67, 202, 75);
+                frmMessaggi.getContentPane().add(scrollPane_2);
+                    
+                final JTextPane textPaneMessaggio = new JTextPane();
+                scrollPane_2.setViewportView(textPaneMessaggio);
+                
+                JLabel lblListaMessaggi = new JLabel("Lista messaggi:");
+                lblListaMessaggi.setBounds(10, 45, 138, 14);
+                frmMessaggi.getContentPane().add(lblListaMessaggi);
+                
+                JLabel lblTestoMessaggio = new JLabel("Testo messaggio:");
+                lblTestoMessaggio.setBounds(232, 45, 138, 14);
+                frmMessaggi.getContentPane().add(lblTestoMessaggio);
+                
+                JLabel lblComponiNuovoMessaggio = new JLabel("Componi nuovo messaggio:");
+                lblComponiNuovoMessaggio.setBounds(10, 160, 210, 14);
+                frmMessaggi.getContentPane().add(lblComponiNuovoMessaggio);
                   listMessaggi.addListSelectionListener(new ListSelectionListener() {
                       //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
                       public void valueChanged(ListSelectionEvent e) {
