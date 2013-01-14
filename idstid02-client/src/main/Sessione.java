@@ -2,8 +2,8 @@ package main;
 import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import classResources.Terzista;
-import classResources.Utente;
+import main.*;
+import utils.*;
 
 @XmlRootElement
 public class Sessione {

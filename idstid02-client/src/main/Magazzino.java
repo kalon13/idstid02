@@ -6,7 +6,8 @@ import javax.swing.JTable;
 import javax.swing.JFrame;
 import javax.ws.rs.core.MediaType;
 
-import classResources.Materiale;
+import main.*;
+import utils.*;
 
 import com.sun.jersey.api.client.GenericType;
 
