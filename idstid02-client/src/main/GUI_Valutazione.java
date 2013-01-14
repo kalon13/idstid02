@@ -96,6 +96,12 @@ public class GUI_Valutazione {
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
 		});
 		tableValutazione.getColumnModel().getColumn(0).setPreferredWidth(150);
 		tableValutazione.getColumnModel().getColumn(1).setPreferredWidth(101);
