@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
+import main.*;
+import utils.*;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -24,13 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.ListSelectionModel;
-
-import main.Bolla;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyEvent;
@@ -130,7 +124,7 @@ public class GUI_CancellazioneTerzistaOp {
 				if(terzSelezionato!=-1){
 					terzSelezionato=(Integer) terz_id.get(terzSelezionato);
 					
-					//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'ï¿½ questo terzista
+					//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
 					//e inviare una comunicazione al terzista
 					
 					String[] choices = {"Si", "No"};
@@ -151,6 +145,12 @@ public class GUI_CancellazioneTerzistaOp {
 				else
 					JOptionPane.showMessageDialog(null, "Selezionare prima un Terzista.", "Attenzione", 0);
 			}
+		});
+		btnRimuovi.setBounds(183, 180, 89, 23);
+		panel.add(btnRimuovi);
+	}
+
+}
 		});
 		btnRimuovi.setBounds(183, 180, 89, 23);
 		panel.add(btnRimuovi);

@@ -1,10 +1,11 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import main.*;
+import utils.*;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -41,17 +42,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-
-import main.Autenticazione;
-import main.Bolla;
-import main.Fase;
-import main.Lavorazione;
-import main.LavorazioneTerzista;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -323,7 +313,7 @@ public class GUI_DatiTerzistaTr {
     	if(!lavorazioneAperta){
     		String[] choices = {"Si", "No"};
 			int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il tuo profilo dal sistema e,\nquindi, di non" +
-					" ricevere piï¿½ lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
+					" ricevere più lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
 			if(response==0){
 				//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
 				Bolla bDaRiassegnare=new Bolla();
@@ -331,7 +321,7 @@ public class GUI_DatiTerzistaTr {
 				//Eliminiamo proprio il terzista
 				ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
 				JOptionPane.showMessageDialog(null, "Cancellazione avvenuta correttamente.", "Attenzione", 1);
-				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'ï¿½ questo terzista
+				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
 				//e inviare una comunicazione all'azienda
 				//Facciamo il Logout
 				MultivaluedMap<String, String> param = new MultivaluedMapImpl();
