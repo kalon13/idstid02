@@ -308,7 +308,7 @@ public class FatturazioneResource {
 		int ok = -1;
 		int id = -1;
 		try {
-			System.out.print( fattura_id + "', '" + importo + "', '" + bolla_id);
+//			System.out.print( fattura_id + "', '" + importo + "', '" + bolla_id);
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
 					"INSERT INTO progingsw.fatturabolla(Fattura_id, importo, Bolla_id) " +
