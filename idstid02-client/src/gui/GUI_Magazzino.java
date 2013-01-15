@@ -377,7 +377,8 @@ public class GUI_Magazzino {
 		_data=null; _id = null;
 		if(flgSearch==false || textSearch.getText().equals("")){
 		 lista = ResourceClass.getResources(Materiale.class, Global._URLMagMatTerz+idTerz);
-		 System.out.print(idTerz);}
+//		 System.out.print(idTerz);
+		 }
 		else
 		{  if(ResourceClass.getResources(Materiale.class, Global._URLMagSearch+idTerz+"/"+textSearch.getText()) != null){
 			 String searchTxt = textSearch.getText().trim().toLowerCase();

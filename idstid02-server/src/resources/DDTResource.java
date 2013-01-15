@@ -209,7 +209,7 @@ public class DDTResource {
 		Date today = Calendar.getInstance().getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String todayDt = sdf.format(today);
-        System.out.print(todayDt);		
+//        System.out.print(todayDt);		
 		try {
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(

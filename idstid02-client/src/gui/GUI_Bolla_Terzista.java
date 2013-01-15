@@ -478,9 +478,9 @@ public class GUI_Bolla_Terzista {
 	            			ext.setGiustificato(0); //0 - false
 	            			ext.setDataRichiesta(today); //data
 	            			ext.setIdMatTeo(idMatTeo);
-	            			System.out.println(qr);
-	            			System.out.println(today);
-	            			System.out.println(idMatTeo);
+//	            			System.out.println(qr);
+//	            			System.out.println(today);
+//	            			System.out.println(idMatTeo);
 	            			ResourceClass.addResources(Global._URLExtraIns, ext);
 	            			txtQuantitaExtra.setText("");
             			}

@@ -42,7 +42,7 @@ public class GUI_Messaggio {
             }
             else
             {
-                 System.out.println("no num bolla");
+//                 System.out.println("no num bolla");
             }
         }
        
@@ -176,12 +176,12 @@ public class GUI_Messaggio {
 	                            Messaggio m = lista.get(indice);
 	                            String testo = m.getTesto();
 	                            textPaneMessaggio.setText(testo);
-	                            System.out.println(m.isLetto());
+//	                            System.out.println(m.isLetto());
 	                            if(m.getUtenteId() != Autenticazione.getSessione().getUtente().getUserId()) {
 	                            	ResourceClass.getService().path(Global._URLMessLetto).path(String.valueOf(m.getId()))
 	                            		.accept(MediaType.APPLICATION_JSON).post(String.class);
 	                            }
-	                            System.out.println(m.isLetto());
+//	                            System.out.println(m.isLetto());
                           }
                           else {
                           	textPaneMessaggio.setText("");
