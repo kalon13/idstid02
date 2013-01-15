@@ -112,7 +112,7 @@ public class GUI_Extraconsumo_Azienda {
                
 
                
-                System.out.println(id);
+//                System.out.println(id);
                 loadTable(id); //passo l'id della bolla selezionata nella lista in frmBolla
         }
 
@@ -154,7 +154,7 @@ public class GUI_Extraconsumo_Azienda {
                         @Override
                         public void tableChanged(TableModelEvent e) {
                                 int col = e.getColumn();
-                                System.out.println(col);
+//                                System.out.println(col);
                                 int row = e.getFirstRow();
                                 if(col > 2) {
                                         try {
@@ -163,7 +163,7 @@ public class GUI_Extraconsumo_Azienda {
                                                 Calendar calendar = Calendar.getInstance();
                                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
                                             String today = dateFormat.format(calendar.getTime());
-                                            System.out.println("Today: " + dateFormat.format(calendar.getTime()));
+//                                            System.out.println("Today: " + dateFormat.format(calendar.getTime()));
                                                
                                                 Extraconsumo ext = listaExtra.get(row);
                                                 //Colonne: 3-qtaRichiesta 5-giustificato 6-dataRichiesta

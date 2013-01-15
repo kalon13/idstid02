@@ -217,7 +217,7 @@ public class MagazzinoTerzistaResource {
 					"UPDATE progingsw.materialeterzista SET " +
 					"quantita = " + quantita + " WHERE id='" + id + "';"
 					);
-			System.out.println(id+quantita);
+//			System.out.println(id+quantita);
 			statement.close();
 
 			return String.valueOf(ok);
