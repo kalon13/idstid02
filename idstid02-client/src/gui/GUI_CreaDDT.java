@@ -34,7 +34,7 @@ import utils.ResourceClass;
 
 public class GUI_CreaDDT {
 
-        JFrame frmCreaDdt;
+        public JFrame frmCreaDdt;
         private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantit�", "UdM"};
         private static String[][] _dataNewDDT;
         private static String[] _titlesMat = {"Codice", "Descrizione", "Quantit�", "UdM"};
@@ -253,12 +253,16 @@ public class GUI_CreaDDT {
                           if(tableMat.getSelectedRow() != -1){
                      		int rowMat = tableMat.getSelectedRow();
                      		String cod = (String) tableMat.getValueAt(rowMat, 0);
-							String desc = (String) tableMat.getValueAt(rowMat, 1);
-                     		double qtaMat = 0.0;
-                     		String udm = (String) tableMat.getValueAt(rowMat, 3);
-                     		dfmDDT.insertRow(
-                     				tableDDT.getRowCount(), new Object[]{cod, desc, qtaMat, udm});
-                     		_idMatDDT.add(_idMat.get(rowMat));
+                     		if(!isInDDT(cod)){
+								String desc = (String) tableMat.getValueAt(rowMat, 1);
+	                     		double qtaMat = 0.0;
+	                     		String udm = (String) tableMat.getValueAt(rowMat, 3);
+	                     		dfmDDT.insertRow(
+	                     				tableDDT.getRowCount(), new Object[]{cod, desc, qtaMat, udm});
+	                     		_idMatDDT.add(_idMat.get(rowMat));
+                     		}
+                     		else
+                     			JOptionPane.showMessageDialog(frmCreaDdt, "Il materiale � gi� stato inserito nel DDT!");
                         	 }
                         	 else
                                JOptionPane.showMessageDialog(frmCreaDdt, "Non � stato selezionato il materiale da aggiungere al DDT!");
@@ -290,12 +294,26 @@ public class GUI_CreaDDT {
           }
     	}
     private boolean isQntDDTPositive(){
-    	for(int row =0; row<= tableDDT.getRowCount(); row++){
-    	if(Double.parseDouble(String.valueOf(tableDDT.getValueAt(row, 2))) <= 0){
-    		return false;
+    	for(int row =0; row< tableDDT.getRowCount(); row++){
+    		try{
+    			Double qnt =Double.parseDouble(String.valueOf(tableDDT.getValueAt(row, 2)));
+    			if(qnt <= 0){
+    	    		return false;
+    	    		}
+    		}
+    		catch(Exception ex){
+    			System.out.print(ex);
     		}
     	}
-    	return true;
+	   return true;
+    }
+    private boolean isInDDT(String cod){
+		for(int row =0; row< tableDDT.getRowCount(); row++)
+		{	String cdDDT = (String.valueOf(tableDDT.getValueAt(row, 0)));
+			if(cdDDT.equals(cod))
+				return true;
+		}
+    	return false;
     }
 }
 

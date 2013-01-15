@@ -1,10 +1,8 @@
 package gui;
 
-
 import javax.swing.*;
 
 import main.Autenticazione;
-
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -69,7 +67,7 @@ public class menu{
 				mnGestioneTerzista.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						//Se ï¿½ l'Operatore dell'azienda che visualizza
+						//Se è l'Operatore dell'azienda che visualizza
 	    				if(tipo != 5){
 	    					try{
 	    						GUI_Home.windowScelta.frmSceltaTerzista.dispose();
@@ -110,7 +108,7 @@ public class menu{
 				menuBar.add(mnGestioneMagazzino);
 			}
 			
-			/***********Home***********
+			/***********Home***********/
 			if(!menu.equals("Home")){
 				JMenu mnHome = new JMenu("Home");
 				mnHome.addMouseListener(new MouseAdapter() {
@@ -124,7 +122,7 @@ public class menu{
 				});
 				mnHome.setFont(mnHome.getFont().deriveFont(mnHome.getFont().getStyle() & ~Font.BOLD & ~Font.ITALIC));
 				menuBar.add(mnHome);
-			}***/
+			}
 			
 		}
 }

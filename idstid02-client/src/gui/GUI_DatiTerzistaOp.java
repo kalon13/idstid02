@@ -1,10 +1,11 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import main.*;
+import utils.*;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -33,14 +34,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.awt.event.KeyEvent;
 import javax.swing.JScrollPane;
-
-import main.Lavorazione;
-import main.LavorazioneTerzista;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 

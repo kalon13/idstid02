@@ -173,7 +173,7 @@ public class FatturazioneResource {
 		chkBolFat.setFatt(false);
 		chkBolFat.setIdBolla(idBolla);
 		
-		try { System.out.print(idBolla);
+		try {
 				statement = DB.instance.createStatement();
 				result = statement.executeQuery(
 							"SELECT * FROM progingsw.fatturabolla where Bolla_id = '"+idBolla+"' LIMIT 1;"
@@ -181,22 +181,26 @@ public class FatturazioneResource {
 				result.last();
 				int numberRow = result.getRow();
 				statement.close();
-				if(numberRow != 0) {
-					//Vedo se la bolla è chiusa
-//					statementSt = DB.instance.createStatement();
-//					resultSt = statementSt.executeQuery(
-//								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
-//							);
-//					while(resultSt.next()) {
-//						stato = resultSt.getInt(0);
-//					}
-//					if(stato == 3)
+				//Se è fatturata
+				if(numberRow != 0) 
 					chkBolFat.setFatt(true);
-					System.out.print("ciao2");
-			}
-//			statementSt.close();
-			
-			
+				//altrimenti vedo se è chiusa
+				else{
+					//Vedo se la bolla è chiusa
+					statementSt = DB.instance.createStatement();
+					resultSt = statementSt.executeQuery(
+								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
+							);
+					while(resultSt.next()) {
+						stato = resultSt.getInt(0);
+					}
+					if(stato != 3)
+						chkBolFat.setFatt(true);
+					
+					statementSt.close();
+				}
+				
+				
 			} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -221,8 +225,8 @@ public class FatturazioneResource {
 			stPrezzo = DB.instance.createStatement();
 			stQntPr = DB.instance.createStatement();
 			rsPrezzo = stPrezzo.executeQuery(
-						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneTerzista" +
-						" on LavorazioneTerzista_id = Terzista_id where bolla.id = '"+idBolla+"';"
+						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneterzista" +
+						" on LavorazioneTerzista_id = bolla.Terzista_id where bolla.id = '"+idBolla+"';"
 					);
 			
 			while(rsPrezzo.next()) {
