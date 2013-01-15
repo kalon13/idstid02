@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -17,14 +16,8 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 
-import main.Autenticazione;
-import main.Terzista;
-import main.Utente;
-
-import utils.Global;
-import utils.LimitDocument;
-import utils.ResourceClass;
-
+import main.*;
+import utils.*;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +43,7 @@ public class GUI_ModificaAnagrafica {
 	private JTextField ragsoc;
 	private JPasswordField pass;
 	
-	private boolean matched;	//Per il controllo di validitï¿½ degli input
+	private boolean matched;	//Per il controllo di validità degli input
 	private short focus=0;		//Per controllare che non mi mostri il JOption 3 volte
 	
 	private Terzista t;
@@ -120,7 +113,7 @@ public class GUI_ModificaAnagrafica {
 		email.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				//Controlliamo la validitï¿½ dell'input
+				//Controlliamo la validità dell'input
 				if(!verificaEmail(email.getText())){
 					matched=false;
 					focus++;

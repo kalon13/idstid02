@@ -88,7 +88,7 @@ public class GUI_Fatturazione {
         private JScrollPane scrollPane_Terz;
               
         public GUI_Fatturazione() {
-        	    checkTerz_DT();
+        		checkTerz_DT();
                 initialize();
         }
 
@@ -409,21 +409,24 @@ public class GUI_Fatturazione {
         
         /**Controlla se ci sono bolle da fatturare**/
         private boolean chkBollFatt(){
+         boolean chkBollFatt = false;	
        	 List<Bolla> lista = ResourceClass.getResources(Bolla.class, Global._URLBollaTerz+idTerzista);
+       	 if(!lista.isEmpty())
+       	 {
             Iterator<Bolla> it=lista.iterator();
-            boolean chkBollFatt = false;
-            
             while(it.hasNext())
-            {
-   	             Bolla bolla = it.next();
-   		         String cdBolla = bolla.getCodice();
-   		         Fattura_Lavorazione chkFattBol = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLChkFattBol+bolla.getId());
-   		         if(!chkFattBol.isFatt()){
-   		        	chkBollFatt = true;
-   		        	break;
-   		          }
-            }
-            return chkBollFatt;
+             {
+	             Bolla bolla = it.next();
+		         String cdBolla = bolla.getCodice();
+		         Fattura_Lavorazione chkFattBol = ResourceClass.getResource(Fattura_Lavorazione.class, Global._URLChkFattBol+bolla.getId());
+		         if(!chkFattBol.isFatt()){
+		        	chkBollFatt = true;
+		        	break;
+   		         }
+             }
+            
+       	 }
+       	  return chkBollFatt;
         }
         
     

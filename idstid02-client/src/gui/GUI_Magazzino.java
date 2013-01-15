@@ -1,4 +1,6 @@
 package gui;
+import gui.*;
+import utils.*;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,7 +17,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Font;
@@ -31,11 +32,6 @@ import main.Autenticazione;
 import main.DDT;
 import main.Materiale;
 import main.Terzista;
-
-import utils.CreateDDTPDF;
-import utils.FormatDate;
-import utils.Global;
-import utils.ResourceClass;
 
 import com.lowagie.text.Chunk;
 
@@ -102,8 +98,8 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				GUI_Home windowHome = new GUI_Home();
-                windowHome.frmHome.setVisible(true);
+				GUI_Home wndHome = new GUI_Home();
+				wndHome.frmHome.setVisible(true);
 			}
 		});
 		frmGestioneMagazzino.setResizable(false);
@@ -118,12 +114,12 @@ public class GUI_Magazzino {
 			public void windowLostFocus(WindowEvent e) {
 			}
 		});
-		frmGestioneMagazzino.setBounds(100, 100, 1039, 672);
+		frmGestioneMagazzino.setBounds(100, 100, 1039, 640);
 		frmGestioneMagazzino.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmGestioneMagazzino.getContentPane().setLayout(null);
 		
 		panelMag = new JPanel();
-		panelMag.setBounds(236, 11, 774, 278);
+		panelMag.setBounds(236, 11, 774, 252);
 		panelMag.setBorder(new TitledBorder(null, "Gestione Magazzino", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
@@ -137,7 +133,7 @@ public class GUI_Magazzino {
 		textSearch.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(56, 54, 639, 170);
+		scrollPane.setBounds(56, 54, 639, 147);
 		scrollPane.setFocusTraversalKeysEnabled(false);
 		scrollPane.setEnabled(false);
 		
@@ -224,14 +220,7 @@ public class GUI_Magazzino {
         
         	//**JList Terzisti**
          list_terz = new JList(_dataTerz);
-         list_terz.addFocusListener(new FocusAdapter() {
-         	@Override
-         	public void focusLost(FocusEvent e) {
-         		dfmDDTMat.setRowCount(0);
-         		dfmDDT.setRowCount(0);
-         		dfm.setRowCount(0);
-         	}
-         });
+         
          scrollPane_Terz.setViewportView(list_terz);
          
            list_terz.addListSelectionListener(new ListSelectionListener() {

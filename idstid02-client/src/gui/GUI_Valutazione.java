@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.awt.EventQueue;
 
 import javax.swing.AbstractAction;
@@ -28,14 +27,8 @@ import java.util.List;
 
 import javax.swing.JTextArea;
 
-import main.Bolla;
-import main.Lavorazione;
-import main.LavorazioneTerzista;
-import main.Terzista;
-
-import utils.Global;
-import utils.ResourceClass;
-
+import main.*;
+import utils.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -100,6 +93,12 @@ public class GUI_Valutazione {
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
+			}
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
 		tableValutazione.getColumnModel().getColumn(0).setPreferredWidth(150);
