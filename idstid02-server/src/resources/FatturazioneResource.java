@@ -181,12 +181,12 @@ public class FatturazioneResource {
 				result.last();
 				int numberRow = result.getRow();
 				statement.close();
-				//Se è fatturata
+				//Se e' fatturata
 				if(numberRow != 0) 
 					chkBolFat.setFatt(true);
-				//altrimenti vedo se è chiusa
+				//altrimenti vedo se e' chiusa
 				else{
-					//Vedo se la bolla è chiusa
+					//Vedo se la bolla e' chiusa
 					statementSt = DB.instance.createStatement();
 					resultSt = statementSt.executeQuery(
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"

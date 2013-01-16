@@ -32,7 +32,7 @@ import java.awt.event.WindowEvent;
 
 public class GUI_Bolla {
 
-        JFrame frmBolleDiLavorazione;
+        public JFrame frmBolleDiLavorazione;
         private JTextField textField;
         private JTable table;
         private JTable table_1;
@@ -95,7 +95,7 @@ public class GUI_Bolla {
                                 Bolla bollaCl = (Bolla)it.next();
                                 String codBol = String.valueOf(bollaCl.getCodice());
 //                              int statoBol = bollaCl.getStato();
-//                              if (statoBol != 3 && statoBol !=4) //se la bolla non � chiusa o chiusa con morti
+//                              if (statoBol != 3 && statoBol !=4) //se la bolla non e' chiusa o chiusa con morti
 //                              {
                                         String[] dtMess = bollaCl.getData().replace("-", "/").split(" ");
                                         _data3[k] = codBol + "-" + dtMess[0]; //codBolla + dataBolla
@@ -301,7 +301,7 @@ public class GUI_Bolla {
                         new Object[][] {
                         },
                         new String[] {
-                                        "Desc", "Quantit�", "udm", "CostoUnit",
+                                        "Desc", "Quantita'", "udm", "CostoUnit",
                         }
                 );
         
@@ -467,7 +467,7 @@ public class GUI_Bolla {
                 JButton btnVisualizzaExtra = new JButton("Visualizza Extra");
                 btnVisualizzaExtra.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
-                                if (list.getSelectedIndex() != -1){ //se un elemento della lista � selezionato
+                                if (list.getSelectedIndex() != -1){ //se un elemento della lista e' selezionato
                                         //Passo codice bolla nella text box e id della bolla per la query
                                         extraconsumo = new GUI_Extraconsumo_Azienda(textField.getText(), id);
                                         extraconsumo.frmExtraconsumo.setVisible(true);

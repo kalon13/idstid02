@@ -104,7 +104,7 @@ public class GUI_Bolla_Terzista {
                 new Object[][] {
                 },
                 new String[] {
-                                "Descrizione", "Quantità", "udm", "Num.Morti", "Q.ta Prodotta", "Q.ta Spedita"
+                                "Descrizione", "Quantita'", "udm", "Num.Morti", "Q.ta Prodotta", "Q.ta Spedita"
                 })
                 {
         		@SuppressWarnings("rawtypes")
@@ -129,7 +129,7 @@ public class GUI_Bolla_Terzista {
                 new Object[][] {
                 },
                 new String[] {
-                                "Descrizione", "Quantità", "udm", "Costo Unitario",
+                                "Descrizione", "Quantita'", "udm", "Costo Unitario",
                 })
         {
             boolean[] columnEditables = new boolean[] {
@@ -450,7 +450,7 @@ public class GUI_Bolla_Terzista {
              //**btnVisualizzaExtra**
              btnVisualizzaExtra.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
-	                if (list.getSelectedIndex() != -1){ //se un elemento della lista è selezionato
+	                if (list.getSelectedIndex() != -1){ //se un elemento della lista e' selezionato
 	                    //Passo codice bolla nella text box e id della bolla per la query
 	                    extraconsumo = new GUI_Extraconsumo(textField.getText(), id);
 	                    extraconsumo.frmExtraconsumo.setVisible(true);
@@ -462,8 +462,8 @@ public class GUI_Bolla_Terzista {
              btnRichiedi.addActionListener(new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
-            		if (!txtQuantitaExtra.getText().isEmpty()){ //se il campo con la quantità da richiedere non è vuota
-            			if (verificaQuantitaIns(txtQuantitaExtra.getText())){ //Controllo se ho inserito una quantità double
+            		if (!txtQuantitaExtra.getText().isEmpty()){ //se il campo con la quantita' da richiedere non e' vuota
+            			if (verificaQuantitaIns(txtQuantitaExtra.getText())){ //Controllo se ho inserito una quantita' double
             				//fare una Insert nella tabella Extraconsumo
 	            			//matTeoid quant giust datarichiesta
 	            			Extraconsumo ext = new Extraconsumo();
@@ -488,7 +488,7 @@ public class GUI_Bolla_Terzista {
             		else
             		{
             			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-            				    "Selezionare un materiale teorico e inserire una quantità!!",
+            				    "Selezionare un materiale teorico e inserire una quantita'!!",
             				    "Attenzione!",
             				    JOptionPane.PLAIN_MESSAGE);
             		}
@@ -628,7 +628,7 @@ public class GUI_Bolla_Terzista {
            
             //**btnAnnullaBolla**
             
-            //Se cerco di annullare una bolla già iniziata -> errore!
+            //Se cerco di annullare una bolla gia' iniziata -> errore!
             btnAnnullaBolla.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -638,7 +638,7 @@ public class GUI_Bolla_Terzista {
         				    "Attenzione!",
         				    JOptionPane.PLAIN_MESSAGE);
                 }
-                else //se la bolla non è stata ancora iniziata può essere annullata
+                else //se la bolla non e' stata ancora iniziata puo' essere annullata
                 {
                 //Mettere a -1 l'id_terzista di quella bolla
                     Bolla b = new Bolla();
@@ -679,14 +679,14 @@ public class GUI_Bolla_Terzista {
 	              	   	if(JOptionPane.YES_OPTION == result){
 	              	   		if (verificaChiusura()){
 	              	   		JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-	             				    "La bolla è pronta per essere chiusa! [Chiudi bolla]",
+	             				    "La bolla e' pronta per essere chiusa! [Chiudi bolla]",
 	             				    "Attenzione!",
 	             				    JOptionPane.PLAIN_MESSAGE);
 	              	   		}
 	              	   		else{
 	                          Bolla b = new Bolla();
 	                          b.setStato(2); //setto a 2 lo stato della bolla
-	                          b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
+	                          b.setTerzistaId(terzista.getId()); //idTerzista (perche' su InsUpd ho messo due parametri!!!!!!!!!)
 	                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
 	                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
 	                          caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
@@ -703,7 +703,7 @@ public class GUI_Bolla_Terzista {
 	 	            	}
 	             	}//if
             		else
-            			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista, "Non è stato prodotto alcun materiale!", "Attenzione!", 0);
+            			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista, "Non e' stato prodotto alcun materiale!", "Attenzione!", 0);
             	}
             });
             btnChiudiParzialmente.setBounds(10, 283, 158, 23);
@@ -716,11 +716,11 @@ public class GUI_Bolla_Terzista {
              	   if(JOptionPane.YES_OPTION == result){
             		 if (statoBolla == 3) {
              			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-             				    "La bolla è già chiusa!",
+             				    "La bolla e' gia' chiusa!",
              				    "Attenzione!",
              				    JOptionPane.PLAIN_MESSAGE);
                      }
-                     else //se la bolla non è stata ancora chiusa
+                     else //se la bolla non e' stata ancora chiusa
                      {
                        if(verificaChiusura()){
                          Bolla b = new Bolla();
@@ -733,7 +733,7 @@ public class GUI_Bolla_Terzista {
                         	 b.setStato(3); //setto a 3 = bolla chiusa, lo stato della bolla
                          }
                          
-                         b.setTerzistaId(terzista.getId()); //idTerzista (perchè su InsUpd ho messo due parametri!!!!!!!!!)
+                         b.setTerzistaId(terzista.getId()); //idTerzista (perche' su InsUpd ho messo due parametri!!!!!!!!!)
                          ResourceClass.updResources(Bolla.class, Global._URLBollaStato, String.valueOf(id), b);
                          listModel.removeAllElements(); //pulisce la lista delle bolle del terzista
                          caricaJListBolle(terzista.getId()); //ricarica la lista delle bolle del terzista
@@ -750,7 +750,7 @@ public class GUI_Bolla_Terzista {
                        else
                        {
                     	   JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-                				    "La quantità prodotta deve essere uguale alla quantità totale meno i morti!",
+                				    "La quantita' prodotta deve essere uguale alla quantita' totale meno i morti!",
                 				    "Attenzione!",
                 				    JOptionPane.PLAIN_MESSAGE);
                        }
@@ -780,16 +780,16 @@ public class GUI_Bolla_Terzista {
                     double qts = Double.parseDouble(dmPrima.getValueAt(row, 5).toString());
                     
                     double qta = Double.parseDouble(dmPrima.getValueAt(row, 1).toString());
-                    if (qtp > qta){ //se inserisco una quantità prodotta maggiore di quella richiesta errore
+                    if (qtp > qta){ //se inserisco una quantita' prodotta maggiore di quella richiesta errore
             			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-            				    "Campo quantità prodotta errato!",
+            				    "Campo quantita' prodotta errato!",
             				    "Attenzione!",
             				    JOptionPane.PLAIN_MESSAGE);
             			loadTableMatDaProdurre1(id);
                     }
                     else if (qtpPrec > qtp){
                     	JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
-            				    "Campo quantità prodotta deve essere maggiore a " + qtpPrec + "!",
+            				    "Campo quantita' prodotta deve essere maggiore a " + qtpPrec + "!",
             				    "Attenzione!",
             				    JOptionPane.PLAIN_MESSAGE);
                     	loadTableMatDaProdurre1(id);
@@ -818,7 +818,7 @@ public class GUI_Bolla_Terzista {
                         m.setId(idMat);
                         m.setQuantita(qtp);
                         m.setId_terzista(idTer);
-                        //Se il materiale è presente -> modifico la quantità altimenti -> inserisco
+                        //Se il materiale e' presente -> modifico la quantita' altimenti -> inserisco
                         Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTer);                          
                          if(mat != null)
                          {  //update
@@ -881,14 +881,14 @@ public class GUI_Bolla_Terzista {
 				return true;
 			}
 			catch(Exception ex){
-				JOptionPane.showMessageDialog(null, "Quantità non corretta!", "Attenzione", 0);
+				JOptionPane.showMessageDialog(null, "Quantita' non corretta!", "Attenzione", 0);
 				return false;
 			}
 		}
 		
 		
 		
-		private boolean verificaChiusura(){ //quando chiudo la bolla verifico che la quantità totale corrisponda alla quantità prodotta + numero dei morti
+		private boolean verificaChiusura(){ //quando chiudo la bolla verifico che la quantita' totale corrisponda alla quantita' prodotta + numero dei morti
 			Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
 			boolean flg = true;
             while(it.hasNext())
@@ -907,7 +907,7 @@ public class GUI_Bolla_Terzista {
 		
 	private void aggiornaQtaSpedita(){
 		Iterator<MaterialeDaProdurre> it = listaMDaProd1.iterator();
-      //Update di quantità spedita
+      //Update di quantita' spedita
        while(it.hasNext())
        {                 
       	 	Materiale m = new Materiale();
@@ -916,7 +916,7 @@ public class GUI_Bolla_Terzista {
       	 	matCl.setQuantitaSpedita(qtaProdotta);
       	 	String idMatDaProd = String.valueOf(matCl.getId());
 
-      	 	//Inserisco quantità spedita
+      	 	//Inserisco quantita' spedita
       	 	ResourceClass.updResources(MaterialeDaProdurre.class, Global._URLMatDaProdSped, idMatDaProd, matCl);                       
        }
 	}
