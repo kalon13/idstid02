@@ -474,15 +474,25 @@ public class GUI_Bolla_Terzista {
 	            			String today = dateFormat.format(calendar.getTime());
 	                    
 	            			double qr = Double.parseDouble(txtQuantitaExtra.getText());
-	            			ext.setQuantita(qr);
-	            			ext.setGiustificato(0); //0 - false
-	            			ext.setDataRichiesta(today); //data
-	            			ext.setIdMatTeo(idMatTeo);
-//	            			System.out.println(qr);
-//	            			System.out.println(today);
-//	            			System.out.println(idMatTeo);
-	            			ResourceClass.addResources(Global._URLExtraIns, ext);
-	            			txtQuantitaExtra.setText("");
+	            			if (qr > 0){
+	            				ext.setQuantita(qr);
+		            			ext.setGiustificato(0); //0 - false
+		            			ext.setDataRichiesta(today); //data
+		            			ext.setIdMatTeo(idMatTeo);
+//		            			System.out.println(qr);
+//		            			System.out.println(today);
+//		            			System.out.println(idMatTeo);
+		            			ResourceClass.addResources(Global._URLExtraIns, ext);
+		            			txtQuantitaExtra.setText("");
+	            			}
+	            			else
+	            			{
+	                			JOptionPane.showMessageDialog(frmBolleDiLavorazioneTerzista,
+	                				    "Inserire quantità maggiore di 0!",
+	                				    "Attenzione!",
+	                				    JOptionPane.PLAIN_MESSAGE);
+	            			}
+	            			
             			}
             		}
             		else

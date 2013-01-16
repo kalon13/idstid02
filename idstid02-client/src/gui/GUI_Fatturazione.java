@@ -59,7 +59,7 @@ public class GUI_Fatturazione {
         private JTable tableLav;
         private JTable tableExtra;
         private JTextField textNum;
-        private JTextField textImpToT;
+        private final JTextField textImpToT;
         private static GUI_RegistraDDT windowRegDDT;
         
         private Object[][] _dataLav;
@@ -88,6 +88,7 @@ public class GUI_Fatturazione {
         private JScrollPane scrollPane_Terz;
               
         public GUI_Fatturazione() {
+        		textImpToT = new JTextField();
         		checkTerz_DT();
                 initialize();
         }
@@ -186,7 +187,7 @@ public class GUI_Fatturazione {
                 panel.add(textNum);
                 textNum.setColumns(10);
               
-                textImpToT = new JTextField();
+                
                 textImpToT.setEditable(false);
                 textImpToT.setBounds(99, 36, 86, 20);
                 panel.add(textImpToT);
@@ -204,7 +205,7 @@ public class GUI_Fatturazione {
         					String nmFat = textNum.getText();
         					String[] lsFt = _dataFat[row].split("-");
         					String dtEm =" Data Emissione: "+lsFt[1];
-        					String imp = textImpToT.getText();
+        					String imp = textImpToT.getText()+" €";
         					Terzista t = getTerz2Id();
         					String mitt = t.getRagioneSociale();
         					CreateFatPDF fat = new CreateFatPDF(nmFat, dtEm, mitt, imp);
@@ -229,16 +230,6 @@ public class GUI_Fatturazione {
              	   listFatt = new JList();
                 else
                    listFatt = new JList(_dataFat);
-                listFatt.addFocusListener(new FocusAdapter() {
-	              	@Override
-	             	public void focusLost(FocusEvent e) {
-	              		dfmLav.setRowCount(0);
-	              		DefaultTableModel dfmEx = (DefaultTableModel) tableExtra.getModel();
-	              		dfmEx.setRowCount(0);
-	              		textNum.setText(null);
-	              		textImpToT.setText(null);
-	              	}
-              	});
                 
                 scrollPane_2.setViewportView(listFatt);
                 listFatt.addListSelectionListener(new ListSelectionListener() {
@@ -321,7 +312,6 @@ public class GUI_Fatturazione {
 	                  {
 	                    Fattura_Lavorazione fattLv = it.next();
 	                      if(t<cntDt){
-	                    	  System.out.print(fattLv.getCodBolla());
 	                       _dataLav[t][0] = fattLv.getCodBolla();
 	                       _dataLav[t][2] = fattLv.getNomeLavorazione();
 	                       _dataLav[t][1] = String.valueOf(fattLv.getCodProdotto());

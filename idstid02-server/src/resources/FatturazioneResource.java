@@ -82,23 +82,24 @@ public class FatturazioneResource {
 			//fattura
 			result = statement.executeQuery(
 					"select * from progingsw.fattura where id='" + id + "';");
-			System.out.print("id"+id);
+			
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
-						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
-						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
-						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
-						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = lavorazioneterzista.Lavorazione_id where" +
-						" fatturabolla.Fattura_id='" + id + "';"
+						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id," +
+						" lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo " +
+						"FROM progingsw.fatturabolla JOIN progingsw.bolla JOIN progingsw.lavorazioneterzista " +
+						"JOIN progingsw.lavorazione ON fatturabolla.Bolla_id = bolla.id AND " +
+						"bolla.LavorazioneTerzista_id = lavorazioneterzista.id AND lavorazioneterzista.Lavorazione_id" +
+						" = lavorazione.id WHERE fatturabolla.Fattura_id ='" + id + "';"
 					);
-				
+			System.out.print("id"+id);
 			while(result1.next()) {
 				//int id, int numFattura, String dataEmissione, double importo
 				fattLavorazione = new Fattura_Lavorazione(result1.getInt(1), result1.getString(2), 
 						result1.getDouble(3),result1.getInt(4),result1.getInt(5));
 				fattLavorazione.setCodBolla(result1.getString(6));
 				fattLavorazione.setCostoUnit(result1.getDouble(7));
-				
+				System.out.print("id"+result1.getInt(1));
 				//Calcolo della quantita prodotta tramite l'id bolla 
 				qntProd = 0.0;
 				rsQntPr = stQntPr.executeQuery(
