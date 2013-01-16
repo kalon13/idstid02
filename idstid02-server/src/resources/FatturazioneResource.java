@@ -82,15 +82,14 @@ public class FatturazioneResource {
 			//fattura
 			result = statement.executeQuery(
 					"select * from progingsw.fattura where id='" + id + "';");
-			
+			System.out.print("id"+id);
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
 						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
 						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
 						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
-						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.Lavorazione_id where" +
-						" bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
-						" and fatturabolla.Fattura_id='" + id + "';"
+						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = lavorazioneterzista.Lavorazione_id where" +
+						" fatturabolla.Fattura_id='" + id + "';"
 					);
 				
 			while(result1.next()) {
@@ -111,6 +110,7 @@ public class FatturazioneResource {
 				fattLavorazione.setQntProd(rsQntPr.getDouble(2));
 			  }
 			 lsFattLav.add(fattLavorazione);
+			 
 			}
 			while(result.next()) {
 				if(lsFattLav.isEmpty()) lsFattLav = null;
@@ -180,13 +180,14 @@ public class FatturazioneResource {
 						);
 				result.last();
 				int numberRow = result.getRow();
+				System.out.println(numberRow);
 				statement.close();
-				//Se è fatturata
+				//Se e' fatturata
 				if(numberRow != 0) 
 					chkBolFat.setFatt(true);
-				//altrimenti vedo se è chiusa
+				//altrimenti vedo se e' chiusa
 				else{
-					//Vedo se la bolla è chiusa
+					//Vedo se la bolla e' chiusa
 					statementSt = DB.instance.createStatement();
 					resultSt = statementSt.executeQuery(
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"

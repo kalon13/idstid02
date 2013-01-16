@@ -163,7 +163,7 @@ public class GUI_CreaFattura {
 	                                ResourceClass.addResources(Global._URLFattBol, fatLavBol);
 	                            }
 	                            if(id != "-1")
-	                            	JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura � stata creata!");
+	                            	JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura e' stata creata!");
                             }
                              else JOptionPane.showMessageDialog(frmCreazioneFattura, "La fattura ha importo nullo!");
                       	  }
@@ -231,7 +231,7 @@ public class GUI_CreaFattura {
                                   _idFB.add(_idB.get(index));
                                   _idB.remove(index);
                                 }
-                                else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non � stato selezionato niente!");
+                                else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non e' stato selezionato niente!");
                         }
                 });
                
@@ -255,7 +255,7 @@ public class GUI_CreaFattura {
                                   _idB.add(_idFB.get(index));
                                   _idFB.remove(index);
                                 }
-                                else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non � stato selezionato niente!");
+                                else JOptionPane.showMessageDialog(frmCreazioneFattura, "Non e' stato selezionato niente!");
                         }
                 });
                 btnSn.setFont(new Font("Tahoma", Font.PLAIN, 8));
@@ -281,7 +281,7 @@ public class GUI_CreaFattura {
 	            Double cstU =  exC.getCosto();
 	            String dt = exC.getDataRichiesta();
 	            String g = "Giustificato";
-	            //Se l'extraconsumo � ingiustificato lo sommo all'importo totale!
+	            //Se l'extraconsumo e' ingiustificato lo sommo all'importo totale!
 	            if(exC.getGiustificato() != 1)
 	            	{	g = "Ingiustificato";
 	            		mapIngImp.put(idB, qnt * cstU);
@@ -338,7 +338,7 @@ public class GUI_CreaFattura {
          if(mapIngImp.containsKey(idBolla))
         	 imp += mapIngImp.get(idBolla);
          txtImpTot.setText("0.0");
-//         System.out.print(ImpFattBol);
+         System.out.print(imp);
          imp = calcolaIVA(imp);
          ImpFattBol += imp + Double.parseDouble(txtImpTot.getText());
          txtImpTot.setText(String.valueOf(ImpFattBol));

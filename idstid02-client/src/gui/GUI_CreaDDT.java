@@ -35,9 +35,9 @@ import utils.ResourceClass;
 public class GUI_CreaDDT {
 
         public JFrame frmCreaDdt;
-        private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantit�", "UdM"};
+        private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantita'", "UdM"};
         private static String[][] _dataNewDDT;
-        private static String[] _titlesMat = {"Codice", "Descrizione", "Quantit�", "UdM"};
+        private static String[] _titlesMat = {"Codice", "Descrizione", "Quantita'", "UdM"};
     	private static String[][] _dataMat;
         private static ArrayList<Integer> _idMatDDT;
         private static ArrayList<Integer> _idMat = new ArrayList<Integer>();
@@ -157,25 +157,25 @@ public class GUI_CreaDDT {
 	                        			  qtaMat = Double.valueOf(tableDDT.getValueAt(row, 2).toString());
 	                        			  m = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMat+"/"+idTerzista);
 	                        			  qntupdMat = m.getQuantita();
-	                        			  //check qnt da inviare � min di quella in mag
+	                        			  //check qnt da inviare e' min di quella in mag
 	                        		     if(qntupdMat < qtaMat ){
 	                        		    	  flg_ckqnt = true;
 	                        		    	  break;
 	                        		    	  }
-	                        		     //check se il tipo di mat da inv � un semil in caso verifico che le mat prime consumate nella lav siano in mag
+	                        		     //check se il tipo di mat da inv e' un semil in caso verifico che le mat prime consumate nella lav siano in mag
 	                        		     if(m.getTipo().equals("SL")){
 		   									 semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
 		   									 if(semLav != null){
 		   									  Iterator<Consumo> it=semLav.iterator();
 		   									 while(it.hasNext())
 		   							          {  Consumo c = it.next();
-		   							          	 //la quantita del consumo � unitaria la moltiplico per il valore inserite da spedire tramite DDT
+		   							          	 //la quantita del consumo e' unitaria la moltiplico per il valore inserite da spedire tramite DDT
 		   							             qntupdMat = c.getQuantita() * qtaMat;
 		   							             int idMatC = c.getMatPrima();
 		   							             Materiale mat = ResourceClass.getResource(Materiale.class, Global._URLMag+"/"+idMatC+"/"+idTerzista);
 		   							             if(mat != null){
 		   							               if(mat.getQuantita() < qntupdMat ){
-		   							               //metto la qnt in qtaMat per farla apparire nel messaggio nn lo faccio sopra altrimenti la prox iteraz dello while � falsata
+		   							               //metto la qnt in qtaMat per farla apparire nel messaggio nn lo faccio sopra altrimenti la prox iteraz dello while e' falsata
 		   							          	   qtaMat = mat.getQuantita();
 		                        		    	   flg_ckqntCons = true;
 		                        		    	   break;
@@ -183,7 +183,7 @@ public class GUI_CreaDDT {
 		   							             }
 		   							             else{
 		   							            	flg_matPrMag = false; flg_ckqntCons = true;
-			   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non � prensente in magazzino!");
+			   										JOptionPane.showMessageDialog(frmCreaDdt, "La materia prima necessaria per la produzione del semilavorato non e' prensente in magazzino!");
 		   							            	 break;
 		   							             }
 		   									  }
@@ -205,7 +205,7 @@ public class GUI_CreaDDT {
 	                                  	   int idDDT = Integer.valueOf(id);                                  
 	                                   	   MaterialeDDT mat = new MaterialeDDT(idDDT,idMat,qtaMat, idTerzista);
 	                                	   String idmD = ResourceClass.addResources(Global._URLddtInsMat, mat);
-	                                	   //Se il materiale � un semilavorato scalo dal magaz anche le qnt d mat prime consumate per la sua lavorazione
+	                                	   //Se il materiale e' un semilavorato scalo dal magaz anche le qnt d mat prime consumate per la sua lavorazione
 		   									if(m.getTipo().equals("SL")){
 		   									  semLav = ResourceClass.getResources(Consumo.class, Global._URLConsMat+idMat);
 		   							      	  Iterator<Consumo> it=semLav.iterator();
@@ -221,18 +221,18 @@ public class GUI_CreaDDT {
 	                                     {
 	                                  	   loadTableDt(idTerzista);
 	                                  	   dfmMat.setDataVector(_dataMat, _titlesMat);
-	                                  	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT � stato creato e inviato all'azienda!");
+	                                  	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT e' stato creato e inviato all'azienda!");
 	                                     }
 	                        		   }
 	                                     else{ 
 	                                    	 if(flg_matPrMag == true)
-	                                    	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantit� da spedire nel DDT "+qtaMat+" supera la quantit� in magazzino "+qntupdMat);
+	                                    	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantita' da spedire nel DDT "+qtaMat+" supera la quantita' in magazzino "+qntupdMat);
 	                                    	 }
 	                        		 
 	                         }
                            }
                            else
-                   			JOptionPane.showMessageDialog(frmCreaDdt, "La quantita inserita non � corretta!");
+                   			JOptionPane.showMessageDialog(frmCreaDdt, "La quantita inserita non e' corretta!");
                        }
                    });
                   btnRimuovi.addMouseListener(new MouseAdapter() {
@@ -244,7 +244,7 @@ public class GUI_CreaDDT {
                            		_idMatDDT.remove(rowMat);
                                }
                               	 else
-                                     JOptionPane.showMessageDialog(frmCreaDdt, "Non � stato selezionato il materiale da rimuovere dal DDT!");
+                                     JOptionPane.showMessageDialog(frmCreaDdt, "Non e' stato selezionato il materiale da rimuovere dal DDT!");
                                }
                   });
                  btnAggiungi.addMouseListener(new MouseAdapter() {
@@ -262,10 +262,10 @@ public class GUI_CreaDDT {
 	                     		_idMatDDT.add(_idMat.get(rowMat));
                      		}
                      		else
-                     			JOptionPane.showMessageDialog(frmCreaDdt, "Il materiale � gi� stato inserito nel DDT!");
+                     			JOptionPane.showMessageDialog(frmCreaDdt, "Il materiale e' gia' stato inserito nel DDT!");
                         	 }
                         	 else
-                               JOptionPane.showMessageDialog(frmCreaDdt, "Non � stato selezionato il materiale da aggiungere al DDT!");
+                               JOptionPane.showMessageDialog(frmCreaDdt, "Non e' stato selezionato il materiale da aggiungere al DDT!");
                          }
                  });
         }

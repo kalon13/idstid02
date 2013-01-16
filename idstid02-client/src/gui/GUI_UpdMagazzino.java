@@ -29,7 +29,7 @@ public class GUI_UpdMagazzino {
         private String desc;
         private String qnt;
         private int idMatTer;
-        //TODO terzista che si � loggato
+        //TODO terzista che si e' loggato
         private int id_terzista = 1;
        
         public GUI_UpdMagazzino(int idMatTer, String cod, String desc, String qnt) {
@@ -110,14 +110,14 @@ public class GUI_UpdMagazzino {
     		try{
     			Double qt = Double.parseDouble(qnt);
     			if(qt<0){
-    				JOptionPane.showMessageDialog(null, "La Quantit� non pu� essere negativa!", "Attenzione", 0);
+    				JOptionPane.showMessageDialog(null, "La Quantita' non puo' essere negativa!", "Attenzione", 0);
     				return false;
     			}
     			else
     				return true;
     		}
     		catch(Exception ex){
-    			JOptionPane.showMessageDialog(null, "Quantit� non corretta!", "Attenzione", 0);
+    			JOptionPane.showMessageDialog(null, "Quantita' non corretta!", "Attenzione", 0);
     			return false;
     		}
     	}

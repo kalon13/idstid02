@@ -70,7 +70,7 @@ public class FaseResource {
 		short order;
 		
 		try {
-			//Visto che nel DB il campo � Smallint
+			//Visto che nel DB il campo e' Smallint
 			order=(short) ordine;
 			statement = DB.instance.createStatement();
 			ok = statement.executeUpdate(
