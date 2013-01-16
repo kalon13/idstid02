@@ -321,6 +321,7 @@ public class GUI_Fatturazione {
 	                  {
 	                    Fattura_Lavorazione fattLv = it.next();
 	                      if(t<cntDt){
+	                    	  System.out.print(fattLv.getCodBolla());
 	                       _dataLav[t][0] = fattLv.getCodBolla();
 	                       _dataLav[t][2] = fattLv.getNomeLavorazione();
 	                       _dataLav[t][1] = String.valueOf(fattLv.getCodProdotto());
