@@ -179,6 +179,7 @@ public class GUI_Valutazione {
 			tableValutazione.setValueAt(bolla.getCodice(), numRow, 1);
 			tableValutazione.setValueAt(nomeLav, numRow, 2);
 			tableValutazione.setValueAt(bolla.getData(), numRow, 3);
+			tableValutazione.setValueAt("", numRow, 4);
 		}
 	}
 

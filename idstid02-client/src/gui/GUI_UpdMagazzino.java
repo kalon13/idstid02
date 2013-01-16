@@ -94,15 +94,15 @@ public class GUI_UpdMagazzino {
                 frameUpdMat.getContentPane().add(btnAnnulla);
                
                 JLabel lblNewLabel = new JLabel("Codice:");
-                lblNewLabel.setBounds(65, 28, 46, 14);
+                lblNewLabel.setBounds(45, 27, 89, 14);
                 frameUpdMat.getContentPane().add(lblNewLabel);
                
                 JLabel lblDescrizione = new JLabel("Descrizione:");
-                lblDescrizione.setBounds(45, 59, 59, 14);
+                lblDescrizione.setBounds(45, 59, 89, 14);
                 frameUpdMat.getContentPane().add(lblDescrizione);
                
-                JLabel lblQuantit = new JLabel("Quantit\u00E0:");
-                lblQuantit.setBounds(59, 93, 46, 14);
+                JLabel lblQuantit = new JLabel("Quantita':");
+                lblQuantit.setBounds(45, 92, 89, 14);
                 frameUpdMat.getContentPane().add(lblQuantit);
         }
         

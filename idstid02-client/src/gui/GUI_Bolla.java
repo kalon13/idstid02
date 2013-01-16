@@ -406,13 +406,7 @@ public class GUI_Bolla {
                 JScrollPane scrollPane = new JScrollPane();
                 scrollPane.setBounds(10, 315, 503, 109);
                 panel.add(scrollPane);
-                table_1 = new JTable(new DefaultTableModel(
-                	new Object[][] {
-                	},
-                	new String[] {
-                		"Desc", "Quantit\u00E0", "udm", "CostoUnit"
-                	}
-                ));
+                table_1 = new JTable(dm);
                 table_1.setEnabled(false);
                 scrollPane.setViewportView(table_1);
                
@@ -521,6 +515,7 @@ public class GUI_Bolla {
                                          dm.setRowCount(0); //pulisce tabella
                                          dmPrima.setRowCount(0); //pulisce tabella
                                          dmPaia.setRowCount(0); //pulisce tabella
+                                         
                                          textField.setText(""); //pulisce campi testo
                                          txtNomeLav.setText("");
                                          textField_1.setText("");
