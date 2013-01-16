@@ -43,7 +43,7 @@ public class GUI_ModificaAnagrafica {
 	private JTextField ragsoc;
 	private JPasswordField pass;
 	
-	private boolean matched;	//Per il controllo di validità degli input
+	private boolean matched;	//Per il controllo di validita' degli input
 	private short focus=0;		//Per controllare che non mi mostri il JOption 3 volte
 	
 	private Terzista t;
@@ -113,7 +113,7 @@ public class GUI_ModificaAnagrafica {
 		email.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				//Controlliamo la validità dell'input
+				//Controlliamo la validita' dell'input
 				if(!verificaEmail(email.getText())){
 					matched=false;
 					focus++;

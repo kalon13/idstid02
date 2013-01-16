@@ -45,7 +45,7 @@ import java.awt.event.FocusEvent;
 
 public class GUI_Magazzino {
 
-	JFrame frmGestioneMagazzino;
+	public JFrame frmGestioneMagazzino;
 	private JTextField textSearch;
 	
 	// WINDOW
@@ -61,8 +61,8 @@ public class GUI_Magazzino {
     private JTable table;
     // TITLE TABLE
     private static String[] _titlesDDT = {"Codice DDT", "Data invio", "Data Ricezione", "Inviato da:", "Registrato"};
-    private static String[] _titlesMat = {"Codice", "Descrizione", "Quantit�", "UdM"};
-    private static String[] _titles = {"Codice", "Descrizione", "Quantit�", "UdM"};
+    private static String[] _titlesMat = {"Codice", "Descrizione", "Quantita'", "UdM"};
+    private static String[] _titles = {"Codice", "Descrizione", "Quantita'", "UdM"};
     //DATA TABLE
     private static Object[][] _dataDDT;
 	private static Object[][] _dataMat;
@@ -193,11 +193,11 @@ public class GUI_Magazzino {
         			window.frameUpdMat.setVisible(true);
         		}
         		else{
-        			JOptionPane.showMessageDialog(null, "Non � stato selezionato il materiale!", "Attenzione", 0);
+        			JOptionPane.showMessageDialog(null, "Non e' stato selezionato il materiale!", "Attenzione", 0);
         		}
         	 }
         	 else {
-        	        JOptionPane.showMessageDialog(null, "La lista � vuota!", "Attenzione", 0);
+        	        JOptionPane.showMessageDialog(null, "La lista e' vuota!", "Attenzione", 0);
         	     }
         	}
         });
@@ -304,7 +304,7 @@ public class GUI_Magazzino {
 						String mitt = t.getRagioneSociale()+", "+Chunk.NEWLINE+t.getIndirizzo()+Chunk.NEWLINE+"PIVA "+t.getpIva()+Chunk.NEWLINE+"Tel. "+t.getTelefono()+" Fax "+t.getFax();
 						new CreateDDTPDF(_dataMat, _titlesMat, cod, dtinv, mitt, isAz2Ter);
 				 }
-				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non � stato selezionato il DDT!");
+				else JOptionPane.showMessageDialog(frmGestioneMagazzino , "Non e' stato selezionato il DDT!");
 			}
 		});
 		btnStampaDdtIn.setBounds(275, 222, 135, 23);
@@ -468,7 +468,7 @@ public class GUI_Magazzino {
       }
     }
  }
-    /**** Se entra un opAz nn deve poter cambiare il magazzino n� registrare DDT****/
+    /**** Se entra un opAz nn deve poter cambiare il magazzino ne' registrare DDT****/
     //caricamento dati
 	private void checkTerz_DT(){
 		if(Autenticazione.getSessione().getUtente().getTipo() != 5){

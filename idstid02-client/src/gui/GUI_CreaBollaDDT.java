@@ -33,7 +33,7 @@ import utils.ResourceClass;
 public class GUI_CreaBollaDDT {
 
         JFrame frmCreaDdt;
-        private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantit�", "UdM"};
+        private static String[] _titlesNewDDT = {"Codice", "Descrizione", "Quantita'", "UdM"};
         private static Object[][] _dataNewDDT;
         private static ArrayList<Integer> _idMatDDT;
         private DefaultTableModel dfmDDT;
@@ -146,12 +146,12 @@ public class GUI_CreaBollaDDT {
           {
        	   loadTableDt(idTerzista);
        	  // dfmMat.setDataVector(_dataMat, _titlesMat);
-       	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT � stato creato e inviato all'azienda!");
+       	   JOptionPane.showMessageDialog(frmCreaDdt, "Il DDT e' stato creato e inviato all'azienda!");
           }
 		   }
           else{ 
          	 if(flg_matPrMag == true)
-         	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantit� da spedire nel DDT "+qtaMat+" supera la quantit� in magazzino "+qntupdMat);
+         	   JOptionPane.showMessageDialog(frmCreaDdt, "La quantita' da spedire nel DDT "+qtaMat+" supera la quantita' in magazzino "+qntupdMat);
          	 }
 		   }
     }

@@ -1,5 +1,13 @@
 package main;
 
+import gui.GUI_Bolla;
+import gui.GUI_Bolla_Terzista;
+import gui.GUI_DatiTerzistaTr;
+import gui.GUI_Fatturazione;
+import gui.GUI_Home;
+import gui.GUI_Magazzino;
+import gui.GUI_SceltaTerzista;
+
 import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -64,7 +72,7 @@ public class menu{
 				mnGestioneTerzista.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						//Se è l'Operatore dell'azienda che visualizza
+						//Se e' l'Operatore dell'azienda che visualizza
 	    				if(tipo != 5){
 	    					try{
 	    						GUI_Home.windowScelta.frmSceltaTerzista.dispose();
