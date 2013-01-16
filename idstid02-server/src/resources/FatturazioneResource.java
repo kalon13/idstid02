@@ -85,7 +85,7 @@ public class FatturazioneResource {
 			
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
-						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.Numero, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
+						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
 						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
 						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
 						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.Lavorazione_id where" +
@@ -192,7 +192,7 @@ public class FatturazioneResource {
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
 							);
 					while(resultSt.next()) {
-						stato = resultSt.getInt(0);
+						stato = resultSt.getInt(1);
 					}
 					if(stato != 3)
 						chkBolFat.setFatt(true);
@@ -226,7 +226,7 @@ public class FatturazioneResource {
 			stQntPr = DB.instance.createStatement();
 			rsPrezzo = stPrezzo.executeQuery(
 						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneterzista" +
-						" on LavorazioneTerzista_id = bolla.Terzista_id where bolla.id = '"+idBolla+"';"
+						" on lavorazioneterzista.id = bolla.LavorazioneTerzista_id where bolla.id = '"+idBolla+"';"
 					);
 			
 			while(rsPrezzo.next()) {
