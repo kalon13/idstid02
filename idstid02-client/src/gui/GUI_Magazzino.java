@@ -124,7 +124,7 @@ public class GUI_Magazzino {
 		frmGestioneMagazzino.getContentPane().add(panelMag);
 		
 		JLabel lblNewLabel = new JLabel("Ricerca materiale:");
-		lblNewLabel.setBounds(30, 23, 97, 17);
+		lblNewLabel.setBounds(30, 23, 110, 17);
 		lblNewLabel.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		
 		textSearch = new JTextField();
@@ -211,7 +211,7 @@ public class GUI_Magazzino {
 		
 		/************lista Terzisti*************************/
 		 lblTerzisti = new JLabel("Terzisti:");
-		 lblTerzisti.setBounds(50, 12, 38, 14);
+		 lblTerzisti.setBounds(50, 12, 88, 14);
          frmGestioneMagazzino.getContentPane().add(lblTerzisti);
                
         scrollPane_Terz = new JScrollPane();

@@ -26,7 +26,7 @@ USE `mysql`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-16 14:01:48
+-- Dump completed on 2013-01-16 15:53:19
 CREATE DATABASE  IF NOT EXISTS `progingsw` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `progingsw`;
 -- MySQL dump 10.13  Distrib 5.5.28, for debian-linux-gnu (x86_64)
@@ -68,7 +68,7 @@ CREATE TABLE `terzista` (
   PRIMARY KEY (`id`,`Utente_id`),
   KEY `fk_Terzista_Utente1_idx` (`Utente_id`),
   CONSTRAINT `fk_Terzista_Utente1` FOREIGN KEY (`Utente_id`) REFERENCES `utente` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +77,7 @@ CREATE TABLE `terzista` (
 
 LOCK TABLES `terzista` WRITE;
 /*!40000 ALTER TABLE `terzista` DISABLE KEYS */;
-INSERT INTO `terzista` VALUES (-1,'0@0.it','00000000','null','null','00000','null','null','0000000000','0000000000',-1),(2,'pi@libero.it','89898989875','Pi srl','Via San Giuseppe 30','98865','AN','Senigallia','0717924366','0717924364',1),(4,'shoes@libero.it','34987967659','Shoes srl','Via Piero 9','87769','AN','Porto Recanati','0719090095','0719090094',2),(5,'gioscarpe@libero.it','12345678900','GioScarpe srl','Via Giacomo Leopardi 10','45523','PU','Urbino','07324563244','07324563243',5),(6,'davy@gmail.com','76589323652','Davy Scarpe srl','Via Frassini 3','67729','FM','Fermo','0983456211','0983456215',6),(7,'barbarella@gmail.com','34235664789','Barb srl','Via Giampiero 5','90078','AN','Agugliano','0712345433','0712345434',7);
+INSERT INTO `terzista` VALUES (-1,'0@0.it','00000000','null','null','00000','null','null','0000000000','0000000000',-1),(2,'pi@libero.it','89898989875','Pi srl','Via San Giuseppe 30','98865','AN','Senigallia','0717924366','0717924364',1),(4,'shoes@libero.it','34987967659','Shoes srl','Via Piero 9','87769','AN','Porto Recanati','0719090095','0719090094',2),(5,'gioscarpe@libero.it','12345678900','GioScarpe srl','Via Giacomo Leopardi 10','45523','PU','Urbino','07324563244','07324563243',5),(6,'davy@gmail.com','76589323652','Davy Scarpe srl','Via Frassini 3','67729','FM','Fermo','0983456211','0983456215',6),(7,'barbarella@gmail.com','34235664789','Barb srl','Via Giampiero 5','90078','AN','Agugliano','0712345433','0712345434',7),(9,'cancella@cancella.it','12345678901','Cancella snc','Via Bianco 99','99009','ZZ','Zzzzzz','888888888','888888888',8);
 /*!40000 ALTER TABLE `terzista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `materialidaprodurre` (
 
 LOCK TABLES `materialidaprodurre` WRITE;
 /*!40000 ALTER TABLE `materialidaprodurre` DISABLE KEYS */;
-INSERT INTO `materialidaprodurre` VALUES (1,50,10,40,40,1,13),(2,50,0,50,50,2,16),(3,50,0,0,0,3,15),(4,100,0,0,0,4,14),(5,100,0,0,0,5,15),(6,100,0,100,100,12,14),(7,200,2,198,198,13,9),(8,200,2,198,198,14,15),(9,200,0,0,0,15,13),(10,200,0,0,0,16,13),(11,300,0,0,0,17,17),(12,150,0,0,0,18,9);
+INSERT INTO `materialidaprodurre` VALUES (1,50,10,40,40,1,13),(2,50,0,50,50,2,16),(3,50,0,50,50,3,15),(4,100,0,0,0,4,14),(5,100,0,0,0,5,15),(6,100,0,100,100,12,14),(7,200,2,198,198,13,9),(8,200,2,198,198,14,15),(9,200,0,200,200,15,13),(10,200,0,0,0,16,13),(11,300,0,0,0,17,17),(12,150,0,0,0,18,9);
 /*!40000 ALTER TABLE `materialidaprodurre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -306,7 +306,7 @@ CREATE TABLE `materialeterzista` (
   KEY `fk_MaterialeTerzista_Materiale1_idx` (`Materiale_id`),
   CONSTRAINT `fk_MaterialeTerzista_Materiale1` FOREIGN KEY (`Materiale_id`) REFERENCES `materiale` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_MaterialeTerzista_Terzista1` FOREIGN KEY (`Terzista_id`) REFERENCES `terzista` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +315,7 @@ CREATE TABLE `materialeterzista` (
 
 LOCK TABLES `materialeterzista` WRITE;
 /*!40000 ALTER TABLE `materialeterzista` DISABLE KEYS */;
-INSERT INTO `materialeterzista` VALUES (2,5.00,2,2),(3,5.00,4,3),(4,5.00,4,4),(5,6.00,7,4),(6,5.00,7,3),(7,20.00,2,18),(8,-40.00,2,19),(9,50.00,4,3),(10,50.00,4,4),(11,0.00,5,5),(12,530.20,5,3),(13,-196.00,5,18),(14,2.00,5,19),(15,0.00,5,8),(16,0.00,5,9),(17,100.00,6,2),(18,400.00,6,18),(19,150.00,7,4),(20,15.00,7,3),(21,50.00,5,14),(22,0.00,5,15),(23,0.00,2,13),(24,0.00,2,16);
+INSERT INTO `materialeterzista` VALUES (2,0.00,2,2),(3,5.00,4,3),(4,5.00,4,4),(5,6.00,7,4),(6,5.00,7,3),(7,-98.00,2,18),(8,28.00,2,19),(9,50.00,4,3),(10,50.00,4,4),(11,0.00,5,5),(12,530.20,5,3),(13,-196.00,5,18),(14,2.00,5,19),(15,0.00,5,8),(16,0.00,5,9),(17,0.00,6,2),(18,0.00,6,18),(19,150.00,7,4),(20,15.00,7,3),(21,50.00,5,14),(22,0.00,5,15),(23,0.00,2,13),(24,0.00,2,16),(25,0.00,2,15),(26,0.00,6,13);
 /*!40000 ALTER TABLE `materialeterzista` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -336,7 +336,7 @@ CREATE TABLE `fatturabolla` (
   KEY `fk_FatturaBolla_Bolla1_idx` (`Bolla_id`),
   CONSTRAINT `fk_FatturaBolla_Bolla1` FOREIGN KEY (`Bolla_id`) REFERENCES `bolla` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_FatturaBolla_Fattura1` FOREIGN KEY (`Fattura_id`) REFERENCES `fattura` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,7 +345,7 @@ CREATE TABLE `fatturabolla` (
 
 LOCK TABLES `fatturabolla` WRITE;
 /*!40000 ALTER TABLE `fatturabolla` DISABLE KEYS */;
-INSERT INTO `fatturabolla` VALUES (15,3,2,50),(16,4,1,32);
+INSERT INTO `fatturabolla` VALUES (15,3,2,50),(16,4,1,32),(17,5,3,50),(18,6,15,60);
 /*!40000 ALTER TABLE `fatturabolla` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -365,7 +365,7 @@ CREATE TABLE `fattura` (
   PRIMARY KEY (`id`,`Terzista_id`),
   KEY `fk_Fattura_Terzista1_idx` (`Terzista_id`),
   CONSTRAINT `fk_Fattura_Terzista1` FOREIGN KEY (`Terzista_id`) REFERENCES `terzista` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -374,7 +374,7 @@ CREATE TABLE `fattura` (
 
 LOCK TABLES `fattura` WRITE;
 /*!40000 ALTER TABLE `fattura` DISABLE KEYS */;
-INSERT INTO `fattura` VALUES (3,NULL,'2013-01-16 12:48:00',118.58,2),(4,NULL,'2013-01-16 13:51:00',38.72,2);
+INSERT INTO `fattura` VALUES (3,0,'2013-01-16 12:48:00',118.58,2),(4,1,'2013-01-16 13:51:00',38.72,2),(5,2,'2013-01-16 15:12:00',60.5,2),(6,3,'2013-01-16 15:16:00',72.6,6);
 /*!40000 ALTER TABLE `fattura` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -437,7 +437,7 @@ DROP TABLE IF EXISTS `ddt`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ddt` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `numeroDocumento` int(11) NOT NULL,
+  `numeroDocumento` int(11) DEFAULT NULL,
   `dataInvio` datetime DEFAULT NULL,
   `dataRicezione` datetime DEFAULT NULL,
   `Terzista_id` int(11) NOT NULL COMMENT 'destinatario',
@@ -446,7 +446,7 @@ CREATE TABLE `ddt` (
   PRIMARY KEY (`id`,`Terzista_id`),
   KEY `fk_DDT_Terzista1_idx` (`Terzista_id`),
   CONSTRAINT `fk_DDT_Terzista1` FOREIGN KEY (`Terzista_id`) REFERENCES `terzista` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,6 +455,7 @@ CREATE TABLE `ddt` (
 
 LOCK TABLES `ddt` WRITE;
 /*!40000 ALTER TABLE `ddt` DISABLE KEYS */;
+INSERT INTO `ddt` VALUES (1,0,'2013-01-16 14:25:00',NULL,2,0,0),(2,1,'2013-01-16 15:11:00',NULL,2,0,0),(3,2,'2013-01-16 15:16:00',NULL,6,0,0);
 /*!40000 ALTER TABLE `ddt` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -497,7 +498,7 @@ CREATE TABLE `ddtmateriale` (
   KEY `fk_DDTMateriale_Materiale1_idx` (`Materiale_id`),
   CONSTRAINT `fk_DDTMateriale_DDT1` FOREIGN KEY (`DDT_id`) REFERENCES `ddt` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_DDTMateriale_Materiale1` FOREIGN KEY (`Materiale_id`) REFERENCES `materiale` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -506,6 +507,7 @@ CREATE TABLE `ddtmateriale` (
 
 LOCK TABLES `ddtmateriale` WRITE;
 /*!40000 ALTER TABLE `ddtmateriale` DISABLE KEYS */;
+INSERT INTO `ddtmateriale` VALUES (3,1,2,5),(4,2,15,50),(5,3,13,200);
 /*!40000 ALTER TABLE `ddtmateriale` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,7 +524,7 @@ CREATE TABLE `utente` (
   `psw` varchar(45) DEFAULT NULL,
   `tipo` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -531,7 +533,7 @@ CREATE TABLE `utente` (
 
 LOCK TABLES `utente` WRITE;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
-INSERT INTO `utente` VALUES (-1,'null','null',2),(1,'marco','189bbbb00c5f1fb7fba9ad9285f193d1',5),(2,'katy','189bbbb00c5f1fb7fba9ad9285f193d1',5),(3,'admin','21232f297a57a5a743894a0e4a801fc3',2),(5,'giorgia','7f8f98248522f399e9f98a29fb149eee',5),(6,'davide','446fca5553df49ad9c6348cf1ff71d51',5),(7,'barbara','4d6c4d6b5b6c7fd2c43727ce32a56f4e',5);
+INSERT INTO `utente` VALUES (-1,'null','null',2),(1,'marco','189bbbb00c5f1fb7fba9ad9285f193d1',5),(2,'katy','189bbbb00c5f1fb7fba9ad9285f193d1',5),(3,'admin','21232f297a57a5a743894a0e4a801fc3',2),(5,'giorgia','7f8f98248522f399e9f98a29fb149eee',5),(6,'davide','446fca5553df49ad9c6348cf1ff71d51',5),(7,'barbara','4d6c4d6b5b6c7fd2c43727ce32a56f4e',5),(8,'cancella','353467ad28d3ec477450a2e4f093ad19',5);
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -554,7 +556,7 @@ CREATE TABLE `messaggio` (
   KEY `fk_Messaggio_Bolla1_idx` (`Bolla_id`),
   CONSTRAINT `fk_Messaggio_Bolla1` FOREIGN KEY (`Bolla_id`) REFERENCES `bolla` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_Messaggio_Utente1` FOREIGN KEY (`Utente_id`) REFERENCES `utente` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -563,7 +565,7 @@ CREATE TABLE `messaggio` (
 
 LOCK TABLES `messaggio` WRITE;
 /*!40000 ALTER TABLE `messaggio` DISABLE KEYS */;
-INSERT INTO `messaggio` VALUES (1,5,'Gli anelli me li aspettavo più resistenti.','2013-01-05 00:00:00',16,0),(2,1,'prova','2013-01-15 09:00:20',3,0),(3,1,'invio messaggio di prova','2013-01-16 10:22:45',1,0),(4,1,'test','2013-01-16 10:22:55',1,0),(5,1,'test 2','2013-01-16 11:13:14',1,0);
+INSERT INTO `messaggio` VALUES (1,5,'Gli anelli me li aspettavo più resistenti.','2013-01-05 00:00:00',16,1),(2,1,'prova','2013-01-15 09:00:20',3,0),(3,1,'invio messaggio di prova','2013-01-16 10:22:45',1,0),(4,1,'test','2013-01-16 10:22:55',1,0),(5,1,'test 2','2013-01-16 11:13:14',1,0),(6,6,'Pazienza!','2013-01-16 14:12:10',16,1),(7,6,'Il modello dello stivale non è molto dettagliato!','2013-01-16 14:12:58',15,1),(8,3,'pazienza','2013-01-16 14:17:17',15,0),(9,3,'nuovo mess','2013-01-16 14:18:18',15,0),(10,3,'Ma che risposta è???','2013-01-16 15:36:50',16,0);
 /*!40000 ALTER TABLE `messaggio` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -627,7 +629,7 @@ CREATE TABLE `bolla` (
 
 LOCK TABLES `bolla` WRITE;
 /*!40000 ALTER TABLE `bolla` DISABLE KEYS */;
-INSERT INTO `bolla` VALUES (1,'1A',3,'2012-05-05 00:00:00',0,2,1,'img04.jpg'),(2,'2B',3,'2012-06-05 00:00:00',0,2,8,'img02.jpg'),(3,'3C',1,'2012-08-05 00:00:00',0,2,8,'img01.jpg'),(4,'2A',1,'2012-09-05 00:00:00',0,4,32,'img04.jpg'),(5,'4D',1,'2012-06-20 00:00:00',0,4,10,'img01.jpg'),(12,'5E',3,'2012-11-09 00:00:00',0,5,13,'img04.jpg'),(13,'6B',4,'2012-11-10 00:00:00',0,5,11,'img03.jpg'),(14,'7U',3,'2012-12-19 00:00:00',0,5,12,'img01.jpg'),(15,'1Z',1,'2013-01-01 00:00:00',0,6,14,'img04.jpg'),(16,'2S',1,'2012-09-29 00:00:00',0,6,15,'img04.jpg'),(17,'4F',1,'2012-11-21 00:00:00',0,7,18,'img05.jpg'),(18,'2D',1,'2012-10-09 00:00:00',0,7,19,'img06.jpg');
+INSERT INTO `bolla` VALUES (1,'1A',3,'2012-05-05 00:00:00',0,2,1,'img04.jpg'),(2,'2B',3,'2012-06-05 00:00:00',0,2,8,'img02.jpg'),(3,'3C',3,'2012-08-05 00:00:00',0,2,8,'img01.jpg'),(4,'2A',1,'2012-09-05 00:00:00',0,4,32,'img04.jpg'),(5,'4D',1,'2012-06-20 00:00:00',0,4,10,'img01.jpg'),(12,'5E',3,'2012-11-09 00:00:00',0,5,13,'img04.jpg'),(13,'6B',4,'2012-11-10 00:00:00',0,5,11,'img03.jpg'),(14,'7U',3,'2012-12-19 00:00:00',0,5,12,'img01.jpg'),(15,'1Z',3,'2013-01-01 00:00:00',0,6,14,'img04.jpg'),(16,'2S',1,'2012-09-29 00:00:00',0,6,15,'img04.jpg'),(17,'4F',1,'2012-11-21 00:00:00',0,7,18,'img05.jpg'),(18,'2D',1,'2012-10-09 00:00:00',0,7,19,'img06.jpg');
 /*!40000 ALTER TABLE `bolla` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -640,4 +642,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-01-16 14:01:48
+-- Dump completed on 2013-01-16 15:53:19
