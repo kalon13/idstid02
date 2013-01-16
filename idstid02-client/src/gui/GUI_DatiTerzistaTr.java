@@ -44,6 +44,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JPanel;
 
 public class GUI_DatiTerzistaTr {
 
@@ -96,72 +97,72 @@ public class GUI_DatiTerzistaTr {
 		});
 		frmDatiTerzistaTr.setResizable(false);
 		frmDatiTerzistaTr.setTitle("Dati Terzista");
-		frmDatiTerzistaTr.setBounds(100, 100, 643, 553);
+		frmDatiTerzistaTr.setBounds(100, 100, 643, 470);
 		frmDatiTerzistaTr.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		indirizzo = new JTextField(t.getIndirizzo());
-		indirizzo.setBounds(132, 37, 326, 20);
+		indirizzo.setBounds(132, 37, 326, 23);
 		indirizzo.setEditable(false);
 		indirizzo.setColumns(40);
 		
 		citta = new JTextField(t.getCitta());
-		citta.setBounds(132, 63, 326, 20);
+		citta.setBounds(132, 63, 326, 23);
 		citta.setEditable(false);
 		citta.setColumns(40);
 		
 		prov = new JTextField(t.getProvincia());
-		prov.setBounds(132, 89, 326, 20);
+		prov.setBounds(132, 89, 326, 23);
 		prov.setEditable(false);
 		prov.setColumns(40);
 		
 		cap = new JTextField(t.getCap());
-		cap.setBounds(132, 115, 326, 20);
+		cap.setBounds(132, 115, 326, 23);
 		cap.setEditable(false);
 		cap.setColumns(40);
 		
 		telefono = new JTextField(t.getTelefono());
-		telefono.setBounds(132, 141, 326, 20);
+		telefono.setBounds(132, 141, 326, 23);
 		telefono.setEditable(false);
 		telefono.setColumns(40);
 		
 		fax = new JTextField(t.getFax());
-		fax.setBounds(132, 167, 326, 20);
+		fax.setBounds(132, 167, 326, 23);
 		fax.setEditable(false);
 		fax.setColumns(40);
 		
 		email = new JTextField(t.getEmail());
-		email.setBounds(132, 193, 326, 20);
+		email.setBounds(132, 193, 326, 23);
 		email.setEditable(false);
 		email.setColumns(40);
 		
 		piva = new JTextField(t.getpIva());
-		piva.setBounds(132, 219, 326, 20);
+		piva.setBounds(132, 219, 326, 23);
 		piva.setEditable(false);
 		piva.setColumns(40);
 		
 		JLabel lblIndirizzo = new JLabel("Indirizzo:");
-		lblIndirizzo.setBounds(10, 43, 44, 14);
+		lblIndirizzo.setBounds(10, 39, 121, 23);
 		
-		JLabel lblCitt = new JLabel("Citt\u00E0");
-		lblCitt.setBounds(10, 69, 23, 14);
+		JLabel lblCitt = new JLabel("Citta'");
+		lblCitt.setBounds(10, 63, 121, 23);
 		
 		JLabel lblProvincia = new JLabel("Provincia");
-		lblProvincia.setBounds(10, 95, 43, 14);
+		lblProvincia.setBounds(10, 89, 121, 23);
 		
 		JLabel lblCap = new JLabel("CAP");
-		lblCap.setBounds(10, 121, 20, 14);
+		lblCap.setBounds(10, 115, 121, 23);
 		
 		JLabel lblFax = new JLabel("Fax");
-		lblFax.setBounds(10, 173, 18, 14);
+		lblFax.setBounds(10, 167, 121, 23);
 		
 		JLabel lblEmail = new JLabel("Email");
-		lblEmail.setBounds(10, 199, 24, 14);
+		lblEmail.setBounds(10, 193, 121, 23);
 		
 		JLabel lblPiva = new JLabel("P.IVA");
-		lblPiva.setBounds(10, 225, 27, 14);
+		lblPiva.setBounds(10, 219, 121, 23);
 		
 		nome = new JTextField(t.getRagioneSociale());
-		nome.setBounds(132, 11, 326, 20);
+		nome.setBounds(132, 11, 326, 23);
 		nome.setFont(new Font("Tahoma", Font.BOLD, 11));
 		nome.setForeground(new Color(0, 0, 0));
 		nome.setEditable(false);
@@ -169,7 +170,7 @@ public class GUI_DatiTerzistaTr {
 		nome.setColumns(40);
 		
 		lblTelefono = new JLabel("Telefono");
-		lblTelefono.setBounds(10, 147, 42, 14);
+		lblTelefono.setBounds(10, 141, 121, 23);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 261, 607, 2);
@@ -187,10 +188,10 @@ public class GUI_DatiTerzistaTr {
 //		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 281, 602, 103);
+		scrollPane.setBounds(10, 281, 447, 103);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(10, 418, 327, 71);
+		scrollPane_1.setBounds(469, 281, 160, 103);
 		
 		btnModificaLavorazioni = new JButton("Modifica Lavorazioni");
 		btnModificaLavorazioni.addActionListener(new ActionListener() {
@@ -313,7 +314,7 @@ public class GUI_DatiTerzistaTr {
     	if(!lavorazioneAperta){
     		String[] choices = {"Si", "No"};
 			int response=JOptionPane.showOptionDialog(null,"Sicuro di voler rimuovere il tuo profilo dal sistema e,\nquindi, di non" +
-					" ricevere più lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
+					" ricevere piu' lavori dall'azienda?","Rimozione terzista",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,choices,"No");
 			if(response==0){
 				//Occorre risettare come ancora da assegnare le bolle che aveva assegnate
 				Bolla bDaRiassegnare=new Bolla();
@@ -321,7 +322,7 @@ public class GUI_DatiTerzistaTr {
 				//Eliminiamo proprio il terzista
 				ResourceClass.delResources(Global._URLTerz, String.valueOf(terzSelezionato));
 				JOptionPane.showMessageDialog(null, "Cancellazione avvenuta correttamente.", "Attenzione", 1);
-				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
+				//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'e' questo terzista
 				//e inviare una comunicazione all'azienda
 				//Facciamo il Logout
 				MultivaluedMap<String, String> param = new MultivaluedMapImpl();

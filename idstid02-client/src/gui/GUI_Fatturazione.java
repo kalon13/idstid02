@@ -55,7 +55,7 @@ import java.awt.event.WindowAdapter;
 
 public class GUI_Fatturazione {
 
-        JFrame frmElenco;
+        public JFrame frmElenco;
         private JTable tableLav;
         private JTable tableExtra;
         private JTextField textNum;
@@ -214,7 +214,7 @@ public class GUI_Fatturazione {
         					fat.setTitExt(_titlesExt);
         					fat.wrtPDF();
         				  }
-        					else JOptionPane.showMessageDialog(frmElenco , "Non � stata selezionata la Fattura!");
+        					else JOptionPane.showMessageDialog(frmElenco , "Non e' stata selezionata la Fattura!");
                 	}
                 });
                 button.setBounds(0, 462, 160, 23);
@@ -321,6 +321,7 @@ public class GUI_Fatturazione {
 	                  {
 	                    Fattura_Lavorazione fattLv = it.next();
 	                      if(t<cntDt){
+	                    	  System.out.print(fattLv.getCodBolla());
 	                       _dataLav[t][0] = fattLv.getCodBolla();
 	                       _dataLav[t][2] = fattLv.getNomeLavorazione();
 	                       _dataLav[t][1] = String.valueOf(fattLv.getCodProdotto());

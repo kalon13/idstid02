@@ -47,7 +47,7 @@ public class GUI_Messaggio {
         }
        
         public JFrame frmMessaggi;
-        private JTextField textField;
+        private JTextField txtNumeroBolla;
         public JList listMessaggi;
         private String[] _data;
         private int[] _id;
@@ -91,103 +91,113 @@ public class GUI_Messaggio {
          * @wbp.parser.entryPoint
          */
         private void initialize(final int numeroBolla, String codiceBolla) {
-                frmMessaggi = new JFrame();
-                frmMessaggi.setTitle("Messaggi");
-                frmMessaggi.setResizable(false);
-                frmMessaggi.setBounds(100, 100, 450, 300);
-                frmMessaggi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frmMessaggi.getContentPane().setLayout(null);
-               
-                JLabel lblMessaggi = new JLabel("Numero Bolla:");
-                lblMessaggi.setBounds(10, 11, 125, 14);
-                frmMessaggi.getContentPane().add(lblMessaggi);
-                
-                JScrollPane scrollPane_2 = new JScrollPane();
-                scrollPane_2.setBounds(230, 36, 204, 77);
-                frmMessaggi.getContentPane().add(scrollPane_2);
-                               
-                final JTextPane textPaneMessaggio = new JTextPane();
-                scrollPane_2.setViewportView(textPaneMessaggio);
-                
-                JScrollPane scrollPane_1 = new JScrollPane();
-                scrollPane_1.setBounds(10, 124, 424, 99);
-                frmMessaggi.getContentPane().add(scrollPane_1);
-               
-                final JTextPane textPaneNuovoMess = new JTextPane();
-                scrollPane_1.setViewportView(textPaneNuovoMess);
-               
-                JButton btnInvia = new JButton("Invia");
-                btnInvia.setBounds(347, 237, 89, 23);
-                btnInvia.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                    	String messageText = textPaneNuovoMess.getText().trim();
-                    	if(messageText != "") {
-                        	MultivaluedMap<String, String> param = new MultivaluedMapImpl();
-		                    param.add("utenteid", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()));
-		                    param.add("bollaid", String.valueOf(numeroBolla));
-		                    param.add("message", messageText);
-    	                    String ret = ResourceClass.getService().path(Global._URLMess).path("insert")
-    	                    		.accept(MediaType.APPLICATION_JSON).put(String.class, param);
-    	                    if(ret!="-1") {
-    	                    	textPaneNuovoMess.setText("");
-    	                    	refresh(numeroBolla);
-    	                    }
-    	                    else {
-    	                    	textPaneNuovoMess.selectAll();
-    	                    }
-                    	}
-                    }
-				});
-                frmMessaggi.getContentPane().add(btnInvia);
-               
-                JButton btnEsci = new JButton("Chiudi");
-                btnEsci.setBounds(12, 237, 89, 23);
-                btnEsci.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                                frmMessaggi.dispose();
-                        }
-                });
-               
-                frmMessaggi.getContentPane().add(btnEsci);
-               
-                textField = new JTextField();
-                textField.setEditable(false);
-                textField.setText("");
-                textField.setBounds(134, 8, 86, 20);
-                frmMessaggi.getContentPane().add(textField);
-                textField.setColumns(10);
-               
-                textField.setText(codiceBolla);
-                 
-                 JScrollPane scrollPane = new JScrollPane();
-                 scrollPane.setBounds(10, 36, 210, 77);
-                 frmMessaggi.getContentPane().add(scrollPane);
-                 
-                  listMessaggi = new JList(_data);
-                  scrollPane.setViewportView(listMessaggi);
-                  listMessaggi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-                  listMessaggi.addListSelectionListener(new ListSelectionListener() {
-                      //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
-                      public void valueChanged(ListSelectionEvent e) {
-                          int indice = listMessaggi.getSelectedIndex();
-                          if(indice > -1) {
-	                            Messaggio m = lista.get(indice);
-	                            String testo = m.getTesto();
-	                            textPaneMessaggio.setText(testo);
-//	                            System.out.println(m.isLetto());
-	                            if(m.getUtenteId() != Autenticazione.getSessione().getUtente().getUserId()) {
-	                            	ResourceClass.getService().path(Global._URLMessLetto).path(String.valueOf(m.getId()))
-	                            		.accept(MediaType.APPLICATION_JSON).post(String.class);
-	                            }
-//	                            System.out.println(m.isLetto());
-                          }
-                          else {
-                          	textPaneMessaggio.setText("");
-                          }
-                      }
-                  });
+			frmMessaggi = new JFrame();
+			frmMessaggi.setTitle("Messaggi");
+			frmMessaggi.setResizable(false);
+			frmMessaggi.setBounds(100, 100, 450, 356);
+			frmMessaggi.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frmMessaggi.getContentPane().setLayout(null);
+			   
+			JLabel lbNumeroBolla = new JLabel("Numero Bolla:");
+			lbNumeroBolla.setBounds(10, 11, 125, 14);
+			frmMessaggi.getContentPane().add(lbNumeroBolla);
+			
+		    txtNumeroBolla = new JTextField();
+		    txtNumeroBolla.setEditable(false);
+		    txtNumeroBolla.setText("");
+		    txtNumeroBolla.setBounds(134, 7, 86, 23);
+		    frmMessaggi.getContentPane().add(txtNumeroBolla);
+		    txtNumeroBolla.setColumns(10);
+	    	txtNumeroBolla.setText(codiceBolla);
+	    
+            
+            JLabel lblTestoMessaggio = new JLabel("Testo messaggio:");
+            lblTestoMessaggio.setBounds(232, 45, 138, 14);
+            frmMessaggi.getContentPane().add(lblTestoMessaggio);
+			    
+			JScrollPane scrTesto = new JScrollPane();
+			scrTesto.setBounds(230, 62, 204, 90);
+			frmMessaggi.getContentPane().add(scrTesto);
+			                   
+			final JTextPane txtTesto = new JTextPane();
+			scrTesto.setViewportView(txtTesto);
+			
+            JLabel lblComponiNuovoMessaggio = new JLabel("Componi nuovo messaggio:");
+            lblComponiNuovoMessaggio.setBounds(10, 164, 210, 14);
+            frmMessaggi.getContentPane().add(lblComponiNuovoMessaggio);
+			
+			JScrollPane scrNuovo = new JScrollPane();
+			scrNuovo.setBounds(10, 183, 424, 99);
+			frmMessaggi.getContentPane().add(scrNuovo);
+			   
+			final JTextPane txtNuovo = new JTextPane();
+			scrNuovo.setViewportView(txtNuovo);
+			
+	    	JLabel lblListaMessaggi = new JLabel("Lista messaggi:");
+            lblListaMessaggi.setBounds(10, 45, 138, 14);
+            frmMessaggi.getContentPane().add(lblListaMessaggi);
+			
+			JScrollPane scrLista = new JScrollPane();
+		    scrLista.setBounds(10, 62, 210, 90);
+		    frmMessaggi.getContentPane().add(scrLista);
+	    	
+		    listMessaggi = new JList(_data);
+		    scrLista.setViewportView(listMessaggi);
+		    listMessaggi.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		    listMessaggi.addListSelectionListener(new ListSelectionListener() {
+		    	 //Quando seleziono un messaggio dalla lista visualizza il testo a fianco
+				 public void valueChanged(ListSelectionEvent e) {
+					 int indice = listMessaggi.getSelectedIndex();
+				     if(indice > -1) {
+						Messaggio m = lista.get(indice);
+						String testo = m.getTesto();
+						txtTesto.setText(testo);
+						if(m.getUtenteId() != Autenticazione.getSessione().getUtente().getUserId()) {
+							ResourceClass.getService().path(Global._URLMessLetto).path(String.valueOf(m.getId()))
+								.accept(MediaType.APPLICATION_JSON).post(String.class);
+						}
+					 }
+					 else {
+					 	txtTesto.setText("");
+					 }
+				 }
+			 });
+		    
+		    
+			JButton btnInvia = new JButton("Invia");
+            btnInvia.setBounds(345, 294, 89, 23);
+			btnInvia.addMouseListener(new MouseAdapter() {
+			    @Override
+			    public void mouseClicked(MouseEvent e) {
+			    	String messageText = txtNuovo.getText().trim();
+			    	if(messageText != "") {
+						MultivaluedMap<String, String> param = new MultivaluedMapImpl();
+						param.add("utenteid", String.valueOf(Autenticazione.getSessione().getUtente().getUserId()));
+						param.add("bollaid", String.valueOf(numeroBolla));
+						param.add("message", messageText);
+						String ret = ResourceClass.getService().path(Global._URLMess).path("insert")
+								.accept(MediaType.APPLICATION_JSON).put(String.class, param);
+						if(ret!="-1") {
+							txtNuovo.setText("");
+							refresh(numeroBolla);
+		                }
+		                else {
+		                	txtNuovo.selectAll();
+		                }
+			    	}
+			    }
+			});
+		    frmMessaggi.getContentPane().add(btnInvia);
+		   
+		    JButton btnEsci = new JButton("Chiudi");
+            btnEsci.setBounds(10, 294, 89, 23);
+		    btnEsci.addMouseListener(new MouseAdapter() {
+		            @Override
+		            public void mouseClicked(MouseEvent e) {
+		            	frmMessaggi.dispose();
+		            }
+		    });
+		    frmMessaggi.getContentPane().add(btnEsci);
         }
         
         

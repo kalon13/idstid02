@@ -124,7 +124,7 @@ public class GUI_CancellazioneTerzistaOp {
 				if(terzSelezionato!=-1){
 					terzSelezionato=(Integer) terz_id.get(terzSelezionato);
 					
-					//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'è questo terzista
+					//Occorrono a ritroso tutte le cancellazioni nelle altre tabelle dove c'e' questo terzista
 					//e inviare una comunicazione al terzista
 					
 					String[] choices = {"Si", "No"};

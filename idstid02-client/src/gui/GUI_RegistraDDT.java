@@ -45,7 +45,7 @@ public class GUI_RegistraDDT {
         // TABLE DDT
         private DefaultListModel modelLsDDT;
         private static int[] _idLsDDT = null;
-        private static Object[] _titlesDDT={"Codice", "Descrizione", "Quantit�", "UDM"};
+        private static Object[] _titlesDDT={"Codice", "Descrizione", "Quantita'", "UDM"};
         private static String[][] _dataDDT;
         
         private int idTerz;
@@ -137,9 +137,9 @@ public class GUI_RegistraDDT {
                                 listDDT.setSelectedIndex(-1);
                                 deleteAllRowTable();
                                 listDDT.setModel(modelLsDDT);
-                                JOptionPane.showMessageDialog(frmRegistraDdt , "Il DDT � stato registrato!");
+                                JOptionPane.showMessageDialog(frmRegistraDdt , "Il DDT e' stato registrato!");
                        } 
-                        	else JOptionPane.showMessageDialog(frmRegistraDdt , "Non � stato selezionato il DDT da registrare!");
+                        	else JOptionPane.showMessageDialog(frmRegistraDdt , "Non e' stato selezionato il DDT da registrare!");
                     }
                 });
                 btnRegistra.setBounds(290, 234, 89, 23);

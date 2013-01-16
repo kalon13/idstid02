@@ -67,7 +67,7 @@ public class menu{
 				mnGestioneTerzista.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						//Se è l'Operatore dell'azienda che visualizza
+						//Se e' l'Operatore dell'azienda che visualizza
 	    				if(tipo != 5){
 	    					try{
 	    						GUI_Home.windowScelta.frmSceltaTerzista.dispose();
