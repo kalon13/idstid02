@@ -82,15 +82,21 @@ public class FatturazioneResource {
 			//fattura
 			result = statement.executeQuery(
 					"select * from progingsw.fattura where id='" + id + "';");
-			
+			System.out.print("id"+id);
 			//Bolla Fattura
 			result1 = statement1.executeQuery(
-						"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.Numero, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
+					"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
+					" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
+					" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
+					" = bolla.LavorazioneTerzista_id) ON lavorazione.id = lavorazioneterzista.Lavorazione_id where" +
+					" bolla.LavorazioneTerzista_id = lavorazioneterzista.Lavorazione_id " +
+					" and fatturabolla.Fattura_id='" + id + "';"
+						/*"SELECT fatturabolla.Fattura_id, nome, fatturabolla.importo, fatturabolla.Bolla_id, lavorazioneterzista.Terzista_id, bolla.codice, lavorazioneterzista.prezzo FROM progingsw.lavorazione JOIN " +
 						" (progingsw.lavorazioneterzista JOIN (progingsw.fatturabolla JOIN" +
 						" progingsw.bolla on bolla.id = Bolla_id) ON lavorazioneterzista.Terzista_id" +
-						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.Lavorazione_id where" +
-						" bolla.Lavorazione_id = lavorazioneterzista.Lavorazione_id " +
-						" and fatturabolla.Fattura_id='" + id + "';"
+						" = bolla.LavorazioneTerzista_id) ON lavorazione.id = bolla.LavorazioneTerzista_id where" +
+						" bolla.LavorazioneTerzista_id = lavorazioneterzista.Lavorazione_id " +
+						" and fatturabolla.Fattura_id='" + id + "';"*/
 					);
 				
 			while(result1.next()) {
@@ -99,7 +105,7 @@ public class FatturazioneResource {
 						result1.getDouble(3),result1.getInt(4),result1.getInt(5));
 				fattLavorazione.setCodBolla(result1.getString(6));
 				fattLavorazione.setCostoUnit(result1.getDouble(7));
-				
+				System.out.print(result1.getInt(1));
 				//Calcolo della quantita prodotta tramite l'id bolla 
 				qntProd = 0.0;
 				rsQntPr = stQntPr.executeQuery(
@@ -111,6 +117,7 @@ public class FatturazioneResource {
 				fattLavorazione.setQntProd(rsQntPr.getDouble(2));
 			  }
 			 lsFattLav.add(fattLavorazione);
+			 
 			}
 			while(result.next()) {
 				if(lsFattLav.isEmpty()) lsFattLav = null;
@@ -180,6 +187,7 @@ public class FatturazioneResource {
 						);
 				result.last();
 				int numberRow = result.getRow();
+				System.out.println(numberRow);
 				statement.close();
 				//Se e' fatturata
 				if(numberRow != 0) 
@@ -192,7 +200,7 @@ public class FatturazioneResource {
 								"SELECT stato FROM progingsw.bolla where id = '"+idBolla+"';"
 							);
 					while(resultSt.next()) {
-						stato = resultSt.getInt(0);
+						stato = resultSt.getInt(1);
 					}
 					if(stato != 3)
 						chkBolFat.setFatt(true);
@@ -226,7 +234,7 @@ public class FatturazioneResource {
 			stQntPr = DB.instance.createStatement();
 			rsPrezzo = stPrezzo.executeQuery(
 						"SELECT prezzo FROM progingsw.bolla join progingsw.lavorazioneterzista" +
-						" on LavorazioneTerzista_id = bolla.Terzista_id where bolla.id = '"+idBolla+"';"
+						" on lavorazioneterzista.id = bolla.LavorazioneTerzista_id where bolla.id = '"+idBolla+"';"
 					);
 			
 			while(rsPrezzo.next()) {

@@ -338,7 +338,7 @@ public class GUI_CreaFattura {
          if(mapIngImp.containsKey(idBolla))
         	 imp += mapIngImp.get(idBolla);
          txtImpTot.setText("0.0");
-//         System.out.print(ImpFattBol);
+         System.out.print(imp);
          imp = calcolaIVA(imp);
          ImpFattBol += imp + Double.parseDouble(txtImpTot.getText());
          txtImpTot.setText(String.valueOf(ImpFattBol));
