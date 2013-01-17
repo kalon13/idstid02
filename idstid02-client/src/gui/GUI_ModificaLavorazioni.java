@@ -398,7 +398,7 @@ public class GUI_ModificaLavorazioni {
             	Iterator<Bolla> bolle = listab.iterator();
             	while(bolle.hasNext()){
             		Bolla b=bolle.next();
-            		if(b.getStato()==2){
+            		if(b.getStato()==2 || b.getStato()==1){
             			lavorazioneAperta=true;
             		}
             	}
@@ -421,7 +421,7 @@ public class GUI_ModificaLavorazioni {
             			JOptionPane.showMessageDialog(null, "Impossibile lasciare i campi vuoti.", "Attenzione", 0);
             	}
             	else
-            		JOptionPane.showMessageDialog(null, "Impossibile modificare. Hai ancora questa lavorazione in corso.", "Attenzione", 0);
+            		JOptionPane.showMessageDialog(null, "Impossibile modificare.\nHai ancora questa lavorazione in corso oppure\nche ti è stata assegnata.", "Attenzione", 0);
             }
         });
 		table_2.getInputMap(JTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(canc, "DELETE");
@@ -436,7 +436,7 @@ public class GUI_ModificaLavorazioni {
             	Iterator<Bolla> bolle = listab.iterator();
             	while(bolle.hasNext()){
             		Bolla b=bolle.next();
-            		if(b.getStato()==2){
+            		if(b.getStato()==2 || b.getStato()==1){
             			lavorazioneAperta=true;
             		}
             	}
@@ -448,7 +448,7 @@ public class GUI_ModificaLavorazioni {
             		JOptionPane.showMessageDialog(null, "Lavorazione e fasi eliminate correttamente.", "Attenzione", 1);
             	}
             	else
-            		JOptionPane.showMessageDialog(null, "Impossibile eliminare. Hai ancora questa lavorazione in corso.", "Attenzione", 0);
+            		JOptionPane.showMessageDialog(null, "Impossibile eliminare.\nHai ancora questa lavorazione in corso oppure\nche ti è stata assegnata.", "Attenzione", 0);
             
             	//Refresh della screen
         		frmModificaLavorazioni.setVisible(false);
